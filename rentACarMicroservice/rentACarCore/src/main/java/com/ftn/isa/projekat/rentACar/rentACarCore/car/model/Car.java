@@ -30,16 +30,16 @@ public class Car {
 	@Column (name="id")
 	private Long id;
 	
-	@Column (name="registration_licence")
+	@Column (name="registration_licence",nullable = false, unique=true)
 	private String registrationLicence;
 	
-	@Column (name="rent_price")
+	@Column (name="rent_price" ,nullable = false)
 	private int rentPrice;
 	
 	
 	@JsonIgnore
 	@ManyToOne ( cascade=CascadeType.ALL )
-	@JoinColumn ( name = "rent_a_car_service_id")
+	@JoinColumn ( name = "rent_a_car_service_id",nullable = false)
 	private RentACarService carRentService;
 	
 	@JsonIgnore

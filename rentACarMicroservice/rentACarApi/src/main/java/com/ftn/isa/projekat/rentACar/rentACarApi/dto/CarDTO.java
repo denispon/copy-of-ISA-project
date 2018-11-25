@@ -8,5 +8,7 @@ public class CarDTO {
 	private Long id;
 	private String registrationLicence;
 	private int rentPrice;
+	private CarTypeDTO carType;
+	private RentACarServiceDTO service;
 	
 }

@@ -27,10 +27,10 @@ public class RentACarService {
 	@Column (name="id")
 	private Long id;
 	
-	@Column (name="name")
+	@Column (name="name",nullable = false)
 	private String name;
 	
-	@Column (name = "adress")
+	@Column (name = "adress",nullable = false)
 	private String adress;
 	
 	@Column (name = "description")

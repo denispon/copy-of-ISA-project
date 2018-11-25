@@ -1,8 +1,10 @@
 package com.ftn.isa.projekat.rentACar.rentACarCore.dtoConverter;
 
+import org.springframework.stereotype.Component;
+
 import com.ftn.isa.projekat.rentACar.rentACarApi.dto.CarTypeDTO;
 import com.ftn.isa.projekat.rentACar.rentACarCore.carType.model.CarType;
-
+@Component
 public class DTOCarTypeConverter {
 
 	public CarTypeDTO convertToDTO (CarType carType) {

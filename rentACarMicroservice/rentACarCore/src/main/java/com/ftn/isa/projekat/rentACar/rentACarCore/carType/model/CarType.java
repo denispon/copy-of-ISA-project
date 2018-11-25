@@ -25,19 +25,19 @@ public class CarType {
 	@Column (name="id")
 	private Long id;
 	
-	@Column (name="model")
+	@Column (name="model",nullable = false)
 	private String model;
 	
-	@Column (name="brand")
+	@Column (name="brand",nullable = false)
 	private String brand;
 	
-	@Column (name="model_year")
+	@Column (name="model_year",nullable = false)
 	private int modelYear;
 	
-	@Column (name="car_type")
+	@Column (name="car_type",nullable = false)
 	private String carType;
 	
-	@Column (name="number_of_seats")
+	@Column (name="number_of_seats",nullable = false)
 	private int numberOfSeats;
 	
 	@JsonIgnore

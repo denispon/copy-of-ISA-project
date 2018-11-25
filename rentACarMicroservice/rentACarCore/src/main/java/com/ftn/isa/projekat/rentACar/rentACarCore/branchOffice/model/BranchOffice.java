@@ -29,15 +29,15 @@ public class BranchOffice {
 	@Column (name = "id")
 	private Long id;
 	
-	@Column (name="name")
+	@Column (name="name",nullable = false)
 	private String name;
 	
-	@Column (name="adress")
+	@Column (name="adress",nullable = false)
 	private String adress;
 	
 	@JsonIgnore
 	@ManyToOne (cascade=CascadeType.ALL)
-	@JoinColumn (name="rent_a_car_service_id")
+	@JoinColumn (name="rent_a_car_service_id",nullable = false)
 	private RentACarService branchOfficeService;
 	
 	/*

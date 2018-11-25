@@ -13,5 +13,7 @@ public class IncomeDTO {
 	private int numberOfCars;
 	
 	private Date date;
+	private RentACarServiceDTO rentService;
+	
 	
 }

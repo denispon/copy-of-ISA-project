@@ -28,10 +28,10 @@ public class Reservation {
 	@Column (name="id")
 	private Long id;
 	
-	@Column (name = "date_from")
+	@Column (name = "date_from",nullable = false)
 	private Date dateFrom;
 	
-	@Column (name = "date_to")
+	@Column (name = "date_to",nullable = false)
 	private Date dateTo;
 	
 	@Column (name="rating")

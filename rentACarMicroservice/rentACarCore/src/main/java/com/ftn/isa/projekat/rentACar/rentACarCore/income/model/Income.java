@@ -27,17 +27,17 @@ public class Income {
 	@Column (name="id")
 	private Long id;
 	
-	@Column (name="rent_income")
+	@Column (name="rent_income",nullable = false)
 	private int rentIncome;
 	
-	@Column (name="date")
+	@Column (name="date",nullable = false)
 	private Date date;
 	
-	@Column (name="number_of_cars")
+	@Column (name="number_of_cars",nullable = false)
 	private int numberOfCars;
 	
 	@JsonIgnore 
     @ManyToOne (cascade=CascadeType.ALL)
-    @JoinColumn (name = "rent_a_car_service_id")
+    @JoinColumn (name = "rent_a_car_service_id",nullable = false)
 	private RentACarService incomeRentACarservice;
 }

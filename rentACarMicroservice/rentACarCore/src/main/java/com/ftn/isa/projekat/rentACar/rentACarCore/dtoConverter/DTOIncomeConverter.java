@@ -1,10 +1,17 @@
 package com.ftn.isa.projekat.rentACar.rentACarCore.dtoConverter;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import com.ftn.isa.projekat.rentACar.rentACarApi.dto.IncomeDTO;
 import com.ftn.isa.projekat.rentACar.rentACarCore.income.model.Income;
-
+@Component
 public class DTOIncomeConverter {
 
+	@Autowired
+	private DTORentACarServiceConverter rentServiceConverter;
+	
+	
 	public IncomeDTO convertToDTO (Income income) {
 		
 		IncomeDTO dto = new IncomeDTO();
@@ -13,6 +20,8 @@ public class DTOIncomeConverter {
 		dto.setId(income.getId());
 		dto.setNumberOfCars(income.getNumberOfCars());
 		dto.setRentIncome(income.getRentIncome());
+		dto.setRentService(rentServiceConverter.convertToDTO(income.getIncomeRentACarservice()));
+		
 		
 		return dto;
 
@@ -27,7 +36,7 @@ public class DTOIncomeConverter {
 		bean.setId(incomeDTO.getId());
 		bean.setNumberOfCars(incomeDTO.getNumberOfCars());
 		bean.setRentIncome(incomeDTO.getRentIncome());
-		//fali rentACarService
+		bean.setIncomeRentACarservice(rentServiceConverter.convertFromDTO(incomeDTO.getRentService()));
 		
 		return bean;
 		

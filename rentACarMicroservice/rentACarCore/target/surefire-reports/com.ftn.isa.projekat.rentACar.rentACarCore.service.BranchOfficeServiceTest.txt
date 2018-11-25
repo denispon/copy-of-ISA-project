@@ -1,0 +1,9 @@
+-------------------------------------------------------------------------------
+Test set: com.ftn.isa.projekat.rentACar.rentACarCore.service.BranchOfficeServiceTest
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 128.03 s <<< FAILURE! - in com.ftn.isa.projekat.rentACar.rentACarCore.service.BranchOfficeServiceTest
+testFindAll(com.ftn.isa.projekat.rentACar.rentACarCore.service.BranchOfficeServiceTest)  Time elapsed: 0.051 s  <<< ERROR!
+java.lang.IllegalStateException: Failed to load ApplicationContext
+Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'branchOfficeServiceImpl': Unsatisfied dependency expressed through field 'branchOfficeConverter'; nested exception is org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'com.ftn.isa.projekat.rentACar.rentACarCore.dtoConverter.DTOBranchOfficeConverter' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {@org.springframework.beans.factory.annotation.Autowired(required=true)}
+Caused by: org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'com.ftn.isa.projekat.rentACar.rentACarCore.dtoConverter.DTOBranchOfficeConverter' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {@org.springframework.beans.factory.annotation.Autowired(required=true)}
+
