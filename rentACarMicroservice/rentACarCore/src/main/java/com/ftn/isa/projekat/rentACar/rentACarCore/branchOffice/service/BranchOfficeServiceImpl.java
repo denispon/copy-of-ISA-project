@@ -33,7 +33,7 @@ public class BranchOfficeServiceImpl implements IBranchOfficeService {
 	
 	public BranchOfficeDTO findOneById(Long id) {
 		
-		Optional <BranchOffice> branchOffice = branchOfficeRepository.findOneById(id);
+		Optional <BranchOffice> branchOffice = branchOfficeRepository.findById(id);
 		
 		
 		if (branchOffice.isPresent()) {
@@ -99,7 +99,7 @@ public class BranchOfficeServiceImpl implements IBranchOfficeService {
 	
 	public BranchOfficeDTO changeBranchOffice(Long id, BranchOfficeDTO branchOffice) {
 		
-		Optional<BranchOffice> branchForChange = branchOfficeRepository.findOneById(id);
+		Optional<BranchOffice> branchForChange = branchOfficeRepository.findById(id);
 		
 		if( branchForChange.isPresent() && branchOffice!=null) {
 					

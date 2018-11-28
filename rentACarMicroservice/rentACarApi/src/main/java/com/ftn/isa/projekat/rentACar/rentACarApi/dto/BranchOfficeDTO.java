@@ -13,4 +13,6 @@ public class BranchOfficeDTO {
 	private String name;
 	private String adress;
 	private RentACarServiceDTO service;
+	
+	
 }

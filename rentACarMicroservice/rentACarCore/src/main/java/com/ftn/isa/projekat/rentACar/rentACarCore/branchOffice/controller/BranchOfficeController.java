@@ -30,7 +30,7 @@ public class BranchOfficeController {
 		
 		BranchOfficeDTO branchDto = branchOfficeService.findOneById(id);
 		
-		return ( !branchDto.getName().isEmpty() )? new ResponseEntity<BranchOfficeDTO>(branchDto,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		return ( !branchDto.getName().isEmpty())? new ResponseEntity<BranchOfficeDTO>(branchDto,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		
 	}
 	
