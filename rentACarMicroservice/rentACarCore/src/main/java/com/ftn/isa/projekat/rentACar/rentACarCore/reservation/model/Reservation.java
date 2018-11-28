@@ -41,6 +41,7 @@ public class Reservation {
 	@ManyToOne (cascade=CascadeType.ALL)
 	@JoinColumn (name="car_id")
 	private Car reservedCars;
+	//OVDE MORA BITI LISTA AUTOMOBILA!
 	
 	/*
 	 * Location where user will pick a car.
