@@ -17,8 +17,14 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ftn.isa.projekat.rentACar.rentACarApi.dto.BranchOfficeDTO;
 import com.ftn.isa.projekat.rentACar.rentACarCore.branchOffice.service.IBranchOfficeService;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+
 @RestController
-@RequestMapping("/api/branchOffice")
+@RequestMapping("/api/rentacar/branchOffice")
+@Api(value = "branchOffice")
 public class BranchOfficeController {
 	
 	@Autowired
@@ -26,44 +32,63 @@ public class BranchOfficeController {
 	
 	
 	@GetMapping("/{id}")
+	@ApiOperation( value = "Finds one branch office.", notes = "Returns found branch office.", httpMethod="GET")
+	@ApiResponses( value = { @ApiResponse( code = 200, message = "OK"),
+							 @ApiResponse( code = 404, message = "Not Found")})
 	public ResponseEntity<BranchOfficeDTO> getOneBranchOfficeById (@PathVariable("id") Long id){
 		
 		BranchOfficeDTO branchDto = branchOfficeService.findOneById(id);
 		
-		return ( !branchDto.getName().isEmpty())? new ResponseEntity<BranchOfficeDTO>(branchDto,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		return ( branchDto.getId()!=null)? new ResponseEntity<BranchOfficeDTO>(branchDto,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		
 	}
 	
 	@GetMapping("/all")
+	@ApiOperation( value = "Returns all branch offices", httpMethod = "GET")
+	@ApiResponses( value = { @ApiResponse( code = 200, message ="OK"),
+							 @ApiResponse( code = 404, message ="Not Found")})	
 	public ResponseEntity<List<BranchOfficeDTO>> getAllBranches(){
 		
 		List<BranchOfficeDTO> branches = branchOfficeService.findAll();
 		
-		return (!branches.isEmpty())? new ResponseEntity<List<BranchOfficeDTO>>(branches,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		return ( !branches.isEmpty() )? new ResponseEntity<List<BranchOfficeDTO>>(branches,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		
 	}
 	
 	@PostMapping("/")
+	@ApiOperation( value = "Create a branch office.", notes = "Returns the branch office being saved.", httpMethod="POST", produces = "application/json", consumes = "application/json" )
+	@ApiResponses( value = {
+					@ApiResponse( code = 201 , message = "Created"),
+					@ApiResponse( code = 400, message= "Bad request")
+	})
 	public ResponseEntity<BranchOfficeDTO> addBranchOffice(@RequestBody BranchOfficeDTO dto){
 		
 		BranchOfficeDTO savedBranch = branchOfficeService.save(dto);
 		
-		return (savedBranch!=null)? new ResponseEntity<BranchOfficeDTO>(savedBranch,HttpStatus.CREATED): new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		return ( savedBranch!=null )? new ResponseEntity<BranchOfficeDTO>(savedBranch,HttpStatus.CREATED): new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
 	
 	@DeleteMapping("/{id}")
+	@ApiOperation( value = "Delete a branch office.", notes = "Returns the branch office being deleted", httpMethod="DELETE")
+	@ApiResponses( value = { 
+			 @ApiResponse( code = 200, message ="OK"),
+			 @ApiResponse( code = 404, message ="Not Found")})	
 	public ResponseEntity<BranchOfficeDTO> deleteBranchOffice(@PathVariable("id") Long id){
 		BranchOfficeDTO deletedBranchDTO = branchOfficeService.deleteById(id);
 		
-		return (deletedBranchDTO!=null) ? new ResponseEntity<BranchOfficeDTO>(deletedBranchDTO,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		return (deletedBranchDTO.getId() != null ) ? new ResponseEntity<BranchOfficeDTO>(deletedBranchDTO,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	}
 	
 	@PutMapping("/{id}")
+	@ApiOperation( value= "Change a branch office", notes = "Returns the branch office being changed", httpMethod="PUT")
+	@ApiResponses( value = { 
+			 @ApiResponse( code = 200, message ="OK"),
+			 @ApiResponse( code = 400, message ="Bad Request")})
 	public ResponseEntity<BranchOfficeDTO> changeBranch (@PathVariable("id") Long id, @RequestBody BranchOfficeDTO branchDto ){
 		
 		BranchOfficeDTO branchToEdit = branchOfficeService.changeBranchOffice(id, branchDto);
 	
-	    return (branchToEdit!=null)? new ResponseEntity<BranchOfficeDTO>(branchToEdit,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	    return ( branchToEdit.getId() != null )? new ResponseEntity<BranchOfficeDTO>(branchToEdit,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
 
 }

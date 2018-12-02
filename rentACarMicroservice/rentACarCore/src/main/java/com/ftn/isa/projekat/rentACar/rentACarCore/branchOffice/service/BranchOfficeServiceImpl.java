@@ -91,7 +91,7 @@ public class BranchOfficeServiceImpl implements IBranchOfficeService {
 		
 		}
 		
-		return null;
+		return new BranchOfficeDTO();
 		
 		
 	}
@@ -126,7 +126,7 @@ public class BranchOfficeServiceImpl implements IBranchOfficeService {
 			
 		}
 		
-		return null;
+		return new BranchOfficeDTO();
 	}
 	
 	

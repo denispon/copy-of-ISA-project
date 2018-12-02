@@ -8,9 +8,11 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ftn.isa.projekat.rentACar.rentACarApi.dto.CarDTO;
 import com.ftn.isa.projekat.rentACar.rentACarApi.dto.ReservationDTO;
 import com.ftn.isa.projekat.rentACar.rentACarCore.branchOffice.model.BranchOffice;
 import com.ftn.isa.projekat.rentACar.rentACarCore.branchOffice.repository.BranchOfficeRepository;
+import com.ftn.isa.projekat.rentACar.rentACarCore.car.model.Car;
 import com.ftn.isa.projekat.rentACar.rentACarCore.car.repository.CarRepository;
 import com.ftn.isa.projekat.rentACar.rentACarCore.dtoConverter.DTOBranchOfficeConverter;
 import com.ftn.isa.projekat.rentACar.rentACarCore.dtoConverter.DTOCarConverter;
@@ -107,19 +109,27 @@ public class ReservationServiceImpl implements IReservationService {
 		
 		if(reservationForChange.isPresent() && reservation != null) {
 			
-			//Optional<Car> reservedCar = carRepository.findById(reservation.getCar());
 			Optional<BranchOffice> branchFrom = branchOfficeRepository.findById(reservation.getBranchOfficeFrom().getId());
 			Optional<BranchOffice> branchTo = branchOfficeRepository.findById(reservation.getBranchOfficeTo().getId());
+			//setting reserved cars
+			List<Car> reservedCars = new ArrayList<Car>();
+			for (CarDTO carDto : reservation.getReservedCars()) {
+				Optional<Car> car = carRepository.findById(carDto.getId());
+				if(car.isPresent()) {
+					reservedCars.add(car.get());
+				}
+			}
 			
-			//OVDE JOS LISTA AUTOMOBILA TREBA DA SE SREDI!
 			
-			if(branchFrom.isPresent() && branchTo.isPresent()) {
+			if(branchFrom.isPresent() && branchTo.isPresent() && reservedCars.size()==reservation.getReservedCars().size()) {
 				
 				reservationForChange.get().setBranchOfficeFrom(branchFrom.get());
 				reservationForChange.get().setBranchOfficeTo(branchTo.get());
 				//reservationForChange.get().setDateFrom(reservation.getDateFrom());
 				//reservationForChange.get().setDateTo(reservation.getDateTo());
 				reservationForChange.get().setRating(reservation.getRating());
+				reservationForChange.get().setReservedCars(reservedCars);
+				
 				
 				reservationRepository.save(reservationForChange.get());
 				

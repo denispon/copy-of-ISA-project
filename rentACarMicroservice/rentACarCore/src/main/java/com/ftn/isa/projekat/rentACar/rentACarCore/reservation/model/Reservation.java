@@ -1,14 +1,18 @@
 package com.ftn.isa.projekat.rentACar.rentACarCore.reservation.model;
 
 import java.sql.Date;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -37,11 +41,12 @@ public class Reservation {
 	@Column (name="rating")
 	private int rating;
 	
+
 	@JsonIgnore
-	@ManyToOne (cascade=CascadeType.ALL)
-	@JoinColumn (name="car_id")
-	private Car reservedCars;
-	//OVDE MORA BITI LISTA AUTOMOBILA!
+	@ManyToMany(fetch = FetchType.LAZY,
+				cascade= {CascadeType.PERSIST,CascadeType.MERGE})
+	@JoinTable(name="reserved_cars", joinColumns = { @JoinColumn(name="car_id") }, inverseJoinColumns = { @JoinColumn(name = "reservation_id")})
+	private List<Car> reservedCars;
 	
 	/*
 	 * Location where user will pick a car.
