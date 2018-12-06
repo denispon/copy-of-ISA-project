@@ -50,8 +50,8 @@ public class DTOReservationConverter {
 		
 		bean.setBranchOfficeFrom( branchOfficeConverter.convertFromDTO( reservationDTO.getBranchOfficeFrom() ));
 		bean.setBranchOfficeTo(branchOfficeConverter.convertFromDTO( reservationDTO.getBranchOfficeTo() ));
-//		bean.setDateFrom(reservationDTO.getDateFrom());
-	//	bean.setDateTo(reservationDTO.getDateTo());
+		bean.setDateFrom(reservationDTO.getDateFrom());
+	    bean.setDateTo(reservationDTO.getDateTo());
 		bean.setRating(reservationDTO.getRating());
 		
 		//moving reserved cars

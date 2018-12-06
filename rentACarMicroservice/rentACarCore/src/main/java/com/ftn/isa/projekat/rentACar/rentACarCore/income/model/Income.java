@@ -1,6 +1,7 @@
 package com.ftn.isa.projekat.rentACar.rentACarCore.income.model;
 
 import java.sql.Date;
+import java.time.LocalDate;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -27,11 +28,11 @@ public class Income {
 	@Column (name="id")
 	private Long id;
 	
-	@Column (name="rent_income",nullable = false)
+	@Column (name="rent_income")
 	private int rentIncome;
 	
-	@Column (name="date",nullable = false)
-	private Date date;
+	@Column (name="date")
+	private LocalDate date;
 	
 	@Column (name="number_of_cars",nullable = false)
 	private int numberOfCars;

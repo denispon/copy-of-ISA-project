@@ -1,4 +1,4 @@
-/*package com.ftn.isa.projekat.rentACar.rentACarCore.service;
+package com.ftn.isa.projekat.rentACar.rentACarCore.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.times;
@@ -19,7 +19,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 import com.ftn.isa.projekat.rentACar.rentACarApi.dto.BranchOfficeDTO;
 import com.ftn.isa.projekat.rentACar.rentACarCore.branchOffice.model.BranchOffice;
 import com.ftn.isa.projekat.rentACar.rentACarCore.branchOffice.repository.BranchOfficeRepository;
+import com.ftn.isa.projekat.rentACar.rentACarCore.branchOffice.service.BranchOfficeServiceImpl;
 import com.ftn.isa.projekat.rentACar.rentACarCore.branchOffice.service.IBranchOfficeService;
+import com.ftn.isa.projekat.rentACar.rentACarCore.dtoConverter.DTOBranchOfficeConverter;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -29,11 +31,21 @@ public class BranchOfficeServiceTest {
 	private BranchOfficeRepository branchOfficeRepositoryMock;
 	
 	@InjectMocks
-	private IBranchOfficeService branchOfficeService;
+	private BranchOfficeServiceImpl branchOfficeService;
+	
+	@Mock
+	DTOBranchOfficeConverter branchOfficeConverter;
+	
+	@Mock
+	BranchOffice branchOffice;
+	
+
+	
 	
 	@Test
 	public void testFindAll() {
 		when(branchOfficeRepositoryMock.findAll()).thenReturn(Arrays.asList(new BranchOffice()));
+		when(branchOfficeConverter.convertToDTO(branchOffice)).thenReturn(new BranchOfficeDTO());
 		List<BranchOfficeDTO> branchOffices = branchOfficeService.findAll();
 		assertThat(branchOffices).hasSize(1);
 		
@@ -42,4 +54,4 @@ public class BranchOfficeServiceTest {
         verifyNoMoreInteractions(branchOfficeRepositoryMock);
 	}
 
-}*/
+}

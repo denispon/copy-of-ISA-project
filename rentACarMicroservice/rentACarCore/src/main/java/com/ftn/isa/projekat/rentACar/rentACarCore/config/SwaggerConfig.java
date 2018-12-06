@@ -31,11 +31,10 @@ public class SwaggerConfig {
 	}
 
 	private ApiInfo apiInfo() {
-		return new ApiInfoBuilder().title("JavaInUse API")
-				.description("JavaInUse API reference for developers")
-				.termsOfServiceUrl("http://javainuse.com")
-				.contact("javainuse@gmail.com").license("JavaInUse License")
-				.licenseUrl("javainuse@gmail.com").version("1.0").build();
+		return new ApiInfoBuilder().title("Rent a car microservice API")
+				.description("Rent a car microservice API reference for developers")
+				.contact("sale96@protonmail.com").license("Alexandross License")
+				.licenseUrl("ftnmejl96@gmail.com").version("1.0").build();
 	}
 
 }

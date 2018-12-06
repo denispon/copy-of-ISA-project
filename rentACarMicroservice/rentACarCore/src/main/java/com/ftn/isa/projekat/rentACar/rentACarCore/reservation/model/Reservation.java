@@ -1,6 +1,6 @@
 package com.ftn.isa.projekat.rentACar.rentACarCore.reservation.model;
 
-import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -32,11 +32,11 @@ public class Reservation {
 	@Column (name="id")
 	private Long id;
 	
-	@Column (name = "date_from",nullable = false)
-	private Date dateFrom;
+	@Column (name = "date_from")
+	private LocalDate dateFrom;
 	
-	@Column (name = "date_to",nullable = false)
-	private Date dateTo;
+	@Column (name = "date_to")
+	private LocalDate dateTo;
 	
 	@Column (name="rating")
 	private int rating;

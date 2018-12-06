@@ -1,6 +1,6 @@
 package com.ftn.isa.projekat.rentACar.rentACarApi.dto;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 import lombok.Data;
 
@@ -12,7 +12,7 @@ public class IncomeDTO {
 	private int rentIncome;
 	private int numberOfCars;
 	
-	private Date date;
+	private LocalDate date;
 	private RentACarServiceDTO rentService;
 	
 	

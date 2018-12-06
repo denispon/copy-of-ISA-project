@@ -1,6 +1,6 @@
 package com.ftn.isa.projekat.rentACar.rentACarApi.dto;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import lombok.Data;
@@ -9,8 +9,8 @@ import lombok.Data;
 public class ReservationDTO {
 
 	private Long id;
-	private Date dateFrom;
-	private Date dateTo;
+	private LocalDate dateFrom;
+	private LocalDate dateTo;
 	private int rating;
 	
 	private BranchOfficeDTO branchOfficeFrom;

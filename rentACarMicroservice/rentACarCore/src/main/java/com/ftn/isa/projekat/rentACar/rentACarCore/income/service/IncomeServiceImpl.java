@@ -100,7 +100,7 @@ public class IncomeServiceImpl implements IIncomeService {
 			
 			if ( rentService.isPresent() ) {
 				
-			//	incomeForChange.get().setDate(income.getDate());
+				incomeForChange.get().setDate(income.getDate());
 				incomeForChange.get().setIncomeRentACarservice(rentService.get());
 				incomeForChange.get().setNumberOfCars(income.getNumberOfCars());
 				incomeForChange.get().setRentIncome(income.getRentIncome());

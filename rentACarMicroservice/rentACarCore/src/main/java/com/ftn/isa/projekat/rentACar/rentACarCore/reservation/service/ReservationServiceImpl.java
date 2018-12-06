@@ -125,8 +125,8 @@ public class ReservationServiceImpl implements IReservationService {
 				
 				reservationForChange.get().setBranchOfficeFrom(branchFrom.get());
 				reservationForChange.get().setBranchOfficeTo(branchTo.get());
-				//reservationForChange.get().setDateFrom(reservation.getDateFrom());
-				//reservationForChange.get().setDateTo(reservation.getDateTo());
+				reservationForChange.get().setDateFrom(reservation.getDateFrom());
+				reservationForChange.get().setDateTo(reservation.getDateTo());
 				reservationForChange.get().setRating(reservation.getRating());
 				reservationForChange.get().setReservedCars(reservedCars);
 				

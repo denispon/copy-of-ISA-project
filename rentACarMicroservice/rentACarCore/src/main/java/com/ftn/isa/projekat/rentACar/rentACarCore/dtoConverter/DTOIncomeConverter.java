@@ -32,7 +32,7 @@ public class DTOIncomeConverter {
 		
 		Income bean = new Income();
 		
-	//	bean.setDate(incomeDTO.getDate());
+		bean.setDate(incomeDTO.getDate());
 		bean.setId(incomeDTO.getId());
 		bean.setNumberOfCars(incomeDTO.getNumberOfCars());
 		bean.setRentIncome(incomeDTO.getRentIncome());

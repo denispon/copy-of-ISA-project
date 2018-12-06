@@ -31,7 +31,7 @@ public class Car {
 	@Column (name="id")
 	private Long id;
 	
-	@Column (name="registration_licence",nullable = false, unique=true)
+	@Column (name="registration_licence",nullable = false)
 	private String registrationLicence;
 	
 	@Column (name="rent_price" ,nullable = false)
