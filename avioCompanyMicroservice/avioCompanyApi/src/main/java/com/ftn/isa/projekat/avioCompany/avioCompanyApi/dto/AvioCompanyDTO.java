@@ -15,6 +15,4 @@ public class AvioCompanyDTO
 	String address;
 	String promotionalDesc;
 	
-	DestinationDTO dest;
-	AvioIncomeDTO income;
 }

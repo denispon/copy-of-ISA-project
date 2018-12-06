@@ -1,0 +1,7 @@
+com\ftn\isa\projekat\avioCompany\avioCompanyApi\dto\AvioIncomeDTO.class
+com\ftn\isa\projekat\avioCompany\avioCompanyApi\dto\TransferLocationDTO.class
+com\ftn\isa\projekat\avioCompany\avioCompanyApi\dto\PlaceInPlaneDTO.class
+com\ftn\isa\projekat\avioCompany\avioCompanyApi\dto\AvioCompanyDTO.class
+com\ftn\isa\projekat\avioCompany\avioCompanyApi\dto\DestinationDTO.class
+com\ftn\isa\projekat\avioCompany\avioCompanyApi\dto\FlightDTO.class
+com\ftn\isa\projekat\avioCompany\avioCompanyApi\dto\TicketDTO.class
