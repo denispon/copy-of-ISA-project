@@ -83,10 +83,19 @@ public class ReservationController {
 	@ApiResponses( value = { 
 			 @ApiResponse( code = 200, message ="OK"),
 			 @ApiResponse( code = 400, message ="Bad Request")})
-	public ResponseEntity<ReservationDTO> changeBranch (@PathVariable("id") Long id, @RequestBody ReservationDTO reservationDTO ){
+	public ResponseEntity<ReservationDTO> changeReservation (@PathVariable("id") Long id, @RequestBody ReservationDTO reservationDTO ){
 		
 		ReservationDTO reservationToEdit = reservationService.changeReservation(id, reservationDTO);
 	
 	    return ( reservationToEdit.getId() != null )? new ResponseEntity<ReservationDTO>(reservationToEdit,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	}
+	
+	@PutMapping("/rate/{id}/{rating}")
+	public ResponseEntity<ReservationDTO> rateReservation (@PathVariable("id") Long id, @PathVariable("rating") int rating){
+		
+		ReservationDTO ratedReservation = reservationService.rateReservation(id,rating);
+		
+	    return ( ratedReservation.getId() != null )? new ResponseEntity<ReservationDTO>(ratedReservation,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		
 	}
 }

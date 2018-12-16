@@ -1,5 +1,6 @@
 package com.ftn.isa.projekat.rentACar.rentACarCore.car.controller;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -80,6 +81,8 @@ public class CarController {
 		return (deletedCarDTO.getId() != null ) ? new ResponseEntity<CarDTO>(deletedCarDTO,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	}
 	
+	
+	
 	@PutMapping("/{id}")
 	@ApiOperation( value= "Change a car", notes = "Returns the car being changed", httpMethod="PUT")
 	@ApiResponses( value = { 
@@ -92,5 +95,24 @@ public class CarController {
 	    return ( carToEdit.getId() != null )? new ResponseEntity<CarDTO>(carToEdit,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
 
+	
+	
+	@GetMapping("/getReservedCars/{dateFrom}/{dateTo}")
+	public ResponseEntity< List<CarDTO> > getReservedCarsFromTo(@PathVariable("dateFrom") String dateFrom , @PathVariable("dateTo") String dateTo){
+		
+		List<CarDTO> cars = carService.getReservedCarsFromTo(dateFrom, dateTo);
+		
+		return ( !cars.isEmpty() )? new ResponseEntity<List<CarDTO>>(cars,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);		
+		
+	}
+	
+	@GetMapping("/getFreeCars/{dateFrom}/{dateTo}")
+	public ResponseEntity< List<CarDTO> > getFreeCarsFromTo(@PathVariable("dateFrom") String dateFrom , @PathVariable("dateTo") String dateTo){
+		
+		List<CarDTO> cars = carService.getFreeCarsFromTo(dateFrom, dateTo);
+		
+		return ( !cars.isEmpty() )? new ResponseEntity<List<CarDTO>>(cars,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);		
+		
+	}
 	
 }

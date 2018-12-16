@@ -1,5 +1,6 @@
 package com.ftn.isa.projekat.rentACar.rentACarCore.car.service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -130,6 +131,56 @@ public class CarServiceImpl  implements ICarService{
 		}
 		
 		return null;
+		
+	}
+
+	@Override
+	public List<CarDTO> getReservedCarsFromTo(String dateFrom, String dateTo) {
+
+		Optional< List<Car> > reservedCars = carRepository.findReservedCars(dateFrom,dateTo);
+		
+		
+		ArrayList< CarDTO > CarsDTO = new ArrayList< CarDTO >();
+		
+		if ( reservedCars.isPresent() ) {
+			
+			for ( Car car : reservedCars.get()) {
+				
+				CarsDTO.add(carConverter.convertToDTO(car));
+				
+			}
+			
+			return CarsDTO;
+			
+		}
+		
+		return Collections.emptyList();
+		
+	}
+	
+	
+
+	@Override
+	public List<CarDTO> getFreeCarsFromTo(String dateFrom, String dateTo) {
+
+		Optional< List<Car> > freeCars = carRepository.findFreeCars(dateFrom,dateTo);
+		
+		
+		ArrayList< CarDTO > CarsDTO = new ArrayList< CarDTO >();
+		
+		if ( freeCars.isPresent() ) {
+			
+			for ( Car car : freeCars.get()) {
+				
+				CarsDTO.add(carConverter.convertToDTO(car));
+				
+			}
+			
+			return CarsDTO;
+			
+		}
+		
+		return Collections.emptyList();
 		
 	}
 }

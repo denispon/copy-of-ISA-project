@@ -18,5 +18,7 @@ public interface IReservationService {
 	
 	public ReservationDTO changeReservation ( Long id, ReservationDTO reservation );
 
+	public ReservationDTO rateReservation(Long id, int rating);
+
 	
 }

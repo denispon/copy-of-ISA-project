@@ -142,5 +142,30 @@ public class ReservationServiceImpl implements IReservationService {
 		
 		return null;
 	}
+
+	@Override
+	public ReservationDTO rateReservation(Long id, int rating) {
+		//constraint on rating. We need only ratings between 1-5
+		if( rating > 0  &&  rating < 6 ) {
+			
+			Optional<Reservation> reservationToRate = reservationRepository.findById(id);
+			
+			if(reservationToRate.isPresent()) {
+				
+				reservationToRate.get().setRating(rating);
+				
+				reservationRepository.save(reservationToRate.get());
+				
+				return reservationConverter.convertToDTO(reservationToRate.get());
+				
+			}
+			
+		}
+		
+		return new ReservationDTO();
+		
+	}
+	
+	
 	
 }
