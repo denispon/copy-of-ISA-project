@@ -18,6 +18,8 @@ public class DTOReservationConverter {
 	private DTOBranchOfficeConverter branchOfficeConverter;
 	@Autowired
 	private DTOCarConverter carConverter;
+	@Autowired
+	private DTORentACarServiceConverter rentACarConverter;
 	
 	
 	public ReservationDTO convertToDTO ( Reservation reservation ) {
@@ -30,7 +32,7 @@ public class DTOReservationConverter {
 		dto.setRating(reservation.getRating());
 		dto.setBranchOfficeFrom( branchOfficeConverter.convertToDTO( reservation.getBranchOfficeFrom() ) );
 		dto.setBranchOfficeTo( branchOfficeConverter.convertToDTO( reservation.getBranchOfficeTo() ) );
-		
+		dto.setService ( rentACarConverter.convertToDTO ( reservation.getReservationRentService() ) );
 		
 		//moving reserved cars
 		List<CarDTO> reservedCarsDTO = new ArrayList<CarDTO> ();
@@ -53,6 +55,8 @@ public class DTOReservationConverter {
 		bean.setDateFrom(reservationDTO.getDateFrom());
 	    bean.setDateTo(reservationDTO.getDateTo());
 		bean.setRating(reservationDTO.getRating());
+		
+		bean.setReservationRentService( rentACarConverter.convertFromDTO ( reservationDTO.getService() ) );
 		
 		//moving reserved cars
 		List<Car> beanCars = new ArrayList<Car>();

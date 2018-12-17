@@ -1,5 +1,6 @@
 package com.ftn.isa.projekat.rentACar.rentACarCore.rentACarService.service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -111,5 +112,35 @@ public class RentACarServiceServiceImpl implements IRentACarServiceService {
 		}
 		
 		return null;
+	}
+	
+	@Override
+	public Integer getSumOfIncomes(Long rentService, LocalDate dateFrom, LocalDate dateTo) {
+		
+		Optional<Integer> sumOfIncomes = rentACarServiceRepository.findSumOfIncomes(rentService,dateFrom,dateTo);
+		
+		if( sumOfIncomes.isPresent() ) {
+			
+			return sumOfIncomes.get();
+			
+		}
+		
+		return null;
+		
+	}
+	
+	@Override
+	public Double getAverageRating(Long rentService, LocalDate dateFrom, LocalDate dateTo) {
+		
+		Optional<Double> averageRating = rentACarServiceRepository.getAverageRating(rentService,dateFrom,dateTo);
+		
+		if( averageRating.isPresent() ) {
+			
+			return averageRating.get();
+			
+		}
+		
+		return null;
+		
 	}
 }

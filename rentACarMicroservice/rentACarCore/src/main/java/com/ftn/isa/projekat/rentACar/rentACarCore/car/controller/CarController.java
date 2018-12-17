@@ -100,7 +100,7 @@ public class CarController {
 	@GetMapping("/getReservedCars/{dateFrom}/{dateTo}")
 	public ResponseEntity< List<CarDTO> > getReservedCarsFromTo(@PathVariable("dateFrom") String dateFrom , @PathVariable("dateTo") String dateTo){
 		
-		List<CarDTO> cars = carService.getReservedCarsFromTo(dateFrom, dateTo);
+		List<CarDTO> cars = carService.getReservedCarsFromTo(LocalDate.parse(dateFrom), LocalDate.parse(dateTo));
 		
 		return ( !cars.isEmpty() )? new ResponseEntity<List<CarDTO>>(cars,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);		
 		
@@ -109,7 +109,7 @@ public class CarController {
 	@GetMapping("/getFreeCars/{dateFrom}/{dateTo}")
 	public ResponseEntity< List<CarDTO> > getFreeCarsFromTo(@PathVariable("dateFrom") String dateFrom , @PathVariable("dateTo") String dateTo){
 		
-		List<CarDTO> cars = carService.getFreeCarsFromTo(dateFrom, dateTo);
+		List<CarDTO> cars = carService.getFreeCarsFromTo(LocalDate.parse(dateFrom), LocalDate.parse(dateTo));
 		
 		return ( !cars.isEmpty() )? new ResponseEntity<List<CarDTO>>(cars,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);		
 		

@@ -39,12 +39,12 @@ public class Car {
 	
 	
 	@JsonIgnore
-	@ManyToOne ( cascade=CascadeType.ALL )
+	@ManyToOne ()
 	@JoinColumn ( name = "rent_a_car_service_id",nullable = false)
 	private RentACarService carRentService;
 	
 	@JsonIgnore
-	@ManyToOne ( cascade=CascadeType.ALL )
+	@ManyToOne ()
 	@JoinColumn (name="car_type_id")
 	private CarType carType;
 	

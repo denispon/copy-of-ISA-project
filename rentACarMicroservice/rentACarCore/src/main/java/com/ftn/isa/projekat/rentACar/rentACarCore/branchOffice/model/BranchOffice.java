@@ -35,10 +35,7 @@ public class BranchOffice {
 	@Column (name="adress",nullable = false)
 	private String adress;
 	
-	@JsonIgnore
-	@ManyToOne ()
-	@JoinColumn (name="rent_a_car_service_id",nullable = false)
-	private RentACarService branchOfficeService;
+	
 	
 	/*
 	 * List of reservations which are taken from this branch office

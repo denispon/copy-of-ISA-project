@@ -1,5 +1,6 @@
 package com.ftn.isa.projekat.rentACar.rentACarCore.reservation.service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import com.ftn.isa.projekat.rentACar.rentACarApi.dto.ReservationDTO;
@@ -19,6 +20,8 @@ public interface IReservationService {
 	public ReservationDTO changeReservation ( Long id, ReservationDTO reservation );
 
 	public ReservationDTO rateReservation(Long id, int rating);
+
+	
 
 	
 }

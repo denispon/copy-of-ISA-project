@@ -18,14 +18,14 @@ public interface CarRepository extends JpaRepository < Car, Long > {
 			+ "reserved_cars rs, reservation r  where c.id = rs.car_id and"
 			+ " rs.reservation_id= r.id "
 			+ "and r.date_from > :dateFrom AND r.date_to < :dateTo ;", nativeQuery = true)
-	Optional< List<Car> > findReservedCars(@Param("dateFrom") String dateFrom, @Param("dateTo") String dateTo);
+	Optional< List<Car> > findReservedCars(@Param("dateFrom") LocalDate dateFrom, @Param("dateTo") LocalDate dateTo);
 
 	
 	@Query(value = "select * from car c where c.id not in "
 			+ "(select cc.id from car cc,reserved_cars rs, reservation r where cc.id = rs.car_id and "
 			+ "rs.reservation_id= r.id "
 			+ "and r.date_from > :dateFrom AND r.date_to < :dateTo );", nativeQuery = true)
-	Optional< List<Car> > findFreeCars(@Param("dateFrom") String dateFrom, @Param("dateTo") String dateTo);
+	Optional< List<Car> > findFreeCars(@Param("dateFrom") LocalDate dateFrom, @Param("dateTo") LocalDate dateTo);
 
 	
 }

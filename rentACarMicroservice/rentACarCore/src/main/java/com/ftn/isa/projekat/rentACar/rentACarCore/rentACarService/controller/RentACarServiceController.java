@@ -1,5 +1,6 @@
 package com.ftn.isa.projekat.rentACar.rentACarCore.rentACarService.controller;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -90,5 +91,22 @@ public class RentACarServiceController {
 		RentACarServiceDTO rentACarToEdit = rentACarService.changeRentACarService(id, rentACarDto);
 	
 	    return ( rentACarToEdit.getId() != null )? new ResponseEntity<RentACarServiceDTO>(rentACarToEdit,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	}
+	
+	@GetMapping("/getSumOfIncomes/{id}/{dateFrom}/{dateTo}")
+	public ResponseEntity<Integer> getSumOfIncomes(@PathVariable("id") Long rentService,@PathVariable("dateFrom") String dateFrom , @PathVariable("dateTo") String dateTo){
+		
+		Integer sumOfIncomes = rentACarService.getSumOfIncomes(rentService,LocalDate.parse(dateFrom), LocalDate.parse(dateTo));
+		
+		return (sumOfIncomes != null) ? new ResponseEntity<Integer>(sumOfIncomes,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	}
+	
+	@GetMapping("/getAverageRating/{id}/{dateFrom}/{dateTo}")
+	public ResponseEntity<Double> getAverageRating (@PathVariable("id")Long rentService, @PathVariable("dateFrom") String dateFrom, @PathVariable("dateTo") String dateTo){
+		
+		Double averageRating = rentACarService.getAverageRating(rentService, LocalDate.parse(dateFrom), LocalDate.parse(dateTo));
+		
+		return (averageRating != null )? new ResponseEntity<Double>(averageRating, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		
 	}
 }

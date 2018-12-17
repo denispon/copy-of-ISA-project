@@ -12,9 +12,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.ftn.isa.projekat.rentACar.rentACarCore.branchOffice.model.BranchOffice;
 import com.ftn.isa.projekat.rentACar.rentACarCore.car.model.Car;
 import com.ftn.isa.projekat.rentACar.rentACarCore.income.model.Income;
+import com.ftn.isa.projekat.rentACar.rentACarCore.reservation.model.Reservation;
 
 import lombok.Data;
 
@@ -38,16 +38,16 @@ public class RentACarService {
 	private String description;
 	
 	@JsonIgnore
-	@OneToMany (mappedBy="carRentService")
+	@OneToMany (mappedBy="carRentService", cascade=CascadeType.ALL )
 	private List<Car> cars;
 	
 	@JsonIgnore
-	@OneToMany (mappedBy="incomeRentACarservice")
+	@OneToMany (mappedBy="incomeRentACarservice", cascade=CascadeType.ALL )
 	private List<Income> incomes;
 	
 	@JsonIgnore
-	@OneToMany (mappedBy="branchOfficeService", cascade=CascadeType.ALL)
-	private List<BranchOffice> branchOffices;
+	@OneToMany (mappedBy="reservationRentService", cascade=CascadeType.ALL)
+	private List<Reservation> reservations;
 	
 	
 	

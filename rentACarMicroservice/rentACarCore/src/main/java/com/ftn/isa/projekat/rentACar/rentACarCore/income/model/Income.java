@@ -38,7 +38,7 @@ public class Income {
 	private int numberOfCars;
 	
 	@JsonIgnore 
-    @ManyToOne (cascade=CascadeType.ALL)
+    @ManyToOne ()
     @JoinColumn (name = "rent_a_car_service_id",nullable = false)
 	private RentACarService incomeRentACarservice;
 }

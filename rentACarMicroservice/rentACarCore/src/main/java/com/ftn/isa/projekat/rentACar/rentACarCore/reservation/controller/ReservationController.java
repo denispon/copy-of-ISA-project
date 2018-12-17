@@ -1,5 +1,6 @@
 package com.ftn.isa.projekat.rentACar.rentACarCore.reservation.controller;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -98,4 +99,6 @@ public class ReservationController {
 	    return ( ratedReservation.getId() != null )? new ResponseEntity<ReservationDTO>(ratedReservation,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		
 	}
+	
+	
 }

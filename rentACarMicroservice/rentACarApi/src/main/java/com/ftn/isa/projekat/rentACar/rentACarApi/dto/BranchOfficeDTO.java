@@ -12,7 +12,7 @@ public class BranchOfficeDTO {
 	private Long id;
 	private String name;
 	private String adress;
-	private RentACarServiceDTO service;
+	
 	
 	
 }

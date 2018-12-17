@@ -135,7 +135,7 @@ public class CarServiceImpl  implements ICarService{
 	}
 
 	@Override
-	public List<CarDTO> getReservedCarsFromTo(String dateFrom, String dateTo) {
+	public List<CarDTO> getReservedCarsFromTo(LocalDate dateFrom, LocalDate dateTo) {
 
 		Optional< List<Car> > reservedCars = carRepository.findReservedCars(dateFrom,dateTo);
 		
@@ -161,7 +161,7 @@ public class CarServiceImpl  implements ICarService{
 	
 
 	@Override
-	public List<CarDTO> getFreeCarsFromTo(String dateFrom, String dateTo) {
+	public List<CarDTO> getFreeCarsFromTo(LocalDate dateFrom, LocalDate dateTo) {
 
 		Optional< List<Car> > freeCars = carRepository.findFreeCars(dateFrom,dateTo);
 		

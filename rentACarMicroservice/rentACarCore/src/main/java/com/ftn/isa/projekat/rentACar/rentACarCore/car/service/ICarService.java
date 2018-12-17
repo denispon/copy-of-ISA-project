@@ -18,8 +18,8 @@ public interface ICarService {
 	
 	public CarDTO changeCar ( Long id, CarDTO car );
 
-	public List<CarDTO> getReservedCarsFromTo(String dateFrom, String dateTo);
+	public List<CarDTO> getReservedCarsFromTo(LocalDate dateFrom, LocalDate dateTo);
 
-	public List<CarDTO> getFreeCarsFromTo(String dateFrom, String dateTo);
+	public List<CarDTO> getFreeCarsFromTo(LocalDate dateFrom, LocalDate dateTo);
 	
 }

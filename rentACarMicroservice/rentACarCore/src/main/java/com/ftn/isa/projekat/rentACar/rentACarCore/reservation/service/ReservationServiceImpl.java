@@ -1,5 +1,6 @@
 package com.ftn.isa.projekat.rentACar.rentACarCore.reservation.service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -16,7 +17,10 @@ import com.ftn.isa.projekat.rentACar.rentACarCore.car.model.Car;
 import com.ftn.isa.projekat.rentACar.rentACarCore.car.repository.CarRepository;
 import com.ftn.isa.projekat.rentACar.rentACarCore.dtoConverter.DTOBranchOfficeConverter;
 import com.ftn.isa.projekat.rentACar.rentACarCore.dtoConverter.DTOCarConverter;
+import com.ftn.isa.projekat.rentACar.rentACarCore.dtoConverter.DTORentACarServiceConverter;
 import com.ftn.isa.projekat.rentACar.rentACarCore.dtoConverter.DTOReservationConverter;
+import com.ftn.isa.projekat.rentACar.rentACarCore.rentACarService.model.RentACarService;
+import com.ftn.isa.projekat.rentACar.rentACarCore.rentACarService.repository.RentACarServiceRepository;
 import com.ftn.isa.projekat.rentACar.rentACarCore.reservation.model.Reservation;
 import com.ftn.isa.projekat.rentACar.rentACarCore.reservation.repository.ReservationRepository;
 
@@ -29,6 +33,8 @@ public class ReservationServiceImpl implements IReservationService {
 	CarRepository carRepository;
 	@Autowired
 	BranchOfficeRepository branchOfficeRepository;
+	@Autowired
+	RentACarServiceRepository rentACarRepository;
 	
 	@Autowired
 	DTOReservationConverter reservationConverter;
@@ -36,6 +42,8 @@ public class ReservationServiceImpl implements IReservationService {
 	DTOCarConverter carConverter;
 	@Autowired
 	DTOBranchOfficeConverter branchOfficeConverter;
+	@Autowired
+	DTORentACarServiceConverter rentACarConverter;
 	
 
 	@Override
@@ -111,6 +119,7 @@ public class ReservationServiceImpl implements IReservationService {
 			
 			Optional<BranchOffice> branchFrom = branchOfficeRepository.findById(reservation.getBranchOfficeFrom().getId());
 			Optional<BranchOffice> branchTo = branchOfficeRepository.findById(reservation.getBranchOfficeTo().getId());
+			Optional<RentACarService> rentService = rentACarRepository.findById(reservation.getService().getId());
 			//setting reserved cars
 			List<Car> reservedCars = new ArrayList<Car>();
 			for (CarDTO carDto : reservation.getReservedCars()) {
@@ -121,10 +130,11 @@ public class ReservationServiceImpl implements IReservationService {
 			}
 			
 			
-			if(branchFrom.isPresent() && branchTo.isPresent() && reservedCars.size()==reservation.getReservedCars().size()) {
+			if(rentService.isPresent() && branchFrom.isPresent() && branchTo.isPresent() && reservedCars.size()==reservation.getReservedCars().size()) {
 				
 				reservationForChange.get().setBranchOfficeFrom(branchFrom.get());
 				reservationForChange.get().setBranchOfficeTo(branchTo.get());
+				reservationForChange.get().setReservationRentService(rentService.get());
 				reservationForChange.get().setDateFrom(reservation.getDateFrom());
 				reservationForChange.get().setDateTo(reservation.getDateTo());
 				reservationForChange.get().setRating(reservation.getRating());
@@ -165,6 +175,8 @@ public class ReservationServiceImpl implements IReservationService {
 		return new ReservationDTO();
 		
 	}
+
+	
 	
 	
 	

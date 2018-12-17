@@ -103,14 +103,10 @@ public class BranchOfficeServiceImpl implements IBranchOfficeService {
 		
 		if( branchForChange.isPresent() && branchOffice!=null) {
 					
-			//setting rentACarService for branchOffice
-			Optional<RentACarService> rentService = rentACarServiceRepository.findById(branchOffice.getService().getId());
-			
-			if(rentService.isPresent()) {
+					
 				
 				branchForChange.get().setAdress(branchOffice.getAdress());
 				branchForChange.get().setName(branchOffice.getName());
-				branchForChange.get().setBranchOfficeService(rentService.get());
 				
 				
 				branchOfficeRepository.save(branchForChange.get());
@@ -121,7 +117,7 @@ public class BranchOfficeServiceImpl implements IBranchOfficeService {
 				
 				return branchOffice;
 				
-			}
+			
 			 
 			
 		}

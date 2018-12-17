@@ -16,5 +16,6 @@ public class ReservationDTO {
 	private BranchOfficeDTO branchOfficeFrom;
 	private BranchOfficeDTO branchOfficeTo;
 	private List<CarDTO> reservedCars;
+	private RentACarServiceDTO service;
 	
 }

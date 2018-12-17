@@ -1,5 +1,6 @@
 package com.ftn.isa.projekat.rentACar.rentACarCore.income.service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import com.ftn.isa.projekat.rentACar.rentACarApi.dto.IncomeDTO;
@@ -16,4 +17,5 @@ public interface IIncomeService {
 	public IncomeDTO deleteById ( Long id );
 	
 	public IncomeDTO changeIncome ( Long id, IncomeDTO income );
+
 }

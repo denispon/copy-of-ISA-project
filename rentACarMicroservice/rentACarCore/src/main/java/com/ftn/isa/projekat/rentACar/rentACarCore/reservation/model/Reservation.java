@@ -19,6 +19,7 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ftn.isa.projekat.rentACar.rentACarCore.branchOffice.model.BranchOffice;
 import com.ftn.isa.projekat.rentACar.rentACarCore.car.model.Car;
+import com.ftn.isa.projekat.rentACar.rentACarCore.rentACarService.model.RentACarService;
 
 import lombok.Data;
 
@@ -52,7 +53,7 @@ public class Reservation {
 	 * Location where user will pick a car.
 	 * */
 	@JsonIgnore
-	@ManyToOne (cascade=CascadeType.ALL)
+	@ManyToOne ()
 	@JoinColumn (name="branch_office_from")
 	private BranchOffice branchOfficeFrom;
 	
@@ -60,7 +61,13 @@ public class Reservation {
 	 * Location where user will return a car.
 	 * */
 	@JsonIgnore
-	@ManyToOne (cascade=CascadeType.ALL)
+	@ManyToOne ()
 	@JoinColumn (name="branch_office_to")
 	private BranchOffice branchOfficeTo;
+	
+	
+	@JsonIgnore
+	@ManyToOne ()
+	@JoinColumn (name="rent_a_car_service_id",nullable = false)
+	private RentACarService reservationRentService;
 }
