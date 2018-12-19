@@ -12,10 +12,11 @@ public class ReservationDTO {
 	private LocalDate dateFrom;
 	private LocalDate dateTo;
 	private int rating;
+	private int carRating;
 	
 	private BranchOfficeDTO branchOfficeFrom;
 	private BranchOfficeDTO branchOfficeTo;
-	private List<CarDTO> reservedCars;
+	private CarDTO reservedCar;
 	private RentACarServiceDTO service;
 	
 }

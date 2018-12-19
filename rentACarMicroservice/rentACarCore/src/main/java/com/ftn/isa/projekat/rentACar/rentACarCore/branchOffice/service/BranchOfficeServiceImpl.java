@@ -103,21 +103,24 @@ public class BranchOfficeServiceImpl implements IBranchOfficeService {
 		
 		if( branchForChange.isPresent() && branchOffice!=null) {
 					
+				Optional<RentACarService> rentService = rentACarServiceRepository.findById(branchOffice.getRentServiceDTO().getId());	
+				
+				if(rentService.isPresent()) {
 					
+					branchForChange.get().setAdress(branchOffice.getAdress());
+					branchForChange.get().setName(branchOffice.getName());
+					branchForChange.get().setBranchRentService( rentService.get());
+					branchForChange.get().setCity( branchOffice.getCity() );
+					
+					branchOfficeRepository.save(branchForChange.get());
+					
+					//after branchOffice was saved , we need to put branchs id into dto object
+					branchOffice.setId(branchForChange.get().getId());
+					
+					
+					return branchOffice;
 				
-				branchForChange.get().setAdress(branchOffice.getAdress());
-				branchForChange.get().setName(branchOffice.getName());
-				
-				
-				branchOfficeRepository.save(branchForChange.get());
-				
-				//after branchOffice was saved , we need to put branchs id into dto object
-				branchOffice.setId(branchForChange.get().getId());
-				
-				
-				return branchOffice;
-				
-			
+				}
 			 
 			
 		}

@@ -10,6 +10,8 @@ import com.ftn.isa.projekat.rentACar.rentACarCore.branchOffice.model.BranchOffic
 public class DTOBranchOfficeConverter {
 	
 	
+	@Autowired
+	DTORentACarServiceConverter rentACarConverter;
 	
 	public BranchOfficeDTO convertToDTO (BranchOffice branchOffice) {
 	
@@ -19,7 +21,8 @@ public class DTOBranchOfficeConverter {
 		dto.setAdress(branchOffice.getAdress());
 		dto.setId(branchOffice.getId());
 		dto.setName(branchOffice.getName());
-		
+		dto.setRentServiceDTO( rentACarConverter.convertToDTO( branchOffice.getBranchRentService() ) );
+		dto.setCity( branchOffice.getCity() );
 		
 		
 		
@@ -33,8 +36,8 @@ public class DTOBranchOfficeConverter {
 		
 		bean.setAdress(branchOfficeDTO.getAdress());
 		bean.setName(branchOfficeDTO.getName());
-		
-	
+		bean.setBranchRentService( rentACarConverter.convertFromDTO( branchOfficeDTO.getRentServiceDTO() ) );
+	    bean.setCity( branchOfficeDTO.getCity() );
 		
 		
 		return bean;

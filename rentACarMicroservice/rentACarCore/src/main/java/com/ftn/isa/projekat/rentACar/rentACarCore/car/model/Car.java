@@ -12,9 +12,11 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.ftn.isa.projekat.rentACar.rentACarCore.branchOffice.model.BranchOffice;
 import com.ftn.isa.projekat.rentACar.rentACarCore.carType.model.CarType;
 import com.ftn.isa.projekat.rentACar.rentACarCore.rentACarService.model.RentACarService;
 import com.ftn.isa.projekat.rentACar.rentACarCore.reservation.model.Reservation;
@@ -30,13 +32,15 @@ public class Car {
 	@GeneratedValue (strategy = GenerationType.IDENTITY)
 	@Column (name="id")
 	private Long id;
-	
-	@Column (name="registration_licence",nullable = false)
-	private String registrationLicence;
-	
+			
 	@Column (name="rent_price" ,nullable = false)
 	private int rentPrice;
 	
+	
+	@JsonIgnore
+	@ManyToOne()
+	@JoinColumn ( name="branch_office_id",nullable= false )
+	private BranchOffice carBranchOffice;
 	
 	@JsonIgnore
 	@ManyToOne ()
@@ -49,7 +53,7 @@ public class Car {
 	private CarType carType;
 	
 	@JsonIgnore
-	@ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST , CascadeType.MERGE}, mappedBy = "reservedCars")
+	@OneToMany (mappedBy="reservedCar", cascade=CascadeType.ALL )
 	private List<Reservation> carReservations;
 	
 	

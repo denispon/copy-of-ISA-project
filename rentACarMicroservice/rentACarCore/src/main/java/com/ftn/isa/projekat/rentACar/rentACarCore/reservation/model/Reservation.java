@@ -42,12 +42,14 @@ public class Reservation {
 	@Column (name="rating")
 	private int rating;
 	
+	@Column (name="car_rating")
+	private int carRating;
+	
 
 	@JsonIgnore
-	@ManyToMany(fetch = FetchType.LAZY,
-				cascade= {CascadeType.PERSIST,CascadeType.MERGE})
-	@JoinTable(name="reserved_cars", joinColumns = { @JoinColumn(name="car_id") }, inverseJoinColumns = { @JoinColumn(name = "reservation_id")})
-	private List<Car> reservedCars;
+	@ManyToOne ()
+	@JoinColumn (name="reserved_car")
+	private Car reservedCar;
 	
 	/*
 	 * Location where user will pick a car.

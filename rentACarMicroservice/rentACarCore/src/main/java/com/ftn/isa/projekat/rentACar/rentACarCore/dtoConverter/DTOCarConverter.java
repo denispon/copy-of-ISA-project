@@ -12,16 +12,18 @@ public class DTOCarConverter {
 	private DTOCarTypeConverter carTypeConverter;
 	@Autowired
 	private DTORentACarServiceConverter rentServiceConverter;
+	@Autowired
+	private DTOBranchOfficeConverter branchOfficeConverter;
 	
 	public CarDTO convertToDTO (Car car) {
 		
 		CarDTO dto = new CarDTO();
 		
 		dto.setId(car.getId());
-		dto.setRegistrationLicence(car.getRegistrationLicence());
 		dto.setRentPrice(car.getRentPrice());
 		dto.setCarType( carTypeConverter.convertToDTO(car.getCarType()) );
-		dto.setService( rentServiceConverter.convertToDTO( car.getCarRentService() ) );
+		dto.setRentService( rentServiceConverter.convertToDTO( car.getCarRentService() ) );
+		dto.setBranchOffice( branchOfficeConverter.convertToDTO( car.getCarBranchOffice() ) );
 		
 		
 		return dto;
@@ -32,10 +34,10 @@ public class DTOCarConverter {
 		
 		Car bean = new Car();
 		
-		bean.setRegistrationLicence(carDTO.getRegistrationLicence());
 		bean.setRentPrice(carDTO.getRentPrice());
 		bean.setCarType( carTypeConverter.convertFromDTO(carDTO.getCarType()) );
-		bean.setCarRentService( rentServiceConverter.convertFromDTO( carDTO.getService() ) );
+		bean.setCarRentService( rentServiceConverter.convertFromDTO( carDTO.getRentService() ) );
+		bean.setCarBranchOffice( branchOfficeConverter.convertFromDTO( carDTO.getBranchOffice() ) );
 		
 		return bean;
 	}

@@ -10,9 +10,9 @@ import lombok.NoArgsConstructor;
 public class CarDTO {
 
 	private Long id;
-	private String registrationLicence;
 	private int rentPrice;
 	private CarTypeDTO carType;
-	private RentACarServiceDTO service;
+	private RentACarServiceDTO rentService;
+	private BranchOfficeDTO branchOffice;
 	
 }

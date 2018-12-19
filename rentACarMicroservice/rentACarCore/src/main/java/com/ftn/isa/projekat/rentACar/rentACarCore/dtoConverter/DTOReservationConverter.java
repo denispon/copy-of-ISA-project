@@ -30,17 +30,12 @@ public class DTOReservationConverter {
 		dto.setDateTo(reservation.getDateTo());
 		dto.setId(reservation.getId());
 		dto.setRating(reservation.getRating());
+		dto.setCarRating(reservation.getCarRating() );
 		dto.setBranchOfficeFrom( branchOfficeConverter.convertToDTO( reservation.getBranchOfficeFrom() ) );
 		dto.setBranchOfficeTo( branchOfficeConverter.convertToDTO( reservation.getBranchOfficeTo() ) );
 		dto.setService ( rentACarConverter.convertToDTO ( reservation.getReservationRentService() ) );
+		dto.setReservedCar( carConverter.convertToDTO( reservation.getReservedCar() ));
 		
-		//moving reserved cars
-		List<CarDTO> reservedCarsDTO = new ArrayList<CarDTO> ();
-		for (Car car : reservation.getReservedCars()) {
-			reservedCarsDTO.add( carConverter.convertToDTO(car));
-		}
-		
-		dto.setReservedCars(reservedCarsDTO);
 		
 		
 		return dto;
@@ -55,16 +50,10 @@ public class DTOReservationConverter {
 		bean.setDateFrom(reservationDTO.getDateFrom());
 	    bean.setDateTo(reservationDTO.getDateTo());
 		bean.setRating(reservationDTO.getRating());
-		
+	    bean.setCarRating(reservationDTO.getCarRating());
 		bean.setReservationRentService( rentACarConverter.convertFromDTO ( reservationDTO.getService() ) );
-		
-		//moving reserved cars
-		List<Car> beanCars = new ArrayList<Car>();
-		for (CarDTO carDto : reservationDTO.getReservedCars()) {
-			beanCars.add( carConverter.convertFromDTO(carDto));
-		}
-		
-		bean.setReservedCars(beanCars);
+		bean.setReservedCar( carConverter.convertFromDTO( reservationDTO.getReservedCar() ) );
+	
 		
 		return bean;
 	}

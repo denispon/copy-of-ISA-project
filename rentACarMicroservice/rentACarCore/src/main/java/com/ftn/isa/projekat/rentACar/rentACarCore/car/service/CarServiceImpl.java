@@ -1,6 +1,7 @@
 package com.ftn.isa.projekat.rentACar.rentACarCore.car.service;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -10,15 +11,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ftn.isa.projekat.rentACar.rentACarApi.dto.CarDTO;
+import com.ftn.isa.projekat.rentACar.rentACarCore.branchOffice.model.BranchOffice;
+import com.ftn.isa.projekat.rentACar.rentACarCore.branchOffice.repository.BranchOfficeRepository;
 import com.ftn.isa.projekat.rentACar.rentACarCore.car.model.Car;
 import com.ftn.isa.projekat.rentACar.rentACarCore.car.repository.CarRepository;
 import com.ftn.isa.projekat.rentACar.rentACarCore.carType.model.CarType;
 import com.ftn.isa.projekat.rentACar.rentACarCore.carType.repository.CarTypeRepository;
+import com.ftn.isa.projekat.rentACar.rentACarCore.dtoConverter.DTOBranchOfficeConverter;
 import com.ftn.isa.projekat.rentACar.rentACarCore.dtoConverter.DTOCarConverter;
 import com.ftn.isa.projekat.rentACar.rentACarCore.dtoConverter.DTOCarTypeConverter;
 import com.ftn.isa.projekat.rentACar.rentACarCore.dtoConverter.DTORentACarServiceConverter;
 import com.ftn.isa.projekat.rentACar.rentACarCore.rentACarService.model.RentACarService;
 import com.ftn.isa.projekat.rentACar.rentACarCore.rentACarService.repository.RentACarServiceRepository;
+import com.ftn.isa.projekat.rentACar.rentACarCore.reservation.model.Reservation;
 
 @Service
 public class CarServiceImpl  implements ICarService{
@@ -29,7 +34,8 @@ public class CarServiceImpl  implements ICarService{
 	RentACarServiceRepository rentACarServiceRepository;
 	@Autowired
 	CarTypeRepository carTypeRepository;
-	
+	@Autowired
+	BranchOfficeRepository branchOfficeRepository;
 	
 	@Autowired
 	DTOCarConverter carConverter;
@@ -37,6 +43,8 @@ public class CarServiceImpl  implements ICarService{
 	DTORentACarServiceConverter rentACarServiceConverter;
 	@Autowired
 	DTOCarTypeConverter carTypeConverter;
+	@Autowired
+	DTOBranchOfficeConverter branchOfficeConverter;
 
 	@Override
 	public CarDTO findOneById(Long id) {
@@ -92,6 +100,21 @@ public class CarServiceImpl  implements ICarService{
 
 		Optional<Car> carToDelete = carRepository.findById(id);
 		
+		
+		/*
+		 * Protection of deleting the car while car is still reserved.
+		 * */
+		for(Reservation reservation : carToDelete.get().getCarReservations()) {
+			
+			if(reservation.getDateTo().isAfter(LocalDate.now())) {
+				
+				return null;
+				
+			}
+			
+		}
+		
+		
 		if( carToDelete.isPresent() ) {
 		
 			carRepository.deleteById(id);
@@ -108,17 +131,34 @@ public class CarServiceImpl  implements ICarService{
 
 		Optional<Car> carForChange = carRepository.findById(id);
 		
+		
+		
 		if( carForChange.isPresent() && car!=null ) {
 			
-			//setting rentACarService and carType for car
-			Optional<RentACarService> rentService = rentACarServiceRepository.findById(car.getService().getId());
-			Optional<CarType> carType = carTypeRepository.findById(car.getCarType().getId());
+			/*
+			 * Preventing deleting a car while the car is still reserved.
+			 * */
+			for(Reservation reservation : carForChange.get().getCarReservations()) {
+				
+				if(reservation.getDateTo().isAfter(LocalDate.now())) {
+					
+					return null;
+					
+				}
+				
+			}
 			
-			if( rentService.isPresent() && carType.isPresent() ) {
+			//setting rentACarService and carType for car
+			Optional<RentACarService> rentService = rentACarServiceRepository.findById(car.getRentService().getId());
+			Optional<CarType> carType = carTypeRepository.findById(car.getCarType().getId());
+			Optional<BranchOffice> branchOffice = branchOfficeRepository.findById( car.getBranchOffice().getId() );
+			
+			if( rentService.isPresent() && carType.isPresent() && branchOffice.isPresent()) {
 				
 				carForChange.get().setCarRentService(rentService.get());
 				carForChange.get().setCarType(carType.get());
-				carForChange.get().setRegistrationLicence(car.getRegistrationLicence());
+				carForChange.get().setCarBranchOffice( branchOffice.get() );
+				
 				carForChange.get().setRentPrice(car.getRentPrice());
 				
 				carRepository.save(carForChange.get());

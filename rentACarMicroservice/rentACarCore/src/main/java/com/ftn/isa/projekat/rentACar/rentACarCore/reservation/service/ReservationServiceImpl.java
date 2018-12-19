@@ -100,7 +100,17 @@ public class ReservationServiceImpl implements IReservationService {
 		
 		Optional<Reservation> reservationToDelete = reservationRepository.findById(id);
 		
+		
+		
+		
 		if( reservationToDelete.isPresent() ) {
+			
+			//Preventing user to delete reservation if reservation starts in less than 2 days
+			if(LocalDate.now().isAfter(reservationToDelete.get().getDateFrom().minusDays(2))) {
+				
+				return null;
+				
+			}
 		
 			reservationRepository.deleteById(id);
 			return reservationConverter.convertToDTO(reservationToDelete.get());
@@ -120,17 +130,11 @@ public class ReservationServiceImpl implements IReservationService {
 			Optional<BranchOffice> branchFrom = branchOfficeRepository.findById(reservation.getBranchOfficeFrom().getId());
 			Optional<BranchOffice> branchTo = branchOfficeRepository.findById(reservation.getBranchOfficeTo().getId());
 			Optional<RentACarService> rentService = rentACarRepository.findById(reservation.getService().getId());
-			//setting reserved cars
-			List<Car> reservedCars = new ArrayList<Car>();
-			for (CarDTO carDto : reservation.getReservedCars()) {
-				Optional<Car> car = carRepository.findById(carDto.getId());
-				if(car.isPresent()) {
-					reservedCars.add(car.get());
-				}
-			}
+			Optional<Car> reservedCar = carRepository.findById(reservation.getReservedCar().getId());
 			
 			
-			if(rentService.isPresent() && branchFrom.isPresent() && branchTo.isPresent() && reservedCars.size()==reservation.getReservedCars().size()) {
+			
+			if(rentService.isPresent() && branchFrom.isPresent() && branchTo.isPresent() && reservedCar.isPresent()) {
 				
 				reservationForChange.get().setBranchOfficeFrom(branchFrom.get());
 				reservationForChange.get().setBranchOfficeTo(branchTo.get());
@@ -138,7 +142,7 @@ public class ReservationServiceImpl implements IReservationService {
 				reservationForChange.get().setDateFrom(reservation.getDateFrom());
 				reservationForChange.get().setDateTo(reservation.getDateTo());
 				reservationForChange.get().setRating(reservation.getRating());
-				reservationForChange.get().setReservedCars(reservedCars);
+				reservationForChange.get().setReservedCar(reservedCar.get());
 				
 				
 				reservationRepository.save(reservationForChange.get());
@@ -174,6 +178,29 @@ public class ReservationServiceImpl implements IReservationService {
 		
 		return new ReservationDTO();
 		
+	}
+
+	@Override
+	public ReservationDTO rateCarReservation(Long id, int rating) {
+		//constraint on rating. We need only ratings between 1-5
+				if( rating > 0  &&  rating < 6 ) {
+					
+					Optional<Reservation> reservationToRate = reservationRepository.findById(id);
+					
+					if(reservationToRate.isPresent()) {
+						
+						reservationToRate.get().setCarRating(rating);
+						
+						reservationRepository.save(reservationToRate.get());
+						
+						return reservationConverter.convertToDTO(reservationToRate.get());
+						
+					}
+					
+				}
+				
+				return new ReservationDTO();
+				
 	}
 
 	
