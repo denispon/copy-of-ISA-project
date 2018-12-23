@@ -19,9 +19,8 @@ public interface ICarReservationService {
 	
 	public CarReservationDTO changeReservation ( Long id, CarReservationDTO reservation );
 
-	public CarReservationDTO rateReservation(Long id, int rating);
 
-	public CarReservationDTO rateCarReservation(Long id, int rating);
+	
 
 	
 

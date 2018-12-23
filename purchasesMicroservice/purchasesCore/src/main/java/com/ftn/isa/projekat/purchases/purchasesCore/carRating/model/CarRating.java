@@ -1,5 +1,7 @@
 package com.ftn.isa.projekat.purchases.purchasesCore.carRating.model;
 
+import java.time.LocalDate;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -22,13 +24,16 @@ public class CarRating {
 	@Column (name = "id")
 	private Long id;
 	
-	@Column (name = "user_id")
+	@Column (name = "user_id",nullable = false)
 	private Long userId;
 	
-	@Column (name = "car_id")
+	@Column (name = "car_id",nullable = false)
 	private Long carId;
 	
-	@Column (name = "rating")
+	@Column (name = "rating",nullable = false)
 	private Integer rating;
+	
+	@Column (name = "date",nullable = false)
+	private LocalDate ratingDate;
 
 }

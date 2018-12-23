@@ -1,5 +1,7 @@
 package com.ftn.isa.projekat.purchases.purchasesCore.rentACarRating.model;
 
+import java.time.LocalDate;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -23,13 +25,15 @@ public class RentACarRating {
 	@Column (name = "id")
 	private Long id;
 	
-	@Column (name = "user_id")
+	@Column (name = "user_id",nullable = false)
 	private Long userId;
 	
-	@Column (name = "rent_a_car_id")
+	@Column (name = "rent_a_car_id",nullable = false)
 	private Long rentACarId;
 	
-	@Column (name = "rating")
+	@Column (name = "rating",nullable = false)
 	private Integer rating;
 	
+	@Column (name = "date",nullable = false)
+	private LocalDate ratingDate;
 }

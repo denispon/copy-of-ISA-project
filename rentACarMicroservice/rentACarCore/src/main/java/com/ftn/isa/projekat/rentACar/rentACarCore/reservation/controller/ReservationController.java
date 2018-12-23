@@ -24,7 +24,7 @@ import io.swagger.annotations.ApiResponses;
 
 @RestController
 @RequestMapping("/api/rentacar/reservation")
-@Api(value="reservation")
+@Api(value="CarReservation")
 public class ReservationController {
 
 	@Autowired
@@ -90,23 +90,9 @@ public class ReservationController {
 	    return ( reservationToEdit.getId() != null )? new ResponseEntity<CarReservationDTO>(reservationToEdit,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
 	
-	@PutMapping("/rate/{id}/{rating}")
-	public ResponseEntity<CarReservationDTO> rateReservation (@PathVariable("id") Long id, @PathVariable("rating") int rating){
-		
-		CarReservationDTO ratedReservation = reservationService.rateReservation(id,rating);
-		
-	    return ( ratedReservation.getId() != null )? new ResponseEntity<CarReservationDTO>(ratedReservation,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		
-	}
+
 	
-	@PutMapping("/rateCar/{id}/{rating}")
-	public ResponseEntity<CarReservationDTO> rateCar (@PathVariable("id") Long id, @PathVariable("rating") int rating){
-		
-		CarReservationDTO ratedReservation = reservationService.rateCarReservation(id,rating);
-		
-	    return ( ratedReservation.getId() != null )? new ResponseEntity<CarReservationDTO>(ratedReservation,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		
-	}
+
 	
 	
 }

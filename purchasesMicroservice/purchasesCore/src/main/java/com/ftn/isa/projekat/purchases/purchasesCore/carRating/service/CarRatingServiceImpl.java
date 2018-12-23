@@ -1,5 +1,6 @@
 package com.ftn.isa.projekat.purchases.purchasesCore.carRating.service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -12,6 +13,7 @@ import com.ftn.isa.projekat.purchases.purchasesApi.dto.CarRatingDTO;
 import com.ftn.isa.projekat.purchases.purchasesCore.carRating.model.CarRating;
 import com.ftn.isa.projekat.purchases.purchasesCore.carRating.repository.CarRatingRepository;
 import com.ftn.isa.projekat.purchases.purchasesCore.converter.DTOCarRatingConverter;
+
 
 
 @Component
@@ -62,7 +64,10 @@ public class CarRatingServiceImpl implements ICarRatingService {
 
 	@Override
 	public CarRatingDTO save(CarRatingDTO carRatingToSave) {
-		carRatingRepository.save(carRatingConverter.convertFromDTO(carRatingToSave));
+		
+		CarRating rating = carRatingConverter.convertFromDTO(carRatingToSave);
+		rating.setRatingDate(LocalDate.now());
+		carRatingRepository.save(rating);
 		
 		return carRatingToSave;
 	}
@@ -95,6 +100,7 @@ public class CarRatingServiceImpl implements ICarRatingService {
 				carRatingForChange.get().setCarId(carRating.getCarId());
 				carRatingForChange.get().setRating(carRating.getRating());
 				carRatingForChange.get().setUserId(carRating.getUserId());
+				carRatingForChange.get().setRatingDate(LocalDate.now());
 				
 				carRatingRepository.save(carRatingForChange.get());
 				
@@ -108,6 +114,51 @@ public class CarRatingServiceImpl implements ICarRatingService {
 		return null;
 		
 	}
+
+	@Override
+	public CarRatingDTO rateCarReservation(Long userId, Long carId, int rating) {
+		//constraint on rating. We need only ratings between 1-5
+		if( rating > 0  &&  rating < 6 ) {
+			
+			Optional<CarRating> carToRate = carRatingRepository.findByUserId(userId);
+			
+			
+			if(carToRate.isPresent()) {
+				//If car rating already exist then we will override it.
+				
+				carToRate.get().setRating(rating);
+				//Update date when rating was changed
+				carToRate.get().setRatingDate(LocalDate.now());
+				
+				carRatingRepository.save(carToRate.get());
+				
+				return carRatingConverter.convertToDTO(carToRate.get());
+				
+			}
+			else {
+				
+				//if this is new rating , then we will crate it
+				
+				CarRating carRating = new CarRating();
+				
+				carRating.setRating(rating);
+				carRating.setCarId(carId);
+				carRating.setUserId(userId);
+				carRating.setRatingDate(LocalDate.now());
+				
+				carRatingRepository.save(carRating);
+				
+				return carRatingConverter.convertToDTO(carRating);
+				
+			}
+			
+		}
+		
+		return new CarRatingDTO();
+		
+	}
+	
+	
 
 	
 	

@@ -101,12 +101,5 @@ public class RentACarServiceController {
 		return (sumOfIncomes != null) ? new ResponseEntity<Integer>(sumOfIncomes,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
 	
-	@GetMapping("/getAverageRating/{id}/{dateFrom}/{dateTo}")
-	public ResponseEntity<Double> getAverageRating (@PathVariable("id")Long rentService, @PathVariable("dateFrom") String dateFrom, @PathVariable("dateTo") String dateTo){
-		
-		Double averageRating = rentACarService.getAverageRating(rentService, LocalDate.parse(dateFrom), LocalDate.parse(dateTo));
-		
-		return (averageRating != null )? new ResponseEntity<Double>(averageRating, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		
-	}
+	
 }

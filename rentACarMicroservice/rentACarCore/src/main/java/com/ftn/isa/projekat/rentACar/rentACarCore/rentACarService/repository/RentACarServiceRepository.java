@@ -16,10 +16,6 @@ public interface RentACarServiceRepository extends JpaRepository< RentACarServic
 	@Query(value="select sum(rent_income) from income  "
 			+ "where date between :dateFrom and :dateTo and rent_a_car_service_id = :rentService ;",nativeQuery=true)
 	Optional<Integer> findSumOfIncomes(Long rentService, LocalDate dateFrom, LocalDate dateTo);
-	
-	
-	@Query(value="select avg(rating) from reservation "
-			+ "where date_from > :dateFrom and date_to < :dateTo and rent_a_car_service_id = :rentService ;\r\n",nativeQuery=true)
-	Optional<Double> getAverageRating(Long rentService, LocalDate dateFrom, LocalDate dateTo);
+		
 
 }

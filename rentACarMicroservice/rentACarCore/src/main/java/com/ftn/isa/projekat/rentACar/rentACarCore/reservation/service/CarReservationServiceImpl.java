@@ -157,51 +157,8 @@ public class CarReservationServiceImpl implements ICarReservationService {
 		return null;
 	}
 
-	@Override
-	public CarReservationDTO rateReservation(Long id, int rating) {
-		//constraint on rating. We need only ratings between 1-5
-		if( rating > 0  &&  rating < 6 ) {
-			
-			Optional<CarReservation> reservationToRate = reservationRepository.findById(id);
-			
-			if(reservationToRate.isPresent()) {
-				
-				reservationToRate.get().setRating(rating);
-				
-				reservationRepository.save(reservationToRate.get());
-				
-				return reservationConverter.convertToDTO(reservationToRate.get());
-				
-			}
-			
-		}
-		
-		return new CarReservationDTO();
-		
-	}
-
-	@Override
-	public CarReservationDTO rateCarReservation(Long id, int rating) {
-		//constraint on rating. We need only ratings between 1-5
-				if( rating > 0  &&  rating < 6 ) {
-					
-					Optional<CarReservation> reservationToRate = reservationRepository.findById(id);
-					
-					if(reservationToRate.isPresent()) {
-						
-						reservationToRate.get().setCarRating(rating);
-						
-						reservationRepository.save(reservationToRate.get());
-						
-						return reservationConverter.convertToDTO(reservationToRate.get());
-						
-					}
-					
-				}
-				
-				return new CarReservationDTO();
-				
-	}
+	
+	
 
 	
 	

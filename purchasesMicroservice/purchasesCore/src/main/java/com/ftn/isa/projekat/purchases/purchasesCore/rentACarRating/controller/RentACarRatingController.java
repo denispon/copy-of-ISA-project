@@ -1,5 +1,6 @@
 package com.ftn.isa.projekat.purchases.purchasesCore.rentACarRating.controller;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ftn.isa.projekat.purchases.purchasesApi.dto.CarRatingDTO;
 import com.ftn.isa.projekat.purchases.purchasesApi.dto.RentACarRatingDTO;
 import com.ftn.isa.projekat.purchases.purchasesCore.rentACarRating.service.IRentACarRatingService;
 
@@ -90,5 +92,21 @@ public class RentACarRatingController {
 	    return ( ratingToEdit.getId() != null )? new ResponseEntity<RentACarRatingDTO>(ratingToEdit,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
 
+	@PutMapping("/rateRentACar/{userId}/{carId}/{rating}")
+	public ResponseEntity<RentACarRatingDTO> rateCar (@PathVariable("userId") Long userId,@PathVariable("carId") Long carId, @PathVariable("rating") int rating){
+		
+		RentACarRatingDTO ratedRentACar = rentACarRatingService.rateRentACarService(userId, carId, rating);
+		
+	    return ( ratedRentACar.getId() != null )? new ResponseEntity<RentACarRatingDTO>(ratedRentACar,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		
+	}
 	
+	@GetMapping("/getAverageRating/{id}/{dateFrom}/{dateTo}")
+	public ResponseEntity<Double> getAverageRating (@PathVariable("id")Long rentService, @PathVariable("dateFrom") String dateFrom, @PathVariable("dateTo") String dateTo){
+		
+		Double averageRating = rentACarRatingService.getAverageRating(rentService, LocalDate.parse(dateFrom), LocalDate.parse(dateTo));
+		
+		return (averageRating != null )? new ResponseEntity<Double>(averageRating, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		
+	}
 }

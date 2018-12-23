@@ -1,5 +1,6 @@
 package com.ftn.isa.projekat.purchases.purchasesCore.rentACarRating.service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -18,4 +19,9 @@ public interface IRentACarRatingService {
 	public RentACarRatingDTO deleteById ( Long id );
 	
 	public RentACarRatingDTO changeRentACarRating ( Long id, RentACarRatingDTO rentCarRating );
+	
+	public RentACarRatingDTO rateRentACarService(Long userId, Long carId, int rating);
+
+	public Double getAverageRating(Long rentServiceId, LocalDate dateFrom, LocalDate dateTo);
+
 }

@@ -16,4 +16,6 @@ public class CarRatingDTO {
 	private Long carId;
 	
 	private Integer rating;
+	
+	
 }

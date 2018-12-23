@@ -20,5 +20,4 @@ public interface IRentACarServiceService {
 
 	public Integer getSumOfIncomes(Long rentService, LocalDate dateFrom, LocalDate dateTo);
 
-	public Double getAverageRating(Long rentService, LocalDate dateFrom, LocalDate dateTo);
 }

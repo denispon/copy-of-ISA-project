@@ -18,4 +18,6 @@ public interface ICarRatingService {
 	public CarRatingDTO deleteById ( Long id );
 	
 	public CarRatingDTO changeCarRating ( Long id, CarRatingDTO carRating );
+	
+	public CarRatingDTO rateCarReservation(Long userId, Long carId, int rating);
 }
