@@ -87,6 +87,7 @@ public class BranchOfficeServiceImpl implements IBranchOfficeService {
 		if( branchOfficeToDelete.isPresent() ) {
 		
 			branchOfficeRepository.deleteById(id);
+			
 			return branchOfficeConverter.convertToDTO(branchOfficeToDelete.get());
 		
 		}

@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ftn.isa.projekat.rentACar.rentACarApi.dto.CarDTO;
-import com.ftn.isa.projekat.rentACar.rentACarApi.dto.ReservationDTO;
+import com.ftn.isa.projekat.rentACar.rentACarApi.dto.CarReservationDTO;
 import com.ftn.isa.projekat.rentACar.rentACarCore.branchOffice.model.BranchOffice;
 import com.ftn.isa.projekat.rentACar.rentACarCore.branchOffice.repository.BranchOfficeRepository;
 import com.ftn.isa.projekat.rentACar.rentACarCore.car.model.Car;
@@ -18,17 +18,17 @@ import com.ftn.isa.projekat.rentACar.rentACarCore.car.repository.CarRepository;
 import com.ftn.isa.projekat.rentACar.rentACarCore.dtoConverter.DTOBranchOfficeConverter;
 import com.ftn.isa.projekat.rentACar.rentACarCore.dtoConverter.DTOCarConverter;
 import com.ftn.isa.projekat.rentACar.rentACarCore.dtoConverter.DTORentACarServiceConverter;
-import com.ftn.isa.projekat.rentACar.rentACarCore.dtoConverter.DTOReservationConverter;
+import com.ftn.isa.projekat.rentACar.rentACarCore.dtoConverter.DTOCarReservationConverter;
 import com.ftn.isa.projekat.rentACar.rentACarCore.rentACarService.model.RentACarService;
 import com.ftn.isa.projekat.rentACar.rentACarCore.rentACarService.repository.RentACarServiceRepository;
-import com.ftn.isa.projekat.rentACar.rentACarCore.reservation.model.Reservation;
-import com.ftn.isa.projekat.rentACar.rentACarCore.reservation.repository.ReservationRepository;
+import com.ftn.isa.projekat.rentACar.rentACarCore.reservation.model.CarReservation;
+import com.ftn.isa.projekat.rentACar.rentACarCore.reservation.repository.CarReservationRepository;
 
 @Service
-public class ReservationServiceImpl implements IReservationService {
+public class CarReservationServiceImpl implements ICarReservationService {
 
 	@Autowired
-	ReservationRepository reservationRepository;
+	CarReservationRepository reservationRepository;
 	@Autowired
 	CarRepository carRepository;
 	@Autowired
@@ -37,7 +37,7 @@ public class ReservationServiceImpl implements IReservationService {
 	RentACarServiceRepository rentACarRepository;
 	
 	@Autowired
-	DTOReservationConverter reservationConverter;
+	DTOCarReservationConverter reservationConverter;
 	@Autowired
 	DTOCarConverter carConverter;
 	@Autowired
@@ -47,9 +47,9 @@ public class ReservationServiceImpl implements IReservationService {
 	
 
 	@Override
-	public ReservationDTO findOneById(Long id) {
+	public CarReservationDTO findOneById(Long id) {
 		
-		Optional <Reservation> reservation = reservationRepository.findById(id);
+		Optional <CarReservation> reservation = reservationRepository.findById(id);
 		
 		
 		if (reservation.isPresent()) {
@@ -59,20 +59,20 @@ public class ReservationServiceImpl implements IReservationService {
 		}
 		else {
 			
-			return new ReservationDTO();
+			return new CarReservationDTO();
 			
 		}	
 	}
 
 	@Override
-	public List<ReservationDTO> findAll() {
+	public List<CarReservationDTO> findAll() {
 		
-		Optional< List<Reservation> > list = Optional.of(reservationRepository.findAll());
-		ArrayList< ReservationDTO > reservationsDTO = new ArrayList< ReservationDTO >();
+		Optional< List<CarReservation> > list = Optional.of(reservationRepository.findAll());
+		ArrayList< CarReservationDTO > reservationsDTO = new ArrayList< CarReservationDTO >();
 		
 		if ( list.isPresent() ) {
 			
-			for ( Reservation reservation : list.get()) {
+			for ( CarReservation reservation : list.get()) {
 				
 				reservationsDTO.add(reservationConverter.convertToDTO(reservation));
 				
@@ -87,7 +87,7 @@ public class ReservationServiceImpl implements IReservationService {
 	}
 
 	@Override
-	public ReservationDTO save(ReservationDTO reservationToSave) {
+	public CarReservationDTO save(CarReservationDTO reservationToSave) {
 		
 		reservationRepository.save(reservationConverter.convertFromDTO(reservationToSave));
 		
@@ -96,9 +96,9 @@ public class ReservationServiceImpl implements IReservationService {
 	}
 
 	@Override
-	public ReservationDTO deleteById(Long id) {
+	public CarReservationDTO deleteById(Long id) {
 		
-		Optional<Reservation> reservationToDelete = reservationRepository.findById(id);
+		Optional<CarReservation> reservationToDelete = reservationRepository.findById(id);
 		
 		
 		
@@ -121,9 +121,9 @@ public class ReservationServiceImpl implements IReservationService {
 	}
 
 	@Override
-	public ReservationDTO changeReservation(Long id, ReservationDTO reservation) {
+	public CarReservationDTO changeReservation(Long id, CarReservationDTO reservation) {
 		
-		Optional<Reservation> reservationForChange = reservationRepository.findById(id);
+		Optional<CarReservation> reservationForChange = reservationRepository.findById(id);
 		
 		if(reservationForChange.isPresent() && reservation != null) {
 			
@@ -158,11 +158,11 @@ public class ReservationServiceImpl implements IReservationService {
 	}
 
 	@Override
-	public ReservationDTO rateReservation(Long id, int rating) {
+	public CarReservationDTO rateReservation(Long id, int rating) {
 		//constraint on rating. We need only ratings between 1-5
 		if( rating > 0  &&  rating < 6 ) {
 			
-			Optional<Reservation> reservationToRate = reservationRepository.findById(id);
+			Optional<CarReservation> reservationToRate = reservationRepository.findById(id);
 			
 			if(reservationToRate.isPresent()) {
 				
@@ -176,16 +176,16 @@ public class ReservationServiceImpl implements IReservationService {
 			
 		}
 		
-		return new ReservationDTO();
+		return new CarReservationDTO();
 		
 	}
 
 	@Override
-	public ReservationDTO rateCarReservation(Long id, int rating) {
+	public CarReservationDTO rateCarReservation(Long id, int rating) {
 		//constraint on rating. We need only ratings between 1-5
 				if( rating > 0  &&  rating < 6 ) {
 					
-					Optional<Reservation> reservationToRate = reservationRepository.findById(id);
+					Optional<CarReservation> reservationToRate = reservationRepository.findById(id);
 					
 					if(reservationToRate.isPresent()) {
 						
@@ -199,7 +199,7 @@ public class ReservationServiceImpl implements IReservationService {
 					
 				}
 				
-				return new ReservationDTO();
+				return new CarReservationDTO();
 				
 	}
 

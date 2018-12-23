@@ -6,7 +6,7 @@ import java.util.List;
 import lombok.Data;
 
 @Data
-public class ReservationDTO {
+public class CarReservationDTO {
 
 	private Long id;
 	private LocalDate dateFrom;

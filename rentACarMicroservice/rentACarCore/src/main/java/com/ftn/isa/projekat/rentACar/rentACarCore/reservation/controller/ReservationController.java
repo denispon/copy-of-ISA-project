@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ftn.isa.projekat.rentACar.rentACarApi.dto.ReservationDTO;
-import com.ftn.isa.projekat.rentACar.rentACarCore.reservation.service.IReservationService;
+import com.ftn.isa.projekat.rentACar.rentACarApi.dto.CarReservationDTO;
+import com.ftn.isa.projekat.rentACar.rentACarCore.reservation.service.ICarReservationService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -28,17 +28,17 @@ import io.swagger.annotations.ApiResponses;
 public class ReservationController {
 
 	@Autowired
-	IReservationService reservationService;
+	ICarReservationService reservationService;
 	
 	@GetMapping("/{id}")
 	@ApiOperation( value = "Finds one reservation.", notes = "Returns found reservation.", httpMethod="GET")
 	@ApiResponses( value = { @ApiResponse( code = 200, message = "OK"),
 							 @ApiResponse( code = 404, message = "Not Found")})
-	public ResponseEntity<ReservationDTO> getOneReservationById (@PathVariable("id") Long id){
+	public ResponseEntity<CarReservationDTO> getOneReservationById (@PathVariable("id") Long id){
 		
-		ReservationDTO reservationDto = reservationService.findOneById(id);
+		CarReservationDTO reservationDto = reservationService.findOneById(id);
 		
-		return ( reservationDto.getId()!=null)? new ResponseEntity<ReservationDTO>(reservationDto,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		return ( reservationDto.getId()!=null)? new ResponseEntity<CarReservationDTO>(reservationDto,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		
 	}
 	
@@ -46,11 +46,11 @@ public class ReservationController {
 	@ApiOperation( value = "Returns all reservations", httpMethod = "GET")
 	@ApiResponses( value = { @ApiResponse( code = 200, message ="OK"),
 							 @ApiResponse( code = 404, message ="Not Found")})	
-	public ResponseEntity<List<ReservationDTO>> getAllReservations(){
+	public ResponseEntity<List<CarReservationDTO>> getAllReservations(){
 		
-		List<ReservationDTO> reservations = reservationService.findAll();
+		List<CarReservationDTO> reservations = reservationService.findAll();
 		
-		return ( !reservations.isEmpty() )? new ResponseEntity<List<ReservationDTO>>(reservations,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		return ( !reservations.isEmpty() )? new ResponseEntity<List<CarReservationDTO>>(reservations,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		
 	}
 	
@@ -60,11 +60,11 @@ public class ReservationController {
 					@ApiResponse( code = 201 , message = "Created"),
 					@ApiResponse( code = 400, message= "Bad request")
 	})
-	public ResponseEntity<ReservationDTO> addReservation(@RequestBody ReservationDTO dto){
+	public ResponseEntity<CarReservationDTO> addReservation(@RequestBody CarReservationDTO dto){
 		
-		ReservationDTO savedReservation = reservationService.save(dto);
+		CarReservationDTO savedReservation = reservationService.save(dto);
 		
-		return ( savedReservation!=null )? new ResponseEntity<ReservationDTO>(savedReservation,HttpStatus.CREATED): new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		return ( savedReservation!=null )? new ResponseEntity<CarReservationDTO>(savedReservation,HttpStatus.CREATED): new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
 	
 	@DeleteMapping("/{id}")
@@ -72,10 +72,10 @@ public class ReservationController {
 	@ApiResponses( value = { 
 			 @ApiResponse( code = 200, message ="OK"),
 			 @ApiResponse( code = 404, message ="Not Found")})	
-	public ResponseEntity<ReservationDTO> deleteReservation(@PathVariable("id") Long id){
-		ReservationDTO deletedReservationDTO = reservationService.deleteById(id);
+	public ResponseEntity<CarReservationDTO> deleteReservation(@PathVariable("id") Long id){
+		CarReservationDTO deletedReservationDTO = reservationService.deleteById(id);
 		
-		return (deletedReservationDTO.getId() != null ) ? new ResponseEntity<ReservationDTO>(deletedReservationDTO,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		return (deletedReservationDTO.getId() != null ) ? new ResponseEntity<CarReservationDTO>(deletedReservationDTO,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	}
 	
 	@PutMapping("/{id}")
@@ -83,28 +83,28 @@ public class ReservationController {
 	@ApiResponses( value = { 
 			 @ApiResponse( code = 200, message ="OK"),
 			 @ApiResponse( code = 400, message ="Bad Request")})
-	public ResponseEntity<ReservationDTO> changeReservation (@PathVariable("id") Long id, @RequestBody ReservationDTO reservationDTO ){
+	public ResponseEntity<CarReservationDTO> changeReservation (@PathVariable("id") Long id, @RequestBody CarReservationDTO reservationDTO ){
 		
-		ReservationDTO reservationToEdit = reservationService.changeReservation(id, reservationDTO);
+		CarReservationDTO reservationToEdit = reservationService.changeReservation(id, reservationDTO);
 	
-	    return ( reservationToEdit.getId() != null )? new ResponseEntity<ReservationDTO>(reservationToEdit,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	    return ( reservationToEdit.getId() != null )? new ResponseEntity<CarReservationDTO>(reservationToEdit,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
 	
 	@PutMapping("/rate/{id}/{rating}")
-	public ResponseEntity<ReservationDTO> rateReservation (@PathVariable("id") Long id, @PathVariable("rating") int rating){
+	public ResponseEntity<CarReservationDTO> rateReservation (@PathVariable("id") Long id, @PathVariable("rating") int rating){
 		
-		ReservationDTO ratedReservation = reservationService.rateReservation(id,rating);
+		CarReservationDTO ratedReservation = reservationService.rateReservation(id,rating);
 		
-	    return ( ratedReservation.getId() != null )? new ResponseEntity<ReservationDTO>(ratedReservation,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	    return ( ratedReservation.getId() != null )? new ResponseEntity<CarReservationDTO>(ratedReservation,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		
 	}
 	
 	@PutMapping("/rateCar/{id}/{rating}")
-	public ResponseEntity<ReservationDTO> rateCar (@PathVariable("id") Long id, @PathVariable("rating") int rating){
+	public ResponseEntity<CarReservationDTO> rateCar (@PathVariable("id") Long id, @PathVariable("rating") int rating){
 		
-		ReservationDTO ratedReservation = reservationService.rateCarReservation(id,rating);
+		CarReservationDTO ratedReservation = reservationService.rateCarReservation(id,rating);
 		
-	    return ( ratedReservation.getId() != null )? new ResponseEntity<ReservationDTO>(ratedReservation,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	    return ( ratedReservation.getId() != null )? new ResponseEntity<CarReservationDTO>(ratedReservation,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		
 	}
 	

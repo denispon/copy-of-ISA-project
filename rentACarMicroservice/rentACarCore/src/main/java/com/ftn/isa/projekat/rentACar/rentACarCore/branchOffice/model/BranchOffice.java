@@ -15,7 +15,7 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ftn.isa.projekat.rentACar.rentACarCore.car.model.Car;
 import com.ftn.isa.projekat.rentACar.rentACarCore.rentACarService.model.RentACarService;
-import com.ftn.isa.projekat.rentACar.rentACarCore.reservation.model.Reservation;
+import com.ftn.isa.projekat.rentACar.rentACarCore.reservation.model.CarReservation;
 
 import lombok.Data;
 
@@ -53,7 +53,7 @@ public class BranchOffice {
 	 * */
 	@JsonIgnore
 	@OneToMany (mappedBy="branchOfficeFrom")
-	private List<Reservation> reservationFromBranchOffice;
+	private List<CarReservation> reservationFromBranchOffice;
 	
 	/*
 	 *List of reservation who has a car who needs to get back to this branch office
@@ -62,5 +62,5 @@ public class BranchOffice {
 	 * */
 	@JsonIgnore
 	@OneToMany (mappedBy="branchOfficeTo")
-	private List<Reservation> reservationToBranchOffice;
+	private List<CarReservation> reservationToBranchOffice;
 }

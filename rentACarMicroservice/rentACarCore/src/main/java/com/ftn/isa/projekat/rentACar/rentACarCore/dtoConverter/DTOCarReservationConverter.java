@@ -7,12 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.ftn.isa.projekat.rentACar.rentACarApi.dto.CarDTO;
-import com.ftn.isa.projekat.rentACar.rentACarApi.dto.ReservationDTO;
+import com.ftn.isa.projekat.rentACar.rentACarApi.dto.CarReservationDTO;
 import com.ftn.isa.projekat.rentACar.rentACarCore.car.model.Car;
-import com.ftn.isa.projekat.rentACar.rentACarCore.reservation.model.Reservation;
+import com.ftn.isa.projekat.rentACar.rentACarCore.reservation.model.CarReservation;
 
 @Component
-public class DTOReservationConverter {
+public class DTOCarReservationConverter {
 
 	@Autowired
 	private DTOBranchOfficeConverter branchOfficeConverter;
@@ -22,9 +22,9 @@ public class DTOReservationConverter {
 	private DTORentACarServiceConverter rentACarConverter;
 	
 	
-	public ReservationDTO convertToDTO ( Reservation reservation ) {
+	public CarReservationDTO convertToDTO ( CarReservation reservation ) {
 		
-		ReservationDTO dto = new ReservationDTO();
+		CarReservationDTO dto = new CarReservationDTO();
 		
 		dto.setDateFrom (reservation.getDateFrom());
 		dto.setDateTo(reservation.getDateTo());
@@ -41,9 +41,9 @@ public class DTOReservationConverter {
 		return dto;
 	}
 	
-	public Reservation convertFromDTO (ReservationDTO reservationDTO) {
+	public CarReservation convertFromDTO (CarReservationDTO reservationDTO) {
 		
-		Reservation bean = new Reservation();
+		CarReservation bean = new CarReservation();
 		
 		bean.setBranchOfficeFrom( branchOfficeConverter.convertFromDTO( reservationDTO.getBranchOfficeFrom() ));
 		bean.setBranchOfficeTo(branchOfficeConverter.convertFromDTO( reservationDTO.getBranchOfficeTo() ));

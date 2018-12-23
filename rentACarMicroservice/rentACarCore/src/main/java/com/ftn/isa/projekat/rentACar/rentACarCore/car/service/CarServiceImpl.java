@@ -23,7 +23,7 @@ import com.ftn.isa.projekat.rentACar.rentACarCore.dtoConverter.DTOCarTypeConvert
 import com.ftn.isa.projekat.rentACar.rentACarCore.dtoConverter.DTORentACarServiceConverter;
 import com.ftn.isa.projekat.rentACar.rentACarCore.rentACarService.model.RentACarService;
 import com.ftn.isa.projekat.rentACar.rentACarCore.rentACarService.repository.RentACarServiceRepository;
-import com.ftn.isa.projekat.rentACar.rentACarCore.reservation.model.Reservation;
+import com.ftn.isa.projekat.rentACar.rentACarCore.reservation.model.CarReservation;
 
 @Service
 public class CarServiceImpl  implements ICarService{
@@ -104,7 +104,7 @@ public class CarServiceImpl  implements ICarService{
 		/*
 		 * Protection of deleting the car while car is still reserved.
 		 * */
-		for(Reservation reservation : carToDelete.get().getCarReservations()) {
+		for(CarReservation reservation : carToDelete.get().getCarReservations()) {
 			
 			if(reservation.getDateTo().isAfter(LocalDate.now())) {
 				
@@ -138,7 +138,7 @@ public class CarServiceImpl  implements ICarService{
 			/*
 			 * Preventing deleting a car while the car is still reserved.
 			 * */
-			for(Reservation reservation : carForChange.get().getCarReservations()) {
+			for(CarReservation reservation : carForChange.get().getCarReservations()) {
 				
 				if(reservation.getDateTo().isAfter(LocalDate.now())) {
 					

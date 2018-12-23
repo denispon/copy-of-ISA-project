@@ -7,10 +7,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import com.ftn.isa.projekat.rentACar.rentACarCore.reservation.model.Reservation;
+import com.ftn.isa.projekat.rentACar.rentACarCore.reservation.model.CarReservation;
 
 
-public interface ReservationRepository extends JpaRepository< Reservation, Long>{
+public interface CarReservationRepository extends JpaRepository< CarReservation, Long>{
 
 	
 

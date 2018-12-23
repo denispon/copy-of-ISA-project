@@ -19,7 +19,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ftn.isa.projekat.rentACar.rentACarCore.branchOffice.model.BranchOffice;
 import com.ftn.isa.projekat.rentACar.rentACarCore.carType.model.CarType;
 import com.ftn.isa.projekat.rentACar.rentACarCore.rentACarService.model.RentACarService;
-import com.ftn.isa.projekat.rentACar.rentACarCore.reservation.model.Reservation;
+import com.ftn.isa.projekat.rentACar.rentACarCore.reservation.model.CarReservation;
 
 import lombok.Data;
 
@@ -53,8 +53,8 @@ public class Car {
 	private CarType carType;
 	
 	@JsonIgnore
-	@OneToMany (mappedBy="reservedCar", cascade=CascadeType.ALL )
-	private List<Reservation> carReservations;
+	@OneToMany (mappedBy="reservedCar")
+	private List<CarReservation> carReservations;
 	
 	
 	

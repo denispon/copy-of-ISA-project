@@ -24,9 +24,9 @@ import com.ftn.isa.projekat.rentACar.rentACarCore.rentACarService.model.RentACar
 import lombok.Data;
 
 @Entity
-@Table (name="reservation")
+@Table (name="car_reservation")
 @Data
-public class Reservation {
+public class CarReservation {
 
 	@Id
 	@GeneratedValue (strategy = GenerationType.IDENTITY)

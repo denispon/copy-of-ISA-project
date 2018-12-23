@@ -15,7 +15,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ftn.isa.projekat.rentACar.rentACarCore.branchOffice.model.BranchOffice;
 import com.ftn.isa.projekat.rentACar.rentACarCore.car.model.Car;
 import com.ftn.isa.projekat.rentACar.rentACarCore.income.model.Income;
-import com.ftn.isa.projekat.rentACar.rentACarCore.reservation.model.Reservation;
+import com.ftn.isa.projekat.rentACar.rentACarCore.reservation.model.CarReservation;
 
 import lombok.Data;
 
@@ -48,7 +48,7 @@ public class RentACarService {
 	
 	@JsonIgnore
 	@OneToMany (mappedBy="reservationRentService", cascade=CascadeType.ALL)
-	private List<Reservation> reservations;
+	private List<CarReservation> reservations;
 	
 	@JsonIgnore
 	@OneToMany (mappedBy="branchRentService", cascade=CascadeType.ALL)
