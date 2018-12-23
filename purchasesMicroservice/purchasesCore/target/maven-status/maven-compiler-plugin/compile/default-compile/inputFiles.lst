@@ -1,4 +1,16 @@
-C:\Users\Admin\Desktop\7.SEMESTAR\ISA\projekat\ISA-project\ISA-project\purchasesMicroservice\purchasesCore\src\main\java\com\ftn\isa\projekat\purchases\purchasesCore\reservation\model\Reservation.java
+C:\Users\Admin\Desktop\7.SEMESTAR\ISA\projekat\ISA-project\ISA-project\purchasesMicroservice\purchasesCore\src\main\java\com\ftn\isa\projekat\purchases\purchasesCore\carRating\service\ICarRatingService.java
+C:\Users\Admin\Desktop\7.SEMESTAR\ISA\projekat\ISA-project\ISA-project\purchasesMicroservice\purchasesCore\src\main\java\com\ftn\isa\projekat\purchases\purchasesCore\reservation\service\IReservationService.java
+C:\Users\Admin\Desktop\7.SEMESTAR\ISA\projekat\ISA-project\ISA-project\purchasesMicroservice\purchasesCore\src\main\java\com\ftn\isa\projekat\purchases\purchasesCore\converter\DTORentACarRatingConverter.java
 C:\Users\Admin\Desktop\7.SEMESTAR\ISA\projekat\ISA-project\ISA-project\purchasesMicroservice\purchasesCore\src\main\java\com\ftn\isa\projekat\purchases\purchasesCore\PurchasesApplication.java
+C:\Users\Admin\Desktop\7.SEMESTAR\ISA\projekat\ISA-project\ISA-project\purchasesMicroservice\purchasesCore\src\main\java\com\ftn\isa\projekat\purchases\purchasesCore\rentACarRating\service\RentACarRatingServiceImpl.java
 C:\Users\Admin\Desktop\7.SEMESTAR\ISA\projekat\ISA-project\ISA-project\purchasesMicroservice\purchasesCore\src\main\java\com\ftn\isa\projekat\purchases\purchasesCore\carRating\model\CarRating.java
+C:\Users\Admin\Desktop\7.SEMESTAR\ISA\projekat\ISA-project\ISA-project\purchasesMicroservice\purchasesCore\src\main\java\com\ftn\isa\projekat\purchases\purchasesCore\carRating\repository\CarRatingRepository.java
+C:\Users\Admin\Desktop\7.SEMESTAR\ISA\projekat\ISA-project\ISA-project\purchasesMicroservice\purchasesCore\src\main\java\com\ftn\isa\projekat\purchases\purchasesCore\reservation\repository\ReservationRepository.java
+C:\Users\Admin\Desktop\7.SEMESTAR\ISA\projekat\ISA-project\ISA-project\purchasesMicroservice\purchasesCore\src\main\java\com\ftn\isa\projekat\purchases\purchasesCore\rentACarRating\repository\RentACarRatingRepository.java
+C:\Users\Admin\Desktop\7.SEMESTAR\ISA\projekat\ISA-project\ISA-project\purchasesMicroservice\purchasesCore\src\main\java\com\ftn\isa\projekat\purchases\purchasesCore\converter\DTOCarRatingConverter.java
+C:\Users\Admin\Desktop\7.SEMESTAR\ISA\projekat\ISA-project\ISA-project\purchasesMicroservice\purchasesCore\src\main\java\com\ftn\isa\projekat\purchases\purchasesCore\carRating\service\CarRatingServiceImpl.java
+C:\Users\Admin\Desktop\7.SEMESTAR\ISA\projekat\ISA-project\ISA-project\purchasesMicroservice\purchasesCore\src\main\java\com\ftn\isa\projekat\purchases\purchasesCore\reservation\model\Reservation.java
+C:\Users\Admin\Desktop\7.SEMESTAR\ISA\projekat\ISA-project\ISA-project\purchasesMicroservice\purchasesCore\src\main\java\com\ftn\isa\projekat\purchases\purchasesCore\rentACarRating\service\IRentACarRatingService.java
 C:\Users\Admin\Desktop\7.SEMESTAR\ISA\projekat\ISA-project\ISA-project\purchasesMicroservice\purchasesCore\src\main\java\com\ftn\isa\projekat\purchases\purchasesCore\rentACarRating\model\RentACarRating.java
+C:\Users\Admin\Desktop\7.SEMESTAR\ISA\projekat\ISA-project\ISA-project\purchasesMicroservice\purchasesCore\src\main\java\com\ftn\isa\projekat\purchases\purchasesCore\converter\DTOReservationConverter.java
+C:\Users\Admin\Desktop\7.SEMESTAR\ISA\projekat\ISA-project\ISA-project\purchasesMicroservice\purchasesCore\src\main\java\com\ftn\isa\projekat\purchases\purchasesCore\reservation\service\ReservationServiceImpl.java
