@@ -1,4 +1,6 @@
 C:\Users\Admin\Desktop\7.SEMESTAR\ISA\projekat\ISA-project\ISA-project\purchasesMicroservice\purchasesCore\src\main\java\com\ftn\isa\projekat\purchases\purchasesCore\carRating\service\ICarRatingService.java
+C:\Users\Admin\Desktop\7.SEMESTAR\ISA\projekat\ISA-project\ISA-project\purchasesMicroservice\purchasesCore\src\main\java\com\ftn\isa\projekat\purchases\purchasesCore\carRating\controller\CarRatingController.java
+C:\Users\Admin\Desktop\7.SEMESTAR\ISA\projekat\ISA-project\ISA-project\purchasesMicroservice\purchasesCore\src\main\java\com\ftn\isa\projekat\purchases\purchasesCore\rentACarRating\controller\RentACarRatingController.java
 C:\Users\Admin\Desktop\7.SEMESTAR\ISA\projekat\ISA-project\ISA-project\purchasesMicroservice\purchasesCore\src\main\java\com\ftn\isa\projekat\purchases\purchasesCore\reservation\service\IReservationService.java
 C:\Users\Admin\Desktop\7.SEMESTAR\ISA\projekat\ISA-project\ISA-project\purchasesMicroservice\purchasesCore\src\main\java\com\ftn\isa\projekat\purchases\purchasesCore\converter\DTORentACarRatingConverter.java
 C:\Users\Admin\Desktop\7.SEMESTAR\ISA\projekat\ISA-project\ISA-project\purchasesMicroservice\purchasesCore\src\main\java\com\ftn\isa\projekat\purchases\purchasesCore\PurchasesApplication.java
@@ -14,3 +16,4 @@ C:\Users\Admin\Desktop\7.SEMESTAR\ISA\projekat\ISA-project\ISA-project\purchases
 C:\Users\Admin\Desktop\7.SEMESTAR\ISA\projekat\ISA-project\ISA-project\purchasesMicroservice\purchasesCore\src\main\java\com\ftn\isa\projekat\purchases\purchasesCore\rentACarRating\model\RentACarRating.java
 C:\Users\Admin\Desktop\7.SEMESTAR\ISA\projekat\ISA-project\ISA-project\purchasesMicroservice\purchasesCore\src\main\java\com\ftn\isa\projekat\purchases\purchasesCore\converter\DTOReservationConverter.java
 C:\Users\Admin\Desktop\7.SEMESTAR\ISA\projekat\ISA-project\ISA-project\purchasesMicroservice\purchasesCore\src\main\java\com\ftn\isa\projekat\purchases\purchasesCore\reservation\service\ReservationServiceImpl.java
+C:\Users\Admin\Desktop\7.SEMESTAR\ISA\projekat\ISA-project\ISA-project\purchasesMicroservice\purchasesCore\src\main\java\com\ftn\isa\projekat\purchases\purchasesCore\reservation\controller\ReservationController.java
