@@ -18,7 +18,7 @@ public class DTOHotelConverter {
 		
 	}
 	
-	public Hotel convertFromDTO(Hotel hotelDTO) {
+	public Hotel convertFromDTO(HotelDTO hotelDTO) {
 		Hotel bean=new Hotel();
 		bean.setName(hotelDTO.getName());
 		bean.setAdress(hotelDTO.getAdress());
