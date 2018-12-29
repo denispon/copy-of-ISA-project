@@ -26,9 +26,9 @@ public class ShoppingCart {
 	@Column (name = "user_id",nullable = false)
 	private Long userId;
 	
-	
 	@Column (name = "carReservation_id")
 	private Long carReservationId;
 	
-	
+	@Column (name = "price" , nullable = false)
+	private Double price;
 }

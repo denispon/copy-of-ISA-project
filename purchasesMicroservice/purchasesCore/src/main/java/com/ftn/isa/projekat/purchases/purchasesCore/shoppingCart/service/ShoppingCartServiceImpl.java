@@ -1,5 +1,6 @@
 package com.ftn.isa.projekat.purchases.purchasesCore.shoppingCart.service;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -118,7 +119,7 @@ public class ShoppingCartServiceImpl implements IShoppingCartService{
 				
 			reservationForChange.get().setCarReservationId(reservation.getCarReservationId());
 			reservationForChange.get().setUserId(reservation.getUserId());
-			
+			reservationForChange.get().setPrice(reservation.getPrice());
 			
 			
 			cartRepository.save(reservationForChange.get());
@@ -148,7 +149,20 @@ public class ShoppingCartServiceImpl implements IShoppingCartService{
 			
 			CarReservationDTO carReservationToSave = servicesProxy.addReservation(carReservation);
 			
+			//Calclulating price for carResercation
+			
+			long numberOfDaysOfReservation = Duration.between(carReservationToSave.getDateFrom().atStartOfDay(), carReservationToSave.getDateTo().atStartOfDay()).toDays();
+			
+			Double price = (double) (numberOfDaysOfReservation * carReservationToSave.getReservedCar().getRentPrice());
+			
+			//On that price we give 5% off 
+			
+			price = price * 0.95;
+			
+			
+			
 			reservation.get().setCarReservationId(carReservationToSave.getId());
+			reservation.get().setPrice(reservation.get().getPrice() + price);
 			
 			cartRepository.save(reservation.get());
 			
@@ -177,7 +191,20 @@ public class ShoppingCartServiceImpl implements IShoppingCartService{
 				
 				//car reservation is deleted, so we can continue
 				
+				//Also we need to subtract price of final reservation with price of deleted car reservation
+				//Calclulating price for carResercation
+				
+				long numberOfDaysOfReservation = Duration.between(deletedReservation.getDateFrom().atStartOfDay(), deletedReservation.getDateTo().atStartOfDay()).toDays();
+				
+				Double price = (double) (numberOfDaysOfReservation * deletedReservation.getReservedCar().getRentPrice());
+				
+				//On that price we give 5% off 
+				
+				price = price * 0.95;
+				
+				
 				reservation.get().setCarReservationId(null);
+				reservation.get().setPrice(reservation.get().getPrice() - price);
 				
 				cartRepository.save(reservation.get());
 				

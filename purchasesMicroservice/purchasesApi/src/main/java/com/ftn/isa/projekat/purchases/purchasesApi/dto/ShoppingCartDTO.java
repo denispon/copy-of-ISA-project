@@ -15,4 +15,5 @@ public class ShoppingCartDTO {
 	
 	private Long carReservationId;
 
+	private Double price;
 }

@@ -32,4 +32,8 @@ public class Reservation {
 	private Long carReservationId;
 	
 	
+	@Column (name = "price" , nullable = false)
+	private Double price;
+	
+	
 }

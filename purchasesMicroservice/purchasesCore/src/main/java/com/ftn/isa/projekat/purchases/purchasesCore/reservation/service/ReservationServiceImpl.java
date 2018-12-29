@@ -79,9 +79,6 @@ public class ReservationServiceImpl implements IReservationService {
 		
 		Optional<Reservation> reservationToDelete = reservationRepository.findById(id);
 		
-		
-		
-		
 		if( reservationToDelete.isPresent() ) {
 			
 		
@@ -104,7 +101,7 @@ public class ReservationServiceImpl implements IReservationService {
 				
 			reservationForChange.get().setCarReservationId(reservation.getCarReservationId());
 			reservationForChange.get().setUserId(reservation.getUserId());
-			
+			reservationForChange.get().setPrice(reservation.getPrice());
 			
 			
 			reservationRepository.save(reservationForChange.get());

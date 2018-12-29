@@ -15,7 +15,7 @@ public class ReservationDTO {
 	
 	private Long carReservationId;
 	
-	
+	private Double price;
 	
 	
 }

@@ -14,6 +14,7 @@ public class DTOReservationConverter {
 		dto.setCarReservationId(bean.getCarReservationId());
 		dto.setId(bean.getId());
 		dto.setUserId(bean.getUserId());
+		dto.setPrice(bean.getPrice());
 		
 		return dto;
 		
@@ -26,6 +27,7 @@ public class DTOReservationConverter {
 		bean.setCarReservationId(dto.getCarReservationId());
 		bean.setId(dto.getId());
 		bean.setUserId(dto.getUserId());
+		bean.setPrice(dto.getPrice());
 		
 		return bean;
 	}
