@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ftn.isa.projekat.purchases.purchasesApi.dto.ShoppingCartDTO;
 import com.ftn.isa.projekat.purchases.purchasesCore.shoppingCart.service.IShoppingCartService;
+import com.ftn.isa.projekat.rentACar.rentACarApi.dto.CarReservationDTO;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -29,10 +30,6 @@ public class ShoppingCartController {
 
 	@Autowired
 	IShoppingCartService cartService;
-	
-	
-	
-	
 	
 	@GetMapping("/{id}")
 	@ApiOperation( value = "Finds one reservation from shopping cart.", notes = "Returns found reservation from shopping cart.", httpMethod="GET")
@@ -93,5 +90,46 @@ public class ShoppingCartController {
 	
 	    return ( reservationToEdit.getId() != null )? new ResponseEntity<ShoppingCartDTO>(reservationToEdit,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
+
+	
+	
+	@PutMapping("/addCarReservation/{id}")
+	@ApiOperation( value= "Add car reservation to shopping cart", notes = "Returns the reservation from shopping cart being changed", httpMethod="PUT")
+	@ApiResponses( value = { 
+			 @ApiResponse( code = 200, message ="OK"),
+			 @ApiResponse( code = 400, message ="Bad Request")})
+	public ResponseEntity<ShoppingCartDTO> addCarReservation(@PathVariable("id") Long id, @RequestBody CarReservationDTO carReservation){
 		
+		ShoppingCartDTO reservation = cartService.addCarReservation(id, carReservation);
+		
+	    return ( reservation.getId() != null )? new ResponseEntity<ShoppingCartDTO>(reservation,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	}	
+	
+	@DeleteMapping("/deleteCarReservation/{id}")
+	@ApiOperation( value = "Delete a car reservation from shopping cart.", notes = "Returns the reservation of deleted car reservation from shopping cart", httpMethod="DELETE")
+	@ApiResponses( value = { 
+			 @ApiResponse( code = 200, message ="OK"),
+			 @ApiResponse( code = 404, message ="Not Found")})	
+	public ResponseEntity<ShoppingCartDTO> deleteCarReservation(@PathVariable("id") Long id){
+		
+		ShoppingCartDTO reservation = cartService.deleteCarReservation(id);
+		
+	    return ( reservation.getId() != null )? new ResponseEntity<ShoppingCartDTO>(reservation,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+	}
+	
+	
+	@PostMapping("/{id}")
+	@ApiOperation( value = "Create a final reservation when user confirm reservation from shopping cart.", notes = "Returns the reservation being deleted from shopping cart.", httpMethod="POST", produces = "application/json", consumes = "application/json" )
+	@ApiResponses( value = {
+					@ApiResponse( code = 201 , message = "Created"),
+					@ApiResponse( code = 400, message= "Bad request")
+	})
+	public ResponseEntity<ShoppingCartDTO> confirmReservation(@PathVariable("id") Long id){
+		
+		ShoppingCartDTO movedReservation = cartService.confirmReservation(id);
+
+	    return ( movedReservation.getId() != null )? new ResponseEntity<ShoppingCartDTO>(movedReservation,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+	}
 }
