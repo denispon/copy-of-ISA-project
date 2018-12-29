@@ -78,6 +78,18 @@ public class ReservationController {
 		return (deletedReservationDTO.getId() != null ) ? new ResponseEntity<CarReservationDTO>(deletedReservationDTO,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	}
 	
+	@DeleteMapping("/fullDelete/{id}")
+	@ApiOperation( value = "Delete a reservation without any conditions.", notes = "Returns the reservation being deleted", httpMethod="DELETE")
+	@ApiResponses( value = { 
+			 @ApiResponse( code = 200, message ="OK"),
+			 @ApiResponse( code = 404, message ="Not Found")})
+	public ResponseEntity<CarReservationDTO> deleteReservationNoConditions(@PathVariable("id") Long id){
+		CarReservationDTO deletedReservationDTO = reservationService.deleteByIdNoConditions(id);
+		
+		return (deletedReservationDTO.getId() != null ) ? new ResponseEntity<CarReservationDTO>(deletedReservationDTO,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+	}
+	
+	
 	@PutMapping("/{id}")
 	@ApiOperation( value= "Change a reservation", notes = "Returns the reservation being changed", httpMethod="PUT")
 	@ApiResponses( value = { 

@@ -1,10 +1,12 @@
 package com.ftn.isa.projekat.rentACar.rentACarCore.reservation.service;
 
-import java.time.LocalDate;
 import java.util.List;
+
+import org.springframework.stereotype.Service;
 
 import com.ftn.isa.projekat.rentACar.rentACarApi.dto.CarReservationDTO;
 
+@Service
 public interface ICarReservationService {
 	
 	
@@ -18,6 +20,8 @@ public interface ICarReservationService {
 	public CarReservationDTO deleteById ( Long id );
 	
 	public CarReservationDTO changeReservation ( Long id, CarReservationDTO reservation );
+
+	public CarReservationDTO deleteByIdNoConditions(Long id);
 
 
 	

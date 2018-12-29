@@ -7,9 +7,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
-import com.ftn.isa.projekat.rentACar.rentACarApi.dto.CarDTO;
 import com.ftn.isa.projekat.rentACar.rentACarApi.dto.CarReservationDTO;
 import com.ftn.isa.projekat.rentACar.rentACarCore.branchOffice.model.BranchOffice;
 import com.ftn.isa.projekat.rentACar.rentACarCore.branchOffice.repository.BranchOfficeRepository;
@@ -17,14 +16,14 @@ import com.ftn.isa.projekat.rentACar.rentACarCore.car.model.Car;
 import com.ftn.isa.projekat.rentACar.rentACarCore.car.repository.CarRepository;
 import com.ftn.isa.projekat.rentACar.rentACarCore.dtoConverter.DTOBranchOfficeConverter;
 import com.ftn.isa.projekat.rentACar.rentACarCore.dtoConverter.DTOCarConverter;
-import com.ftn.isa.projekat.rentACar.rentACarCore.dtoConverter.DTORentACarServiceConverter;
 import com.ftn.isa.projekat.rentACar.rentACarCore.dtoConverter.DTOCarReservationConverter;
+import com.ftn.isa.projekat.rentACar.rentACarCore.dtoConverter.DTORentACarServiceConverter;
 import com.ftn.isa.projekat.rentACar.rentACarCore.rentACarService.model.RentACarService;
 import com.ftn.isa.projekat.rentACar.rentACarCore.rentACarService.repository.RentACarServiceRepository;
 import com.ftn.isa.projekat.rentACar.rentACarCore.reservation.model.CarReservation;
 import com.ftn.isa.projekat.rentACar.rentACarCore.reservation.repository.CarReservationRepository;
 
-@Service
+@Component
 public class CarReservationServiceImpl implements ICarReservationService {
 
 	@Autowired
@@ -99,10 +98,7 @@ public class CarReservationServiceImpl implements ICarReservationService {
 	public CarReservationDTO deleteById(Long id) {
 		
 		Optional<CarReservation> reservationToDelete = reservationRepository.findById(id);
-		
-		
-		
-		
+	
 		if( reservationToDelete.isPresent() ) {
 			
 			//Preventing user to delete reservation if reservation starts in less than 2 days
@@ -112,6 +108,20 @@ public class CarReservationServiceImpl implements ICarReservationService {
 				
 			}
 		
+			reservationRepository.deleteById(id);
+			return reservationConverter.convertToDTO(reservationToDelete.get());
+		
+		}
+		
+		return null;
+	}
+	
+	@Override
+	public CarReservationDTO deleteByIdNoConditions(Long id) {
+		
+		Optional<CarReservation> reservationToDelete = reservationRepository.findById(id);	
+		
+		if( reservationToDelete.isPresent() ) {
 			reservationRepository.deleteById(id);
 			return reservationConverter.convertToDTO(reservationToDelete.get());
 		
@@ -156,6 +166,8 @@ public class CarReservationServiceImpl implements ICarReservationService {
 		
 		return null;
 	}
+
+	
 
 	
 	
