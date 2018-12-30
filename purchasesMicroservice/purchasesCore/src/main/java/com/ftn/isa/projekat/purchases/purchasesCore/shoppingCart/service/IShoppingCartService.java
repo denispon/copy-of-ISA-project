@@ -26,4 +26,6 @@ public interface IShoppingCartService {
 
 	public ShoppingCartDTO confirmReservation(Long id);
 
+	public ShoppingCartDTO addBonusPointsToReservation(Long id, int bonusPoints);
+
 }

@@ -11,6 +11,10 @@ import org.springframework.stereotype.Component;
 
 import com.ftn.isa.projekat.purchases.purchasesApi.dto.ReservationDTO;
 import com.ftn.isa.projekat.purchases.purchasesApi.dto.ShoppingCartDTO;
+import com.ftn.isa.projekat.purchases.purchasesCore.bonusPoints.model.BonusPoints;
+import com.ftn.isa.projekat.purchases.purchasesCore.bonusPoints.repository.BonusPointsRepository;
+import com.ftn.isa.projekat.purchases.purchasesCore.bonusPointsDiscounts.model.BonusPointsDiscounts;
+import com.ftn.isa.projekat.purchases.purchasesCore.bonusPointsDiscounts.repository.BonusPointsDiscountRepository;
 import com.ftn.isa.projekat.purchases.purchasesCore.converter.DTOReservationConverter;
 import com.ftn.isa.projekat.purchases.purchasesCore.converter.DTOShoppingCartConverter;
 import com.ftn.isa.projekat.purchases.purchasesCore.reservation.model.Reservation;
@@ -28,6 +32,10 @@ public class ShoppingCartServiceImpl implements IShoppingCartService{
 	
 	@Autowired
 	ShoppingCartRepository cartRepository;
+	@Autowired
+	BonusPointsRepository bonusPointsRepository;
+	@Autowired
+	BonusPointsDiscountRepository discountRepository;
 	
 	@Autowired
 	DTOShoppingCartConverter  cartConverter;
@@ -93,9 +101,6 @@ public class ShoppingCartServiceImpl implements IShoppingCartService{
 	public ShoppingCartDTO deleteById(Long id) {
 		
 		Optional<ShoppingCart> reservationToDelete = cartRepository.findById(id);
-		
-		
-		
 		
 		if( reservationToDelete.isPresent() ) {
 			
@@ -248,6 +253,51 @@ public class ShoppingCartServiceImpl implements IShoppingCartService{
 		}
 		
 		return new ShoppingCartDTO();
+	}
+
+	@Override
+	public ShoppingCartDTO addBonusPointsToReservation(Long id, int bonusPoints) {
+		
+		/*
+		 * First we are looking if there is shopping cart reservation at "id", then from information of user in
+		 * reservation we are finding his bonus points. With that bonus points we are looking if user has enough
+		 * bonus points for action. If there is enough bonus points, we are looking if there is discount for 
+		 * that number of bonus points. If is these discount precentage too, we are decreasing total price with it.
+		 * 
+		 *  */
+		Optional<ShoppingCart> tempReservation = cartRepository.findById(id);
+		
+		if(tempReservation.isPresent()) {
+			
+			Optional<BonusPoints> bonusPointsByUser = bonusPointsRepository.findOneByUserId(tempReservation.get().getUserId());
+			
+			if(bonusPointsByUser.get().getPoints() >= bonusPoints) {
+				
+				Optional<BonusPointsDiscounts> discount =  discountRepository.findOneByPoints(bonusPoints);
+				
+				if(discount.isPresent()) {
+					
+					//everything is fine now we need to decrease final price.
+					
+					Double newPrice = tempReservation.get().getPrice();
+					
+					newPrice = newPrice * ((100-discount.get().getDiscount())/100);
+					
+					tempReservation.get().setPrice(newPrice);
+					
+					cartRepository.save(tempReservation.get());
+					
+					return cartConverter.convertToDTO(tempReservation.get());
+					
+				}
+				
+			}
+			
+		}
+		
+		return new ShoppingCartDTO();
+		
+		
 	}
 	
 	

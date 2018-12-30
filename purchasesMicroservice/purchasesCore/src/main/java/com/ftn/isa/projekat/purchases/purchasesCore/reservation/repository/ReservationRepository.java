@@ -6,5 +6,7 @@ import com.ftn.isa.projekat.purchases.purchasesCore.reservation.model.Reservatio
 
 
 public interface ReservationRepository extends JpaRepository < Reservation , Long > {
+	
+	
 
 }

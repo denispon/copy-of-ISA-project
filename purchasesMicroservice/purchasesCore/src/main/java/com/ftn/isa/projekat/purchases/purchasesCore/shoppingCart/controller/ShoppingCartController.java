@@ -132,4 +132,18 @@ public class ShoppingCartController {
 	    return ( movedReservation.getId() != null )? new ResponseEntity<ShoppingCartDTO>(movedReservation,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
 	}
+	
+	
+	@PutMapping("/addBonusPoints/{id}/{bonusPoints}")
+	@ApiOperation( value= "Decreasing final price of reservation by discount of number points", notes = "Returns the reservation from shopping cart being changed", httpMethod="PUT")
+	@ApiResponses( value = { 
+			 @ApiResponse( code = 200, message ="OK"),
+			 @ApiResponse( code = 400, message ="Bad Request")})
+	public ResponseEntity<ShoppingCartDTO> addBonusPointsToReservation(@PathVariable("id") Long id, @PathVariable("bonusPoints") int bonusPoints){
+		
+		ShoppingCartDTO changedReservation = cartService.addBonusPointsToReservation(id, bonusPoints);
+		
+	    return ( changedReservation.getId() != null )? new ResponseEntity<ShoppingCartDTO>(changedReservation,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			
+	}
 }
