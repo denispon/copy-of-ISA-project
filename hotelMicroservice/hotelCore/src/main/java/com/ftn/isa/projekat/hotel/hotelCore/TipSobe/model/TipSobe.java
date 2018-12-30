@@ -2,6 +2,7 @@ package com.ftn.isa.projekat.hotel.hotelCore.TipSobe.model;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,16 +13,18 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.springframework.boot.jackson.JsonComponent;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ftn.isa.projekat.hotel.hotelCore.HotelskaSoba.model.HotelskaSoba;
 import com.ftn.isa.projekat.hotel.hotelCore.VanredneCeneNocenja.model.VanredneCeneNocenja;
 
 import lombok.Data;
 
+@JsonComponent
 @Entity
 @Table (name="tip_sobe")
 @Data 
-
 public class TipSobe {
 
 	@Id
@@ -46,7 +49,7 @@ public class TipSobe {
 	private List<HotelskaSoba> hotelskaSoba;
 	
 	@JsonIgnore
-	@OneToOne ()
-	@JoinColumn (name="vanredne_cene_nocenja_id",nullable = false)
+	@OneToOne (cascade=CascadeType.ALL)
+	@JoinColumn (name="vanredneCeneNocenja_tipSobe", nullable = false)
 	private VanredneCeneNocenja vanredneCeneNocenja_tipSobe;
 }

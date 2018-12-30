@@ -1,10 +1,13 @@
 package com.ftn.isa.projekat.hotel.hotelCore.dtoConverter;
 
+import org.springframework.boot.jackson.JsonComponent;
 import org.springframework.stereotype.Component;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ftn.isa.projekat.hotel.hotelApi.dto.HotelDTO;
 import com.ftn.isa.projekat.hotel.hotelCore.Hotel.model.Hotel;
 
+@JsonComponent
 @Component
 public class DTOHotelConverter {
 	public HotelDTO convertToDTO(Hotel hotel) {

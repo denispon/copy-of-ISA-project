@@ -83,7 +83,7 @@ public class TipSobeService implements ITipSobeService{
 			tip.get().setPansionPrice(tipDTO.getPansionPrice());
 			tip.get().setPolupansionPrice(tipDTO.getPolupansionPrice());
 			tip.get().setRoomType(tipDTO.getRoomType());
-			tip.get().setVanredneCeneNocenja_tipSobe(vanredneCeneConverter.convertFromDTO(tipDTO.getVanredneCene()));
+			tip.get().setVanredneCeneNocenja_tipSobe(vanredneCeneConverter.convertFromDTO(tipDTO.getVanredneCeneNocenja_tipSobe()));
 			
 			tipSobeRepository.save(tip.get());
 			

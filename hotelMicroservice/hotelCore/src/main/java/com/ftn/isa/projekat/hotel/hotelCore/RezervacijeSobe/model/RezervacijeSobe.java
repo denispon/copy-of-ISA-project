@@ -12,11 +12,14 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.springframework.boot.jackson.JsonComponent;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ftn.isa.projekat.hotel.hotelCore.HotelskaSoba.model.HotelskaSoba;
 
 import lombok.Data;
 
+@JsonComponent
 @Entity
 @Table (name="rezervacija_sobe")
 @Data 

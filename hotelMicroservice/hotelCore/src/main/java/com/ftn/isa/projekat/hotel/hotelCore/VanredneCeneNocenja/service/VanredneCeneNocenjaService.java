@@ -79,7 +79,7 @@ public class VanredneCeneNocenjaService implements IVanredneCeneNocenjaService{
 			cena.get().setDateUntil(cenaDTO.getDateUntil());
 			cena.get().setIsItCheaper(cenaDTO.getIsItCheaper());
 			cena.get().setPriceChange(cenaDTO.getPriceChange());
-			cena.get().setHotel_vandredneCeneNocenja(hotelConverter.convertFromDTO(cenaDTO.getHotel()));
+			cena.get().setHotel_vandredneCeneNocenja(hotelConverter.convertFromDTO(cenaDTO.getHotel_vandredneCeneNocenja()));
 			
 			vanredneCeneRepository.save(cena.get());
 			

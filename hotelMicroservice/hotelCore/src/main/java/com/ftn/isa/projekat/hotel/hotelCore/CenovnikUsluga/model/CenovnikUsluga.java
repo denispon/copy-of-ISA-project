@@ -12,12 +12,15 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.springframework.boot.jackson.JsonComponent;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ftn.isa.projekat.hotel.hotelCore.DodatneUsluge.model.DodatneUsluge;
 import com.ftn.isa.projekat.hotel.hotelCore.Hotel.model.Hotel;
 
 import lombok.Data;
 
+@JsonComponent
 @Entity
 @Table (name="cenovnik_usluga")
 @Data 

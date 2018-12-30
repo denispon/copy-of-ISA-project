@@ -1,14 +1,13 @@
 package com.ftn.isa.projekat.hotel.hotelCore.dtoConverter;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.jackson.JsonComponent;
 import org.springframework.stereotype.Component;
 
-import com.ftn.isa.projekat.hotel.hotelApi.dto.HotelskaSobaDTO;
 import com.ftn.isa.projekat.hotel.hotelApi.dto.TipSobeDTO;
-import com.ftn.isa.projekat.hotel.hotelCore.Hotel.model.Hotel;
-import com.ftn.isa.projekat.hotel.hotelCore.HotelskaSoba.model.HotelskaSoba;
 import com.ftn.isa.projekat.hotel.hotelCore.TipSobe.model.TipSobe;
 
+@JsonComponent
 @Component
 public class DTOTipSobeConverter {
 
@@ -23,7 +22,7 @@ public class DTOTipSobeConverter {
 		dto.setPansionPrice(tip.getPansionPrice());
 		dto.setPolupansionPrice(tip.getPolupansionPrice());
 		dto.setRoomType(tip.getRoomType());
-		dto.setVanredneCene(vanredneConverter.convertToDTO(tip.getVanredneCeneNocenja_tipSobe()));
+		dto.setVanredneCeneNocenja_tipSobe(vanredneConverter.convertToDTO(tip.getVanredneCeneNocenja_tipSobe()));
 		return dto;
 		
 	}
@@ -34,7 +33,7 @@ public class DTOTipSobeConverter {
 		bean.setPansionPrice(tipDTO.getNocenjePrice());
 		bean.setPolupansionPrice(tipDTO.getPolupansionPrice());
 		bean.setRoomType(tipDTO.getRoomType());
-		bean.setVanredneCeneNocenja_tipSobe(vanredneConverter.convertFromDTO(tipDTO.getVanredneCene()));
+		bean.setVanredneCeneNocenja_tipSobe(vanredneConverter.convertFromDTO(tipDTO.getVanredneCeneNocenja_tipSobe()));
 		return bean;
 		
 	}

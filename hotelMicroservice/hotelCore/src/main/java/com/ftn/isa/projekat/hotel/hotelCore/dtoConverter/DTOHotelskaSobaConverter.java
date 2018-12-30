@@ -1,13 +1,14 @@
 package com.ftn.isa.projekat.hotel.hotelCore.dtoConverter;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.jackson.JsonComponent;
 import org.springframework.stereotype.Component;
 
 import com.ftn.isa.projekat.hotel.hotelApi.dto.HotelDTO;
 import com.ftn.isa.projekat.hotel.hotelApi.dto.HotelskaSobaDTO;
-import com.ftn.isa.projekat.hotel.hotelCore.Hotel.model.Hotel;
 import com.ftn.isa.projekat.hotel.hotelCore.HotelskaSoba.model.HotelskaSoba;
 
+@JsonComponent
 @Component
 public class DTOHotelskaSobaConverter {
 	
@@ -22,8 +23,8 @@ public class DTOHotelskaSobaConverter {
 		dto.setId(soba.getId());
 		dto.setFloor(soba.getFloor());
 		dto.setReserved(soba.getReserved());
-		dto.setHotel(hotelConverter.convertToDTO(soba.getHotel_hotelskeSobe()));
-		dto.setTipSobe(tipSobeConverter.convertToDTO(soba.getTipSobe_hotelskeSobe()));
+		dto.setHotel_hotelskeSobe(hotelConverter.convertToDTO(soba.getHotel_hotelskeSobe()));
+		dto.setTipSobe_hotelskeSobe(tipSobeConverter.convertToDTO(soba.getTipSobe_hotelskeSobe()));
 		return dto;
 		
 	}
@@ -32,8 +33,8 @@ public class DTOHotelskaSobaConverter {
 		HotelskaSoba bean=new HotelskaSoba();
 		bean.setFloor(sobaDTO.getFloor());
 		bean.setReserved(sobaDTO.getReserved());
-		bean.setHotel_hotelskeSobe(hotelConverter.convertFromDTO(sobaDTO.getHotel()));
-		bean.setTipSobe_hotelskeSobe(tipSobeConverter.convertFromDTO(sobaDTO.getTipSobe()));
+		bean.setHotel_hotelskeSobe(hotelConverter.convertFromDTO(sobaDTO.getHotel_hotelskeSobe()));
+		bean.setTipSobe_hotelskeSobe(tipSobeConverter.convertFromDTO(sobaDTO.getTipSobe_hotelskeSobe()));
 		return bean;
 		
 	}

@@ -11,6 +11,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.springframework.boot.jackson.JsonComponent;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ftn.isa.projekat.hotel.hotelCore.CenovnikUsluga.model.CenovnikUsluga;
 import com.ftn.isa.projekat.hotel.hotelCore.HotelskaSoba.model.HotelskaSoba;
@@ -19,6 +21,7 @@ import com.ftn.isa.projekat.hotel.hotelCore.VanredneCeneNocenja.model.VanredneCe
 
 import lombok.Data;
 
+@JsonComponent
 @Entity
 @Table (name="hotel")
 @Data //postavlja gettere i settere

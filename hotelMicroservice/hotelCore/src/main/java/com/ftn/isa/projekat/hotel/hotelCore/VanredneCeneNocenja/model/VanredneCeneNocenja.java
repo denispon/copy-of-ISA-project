@@ -13,16 +13,18 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.springframework.boot.jackson.JsonComponent;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ftn.isa.projekat.hotel.hotelCore.Hotel.model.Hotel;
 import com.ftn.isa.projekat.hotel.hotelCore.TipSobe.model.TipSobe;
 
 import lombok.Data;
 
+@JsonComponent
 @Entity
 @Table (name="vanredne_cene_nocenja")
 @Data 
-
 public class VanredneCeneNocenja {
 
 	@Id
@@ -44,7 +46,7 @@ public class VanredneCeneNocenja {
 	
 	@JsonIgnore
 	@ManyToOne (cascade=CascadeType.ALL)
-	@JoinColumn (name="hotel_id",nullable = false)
+	@JoinColumn (name="hotel_vandredneCeneNocenja", nullable = false)
 	private Hotel hotel_vandredneCeneNocenja;
 	
 	@JsonIgnore

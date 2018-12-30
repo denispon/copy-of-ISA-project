@@ -89,8 +89,8 @@ public class HotelskaSobaService implements IHotelskaSobaService{
 		if(soba.isPresent() && sobaDTO!=null) {
 			soba.get().setFloor(sobaDTO.getFloor());
 			soba.get().setReserved(sobaDTO.getReserved());
-			soba.get().setHotel_hotelskeSobe(hotelConverter.convertFromDTO(sobaDTO.getHotel()));
-			soba.get().setTipSobe_hotelskeSobe(tipSobeConverter.convertFromDTO(sobaDTO.getTipSobe()));
+			soba.get().setHotel_hotelskeSobe(hotelConverter.convertFromDTO(sobaDTO.getHotel_hotelskeSobe()));
+			soba.get().setTipSobe_hotelskeSobe(tipSobeConverter.convertFromDTO(sobaDTO.getTipSobe_hotelskeSobe()));
 
 			hotelskaSobaRepository.save(soba.get());
 			
