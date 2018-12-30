@@ -35,7 +35,7 @@ public class CarRatingController {
 	@ApiOperation( value = "Finds one car rating.", notes = "Returns found car rating.", httpMethod="GET")
 	@ApiResponses( value = { @ApiResponse( code = 200, message = "OK"),
 							 @ApiResponse( code = 404, message = "Not Found")})
-	public ResponseEntity<CarRatingDTO> getOneBranchOfficeById (@PathVariable("id") Long id){
+	public ResponseEntity<CarRatingDTO> getOneCarRatingById (@PathVariable("id") Long id){
 		
 		CarRatingDTO carRatingDto = carRatingService.findOneById(id);
 		
