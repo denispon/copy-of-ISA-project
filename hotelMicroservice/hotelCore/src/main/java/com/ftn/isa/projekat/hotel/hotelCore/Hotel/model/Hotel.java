@@ -2,6 +2,7 @@ package com.ftn.isa.projekat.hotel.hotelCore.Hotel.model;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -21,7 +22,7 @@ import com.ftn.isa.projekat.hotel.hotelCore.VanredneCeneNocenja.model.VanredneCe
 
 import lombok.Data;
 
-@JsonComponent
+//@JsonComponent
 @Entity
 @Table (name="hotel")
 @Data //postavlja gettere i settere
@@ -42,19 +43,19 @@ public class Hotel {
 	private String promotionalDescription;
 	
 	@JsonIgnore
-	@OneToMany (mappedBy="hotel_prihodiHotela")
+	@OneToMany (mappedBy="hotel_prihodiHotela", cascade=CascadeType.ALL)
 	private List<PrihodiHotela> prihodiHotelaList;
 	
 	@JsonIgnore
-	@OneToMany (mappedBy="hotel_hotelskeSobe")
+	@OneToMany (mappedBy="hotel_hotelskeSobe", cascade=CascadeType.ALL)
 	private List<HotelskaSoba> sobeHotelaList;
 	
 	@JsonIgnore
-	@OneToMany (mappedBy="hotel_vandredneCeneNocenja")
+	@OneToMany (mappedBy="hotel_vandredneCeneNocenja", cascade=CascadeType.ALL)
 	private List<VanredneCeneNocenja> vanredneCeneNocenjaList;
 	
 	@JsonIgnore
-	@OneToOne (mappedBy="hotel_cenovnikUsluga")
+	@OneToOne (mappedBy="hotel_cenovnikUsluga", cascade=CascadeType.ALL)
 	private CenovnikUsluga cenovnikUsluga;
 	
 

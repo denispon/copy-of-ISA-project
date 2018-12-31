@@ -45,13 +45,13 @@ public class HotelskaSoba {
 	private List<RezervacijeSobe> rezervisaneSobeList;
 	
 	@JsonIgnore
-	@ManyToOne (cascade=CascadeType.ALL)
-	@JoinColumn (name="hotel_hotelskeSobe",nullable = false)
+	@ManyToOne (/*cascade=CascadeType.ALL*/)
+	@JoinColumn (name="hotel_hotelskeSobe", nullable = false)
 	private Hotel hotel_hotelskeSobe;
 	
 	@JsonIgnore
-	@ManyToOne (cascade=CascadeType.ALL)
-	@JoinColumn (name="tipSobe_hotelskeSobe",nullable = false)
+	@ManyToOne (/*cascade=CascadeType.ALL*/)
+	@JoinColumn (name="tipSobe_hotelskeSobe", nullable = false)
 	private TipSobe tipSobe_hotelskeSobe;
 
 }
