@@ -17,5 +17,5 @@ public class ReservationDTO {
 	
 	private Double price;
 	
-	
+	private InvitationCardDTO invitationCard;
 }

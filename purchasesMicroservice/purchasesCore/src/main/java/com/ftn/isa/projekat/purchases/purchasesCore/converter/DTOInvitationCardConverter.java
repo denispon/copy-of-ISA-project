@@ -1,0 +1,44 @@
+package com.ftn.isa.projekat.purchases.purchasesCore.converter;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import com.ftn.isa.projekat.purchases.purchasesApi.dto.InvitationCardDTO;
+import com.ftn.isa.projekat.purchases.purchasesCore.invitationCard.model.InvitationCard;
+
+@Component
+public class DTOInvitationCardConverter {
+	
+	@Autowired
+	private DTOReservationConverter reservationConverter;
+	
+	public InvitationCardDTO convertToDTO (InvitationCard bean) {
+		
+		InvitationCardDTO dto = new InvitationCardDTO();
+		
+		dto.setId(bean.getId());
+		dto.setInvitedUserId(bean.getInvitedUserId());
+		dto.setReservation(reservationConverter.convertToDTO(bean.getReservation()));
+		dto.setStatus(bean.isStatus());
+		dto.setUserWhoCreatedId(bean.getUserWhoCreatedId());
+		
+		
+		
+		return dto;
+		
+	}
+	
+	public InvitationCard convertFromDTO (InvitationCardDTO dto) {
+		
+		InvitationCard bean = new InvitationCard();
+		
+		bean.setId(dto.getId());
+		bean.setInvitedUserId(dto.getInvitedUserId());
+		bean.setReservation(reservationConverter.convertFromDTO(dto.getReservation()));
+		bean.setStatus(dto.isStatus());
+		bean.setUserWhoCreatedId(dto.getUserWhoCreatedId());
+		
+		return bean;
+	}
+
+}

@@ -1,11 +1,15 @@
 package com.ftn.isa.projekat.purchases.purchasesCore.reservation.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import com.ftn.isa.projekat.purchases.purchasesCore.invitationCard.model.InvitationCard;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -34,6 +38,10 @@ public class Reservation {
 	
 	@Column (name = "price" , nullable = false)
 	private Double price;
+	
+	@OneToOne( cascade = CascadeType.ALL,
+			   mappedBy = "reservation")
+    private InvitationCard invitation;
 	
 	
 }
