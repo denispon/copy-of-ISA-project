@@ -21,7 +21,7 @@ import com.ftn.isa.projekat.hotel.hotelCore.TipSobe.model.TipSobe;
 
 import lombok.Data;
 
-@JsonComponent
+//@JsonComponent
 @Entity
 @Table (name="vanredne_cene_nocenja")
 @Data 
@@ -45,11 +45,11 @@ public class VanredneCeneNocenja {
 	private Date dateUntil;
 	
 	@JsonIgnore
-	@ManyToOne (cascade=CascadeType.ALL)
+	@ManyToOne (/*cascade=CascadeType.ALL*/)
 	@JoinColumn (name="hotel_vandredneCeneNocenja", nullable = false)
 	private Hotel hotel_vandredneCeneNocenja;
 	
 	@JsonIgnore
-	@OneToOne (mappedBy="vanredneCeneNocenja_tipSobe")
+	@OneToOne (mappedBy="vanredneCeneNocenja_tipSobe", cascade=CascadeType.ALL)
 	private TipSobe tipSobe;
 }
