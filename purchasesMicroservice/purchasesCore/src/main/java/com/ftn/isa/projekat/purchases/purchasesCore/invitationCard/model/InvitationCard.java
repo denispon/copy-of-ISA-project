@@ -36,7 +36,6 @@ public class InvitationCard {
 	private boolean status;
 
 	@OneToOne()
-	@Column (name = "reservation", nullable = true)
     private Reservation reservation;
 	
 	
