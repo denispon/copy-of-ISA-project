@@ -6,5 +6,5 @@ import com.ftn.isa.projekat.avioCompany.avioCompanyCore.AvioCompany.model.AvioCo
 
 public interface AvioCompanyRepository extends JpaRepository<AvioCompany, Long>
 {
-
+	
 }

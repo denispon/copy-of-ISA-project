@@ -35,5 +35,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="C:/Program Files/Java/jdk1.8.0_191"/>
+	<classpathentry kind="src" path="/avioCompanyApi"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

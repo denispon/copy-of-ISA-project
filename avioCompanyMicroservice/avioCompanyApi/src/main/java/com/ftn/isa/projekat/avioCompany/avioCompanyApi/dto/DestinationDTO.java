@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class DestinationDTO
 {
-	String startingPoint;
-	String finalPoint;
+	private Long id;
+	private String startingPoint;
+	private String finalPoint;
 }

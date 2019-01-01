@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class PlaceInPlaneDTO
 {
-	int serialNum;
-	boolean reserved;
+	private Long id;
+	private int serialNum;
+	private boolean reserved;
 }

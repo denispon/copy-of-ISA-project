@@ -1,6 +1,6 @@
 package com.ftn.isa.projekat.avioCompany.avioCompanyApi.dto;
 
-import java.util.Date;
+import java.sql.Date;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,9 +11,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class FlightDTO 
 {
-	Date takeOffTime;
-	Date landingTime;
-	Date flightTime;
-	int flightLength;
-	int numberOfTransfers; //broj presedanja
+	private Long id;
+	private Date takeOffTime;
+	private Date landingTime;
+	private int flightTime; //u satima
+	private float flightLength;
+	private int numberOfTransfers; //broj presedanja
 }

@@ -38,11 +38,11 @@ public class Flight
 	@Column (name = "take_off_date")
 	private Date takeOffDate; //poletanje
 	
-	@Column (name = "langing_date")
-	private Date langingDate; //sletanje
+	@Column (name = "landing_date")
+	private Date landingDate; //sletanje
 	
 	@Column (name = "traveling_time")
-	private Date travelingTime;
+	private int travelingTime;
 	
 	@Column (name = "traveling_distance")
 	private float travelingDistance;
@@ -76,7 +76,7 @@ public class Flight
 	 * List of tickets for flight
 	 */
 	@JsonIgnore
-	@OneToMany (mappedBy = "flightTicket")
+	@OneToMany (mappedBy = "flightTicket", cascade = CascadeType.ALL)
 	private List<Ticket> tickets;
 	
 	/*

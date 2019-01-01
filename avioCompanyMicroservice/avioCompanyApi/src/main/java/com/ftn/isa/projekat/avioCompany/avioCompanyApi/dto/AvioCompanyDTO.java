@@ -1,18 +1,27 @@
 package com.ftn.isa.projekat.avioCompany.avioCompanyApi.dto;
 
-import org.springframework.stereotype.Component;
+import java.util.List;
+
+import javax.print.attribute.standard.Destination;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class AvioCompanyDTO
 {
-	String name;
-	String address;
-	String promotionalDesc;
+	private Long id;
+	private String name;
+	private String address;
+	private String description;
+	
+	private List<Destination> companyDestinations;
+	
 	
 }

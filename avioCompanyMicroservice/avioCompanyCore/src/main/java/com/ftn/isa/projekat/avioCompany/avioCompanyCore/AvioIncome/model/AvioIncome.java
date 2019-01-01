@@ -32,21 +32,21 @@ public class AvioIncome
 	private Long id;
 	
 	@Column (name = "income")
-	private float income;
+	private int income;
 	
 	@Column (name = "income_date")
-	private Date incomeDate; //mozda treba da bude util.Date
+	private Date incomeDate;
 	
 	@Column (name = "tickets_number")
 	private int ticketsNumber;
 	
 	/*
-	 * Stores a income of all aviocompanies so far
+	 * Stores an ID for related AvioCompany
 	 */
 	@JsonIgnore
-	@ManyToOne (cascade = CascadeType.ALL)
-	@JoinColumn (name = "avio_company_id")
-	private AvioCompany avioCompanyIncome; //ovo je strani kljuc
+	@ManyToOne () 
+	@JoinColumn (name = "avio_company_id", nullable = false) //dodajemo strani kljuc u tabelu prihoda koja sarzi id kompanije za koju je vezan prihod
+	private AvioCompany companyId; //ovo je strani kljuc
 	//jedan prihod moze da ima samo jednu avio kompaniju
 	
 	

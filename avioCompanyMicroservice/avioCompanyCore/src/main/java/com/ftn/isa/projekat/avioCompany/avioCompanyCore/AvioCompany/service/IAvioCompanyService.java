@@ -2,8 +2,11 @@ package com.ftn.isa.projekat.avioCompany.avioCompanyCore.AvioCompany.service;
 
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
 import com.ftn.isa.projekat.avioCompany.avioCompanyApi.dto.AvioCompanyDTO;
 
+@Service
 public interface IAvioCompanyService
 {
 

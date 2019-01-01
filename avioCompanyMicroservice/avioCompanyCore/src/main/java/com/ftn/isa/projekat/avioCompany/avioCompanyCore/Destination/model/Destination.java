@@ -42,7 +42,7 @@ public class Destination
 	 */
 	@JsonIgnore
 	@OneToMany (mappedBy = "flightsDestination")
-	private List<Flight> listOfAvioCompanies;
+	private List<Flight> listOfFlights;
 	
 	/*
 	 * List of aviocompanies that uses these destinations

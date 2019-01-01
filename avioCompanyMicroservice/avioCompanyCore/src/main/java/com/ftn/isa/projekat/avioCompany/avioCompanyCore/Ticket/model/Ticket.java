@@ -3,6 +3,9 @@ package com.ftn.isa.projekat.avioCompany.avioCompanyCore.Ticket.model;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -10,6 +13,8 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.ftn.isa.projekat.avioCompany.avioCompanyCore.Flight.model.Flight;
+import com.ftn.isa.projekat.avioCompany.avioCompanyCore.PlaceInPlane.model.PlaceInPlane;
 
 import lombok.Data;
 
@@ -19,7 +24,8 @@ import lombok.Data;
 public class Ticket
 {
 	@Id
-	@Column (name = "id")
+	@Column(name = "id")
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
 	
 	@Column (name = "price")
@@ -34,13 +40,14 @@ public class Ticket
 	@JsonIgnore
 	@ManyToOne (cascade = CascadeType.ALL)
 	@JoinColumn (name = "flight_ticket")
-	private Ticket flightTicket;
+	private Flight flightTicket;
 	
 	/*
 	 * One place in plane eq exactly one ticket
 	 */
 	@JsonIgnore
-	@OneToOne 
-	private Ticket placeTicket;
+	@OneToOne (fetch = FetchType.LAZY)
+	@JoinColumn (name = "place_id")
+	private PlaceInPlane place;
 	
 }

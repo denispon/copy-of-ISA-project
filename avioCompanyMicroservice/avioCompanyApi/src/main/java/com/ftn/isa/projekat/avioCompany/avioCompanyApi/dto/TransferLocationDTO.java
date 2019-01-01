@@ -9,5 +9,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class TransferLocationDTO
 {
-	String nameOfCity;
+	private Long id;
+	private String nameOfCity;
 }
