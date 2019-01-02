@@ -47,7 +47,7 @@ public class CenovnikUsluga {
 	
 	@JsonIgnore
 	@OneToOne ()
-	@JoinColumn (name="hotel_id",nullable = false)
+	@JoinColumn (name="hotel_cenovnikUsluga",nullable = false)
 	private Hotel hotel_cenovnikUsluga;
 	
 	

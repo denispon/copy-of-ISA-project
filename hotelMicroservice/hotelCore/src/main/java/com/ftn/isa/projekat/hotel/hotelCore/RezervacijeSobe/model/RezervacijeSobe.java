@@ -45,7 +45,7 @@ public class RezervacijeSobe {
 	
 	@JsonIgnore
 	@ManyToOne (cascade=CascadeType.ALL)
-	@JoinColumn (name="hotelska_soba_id", nullable = false)
+	@JoinColumn (name="hotelskaSoba_rezervacijeSobe", nullable = false)
 	private HotelskaSoba hotelskaSoba_rezervacijeSobe;
 	
 }

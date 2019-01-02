@@ -6,6 +6,9 @@ import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
+import org.springframework.boot.jackson.JsonComponent;
+
+@JsonComponent
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -17,6 +20,6 @@ public class RezervacijeSobeDTO {
 	private Date dateFrom;
 	private Date dateUntil;
 	private int rating;
-	private HotelskaSobaDTO hotelskaSoba;
+	private HotelskaSobaDTO hotelskaSoba_rezervacijeSobe;
 	
 }
