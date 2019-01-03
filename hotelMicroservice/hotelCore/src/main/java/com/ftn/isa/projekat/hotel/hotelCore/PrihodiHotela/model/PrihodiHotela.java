@@ -42,7 +42,7 @@ public class PrihodiHotela {
 	
 	@JsonIgnore
 	@ManyToOne (cascade=CascadeType.ALL)
-	@JoinColumn (name="hotel_id",nullable = false)
+	@JoinColumn (name="hotel_prihodiHotela",nullable = false)
 	private Hotel hotel_prihodiHotela;
 	
 }
