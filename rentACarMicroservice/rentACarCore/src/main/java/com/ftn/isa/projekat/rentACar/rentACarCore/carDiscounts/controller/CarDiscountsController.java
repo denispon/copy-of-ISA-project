@@ -89,9 +89,9 @@ public class CarDiscountsController {
 			 @ApiResponse( code = 400, message ="Bad Request")})
 	public ResponseEntity<CarDiscountsDTO> changeDiscount (@PathVariable("id") Long id, @RequestBody CarDiscountsDTO discountDTO ){
 		
-		CarDiscountsDTO DiscountToEdit = discountService.changeDiscount(id, discountDTO);
+		CarDiscountsDTO discountToEdit = discountService.changeDiscount(id, discountDTO);
 	
-	    return ( DiscountToEdit.getId() != null )? new ResponseEntity<CarDiscountsDTO>(DiscountToEdit,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	    return ( discountToEdit.getId() != null )? new ResponseEntity<CarDiscountsDTO>(discountToEdit,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
 	
 

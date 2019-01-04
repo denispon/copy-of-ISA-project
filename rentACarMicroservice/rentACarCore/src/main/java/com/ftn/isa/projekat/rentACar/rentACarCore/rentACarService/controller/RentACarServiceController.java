@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ftn.isa.projekat.rentACar.rentACarApi.dto.BranchOfficeDTO;
 import com.ftn.isa.projekat.rentACar.rentACarApi.dto.RentACarServiceDTO;
 import com.ftn.isa.projekat.rentACar.rentACarCore.rentACarService.service.IRentACarServiceService;
 
@@ -98,7 +97,7 @@ public class RentACarServiceController {
 		
 		Integer sumOfIncomes = rentACarService.getSumOfIncomes(rentService,LocalDate.parse(dateFrom), LocalDate.parse(dateTo));
 		
-		return (sumOfIncomes != null) ? new ResponseEntity<Integer>(sumOfIncomes,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		return (sumOfIncomes != -1) ? new ResponseEntity<Integer>(sumOfIncomes,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
 	
 	

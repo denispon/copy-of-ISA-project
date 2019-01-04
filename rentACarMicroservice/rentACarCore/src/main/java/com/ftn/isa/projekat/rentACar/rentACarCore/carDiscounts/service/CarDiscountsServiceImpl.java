@@ -107,7 +107,7 @@ public class CarDiscountsServiceImpl  implements ICarDiscountsService{
 		
 		}
 		
-		return null;
+		return new CarDiscountsDTO();
 	}
 
 	@Override
@@ -156,7 +156,7 @@ public class CarDiscountsServiceImpl  implements ICarDiscountsService{
 			
 		}
 		
-		return null;
+		return new CarDiscountsDTO();
 	}
 
 	

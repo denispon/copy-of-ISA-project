@@ -4,7 +4,6 @@ package com.ftn.isa.projekat.rentACar.rentACarCore.config;
 import static com.google.common.base.Predicates.or;
 import static springfox.documentation.builders.PathSelectors.regex;
 
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -30,6 +29,7 @@ public class SwaggerConfig {
 		return or(regex("/api/rentacar/.*"), regex("/api/rentacar/.*"));
 	}
 
+	@SuppressWarnings("deprecation")
 	private ApiInfo apiInfo() {
 		return new ApiInfoBuilder().title("Rent a car microservice API")
 				.description("Rent a car microservice API reference for developers")

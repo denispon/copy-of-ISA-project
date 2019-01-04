@@ -78,7 +78,7 @@ public class CarTypeServiceImpl implements ICarTypeService {
 		
 		}
 		
-		return null;
+		return new CarTypeDTO();
 		
 	}
 
@@ -101,7 +101,7 @@ public class CarTypeServiceImpl implements ICarTypeService {
 			
 			return carType;
 		}
-		return null;
+		return new CarTypeDTO();
 	}
 	
 	

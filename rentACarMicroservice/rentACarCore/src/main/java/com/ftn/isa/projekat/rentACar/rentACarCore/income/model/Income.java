@@ -1,9 +1,7 @@
 package com.ftn.isa.projekat.rentACar.rentACarCore.income.model;
 
-import java.sql.Date;
 import java.time.LocalDate;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

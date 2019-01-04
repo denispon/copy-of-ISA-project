@@ -1,11 +1,18 @@
 package com.ftn.isa.projekat.rentACar.rentACarCore.dtoConverter;
 
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.ftn.isa.projekat.rentACar.rentACarApi.dto.CarTypeDTO;
 import com.ftn.isa.projekat.rentACar.rentACarCore.carType.model.CarType;
+import com.ftn.isa.projekat.rentACar.rentACarCore.carType.repository.CarTypeRepository;
 @Component
 public class DTOCarTypeConverter {
+	
+	@Autowired
+	public CarTypeRepository carTypeRepository;
 
 	public CarTypeDTO convertToDTO (CarType carType) {
 		
@@ -24,6 +31,12 @@ public class DTOCarTypeConverter {
 	
 	
 	public CarType convertFromDTO (CarTypeDTO carTypeDTO) {
+		
+		Optional<CarType> carType = carTypeRepository.findById(carTypeDTO.getId());
+		
+		if(carType.isPresent()) {
+			return carType.get();
+		}
 		
 		CarType bean = new CarType();
 		

@@ -1,6 +1,5 @@
 package com.ftn.isa.projekat.rentACar.rentACarCore.income.service;
 
-import java.time.LocalDate;
 import java.util.List;
 
 import com.ftn.isa.projekat.rentACar.rentACarApi.dto.IncomeDTO;

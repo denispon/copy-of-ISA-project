@@ -1,11 +1,18 @@
 package com.ftn.isa.projekat.rentACar.rentACarCore.dtoConverter;
 
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.ftn.isa.projekat.rentACar.rentACarApi.dto.RentACarServiceDTO;
 import com.ftn.isa.projekat.rentACar.rentACarCore.rentACarService.model.RentACarService;
+import com.ftn.isa.projekat.rentACar.rentACarCore.rentACarService.repository.RentACarServiceRepository;
 @Component
 public class DTORentACarServiceConverter {
+	
+	@Autowired
+	RentACarServiceRepository rentRepository;
 
 	public RentACarServiceDTO convertToDTO (RentACarService service) {
 		
@@ -20,6 +27,15 @@ public class DTORentACarServiceConverter {
 	}
 	
 	public RentACarService convertFromDTO ( RentACarServiceDTO serviceDTO) {
+		
+		Optional<RentACarService> service = rentRepository.findById(serviceDTO.getId());
+		
+		if(service.isPresent()) {
+			
+			return service.get();
+			
+		}
+		
 		
 		RentACarService bean = new RentACarService();
 		

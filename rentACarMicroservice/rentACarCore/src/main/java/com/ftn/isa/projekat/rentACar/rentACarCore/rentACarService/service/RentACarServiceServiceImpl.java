@@ -88,7 +88,7 @@ public class RentACarServiceServiceImpl implements IRentACarServiceService {
 		
 		}
 		
-		return null;
+		return new RentACarServiceDTO();
 
 		
 	}
@@ -111,7 +111,7 @@ public class RentACarServiceServiceImpl implements IRentACarServiceService {
 			return rentACarService;
 		}
 		
-		return null;
+		return new RentACarServiceDTO();
 	}
 	
 	@Override
@@ -125,7 +125,7 @@ public class RentACarServiceServiceImpl implements IRentACarServiceService {
 			
 		}
 		
-		return null;
+		return -1;
 		
 	}
 	

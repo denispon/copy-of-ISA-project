@@ -1,15 +1,13 @@
 package com.ftn.isa.projekat.rentACar.rentACarCore.dtoConverter;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.ftn.isa.projekat.rentACar.rentACarApi.dto.CarDTO;
 import com.ftn.isa.projekat.rentACar.rentACarApi.dto.CarReservationDTO;
-import com.ftn.isa.projekat.rentACar.rentACarCore.car.model.Car;
 import com.ftn.isa.projekat.rentACar.rentACarCore.reservation.model.CarReservation;
+import com.ftn.isa.projekat.rentACar.rentACarCore.reservation.repository.CarReservationRepository;
 
 @Component
 public class DTOCarReservationConverter {
@@ -21,6 +19,9 @@ public class DTOCarReservationConverter {
 	@Autowired
 	private DTORentACarServiceConverter rentACarConverter;
 	
+	
+	@Autowired
+	private CarReservationRepository reservationRepository;
 	
 	public CarReservationDTO convertToDTO ( CarReservation reservation ) {
 		
@@ -42,6 +43,14 @@ public class DTOCarReservationConverter {
 	}
 	
 	public CarReservation convertFromDTO (CarReservationDTO reservationDTO) {
+		
+		Optional<CarReservation> carReservation = reservationRepository.findById(reservationDTO.getId());
+		
+		if(carReservation.isPresent()) {
+			
+			return carReservation.get();
+		
+		}
 		
 		CarReservation bean = new CarReservation();
 		

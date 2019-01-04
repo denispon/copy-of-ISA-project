@@ -104,7 +104,7 @@ public class CarReservationServiceImpl implements ICarReservationService {
 			//Preventing user to delete reservation if reservation starts in less than 2 days
 			if(LocalDate.now().isAfter(reservationToDelete.get().getDateFrom().minusDays(2))) {
 				
-				return null;
+				return new CarReservationDTO();
 				
 			}
 		
@@ -113,7 +113,7 @@ public class CarReservationServiceImpl implements ICarReservationService {
 		
 		}
 		
-		return null;
+		return new CarReservationDTO();
 	}
 	
 	@Override
@@ -127,7 +127,7 @@ public class CarReservationServiceImpl implements ICarReservationService {
 		
 		}
 		
-		return null;
+		return new CarReservationDTO();
 	}
 
 	@Override
@@ -164,7 +164,7 @@ public class CarReservationServiceImpl implements ICarReservationService {
 			}
 		}
 		
-		return null;
+		return new CarReservationDTO();
 	}
 
 	
