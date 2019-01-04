@@ -110,7 +110,7 @@ public class FriendRequestServiceImpl implements IFriendRequestService {
 			
 		}
 		
-		return null;
+		return new FriendRequestDTO();
 		
 	}
 

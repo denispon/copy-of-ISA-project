@@ -126,7 +126,7 @@ public class UserServiceImpl implements IUserService {
 			
 		}
 		
-		return null;
+		return new UserDTO();
 	}
 
 }

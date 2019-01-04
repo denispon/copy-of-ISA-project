@@ -1,6 +1,7 @@
 package com.ftn.isa.projekat.user.userCore.converter;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -9,12 +10,17 @@ import com.ftn.isa.projekat.user.userApi.dto.UserDTO;
 import com.ftn.isa.projekat.user.userApi.dto.UserRoleDTO;
 import com.ftn.isa.projekat.user.userCore.user.model.User;
 import com.ftn.isa.projekat.user.userCore.userRole.model.UserRole;
+import com.ftn.isa.projekat.user.userCore.userRole.repository.UserRoleRepository;
 
 @Component
 public class DTOUserRoleConverter {
 	
 	@Autowired
-	DTOUserConverter userConverter;
+	private DTOUserConverter userConverter;
+	
+	@Autowired
+	private UserRoleRepository roleRepository;
+	
 	
 	public UserRoleDTO convertToDTO (UserRole role) {
 	
@@ -38,6 +44,14 @@ public class DTOUserRoleConverter {
 	}
 	
 	public UserRole convertFromDTO (UserRoleDTO role) {
+		
+		Optional<UserRole> foundRole = roleRepository.findById(role.getId());
+		
+		if(foundRole.isPresent()) {
+			
+			return foundRole.get();
+			
+		}
 		
 		UserRole bean = new UserRole();
 		

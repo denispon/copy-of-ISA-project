@@ -130,7 +130,7 @@ public class UserRoleServiceImpl implements IUserRoleService{
 			
 		}
 		
-		return null;
+		return new UserRoleDTO();
 		
 	}
 
