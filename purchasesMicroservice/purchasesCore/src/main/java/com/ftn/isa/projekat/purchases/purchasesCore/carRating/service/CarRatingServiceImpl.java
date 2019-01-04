@@ -84,7 +84,7 @@ public class CarRatingServiceImpl implements ICarRatingService {
 		
 		}
 		
-		return null;
+		return new CarRatingDTO();
 		
 	}
 
@@ -111,7 +111,7 @@ public class CarRatingServiceImpl implements ICarRatingService {
 			
 			
 		}
-		return null;
+		return new CarRatingDTO();
 		
 	}
 

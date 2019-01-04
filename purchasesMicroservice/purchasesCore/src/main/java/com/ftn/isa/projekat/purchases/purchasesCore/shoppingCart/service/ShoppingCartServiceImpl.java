@@ -110,7 +110,7 @@ public class ShoppingCartServiceImpl implements IShoppingCartService{
 		
 		}
 		
-		return null;
+		return new ShoppingCartDTO();
 	}
 
 	@Override
@@ -136,7 +136,7 @@ public class ShoppingCartServiceImpl implements IShoppingCartService{
 			
 		}
 		
-		return null;
+		return new ShoppingCartDTO();
 	}
 
 	@Override

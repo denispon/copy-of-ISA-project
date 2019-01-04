@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ftn.isa.projekat.purchases.purchasesApi.dto.CarRatingDTO;
 import com.ftn.isa.projekat.purchases.purchasesApi.dto.RentACarRatingDTO;
 import com.ftn.isa.projekat.purchases.purchasesCore.rentACarRating.service.IRentACarRatingService;
 
@@ -106,7 +105,7 @@ public class RentACarRatingController {
 		
 		Double averageRating = rentACarRatingService.getAverageRating(rentService, LocalDate.parse(dateFrom), LocalDate.parse(dateTo));
 		
-		return (averageRating != null )? new ResponseEntity<Double>(averageRating, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		return (averageRating != -1.0 )? new ResponseEntity<Double>(averageRating, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		
 	}
 }

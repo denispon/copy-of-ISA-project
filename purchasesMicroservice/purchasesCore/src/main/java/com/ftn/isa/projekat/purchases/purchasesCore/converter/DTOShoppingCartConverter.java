@@ -1,13 +1,21 @@
 package com.ftn.isa.projekat.purchases.purchasesCore.converter;
 
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.ftn.isa.projekat.purchases.purchasesApi.dto.ShoppingCartDTO;
 import com.ftn.isa.projekat.purchases.purchasesCore.shoppingCart.model.ShoppingCart;
+import com.ftn.isa.projekat.purchases.purchasesCore.shoppingCart.repository.ShoppingCartRepository;
 
 @Component
 public class DTOShoppingCartConverter {
-
+	
+	@Autowired
+	private ShoppingCartRepository cartRepository;
+	
+	
 	public ShoppingCartDTO convertToDTO (ShoppingCart bean) {
 		
 		ShoppingCartDTO dto = new ShoppingCartDTO();
@@ -22,6 +30,15 @@ public class DTOShoppingCartConverter {
 	}
 	
 	public ShoppingCart convertFromDTO (ShoppingCartDTO dto) {
+		
+		Optional<ShoppingCart> cart = cartRepository.findById(dto.getId());
+		
+		if(cart.isPresent()) {
+			
+			return cart.get();
+			
+		}
+		
 		
 		ShoppingCart bean = new ShoppingCart();
 		

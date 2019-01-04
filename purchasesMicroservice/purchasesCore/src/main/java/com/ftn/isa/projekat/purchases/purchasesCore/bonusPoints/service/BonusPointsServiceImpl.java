@@ -103,7 +103,7 @@ public class BonusPointsServiceImpl implements IBonusPointsService {
 		
 		}
 		
-		return null;
+		return new BonusPointsDTO();
 		
 	}
 
@@ -125,7 +125,7 @@ public class BonusPointsServiceImpl implements IBonusPointsService {
 			
 		}
 		
-		return null;
+		return new BonusPointsDTO();
 		
 	}
 

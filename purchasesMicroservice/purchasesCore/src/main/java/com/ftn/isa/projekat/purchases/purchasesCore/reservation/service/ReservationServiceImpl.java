@@ -87,7 +87,7 @@ public class ReservationServiceImpl implements IReservationService {
 		
 		}
 		
-		return null;
+		return new ReservationDTO();
 	}
 
 	@Override
@@ -113,7 +113,7 @@ public class ReservationServiceImpl implements IReservationService {
 			
 		}
 		
-		return null;
+		return new ReservationDTO();
 	}
 
 

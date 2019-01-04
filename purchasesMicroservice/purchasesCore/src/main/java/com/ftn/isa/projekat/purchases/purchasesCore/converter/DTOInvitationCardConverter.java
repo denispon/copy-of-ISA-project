@@ -1,16 +1,25 @@
 package com.ftn.isa.projekat.purchases.purchasesCore.converter;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.ftn.isa.projekat.purchases.purchasesApi.dto.InvitationCardDTO;
 import com.ftn.isa.projekat.purchases.purchasesCore.invitationCard.model.InvitationCard;
+import com.ftn.isa.projekat.purchases.purchasesCore.invitationCard.repository.InvitationCardRepository;
 
 @Component
 public class DTOInvitationCardConverter {
 	
 	@Autowired
 	private DTOReservationConverter reservationConverter;
+	
+	
+	@Autowired
+	private InvitationCardRepository cardRepository;
+	
+	
 	
 	public InvitationCardDTO convertToDTO (InvitationCard bean) {
 		
@@ -29,6 +38,14 @@ public class DTOInvitationCardConverter {
 	}
 	
 	public InvitationCard convertFromDTO (InvitationCardDTO dto) {
+		
+		Optional<InvitationCard> card = cardRepository.findById(dto.getId());
+		
+		if(card.isPresent()) {
+			
+			return card.get();
+			
+		}
 		
 		InvitationCard bean = new InvitationCard();
 		

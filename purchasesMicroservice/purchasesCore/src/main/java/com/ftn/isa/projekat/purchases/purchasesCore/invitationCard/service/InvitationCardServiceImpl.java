@@ -93,7 +93,7 @@ public class InvitationCardServiceImpl implements IInvitationCardService{
 		
 		}
 		
-		return null;
+		return new InvitationCardDTO();
 	}
 
 	@Override
@@ -124,7 +124,7 @@ public class InvitationCardServiceImpl implements IInvitationCardService{
 			
 		}
 		
-		return null;
+		return new InvitationCardDTO();
 	}
 
 }

@@ -1,7 +1,6 @@
 package com.ftn.isa.projekat.purchases.purchasesCore.rentACarRating.service;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -10,9 +9,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.ftn.isa.projekat.purchases.purchasesApi.dto.CarRatingDTO;
 import com.ftn.isa.projekat.purchases.purchasesApi.dto.RentACarRatingDTO;
-import com.ftn.isa.projekat.purchases.purchasesCore.carRating.model.CarRating;
 import com.ftn.isa.projekat.purchases.purchasesCore.converter.DTORentACarRatingConverter;
 import com.ftn.isa.projekat.purchases.purchasesCore.rentACarRating.model.RentACarRating;
 import com.ftn.isa.projekat.purchases.purchasesCore.rentACarRating.repository.RentACarRatingRepository;
@@ -86,7 +83,7 @@ public class RentACarRatingServiceImpl implements IRentACarRatingService {
 		
 		}
 		
-		return null;
+		return new RentACarRatingDTO();
 		
 	}
 
@@ -113,7 +110,7 @@ public class RentACarRatingServiceImpl implements IRentACarRatingService {
 			
 			
 		}
-		return null;
+		return new RentACarRatingDTO();
 		
 	}
 
@@ -170,7 +167,7 @@ public class RentACarRatingServiceImpl implements IRentACarRatingService {
 			
 		}
 		
-		return null;
+		return -1.0;
 		
 	}
 
