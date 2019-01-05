@@ -32,6 +32,7 @@ public class PrihodiHotelaService implements IPrihodiHotelaService{
 	@Autowired
 	DTOPrihodiHotelaConverter prihodiHotelaConverter;
 	
+	
 	public PrihodiHotelaDTO findOneById(Long id) {
 		
 		Optional<PrihodiHotela> zaPronalazak=prihodiHotelaRepository.findById(id);
@@ -68,7 +69,7 @@ public class PrihodiHotelaService implements IPrihodiHotelaService{
 			prihodiHotelaRepository.deleteById(id);
 			return prihodiHotelaConverter.convertToDTO(zaBrisanje.get());
 		}else {
-			return null;
+			return new PrihodiHotelaDTO();
 		}
 		
 	}
@@ -91,7 +92,7 @@ public class PrihodiHotelaService implements IPrihodiHotelaService{
 			return dto;
 		}
 		
-		return null;
+		return new PrihodiHotelaDTO();
 		
 	}
 }

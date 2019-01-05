@@ -69,7 +69,7 @@ public class CenovnikUslugaService implements ICenovnikUslugaService{
 			cenovnikRepository.deleteById(id);
 			return cenovnikConverter.convertToDTO(zaBrisanje.get());
 		}else {
-			return null;
+			return new CenovnikUslugaDTO();
 		}
 		
 	}
@@ -90,7 +90,7 @@ public class CenovnikUslugaService implements ICenovnikUslugaService{
 			return dto;
 		}
 		
-		return null;
+		return new CenovnikUslugaDTO();
 		
 	}
 	

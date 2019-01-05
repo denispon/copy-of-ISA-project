@@ -1,5 +1,7 @@
 package com.ftn.isa.projekat.hotel.hotelCore.dtoConverter;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jackson.JsonComponent;
 import org.springframework.stereotype.Component;
@@ -8,6 +10,7 @@ import com.ftn.isa.projekat.hotel.hotelApi.dto.CenovnikUslugaDTO;
 import com.ftn.isa.projekat.hotel.hotelApi.dto.PrihodiHotelaDTO;
 import com.ftn.isa.projekat.hotel.hotelCore.CenovnikUsluga.model.CenovnikUsluga;
 import com.ftn.isa.projekat.hotel.hotelCore.PrihodiHotela.model.PrihodiHotela;
+import com.ftn.isa.projekat.hotel.hotelCore.PrihodiHotela.repository.PrihodiHotelaRepository;
 
 @JsonComponent
 @Component
@@ -15,6 +18,9 @@ public class DTOPrihodiHotelaConverter {
 
 	@Autowired
 	DTOHotelConverter hotelConverter;
+	
+	@Autowired
+	PrihodiHotelaRepository prihodiHotelaRepository;
 	
 	public PrihodiHotelaDTO convertToDTO(PrihodiHotela prihodHotela) {
 		PrihodiHotelaDTO dto = new PrihodiHotelaDTO();
@@ -28,6 +34,11 @@ public class DTOPrihodiHotelaConverter {
 	}
 	
 	public PrihodiHotela convertFromDTO(PrihodiHotelaDTO prihodiHotelaDTO) {
+		
+		Optional<PrihodiHotela> prihodiHotela = prihodiHotelaRepository.findById(prihodiHotelaDTO.getId());
+		if(prihodiHotela.isPresent()) {
+			return prihodiHotela.get();
+		}
 		
 		PrihodiHotela bean = new PrihodiHotela();
 		bean.setIncome(prihodiHotelaDTO.getIncome());

@@ -59,7 +59,7 @@ public class HotelService implements IHotelService{
 			hotelRepository.deleteById(id);
 			return hotelConverter.convertToDTO(hotel.get());
 		}else {
-			return null;
+			return new HotelDTO();
 		}
 		
 	}
@@ -80,7 +80,7 @@ public class HotelService implements IHotelService{
 			return hotelDTO;
 		}
 		
-		return null;
+		return new HotelDTO();
 		
 	}
 	

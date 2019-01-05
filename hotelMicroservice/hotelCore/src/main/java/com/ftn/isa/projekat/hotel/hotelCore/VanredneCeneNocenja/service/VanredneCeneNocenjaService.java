@@ -65,7 +65,7 @@ public class VanredneCeneNocenjaService implements IVanredneCeneNocenjaService{
 			vanredneCeneRepository.deleteById(id);
 			return vanredneCeneConverter.convertToDTO(cena.get());
 		}else {
-			return null;
+			return new VanredneCeneNocenjaDTO();
 		}
 		
 	}
@@ -88,7 +88,7 @@ public class VanredneCeneNocenjaService implements IVanredneCeneNocenjaService{
 			return cenaDTO;
 		}
 		
-		return null;
+		return new VanredneCeneNocenjaDTO();
 		
 	}
 	

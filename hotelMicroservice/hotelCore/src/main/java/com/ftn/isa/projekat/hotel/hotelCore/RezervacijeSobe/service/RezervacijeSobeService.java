@@ -68,7 +68,7 @@ public class RezervacijeSobeService implements IRezervacijeSobeService{
 			rezervacijeSobeRepository.deleteById(id);
 			return rezervacijeSobeConverter.convertToDTO(zaBrisanje.get());
 		}else {
-			return null;
+			return new RezervacijeSobeDTO();
 		}
 		
 	}
@@ -92,7 +92,7 @@ public class RezervacijeSobeService implements IRezervacijeSobeService{
 			return dto;
 		}
 		
-		return null;
+		return new RezervacijeSobeDTO();
 		
 	}
 	

@@ -69,7 +69,7 @@ public class TipSobeService implements ITipSobeService{
 			tipSobeRepository.deleteById(id);
 			return tipSobeConverter.convertToDTO(tip.get());
 		}else {
-			return null;
+			return new TipSobeDTO();
 		}
 		
 	}
@@ -92,7 +92,7 @@ public class TipSobeService implements ITipSobeService{
 			return tipDTO;
 		}
 		
-		return null;
+		return new TipSobeDTO();
 		
 	}
 

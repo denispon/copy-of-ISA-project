@@ -1,11 +1,14 @@
 package com.ftn.isa.projekat.hotel.hotelCore.dtoConverter;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jackson.JsonComponent;
 import org.springframework.stereotype.Component;
 
 import com.ftn.isa.projekat.hotel.hotelApi.dto.CenovnikUslugaDTO;
 import com.ftn.isa.projekat.hotel.hotelCore.CenovnikUsluga.model.CenovnikUsluga;
+import com.ftn.isa.projekat.hotel.hotelCore.CenovnikUsluga.repository.CenovnikUslugaRepository;
 
 @JsonComponent
 @Component
@@ -13,6 +16,9 @@ public class DTOCenovnikConverter {
 	
 	@Autowired
 	DTOHotelConverter hotelConverter;
+	
+	@Autowired
+	CenovnikUslugaRepository cenovnikUslugaRepository;
 	
 	public CenovnikUslugaDTO convertToDTO(CenovnikUsluga cenovnikUsluga) {
 		CenovnikUslugaDTO dto = new CenovnikUslugaDTO();
@@ -24,6 +30,11 @@ public class DTOCenovnikConverter {
 	}
 	
 	public CenovnikUsluga convertFromDTO(CenovnikUslugaDTO cenovnikUslugaDTO) {
+		
+		Optional<CenovnikUsluga> cenovnikUsluga = cenovnikUslugaRepository.findById(cenovnikUslugaDTO.getId());
+		if(cenovnikUsluga.isPresent()) {
+			return cenovnikUsluga.get();
+		}
 		
 		CenovnikUsluga bean = new CenovnikUsluga();
 		bean.setTransferPrice(cenovnikUslugaDTO.getTransferPrice());
