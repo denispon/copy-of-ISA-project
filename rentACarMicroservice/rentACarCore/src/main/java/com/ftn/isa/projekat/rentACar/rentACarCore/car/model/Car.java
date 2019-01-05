@@ -47,7 +47,7 @@ public class Car {
 	
 	@JsonIgnore
 	@ManyToOne ()
-	@JoinColumn (name="car_type_id")
+	@JoinColumn (name="car_type_id", nullable = false)
 	private CarType carType;
 	
 	@JsonIgnore

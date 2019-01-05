@@ -32,7 +32,7 @@ public class Reservation {
 	private Long userId;
 	
 	
-	@Column (name = "carReservation_id")
+	@Column (name = "carReservation_id", nullable= false)
 	private Long carReservationId;
 	
 	

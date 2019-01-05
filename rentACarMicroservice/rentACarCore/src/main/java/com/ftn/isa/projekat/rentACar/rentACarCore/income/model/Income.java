@@ -26,10 +26,10 @@ public class Income {
 	@Column (name="id")
 	private Long id;
 	
-	@Column (name="rent_income")
+	@Column (name="rent_income", nullable= false)
 	private int rentIncome;
 	
-	@Column (name="date")
+	@Column (name="date", nullable= false)
 	private LocalDate date;
 	
 	@Column (name="number_of_cars",nullable = false)

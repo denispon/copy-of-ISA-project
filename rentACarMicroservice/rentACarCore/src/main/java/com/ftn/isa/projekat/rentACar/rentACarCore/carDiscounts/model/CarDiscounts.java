@@ -37,7 +37,7 @@ public class CarDiscounts {
 	
 	@JsonIgnore
 	@ManyToOne()
-	@JoinColumn (name="car_on_discount_id")
+	@JoinColumn (name="car_on_discount_id", nullable= false)
 	private Car carOnDiscount;
 	
 }

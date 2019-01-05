@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -32,10 +33,11 @@ public class InvitationCard {
 	@Column (name="invited_user_id", nullable = false)
 	private Long invitedUserId;
 	
-	@Column (name ="status")
+	@Column (name ="status", nullable= false)
 	private boolean status;
 
 	@OneToOne()
+	@JoinColumn(name="reservation_id" , nullable = false)
     private Reservation reservation;
 	
 	

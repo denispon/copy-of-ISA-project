@@ -26,7 +26,7 @@ public class ShoppingCart {
 	@Column (name = "user_id",nullable = false)
 	private Long userId;
 	
-	@Column (name = "carReservation_id")
+	@Column (name = "carReservation_id", nullable= false)
 	private Long carReservationId;
 	
 	@Column (name = "price" , nullable = false)

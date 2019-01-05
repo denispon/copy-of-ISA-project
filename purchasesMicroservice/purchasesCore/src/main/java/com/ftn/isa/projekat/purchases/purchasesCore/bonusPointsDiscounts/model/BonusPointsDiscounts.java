@@ -23,10 +23,10 @@ public class BonusPointsDiscounts {
 	@Column (name = "id")
 	private Long id;
 	
-	@Column (name = "points")
+	@Column (name = "points", nullable= false)
 	private int points;
 	
-	@Column (name = "discount")
+	@Column (name = "discount", nullable= false)
 	private int discount;
 
 }

@@ -26,7 +26,7 @@ public class BonusPoints {
 	@Column (name = "user_id",nullable = false)
 	private Long userId;
 	
-	@Column (name = "points")
+	@Column (name = "points", nullable= false)
 	private int points;
 	
 }

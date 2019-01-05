@@ -30,10 +30,10 @@ public class CarReservation {
 	@Column (name="id")
 	private Long id;
 	
-	@Column (name = "date_from")
+	@Column (name = "date_from" , nullable= false)
 	private LocalDate dateFrom;
 	
-	@Column (name = "date_to")
+	@Column (name = "date_to", nullable= false)
 	private LocalDate dateTo;
 	
 	@Column (name="rating")
@@ -45,7 +45,7 @@ public class CarReservation {
 
 	@JsonIgnore
 	@ManyToOne ()
-	@JoinColumn (name="reserved_car")
+	@JoinColumn (name="reserved_car", nullable= false)
 	private Car reservedCar;
 	
 	/*
@@ -53,7 +53,7 @@ public class CarReservation {
 	 * */
 	@JsonIgnore
 	@ManyToOne ()
-	@JoinColumn (name="branch_office_from")
+	@JoinColumn (name="branch_office_from", nullable= false)
 	private BranchOffice branchOfficeFrom;
 	
 	/*
@@ -61,7 +61,7 @@ public class CarReservation {
 	 * */
 	@JsonIgnore
 	@ManyToOne ()
-	@JoinColumn (name="branch_office_to")
+	@JoinColumn (name="branch_office_to", nullable= false)
 	private BranchOffice branchOfficeTo;
 	
 	
