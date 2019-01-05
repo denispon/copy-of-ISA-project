@@ -11,10 +11,14 @@ import com.ftn.isa.projekat.user.userCore.user.model.User;
 
 public interface UserRepository extends JpaRepository<User,Long>{
 
-	@Query(value="select * from user where id in (select * from friend_request where "
-			+ "(invited_user = :id or source_user= :id) AND status='accepted') ",nativeQuery=true)
-	Optional<List<UserDTO>> getAllFriends(Long id);
+	@Query(value="select * from user where id in (select invited_user from friend_request where source_user=:id and status='active')" + 
+			" union " + 
+			"select * from user where id in (select source_user from friend_request where invited_user=:id and status='active');"
+			,nativeQuery=true)
+	Optional<List<User>> getAllFriends(Long id);
 
 	Optional<User> findOneByEmail(String email);
+
+	Optional<List<User>> findAllByRoleId(Long id);
 
 }

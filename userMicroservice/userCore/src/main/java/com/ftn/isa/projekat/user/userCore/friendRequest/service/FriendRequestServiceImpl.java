@@ -12,12 +12,19 @@ import com.ftn.isa.projekat.user.userApi.dto.FriendRequestDTO;
 import com.ftn.isa.projekat.user.userCore.converter.DTOFriendRequestConverter;
 import com.ftn.isa.projekat.user.userCore.friendRequest.model.FriendRequest;
 import com.ftn.isa.projekat.user.userCore.friendRequest.repository.FriendRequestRepository;
+import com.ftn.isa.projekat.user.userCore.user.model.User;
+import com.ftn.isa.projekat.user.userCore.user.repository.UserRepository;
 
 @Component
 public class FriendRequestServiceImpl implements IFriendRequestService {
 
 	@Autowired
 	FriendRequestRepository requestRepository;
+	
+	@Autowired
+	UserRepository userRepository;
+	
+	
 	
 	@Autowired
 	DTOFriendRequestConverter requestConverter;
@@ -67,9 +74,32 @@ public class FriendRequestServiceImpl implements IFriendRequestService {
 	@Override
 	public FriendRequestDTO save(FriendRequestDTO friendRequestToSave) {
 		
-		requestRepository.save(requestConverter.convertFromDTO(friendRequestToSave));
+		/*
+		 * First we need to know if these users exits in database and also if 
+		 * connection between exits already in database.
+		 *  */
 		
-		return friendRequestToSave;
+		Optional<User> sourceUser = userRepository.findById(friendRequestToSave.getSourceUser());
+		Optional<User> invitedUser = userRepository.findById(friendRequestToSave.getInvitedUser());
+		
+		Optional<FriendRequest> existingFriendRequest = requestRepository.findOneBySourceUserAndInvitedUser(friendRequestToSave.getSourceUser(),friendRequestToSave.getInvitedUser());
+		
+		if(sourceUser.isPresent() && invitedUser.isPresent() && !existingFriendRequest.isPresent()) {
+			
+			FriendRequest requestToSaveBean= requestConverter.convertFromDTO(friendRequestToSave);
+			
+			requestToSaveBean.setStatus("pending");
+			
+			requestRepository.save(requestToSaveBean);
+			
+			friendRequestToSave.setId(requestToSaveBean.getId());
+			
+			return friendRequestToSave;
+		}
+		
+		
+		return new FriendRequestDTO();
+		
 	}
 
 	@Override
@@ -112,6 +142,24 @@ public class FriendRequestServiceImpl implements IFriendRequestService {
 		
 		return new FriendRequestDTO();
 		
+	}
+
+	@Override
+	public FriendRequestDTO acceptRequest(Long id) {
+		
+		Optional<FriendRequest> request = requestRepository.findById(id);
+		
+		if(request.isPresent()) {
+			
+			request.get().setStatus("active");
+			
+			requestRepository.save(request.get());
+			
+			return requestConverter.convertToDTO(request.get());
+			
+		}
+		
+		return new FriendRequestDTO();
 	}
 
 }

@@ -19,6 +19,8 @@ public interface IFriendRequestService {
 	public FriendRequestDTO deleteById ( Long id );
 	
 	public FriendRequestDTO changeFriendRequest ( Long id, FriendRequestDTO friendRequest );
+
+	public FriendRequestDTO acceptRequest(Long id);
 	
 	
 

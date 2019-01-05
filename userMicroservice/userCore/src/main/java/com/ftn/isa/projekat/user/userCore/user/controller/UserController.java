@@ -2,8 +2,6 @@ package com.ftn.isa.projekat.user.userCore.user.controller;
 
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ftn.isa.projekat.user.userApi.dto.UserDTO;
+import com.ftn.isa.projekat.user.userApi.dto.UserForRegistrationDTO;
 import com.ftn.isa.projekat.user.userCore.user.service.IUserService;
 
 import io.swagger.annotations.Api;
@@ -32,7 +31,6 @@ public class UserController {
 	@Autowired
 	private IUserService userService;
 	
-	private Logger logger = LoggerFactory.getLogger(UserController.class);
 
 	
 	@GetMapping("/{id}")
@@ -114,14 +112,14 @@ public class UserController {
 					@ApiResponse( code = 201 , message = "Created"),
 					@ApiResponse( code = 400, message= "Bad request")
 	})
-	public ResponseEntity<UserDTO> registerUser(@RequestBody UserDTO dto){
+	public ResponseEntity<UserForRegistrationDTO> registerUser(@RequestBody UserForRegistrationDTO dto){
 		
-		UserDTO savedUser = userService.registerUser(dto);
+		UserForRegistrationDTO savedUser = userService.registerUser(dto);
 		
-		return ( savedUser!=null )? new ResponseEntity<UserDTO>(savedUser,HttpStatus.CREATED): new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		return ( savedUser.getEmail() !=null )? new ResponseEntity<UserForRegistrationDTO>(savedUser,HttpStatus.CREATED): new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	} 
 	
-	@PutMapping("/activate/{id}")
+	@GetMapping("/activate/{id}")
 	@ApiOperation( value = "Activate user.", notes = "Returns activated user.", httpMethod="POST", produces = "application/json", consumes = "application/json" )
 	@ApiResponses( value = {
 					@ApiResponse( code = 201 , message = "Created"),
@@ -132,7 +130,21 @@ public class UserController {
 		UserDTO activatedUser = userService.activateUser(id);
 		
 		return ( activatedUser!=null )? new ResponseEntity<UserDTO>(activatedUser,HttpStatus.CREATED): new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	
+	}
+	
+	
+	@GetMapping("/role/{id}")
+	@ApiOperation( value = "Get all users with role.", notes = "Returns users with some role.", httpMethod="POST", produces = "application/json", consumes = "application/json" )
+	@ApiResponses( value = {
+					@ApiResponse( code = 201 , message = "Created"),
+					@ApiResponse( code = 400, message= "Bad request")
+	})
+	public ResponseEntity<List<UserDTO>> getAllUsersByRole(@PathVariable("id") Long id){
 		
+		List<UserDTO> users = userService.findUsersByRole(id);
+
+		return ( !users.isEmpty() )? new ResponseEntity<List<UserDTO>>(users,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);		
 		
 	}
 	

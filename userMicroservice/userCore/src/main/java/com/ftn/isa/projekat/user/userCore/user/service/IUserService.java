@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.ftn.isa.projekat.user.userApi.dto.UserDTO;
+import com.ftn.isa.projekat.user.userApi.dto.UserForRegistrationDTO;
 
 
 @Service
@@ -22,9 +23,11 @@ public interface IUserService {
 
 	public List<UserDTO> getallFriends(Long id);
 
-	public UserDTO registerUser(UserDTO dto);
+	public UserForRegistrationDTO registerUser(UserForRegistrationDTO dto);
 
 	public UserDTO activateUser(Long id);
+
+	public List<UserDTO> findUsersByRole(Long id);
 	
 	
 

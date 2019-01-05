@@ -65,7 +65,7 @@ public class FriendRequestController {
 		
 		FriendRequestDTO savedRequest = requestService.save(dto);
 		
-		return ( savedRequest!=null )? new ResponseEntity<FriendRequestDTO>(savedRequest,HttpStatus.CREATED): new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		return ( savedRequest.getId()!=null )? new ResponseEntity<FriendRequestDTO>(savedRequest,HttpStatus.CREATED): new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
 	
 	@DeleteMapping("/{id}")
@@ -90,5 +90,18 @@ public class FriendRequestController {
 		FriendRequestDTO requestToEdit = requestService.changeFriendRequest(id, requestDto);
 	
 	    return ( requestToEdit.getId() != null )? new ResponseEntity<FriendRequestDTO>(requestToEdit,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	}
+	
+	@PutMapping("/acceptRequest/{id}")
+	@ApiOperation( value= "Accept friend request", notes = "Returns accepted request", httpMethod="PUT")
+	@ApiResponses( value = { 
+			 @ApiResponse( code = 200, message ="OK"),
+			 @ApiResponse( code = 400, message ="Bad Request")})
+	public ResponseEntity<FriendRequestDTO> acceptRequest (@PathVariable("id") Long id){
+		
+		FriendRequestDTO acceptedRequest = requestService.acceptRequest(id);
+		
+	    return ( acceptedRequest.getId() != null )? new ResponseEntity<FriendRequestDTO>(acceptedRequest,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);		
+		
 	}
 }

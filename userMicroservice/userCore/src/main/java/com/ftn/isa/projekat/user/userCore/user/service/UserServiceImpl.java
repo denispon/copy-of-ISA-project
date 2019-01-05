@@ -5,14 +5,15 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.core.env.Environment;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import com.ftn.isa.projekat.user.userApi.dto.UserDTO;
+import com.ftn.isa.projekat.user.userApi.dto.UserForRegistrationDTO;
 import com.ftn.isa.projekat.user.userCore.converter.DTOUserConverter;
 import com.ftn.isa.projekat.user.userCore.converter.DTOUserRoleConverter;
 import com.ftn.isa.projekat.user.userCore.user.model.User;
@@ -148,11 +149,20 @@ public class UserServiceImpl implements IUserService {
 	@Override
 	public List<UserDTO> getallFriends(Long id) {
 		
-		Optional<List<UserDTO>> friends = userRepository.getAllFriends(id);
+		Optional<List<User>> friends = userRepository.getAllFriends(id);
 		
 		if(friends.isPresent()) {
 			
-			return friends.get();
+			ArrayList<UserDTO> friendsDTO = new ArrayList<UserDTO>();
+			
+			for(User user : friends.get()) {
+				
+				friendsDTO.add(userConverter.convertToDTO(user));
+				
+			}
+			
+			
+			return friendsDTO;
 			
 		}
 		
@@ -161,8 +171,7 @@ public class UserServiceImpl implements IUserService {
 	}
 
 	@Override
-	@Async
-	public UserDTO registerUser(UserDTO dto) {
+	public UserForRegistrationDTO registerUser(UserForRegistrationDTO dto) {
 		
 		/*
 		 * First we need to see if user with same email
@@ -173,27 +182,49 @@ public class UserServiceImpl implements IUserService {
 		Optional<User> foundUserByEmail = userRepository.findOneByEmail(dto.getEmail());
 
 		if(foundUserByEmail.isPresent()) {
-			UserDTO foundUser = new UserDTO();
+			UserForRegistrationDTO foundUser = new UserForRegistrationDTO();
 			foundUser.setEmail("Email exits");
 			
 			return foundUser;
 		}
 		
 		//if there is not user with same email, we are saving this one
-		User savedUser= userRepository.save(userConverter.convertFromDTO(dto));
+		User userForSave = new User();
 		
-		//now we are sending activation link to the email address of registered user
-		SimpleMailMessage mail = new SimpleMailMessage();
-		mail.setTo(dto.getEmail());
-		mail.setFrom(env.getProperty("spring.mail.username"));
-		mail.setSubject("Activation link for TRAVELwithRSK");
-		mail.setText("Hello " + savedUser.getName() + ",\n\n Thank you for registration in our website. \n Please click on this link for activation of your account \n"
-				+ " http://localhost:8096/api/user/user/activate/" + savedUser.getId() + "  ");
-		javaMailSender.send(mail);
+		userForSave.setActive(false);
+		userForSave.setCity(dto.getCity());
+		userForSave.setEmail(dto.getEmail());
+		userForSave.setName(dto.getName());
+		userForSave.setPassport(dto.getPassport());
+		userForSave.setPassword(dto.getPassword());
+		userForSave.setRole(roleConverter.convertFromDTO(dto.getRole()));
+		userForSave.setSurname(dto.getSurname());
+		userForSave.setTelephoneNumber(dto.getTelephoneNumber());
+		
+		User savedUser= userRepository.save(userForSave);
+		
+		sendEmail(savedUser);
 		
 		dto.setId(savedUser.getId());
 		
+		
+		
 		return dto;
+	}
+	
+	@Async
+	public void sendEmail(User savedUser) {
+		
+		//now we are sending activation link to the email address of registered user
+		SimpleMailMessage mail = new SimpleMailMessage();
+		mail.setTo(savedUser.getEmail());
+		mail.setFrom(env.getProperty("spring.mail.username"));
+		mail.setSubject("Activation link for TRAVEL WITH RSK");
+		mail.setText("Hello " + savedUser.getName() + ",\n\n Thank you for registration in our website. \n Please click on this link for activation of your account: "
+				+ " http://localhost:8096/api/user/user/activate/" + savedUser.getId() + "  ");
+		javaMailSender.send(mail);
+		
+		
 	}
 
 	@Override
@@ -213,6 +244,28 @@ public class UserServiceImpl implements IUserService {
 		
 		return new UserDTO();
 		
+	}
+
+	@Override
+	public List<UserDTO> findUsersByRole(Long id) {
+		
+		Optional<List<User>> users = userRepository.findAllByRoleId(id);
+		
+		if(users.isPresent()) {
+			
+			ArrayList<UserDTO> usersDTO = new ArrayList<UserDTO>();
+			
+			for(User user : users.get()) {
+				
+				usersDTO.add(userConverter.convertToDTO(user));
+				
+			}
+			
+			return usersDTO;
+			
+		}
+		
+		return Collections.emptyList();
 	}
 
 }

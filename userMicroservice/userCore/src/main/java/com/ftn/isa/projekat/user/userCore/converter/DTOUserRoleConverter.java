@@ -28,7 +28,7 @@ public class DTOUserRoleConverter {
 		
 		dto.setId(role.getId());
 		dto.setRole(role.getRole());
-		
+		/*
 		ArrayList<UserDTO> users = new ArrayList<UserDTO>();
 		
 		for(User user : role.getUser()) {
@@ -37,7 +37,7 @@ public class DTOUserRoleConverter {
 			
 		}
 		
-		dto.setUsers(users);
+		dto.setUsers(users); */
 		
 		return dto;
 		
@@ -58,15 +58,15 @@ public class DTOUserRoleConverter {
 		bean.setId(role.getId());
 		bean.setRole(role.getRole());
 		
-		ArrayList<User> users = new ArrayList<User>();
+		/*ArrayList<User> users = new ArrayList<User>();
 		
 		for(UserDTO user : role.getUsers()) {
 			
 			users.add(userConverter.convertFromDTO(user));
 			
-		}
+		}*/
 		
-		bean.setUser(users);
+		//bean.setUser(users);
 		
 		return bean;
 		
