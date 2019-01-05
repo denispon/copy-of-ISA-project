@@ -16,16 +16,16 @@ public class FriendRequest {
 	
 	@Id
 	@GeneratedValue (strategy = GenerationType.IDENTITY)
-	@Column (name = "id")
+	@Column (name = "id", nullable= false)
 	private Long id;
 	
-	@Column (name = "source_user")
+	@Column (name = "source_user", nullable= false)
 	private Long sourceUser;
 	
-	@Column (name = "invited_user")
+	@Column (name = "invited_user", nullable= false)
 	private Long invitedUser;
 	
-	@Column (name = "status")
+	@Column (name = "status", nullable= false)
 	private String status;
 
 }

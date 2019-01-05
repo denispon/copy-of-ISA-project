@@ -19,6 +19,8 @@ public interface IUserService {
 	public UserDTO deleteById ( Long id );
 	
 	public UserDTO changeUser ( Long id, UserDTO user );
+
+	public List<UserDTO> getallFriends(Long id);
 	
 	
 

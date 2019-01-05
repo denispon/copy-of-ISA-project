@@ -91,4 +91,17 @@ public class UserController {
 	
 	    return ( userToEdit.getId() != null )? new ResponseEntity<UserDTO>(userToEdit,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
+	
+	@GetMapping("/friends/{id}")
+	@ApiOperation( value = "Returns all user friends.", notes = "As parametar this function gets user id", httpMethod = "GET")
+	@ApiResponses( value = { @ApiResponse( code = 200, message ="OK"),
+							 @ApiResponse( code = 404, message ="Not Found")})	
+	public ResponseEntity<List<UserDTO>> getAllFriends(@PathVariable("id") Long id){
+		
+		List<UserDTO> friends = userService.getallFriends(id);
+		
+		return ( !friends.isEmpty() )? new ResponseEntity<List<UserDTO>>(friends,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);		
+		
+	}
+	
 }
