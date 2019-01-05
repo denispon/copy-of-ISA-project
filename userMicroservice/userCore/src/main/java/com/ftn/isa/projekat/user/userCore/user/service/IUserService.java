@@ -21,6 +21,10 @@ public interface IUserService {
 	public UserDTO changeUser ( Long id, UserDTO user );
 
 	public List<UserDTO> getallFriends(Long id);
+
+	public UserDTO registerUser(UserDTO dto);
+
+	public UserDTO activateUser(Long id);
 	
 	
 

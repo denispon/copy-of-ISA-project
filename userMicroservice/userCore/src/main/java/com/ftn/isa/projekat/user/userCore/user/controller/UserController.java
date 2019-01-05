@@ -2,6 +2,8 @@ package com.ftn.isa.projekat.user.userCore.user.controller;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,9 +30,10 @@ import io.swagger.annotations.ApiResponses;
 public class UserController {
 
 	@Autowired
-	IUserService userService;
+	private IUserService userService;
 	
-	
+	private Logger logger = LoggerFactory.getLogger(UserController.class);
+
 	
 	@GetMapping("/{id}")
 	@ApiOperation( value = "Finds one user.", notes = "Returns found user.", httpMethod="GET")
@@ -101,6 +104,35 @@ public class UserController {
 		List<UserDTO> friends = userService.getallFriends(id);
 		
 		return ( !friends.isEmpty() )? new ResponseEntity<List<UserDTO>>(friends,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);		
+		
+	}
+	
+	
+	@PostMapping("/register")
+	@ApiOperation( value = "Create an user from registration.", notes = "Returns the user being saved.", httpMethod="POST", produces = "application/json", consumes = "application/json" )
+	@ApiResponses( value = {
+					@ApiResponse( code = 201 , message = "Created"),
+					@ApiResponse( code = 400, message= "Bad request")
+	})
+	public ResponseEntity<UserDTO> registerUser(@RequestBody UserDTO dto){
+		
+		UserDTO savedUser = userService.registerUser(dto);
+		
+		return ( savedUser!=null )? new ResponseEntity<UserDTO>(savedUser,HttpStatus.CREATED): new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	} 
+	
+	@PutMapping("/activate/{id}")
+	@ApiOperation( value = "Activate user.", notes = "Returns activated user.", httpMethod="POST", produces = "application/json", consumes = "application/json" )
+	@ApiResponses( value = {
+					@ApiResponse( code = 201 , message = "Created"),
+					@ApiResponse( code = 400, message= "Bad request")
+	})
+	public ResponseEntity<UserDTO> activateUser(@PathVariable("id") Long id){
+		
+		UserDTO activatedUser = userService.activateUser(id);
+		
+		return ( activatedUser!=null )? new ResponseEntity<UserDTO>(activatedUser,HttpStatus.CREATED): new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		
 		
 	}
 	

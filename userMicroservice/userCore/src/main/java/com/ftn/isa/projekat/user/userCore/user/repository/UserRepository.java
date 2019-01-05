@@ -15,4 +15,6 @@ public interface UserRepository extends JpaRepository<User,Long>{
 			+ "(invited_user = :id or source_user= :id) AND status='accepted') ",nativeQuery=true)
 	Optional<List<UserDTO>> getAllFriends(Long id);
 
+	Optional<User> findOneByEmail(String email);
+
 }
