@@ -68,7 +68,7 @@ public class DodatneUslugeService implements IDodatneUslugeService{
 			dodatneUslugeRepository.deleteById(id);
 			return dodatneUslugeConverter.convertToDTO(zaBrisanje.get());
 		}else {
-			return null;
+			return new DodatneUslugeDTO();
 		}
 		
 	}
@@ -89,7 +89,7 @@ public class DodatneUslugeService implements IDodatneUslugeService{
 			return dto;
 		}
 		
-		return null;
+		return new DodatneUslugeDTO();
 		
 	}
 

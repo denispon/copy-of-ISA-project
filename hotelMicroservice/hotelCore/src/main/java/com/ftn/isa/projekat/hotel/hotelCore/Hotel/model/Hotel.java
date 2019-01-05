@@ -55,8 +55,8 @@ public class Hotel {
 	private List<VanredneCeneNocenja> vanredneCeneNocenjaList;
 	
 	@JsonIgnore
-	@OneToOne (mappedBy="hotel_cenovnikUsluga", cascade=CascadeType.ALL)
-	private CenovnikUsluga cenovnikUsluga;
+	@OneToMany (mappedBy="hotel_cenovnikUsluga", cascade=CascadeType.ALL)
+	private List<CenovnikUsluga> cenovnikUsluga;
 	
 
 }

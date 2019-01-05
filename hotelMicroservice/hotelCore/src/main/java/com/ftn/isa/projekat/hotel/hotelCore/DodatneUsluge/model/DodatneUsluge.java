@@ -36,7 +36,7 @@ public class DodatneUsluge {
 	private int additionalServicePrice;
 	
 	@JsonIgnore
-	@ManyToOne (cascade=CascadeType.ALL)
+	@ManyToOne ()
 	@JoinColumn (name="cenovnik_usluga_id", nullable = false)
 	private CenovnikUsluga cenovnikUsluga_dodatneUsluge;
 

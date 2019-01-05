@@ -77,7 +77,7 @@ public class HotelskaSobaService implements IHotelskaSobaService{
 			hotelskaSobaRepository.deleteById(id);
 			return hotelskaSobaConverter.convertToDTO(soba.get());
 		}else {
-			return null;
+			return new HotelskaSobaDTO();
 		}
 		
 	}
@@ -99,7 +99,7 @@ public class HotelskaSobaService implements IHotelskaSobaService{
 			return sobaDTO;
 		}
 		
-		return null;
+		return new HotelskaSobaDTO();
 		
 	}
 

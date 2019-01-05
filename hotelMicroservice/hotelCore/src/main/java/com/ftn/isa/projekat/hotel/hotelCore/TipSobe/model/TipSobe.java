@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -49,7 +50,7 @@ public class TipSobe {
 	private List<HotelskaSoba> hotelskaSoba;
 	
 	@JsonIgnore
-	@OneToOne (/*cascade=CascadeType.ALL*/)
+	@ManyToOne (/*cascade=CascadeType.ALL*/)
 	@JoinColumn (name="vanredneCeneNocenja_tipSobe", nullable = false)
 	private VanredneCeneNocenja vanredneCeneNocenja_tipSobe;
 }
