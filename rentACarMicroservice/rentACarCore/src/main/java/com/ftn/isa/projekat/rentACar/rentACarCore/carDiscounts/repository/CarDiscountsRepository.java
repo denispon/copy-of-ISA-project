@@ -11,11 +11,9 @@ import com.ftn.isa.projekat.rentACar.rentACarCore.carDiscounts.model.CarDiscount
 
 public interface CarDiscountsRepository extends JpaRepository<CarDiscounts, Long>  {
 
-	@Query(value="select * from car_discounts where car_on_discount_id = :idCar AND ("
-			+ "(date_from < :dateFrom AND date_to > :dateTo) OR"
-			+ "(date_from > :dateFrom AND date_to > :dateTo) OR"
-			+ "(date_from < :dateFrom AND date_to < :dateTo)"
-			+ ");",nativeQuery=true)
+	@Query(value="select * from car_discounts where car_on_discount_id = :idCar AND" + 
+			" ((date_from between :dateFrom AND :dateTo) OR (date_to between :dateFrom AND :dateTo)" + 
+			");",nativeQuery=true)
 	Optional<List<CarDiscounts>> findCarDiscountByDate(Long idCar, LocalDate dateFrom, LocalDate dateTo);
 	
 }

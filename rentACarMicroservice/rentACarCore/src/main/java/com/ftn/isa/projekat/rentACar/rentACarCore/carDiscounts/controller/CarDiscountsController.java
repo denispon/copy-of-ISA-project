@@ -67,7 +67,7 @@ public class CarDiscountsController {
 		
 		CarDiscountsDTO savedDiscount = discountService.save(dto);
 		
-		return ( savedDiscount!=null )? new ResponseEntity<CarDiscountsDTO>(savedDiscount,HttpStatus.CREATED): new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		return ( savedDiscount.getId() != null )? new ResponseEntity<CarDiscountsDTO>(savedDiscount,HttpStatus.CREATED): new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
 	
 	@DeleteMapping("/{id}")

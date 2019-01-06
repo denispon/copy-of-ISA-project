@@ -85,7 +85,9 @@ public class CarDiscountsServiceImpl  implements ICarDiscountsService{
 		
 		if(!discounts.isPresent()) {
 			
-			discountRepository.save(discountConverter.convertFromDTO(discountToSave));
+			CarDiscounts discount = discountRepository.save(discountConverter.convertFromDTO(discountToSave));
+			
+			discountToSave.setId(discount.getId());
 			
 			return discountToSave;
 			
