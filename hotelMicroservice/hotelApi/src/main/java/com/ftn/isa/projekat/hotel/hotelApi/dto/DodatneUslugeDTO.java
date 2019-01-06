@@ -12,6 +12,6 @@ public class DodatneUslugeDTO {
 	private Long id;
 	private String additionalServiceName;
 	private int additionalServicePrice;
-	private CenovnikUslugaDTO cenovnikUsluga_dodatneUsluge;
+	private HotelDTO hotel_dodatneUsluge;
 	
 }

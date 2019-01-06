@@ -14,8 +14,11 @@ import com.ftn.isa.projekat.hotel.hotelCore.CenovnikUsluga.model.CenovnikUsluga;
 import com.ftn.isa.projekat.hotel.hotelCore.CenovnikUsluga.repository.CenovnikUslugaRepository;
 import com.ftn.isa.projekat.hotel.hotelCore.DodatneUsluge.model.DodatneUsluge;
 import com.ftn.isa.projekat.hotel.hotelCore.DodatneUsluge.repository.DodatneUslugeRepository;
+import com.ftn.isa.projekat.hotel.hotelCore.Hotel.repository.HotelRepository;
+import com.ftn.isa.projekat.hotel.hotelCore.HotelskaSoba.repository.HotelskaSobaRepository;
 import com.ftn.isa.projekat.hotel.hotelCore.dtoConverter.DTOCenovnikConverter;
 import com.ftn.isa.projekat.hotel.hotelCore.dtoConverter.DTODodatneUslugeConverter;
+import com.ftn.isa.projekat.hotel.hotelCore.dtoConverter.DTOHotelConverter;
 
 @Component
 public class DodatneUslugeService implements IDodatneUslugeService{
@@ -28,6 +31,12 @@ public class DodatneUslugeService implements IDodatneUslugeService{
 	
 	@Autowired
 	CenovnikUslugaRepository cenovnikUslugaRepository;
+	
+	@Autowired
+	HotelRepository hotelRepository;
+	
+	@Autowired
+	DTOHotelConverter hotelConverter;
 	
 	@Autowired
 	DTOCenovnikConverter cenovnikConverter;
@@ -81,7 +90,7 @@ public class DodatneUslugeService implements IDodatneUslugeService{
 			
 			zaIzmenu.get().setAdditionalServiceName(dto.getAdditionalServiceName());
 			zaIzmenu.get().setAdditionalServicePrice(dto.getAdditionalServicePrice());
-			zaIzmenu.get().setCenovnikUsluga_dodatneUsluge(cenovnikConverter.convertFromDTO(dto.getCenovnikUsluga_dodatneUsluge()));
+			zaIzmenu.get().setHotel_dodatneUsluge(hotelConverter.convertFromDTO(dto.getHotel_dodatneUsluge()));
 			dodatneUslugeRepository.save(zaIzmenu.get());
 			
 			dto.setId(zaIzmenu.get().getId());
@@ -90,6 +99,21 @@ public class DodatneUslugeService implements IDodatneUslugeService{
 		}
 		
 		return new DodatneUslugeDTO();
+		
+	}
+	
+	public List<DodatneUslugeDTO> findDodatneUslugeHotela(Long id){
+		Optional<List<DodatneUsluge>> list = Optional.of(dodatneUslugeRepository.findAll());
+		ArrayList<DodatneUslugeDTO> uslugeDTO = new ArrayList<DodatneUslugeDTO>();
+		if(list.isPresent()) {
+			for(DodatneUsluge usluga : list.get()) {
+				if(usluga.getHotel_dodatneUsluge().getId()==id) {
+					uslugeDTO.add(dodatneUslugeConverter.convertToDTO(usluga));
+				}
+			}
+			return uslugeDTO;
+		}
+		return Collections.emptyList();
 		
 	}
 

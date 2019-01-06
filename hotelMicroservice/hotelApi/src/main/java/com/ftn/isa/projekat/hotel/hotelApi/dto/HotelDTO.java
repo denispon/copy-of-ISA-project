@@ -1,5 +1,7 @@
 package com.ftn.isa.projekat.hotel.hotelApi.dto;
 
+import java.util.List;
+
 import org.springframework.boot.jackson.JsonComponent;
 
 import lombok.AllArgsConstructor;

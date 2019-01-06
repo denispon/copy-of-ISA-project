@@ -14,6 +14,7 @@ import org.springframework.boot.jackson.JsonComponent;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ftn.isa.projekat.hotel.hotelCore.CenovnikUsluga.model.CenovnikUsluga;
+import com.ftn.isa.projekat.hotel.hotelCore.Hotel.model.Hotel;
 
 import lombok.Data;
 
@@ -37,7 +38,7 @@ public class DodatneUsluge {
 	
 	@JsonIgnore
 	@ManyToOne ()
-	@JoinColumn (name="cenovnik_usluga_id", nullable = false)
-	private CenovnikUsluga cenovnikUsluga_dodatneUsluge;
+	@JoinColumn (name="hotel_id", nullable = false)
+	private Hotel hotel_dodatneUsluge;
 
 }

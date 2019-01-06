@@ -15,9 +15,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ftn.isa.projekat.hotel.hotelApi.dto.CenovnikUslugaDTO;
+import com.ftn.isa.projekat.hotel.hotelApi.dto.HotelDTO;
 import com.ftn.isa.projekat.hotel.hotelApi.dto.HotelskaSobaDTO;
 import com.ftn.isa.projekat.hotel.hotelCore.CenovnikUsluga.service.CenovnikUslugaService;
 import com.ftn.isa.projekat.hotel.hotelCore.CenovnikUsluga.service.ICenovnikUslugaService;
+import com.ftn.isa.projekat.hotel.hotelCore.Hotel.service.IHotelService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -31,6 +33,9 @@ public class CenovnikUslugaController {
 	
 	@Autowired
 	ICenovnikUslugaService cenovnikUslugaService;
+	
+	@Autowired
+	IHotelService hotelService;
 	
 	@GetMapping("/{id}")
 	@ApiOperation( value = "", notes = "", httpMethod="GET")
@@ -84,6 +89,17 @@ public class CenovnikUslugaController {
 	public ResponseEntity<CenovnikUslugaDTO> changeCenovnik(@PathVariable("id") Long id, @RequestBody CenovnikUslugaDTO dto ){
 		CenovnikUslugaDTO zaIzmenu = cenovnikUslugaService.change(id, dto);
 		return (zaIzmenu.getId()!=null) ? new ResponseEntity<CenovnikUslugaDTO>(zaIzmenu, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	}
+	
+	@GetMapping("/cenovniciHotela/{id}")
+	@ApiOperation( value = "", notes = "", httpMethod="GET")
+	@ApiResponses( value = { @ApiResponse( code = 200, message = "OK"),
+							 @ApiResponse( code = 404, message = "Not Found")})
+	public ResponseEntity<List<CenovnikUslugaDTO>> getCenovnikeHotela(@PathVariable("id") Long id){
+		
+		List<CenovnikUslugaDTO> cenovnici = cenovnikUslugaService.findCenovnikeHotela(id);
+		return(!cenovnici.isEmpty()) ? new ResponseEntity<List<CenovnikUslugaDTO>>(cenovnici, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		
 	}
 
 }

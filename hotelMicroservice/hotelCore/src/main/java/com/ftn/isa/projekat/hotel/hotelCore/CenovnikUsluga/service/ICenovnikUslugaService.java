@@ -14,5 +14,5 @@ public interface ICenovnikUslugaService {
 	public CenovnikUslugaDTO save(CenovnikUslugaDTO cenovnikUslugaDTO);
 	public CenovnikUslugaDTO deleteById(Long id);
 	public CenovnikUslugaDTO change(Long id, CenovnikUslugaDTO cenovnikUslugaDTO);
-	
+	public List<CenovnikUslugaDTO> findCenovnikeHotela(Long id);
 }

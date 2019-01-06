@@ -16,6 +16,7 @@ import org.springframework.boot.jackson.JsonComponent;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ftn.isa.projekat.hotel.hotelCore.CenovnikUsluga.model.CenovnikUsluga;
+import com.ftn.isa.projekat.hotel.hotelCore.DodatneUsluge.model.DodatneUsluge;
 import com.ftn.isa.projekat.hotel.hotelCore.HotelskaSoba.model.HotelskaSoba;
 import com.ftn.isa.projekat.hotel.hotelCore.PrihodiHotela.model.PrihodiHotela;
 import com.ftn.isa.projekat.hotel.hotelCore.VanredneCeneNocenja.model.VanredneCeneNocenja;
@@ -57,6 +58,10 @@ public class Hotel {
 	@JsonIgnore
 	@OneToMany (mappedBy="hotel_cenovnikUsluga", cascade=CascadeType.ALL)
 	private List<CenovnikUsluga> cenovnikUsluga;
+	
+	@JsonIgnore
+	@OneToMany (mappedBy="hotel_dodatneUsluge", cascade=CascadeType.ALL)
+	private List<DodatneUsluge> dodatneUslugeList;
 	
 
 }

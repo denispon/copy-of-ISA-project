@@ -12,6 +12,7 @@ import com.ftn.isa.projekat.hotel.hotelApi.dto.CenovnikUslugaDTO;
 import com.ftn.isa.projekat.hotel.hotelApi.dto.HotelskaSobaDTO;
 import com.ftn.isa.projekat.hotel.hotelCore.CenovnikUsluga.model.CenovnikUsluga;
 import com.ftn.isa.projekat.hotel.hotelCore.CenovnikUsluga.repository.CenovnikUslugaRepository;
+import com.ftn.isa.projekat.hotel.hotelCore.Hotel.model.Hotel;
 import com.ftn.isa.projekat.hotel.hotelCore.Hotel.repository.HotelRepository;
 import com.ftn.isa.projekat.hotel.hotelCore.HotelskaSoba.model.HotelskaSoba;
 import com.ftn.isa.projekat.hotel.hotelCore.dtoConverter.DTOCenovnikConverter;
@@ -58,6 +59,8 @@ public class CenovnikUslugaService implements ICenovnikUslugaService{
 	
 	public CenovnikUslugaDTO save(CenovnikUslugaDTO dto) {
 		cenovnikRepository.save(cenovnikConverter.convertFromDTO(dto));
+		//Optional<Hotel> hotel = hotelRepository.findById(dto.getHotel_cenovnikUsluga().getId());//pronadji hotel ciji je cenovnik
+		//hotel.get().getCenovnikUsluga().add(cenovnikConverter.convertFromDTO(dto));//dodaj cenovnik u listu cenovnika hotela kome pripada
 		return dto;
 	}
 	
@@ -91,6 +94,21 @@ public class CenovnikUslugaService implements ICenovnikUslugaService{
 		}
 		
 		return new CenovnikUslugaDTO();
+		
+	}
+	
+	public List<CenovnikUslugaDTO> findCenovnikeHotela(Long id){
+		Optional<List<CenovnikUsluga>> list = Optional.of(cenovnikRepository.findAll());
+		ArrayList<CenovnikUslugaDTO> uslugeDTO = new ArrayList<CenovnikUslugaDTO>();
+		if(list.isPresent()) {
+			for(CenovnikUsluga cenovnik : list.get()) {
+				if(cenovnik.getHotel_cenovnikUsluga().getId()==id) {
+					uslugeDTO.add(cenovnikConverter.convertToDTO(cenovnik));
+				}
+			}
+			return uslugeDTO;
+		}
+		return Collections.emptyList();
 		
 	}
 	

@@ -44,10 +44,6 @@ public class CenovnikUsluga {
 	private int transferPrice;
 	
 	@JsonIgnore
-	@OneToMany (mappedBy="cenovnikUsluga_dodatneUsluge", cascade=CascadeType.ALL)
-	private List<DodatneUsluge> dodatneUslugeList;
-	
-	@JsonIgnore
 	@ManyToOne ()
 	@JoinColumn (name="hotel_cenovnikUsluga",nullable = false)
 	private Hotel hotel_cenovnikUsluga;

@@ -84,4 +84,15 @@ public class HotelController {
 		return (hotelZaIzmenu.getId()!=null) ? new ResponseEntity<HotelDTO>(hotelZaIzmenu, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
 	
+	/*@GetMapping("/{id}")
+	@ApiOperation( value = "", notes = "", httpMethod="GET")
+	@ApiResponses( value = { @ApiResponse( code = 200, message = "OK"),
+							 @ApiResponse( code = 404, message = "Not Found")})
+	public ResponseEntity<HotelDTO> getHotelCenovnike(@PathVariable("id") Long id){
+		
+		HotelDTO hotelDTO = hotelService.findOneById(id);
+		return (hotelDTO.getId()!=null) ? new ResponseEntity<HotelDTO>(hotelDTO, HttpStatus.OK): new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		
+	}*/
+	
 }

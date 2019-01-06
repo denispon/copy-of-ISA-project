@@ -20,14 +20,17 @@ public class DTODodatneUslugeConverter {
 	DTOCenovnikConverter cenovnikConverter;
 	
 	@Autowired
+	DTOHotelConverter hotelConverter;
+	
+	@Autowired
 	DodatneUslugeRepository dodatneUslugeRepository;
 	
 	public DodatneUslugeDTO convertToDTO(DodatneUsluge dodatneUsluge) {
 		DodatneUslugeDTO dto = new DodatneUslugeDTO();
 		dto.setId(dodatneUsluge.getId());
 		dto.setAdditionalServiceName(dodatneUsluge.getAdditionalServiceName());
-		dto.setAdditionalServicePrice(dto.getAdditionalServicePrice());
-		dto.setCenovnikUsluga_dodatneUsluge(cenovnikConverter.convertToDTO(dodatneUsluge.getCenovnikUsluga_dodatneUsluge()));
+		dto.setAdditionalServicePrice(dodatneUsluge.getAdditionalServicePrice());
+		dto.setHotel_dodatneUsluge(hotelConverter.convertToDTO(dodatneUsluge.getHotel_dodatneUsluge()));
 		
 		return dto;
 	}
@@ -42,7 +45,7 @@ public class DTODodatneUslugeConverter {
 		DodatneUsluge bean = new DodatneUsluge();
 		bean.setAdditionalServiceName(dodatneUslugeDTO.getAdditionalServiceName());
 		bean.setAdditionalServicePrice(dodatneUslugeDTO.getAdditionalServicePrice());
-		bean.setCenovnikUsluga_dodatneUsluge(cenovnikConverter.convertFromDTO(dodatneUslugeDTO.getCenovnikUsluga_dodatneUsluge()));
+		bean.setHotel_dodatneUsluge(hotelConverter.convertFromDTO(dodatneUslugeDTO.getHotel_dodatneUsluge()));
 		
 		return bean;
 		

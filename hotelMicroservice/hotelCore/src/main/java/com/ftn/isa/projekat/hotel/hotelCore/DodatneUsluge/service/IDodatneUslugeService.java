@@ -14,5 +14,6 @@ public interface IDodatneUslugeService {
 	public DodatneUslugeDTO save(DodatneUslugeDTO dodatneUslugeDTO);
 	public DodatneUslugeDTO deleteById(Long id);
 	public DodatneUslugeDTO change(Long id, DodatneUslugeDTO dodatneUslugeDTO);
+	public List<DodatneUslugeDTO> findDodatneUslugeHotela(Long id);
 	
 }

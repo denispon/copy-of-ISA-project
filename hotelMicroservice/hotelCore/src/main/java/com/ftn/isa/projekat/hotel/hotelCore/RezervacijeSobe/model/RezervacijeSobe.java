@@ -40,7 +40,7 @@ public class RezervacijeSobe {
 	@Column (name="dateUntil", nullable=false)
 	private Date dateUntil;
 	
-	@Column (name="rating", nullable=false)
+	@Column (name="rating", nullable=false)//ocena za hotel
 	private int rating;
 	
 	@JsonIgnore

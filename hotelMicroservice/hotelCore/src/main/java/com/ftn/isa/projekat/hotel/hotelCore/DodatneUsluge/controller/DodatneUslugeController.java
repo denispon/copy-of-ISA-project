@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ftn.isa.projekat.hotel.hotelApi.dto.CenovnikUslugaDTO;
 import com.ftn.isa.projekat.hotel.hotelApi.dto.DodatneUslugeDTO;
 import com.ftn.isa.projekat.hotel.hotelCore.DodatneUsluge.service.IDodatneUslugeService;
+import com.ftn.isa.projekat.hotel.hotelCore.Hotel.service.IHotelService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -30,6 +31,9 @@ public class DodatneUslugeController {
 	
 	@Autowired
 	IDodatneUslugeService dodatneUslugeService;
+	
+	@Autowired
+	IHotelService hotelService;
 	
 	@GetMapping("/{id}")
 	@ApiOperation( value = "", notes = "", httpMethod="GET")
@@ -83,6 +87,17 @@ public class DodatneUslugeController {
 	public ResponseEntity<DodatneUslugeDTO> changeCenovnik(@PathVariable("id") Long id, @RequestBody DodatneUslugeDTO dto ){
 		DodatneUslugeDTO zaIzmenu = dodatneUslugeService.change(id, dto);
 		return (zaIzmenu.getId()!=null) ? new ResponseEntity<DodatneUslugeDTO>(zaIzmenu, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	}
+	
+	@GetMapping("/uslugeHotela/{id}")
+	@ApiOperation( value = "", notes = "", httpMethod="GET")
+	@ApiResponses( value = { @ApiResponse( code = 200, message = "OK"),
+							 @ApiResponse( code = 404, message = "Not Found")})
+	public ResponseEntity<List<DodatneUslugeDTO>> getUslugeHotela(@PathVariable("id") Long id){
+		
+		List<DodatneUslugeDTO> usluge = dodatneUslugeService.findDodatneUslugeHotela(id);
+		return(!usluge.isEmpty()) ? new ResponseEntity<List<DodatneUslugeDTO>>(usluge, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		
 	}
 
 }
