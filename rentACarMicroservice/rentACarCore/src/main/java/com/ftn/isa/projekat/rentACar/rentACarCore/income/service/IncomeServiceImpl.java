@@ -68,9 +68,20 @@ public class IncomeServiceImpl implements IIncomeService {
 
 	@Override
 	public IncomeDTO save(IncomeDTO incomeToSave) {
-		incomeRepository.save(incomeConverter.convertFromDTO(incomeToSave));
 		
-		return incomeToSave;
+		//checking if there is rent a car service.
+		//if there is not, then we will return empty object.
+		Optional<RentACarService> rentService = rentACarServiceRepository.findById(incomeToSave.getRentService().getId());
+		
+		if(rentService.isPresent()) {
+			
+			incomeRepository.save(incomeConverter.convertFromDTO(incomeToSave));
+			
+			return incomeToSave;
+		
+		}
+		
+		return new IncomeDTO();
 	}
 
 	@Override

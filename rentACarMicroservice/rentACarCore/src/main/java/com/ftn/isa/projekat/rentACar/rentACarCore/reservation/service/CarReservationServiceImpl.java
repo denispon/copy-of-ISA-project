@@ -9,6 +9,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.ftn.isa.projekat.rentACar.rentACarApi.dto.CarDiscountsDTO;
 import com.ftn.isa.projekat.rentACar.rentACarApi.dto.CarReservationDTO;
 import com.ftn.isa.projekat.rentACar.rentACarCore.branchOffice.model.BranchOffice;
 import com.ftn.isa.projekat.rentACar.rentACarCore.branchOffice.repository.BranchOfficeRepository;
@@ -88,9 +89,46 @@ public class CarReservationServiceImpl implements ICarReservationService {
 	@Override
 	public CarReservationDTO save(CarReservationDTO reservationToSave) {
 		
-		reservationRepository.save(reservationConverter.convertFromDTO(reservationToSave));
+		//At First we need to check if dateFrom is before dateTo
+		//If it is after dateTo, then we will return an empty object
+		if(reservationToSave.getDateFrom().isAfter(reservationToSave.getDateTo())) {
+			
+			return new CarReservationDTO();
+			
+		}
 		
-		return reservationToSave;
+		
+		/*
+		 * First of all we need to see if there is existing data in data base for car, branch offices and rent a car service.
+		 * If there is not for all of them, we are returning empty object.
+		 * 
+		 *  */
+		Optional<BranchOffice> branchFrom = branchOfficeRepository.findById(reservationToSave.getBranchOfficeFrom().getId());
+		Optional<BranchOffice> branchTo = branchOfficeRepository.findById(reservationToSave.getBranchOfficeTo().getId());
+		Optional<RentACarService> rentService = rentACarRepository.findById(reservationToSave.getService().getId());
+		Optional<Car> reservedCar = carRepository.findById(reservationToSave.getReservedCar().getId());
+		
+		if(branchFrom.isPresent() && branchTo.isPresent() && rentService.isPresent() && reservedCar.isPresent()) {
+			
+			Long branchFromRentId = branchFrom.get().getBranchRentService().getId();
+			Long branchToRentId = branchTo.get().getBranchRentService().getId();
+			Long carRentId = reservedCar.get().getCarRentService().getId();
+			Long rentId = rentService.get().getId();
+			
+			// now we need to see if they are from same rent a car service. If not , we are returning empty object.
+			if(branchFromRentId == rentId && branchToRentId==rentId && carRentId==rentId) {
+				
+				reservationRepository.save(reservationConverter.convertFromDTO(reservationToSave));
+				
+				return reservationToSave;
+				
+			}
+			
+			
+		}
+		
+		
+		return new CarReservationDTO();
 
 	}
 
@@ -133,6 +171,14 @@ public class CarReservationServiceImpl implements ICarReservationService {
 	@Override
 	public CarReservationDTO changeReservation(Long id, CarReservationDTO reservation) {
 		
+		//At First we need to check if dateFrom is before dateTo
+		//If it is after dateTo, then we will return an empty object
+		if(reservation.getDateFrom().isAfter(reservation.getDateTo())) {
+			
+			return new CarReservationDTO();
+			
+		}
+		
 		Optional<CarReservation> reservationForChange = reservationRepository.findById(id);
 		
 		if(reservationForChange.isPresent() && reservation != null) {
@@ -146,21 +192,33 @@ public class CarReservationServiceImpl implements ICarReservationService {
 			
 			if(rentService.isPresent() && branchFrom.isPresent() && branchTo.isPresent() && reservedCar.isPresent()) {
 				
-				reservationForChange.get().setBranchOfficeFrom(branchFrom.get());
-				reservationForChange.get().setBranchOfficeTo(branchTo.get());
-				reservationForChange.get().setReservationRentService(rentService.get());
-				reservationForChange.get().setDateFrom(reservation.getDateFrom());
-				reservationForChange.get().setDateTo(reservation.getDateTo());
-				reservationForChange.get().setRating(reservation.getRating());
-				reservationForChange.get().setReservedCar(reservedCar.get());
+				
+				// now we need to see if they are from same rent a car service. If not , we are returning empty object.
+
+				Long branchFromRentId = branchFrom.get().getBranchRentService().getId();
+				Long branchToRentId = branchTo.get().getBranchRentService().getId();
+				Long carRentId = reservedCar.get().getCarRentService().getId();
+				Long rentId = rentService.get().getId();
 				
 				
-				reservationRepository.save(reservationForChange.get());
-				
-				reservation.setId(reservationForChange.get().getId());
-				
-				return reservation;
-				
+				if(branchFromRentId == rentId && branchToRentId==rentId && carRentId==rentId) {
+	
+					reservationForChange.get().setBranchOfficeFrom(branchFrom.get());
+					reservationForChange.get().setBranchOfficeTo(branchTo.get());
+					reservationForChange.get().setReservationRentService(rentService.get());
+					reservationForChange.get().setDateFrom(reservation.getDateFrom());
+					reservationForChange.get().setDateTo(reservation.getDateTo());
+					reservationForChange.get().setRating(reservation.getRating());
+					reservationForChange.get().setReservedCar(reservedCar.get());
+					
+					
+					reservationRepository.save(reservationForChange.get());
+					
+					reservation.setId(reservationForChange.get().getId());
+					
+					return reservation;
+					
+				}
 			}
 		}
 		

@@ -23,6 +23,7 @@ import com.ftn.isa.projekat.rentACar.rentACarCore.dtoConverter.DTORentACarServic
 import com.ftn.isa.projekat.rentACar.rentACarCore.rentACarService.model.RentACarService;
 import com.ftn.isa.projekat.rentACar.rentACarCore.rentACarService.repository.RentACarServiceRepository;
 import com.ftn.isa.projekat.rentACar.rentACarCore.reservation.model.CarReservation;
+import com.ftn.isa.projekat.rentACar.rentACarCore.reservation.repository.CarReservationRepository;
 
 @Service
 public class CarServiceImpl  implements ICarService{
@@ -35,6 +36,8 @@ public class CarServiceImpl  implements ICarService{
 	CarTypeRepository carTypeRepository;
 	@Autowired
 	BranchOfficeRepository branchOfficeRepository;
+	@Autowired
+	CarReservationRepository carReservationRepository;
 	
 	@Autowired
 	DTOCarConverter carConverter;
@@ -89,9 +92,35 @@ public class CarServiceImpl  implements ICarService{
 	@Override
 	public CarDTO save(CarDTO carToSave) {
 		
-		carRepository.save(carConverter.convertFromDTO(carToSave));
+		/*
+		 * First we need to see if there is branch office, car type and rent a car service
+		 * in database. If they are not , then we will return empty object and car will not be saved.
+		 * 
+		 *  */
 		
-		return carToSave;
+		Optional<RentACarService> rentService = rentACarServiceRepository.findById(carToSave.getRentService().getId());
+		Optional<BranchOffice> branch = branchOfficeRepository.findById(carToSave.getBranchOffice().getId());
+		Optional<CarType> carType = carTypeRepository.findById(carToSave.getCarType().getId());
+		
+		if(rentService.isPresent() && branch.isPresent() && carType.isPresent()) {
+			//now we need to see if branch office is from found rent a car service
+			//if they are not, we will return also empty object with info and car will not be saved
+			if(branch.get().getBranchRentService().getId() == rentService.get().getId()) {
+			
+				carRepository.save(carConverter.convertFromDTO(carToSave));
+				
+				return carToSave;
+				
+			}
+			
+			CarDTO carDTO = new CarDTO();
+			
+			carDTO.setRentPrice(-10);
+			
+			return carDTO;
+		}
+		
+		return new CarDTO();
 	}
 
 	@Override
@@ -116,6 +145,16 @@ public class CarServiceImpl  implements ICarService{
 		
 		if( carToDelete.isPresent() ) {
 		
+			
+			Car carReplace = new Car();
+			//we need to go in all reservation and replace this car with empty object
+			for(CarReservation reservation : carToDelete.get().getCarReservations()) {
+				
+				reservation.setReservedCar(carReplace);
+				
+				carReservationRepository.save(reservation);
+				
+			}
 			carRepository.deleteById(id);
 			return carConverter.convertToDTO(carToDelete.get());
 		
@@ -135,7 +174,7 @@ public class CarServiceImpl  implements ICarService{
 		if( carForChange.isPresent() && car!=null ) {
 			
 			/*
-			 * Preventing deleting a car while the car is still reserved.
+			 * Preventing editing a car while the car is still reserved.
 			 * */
 			for(CarReservation reservation : carForChange.get().getCarReservations()) {
 				
@@ -154,17 +193,36 @@ public class CarServiceImpl  implements ICarService{
 			
 			if( rentService.isPresent() && carType.isPresent() && branchOffice.isPresent()) {
 				
-				carForChange.get().setCarRentService(rentService.get());
-				carForChange.get().setCarType(carType.get());
-				carForChange.get().setCarBranchOffice( branchOffice.get() );
+				//checking if branch office is from same rent a car service
+				//if it is not, then we will return empty object with rentPrice = '-10'
 				
-				carForChange.get().setRentPrice(car.getRentPrice());
+				if(rentService.get().getId() == branchOffice.get().getBranchRentService().getId()) {
+					
+					carForChange.get().setCarRentService(rentService.get());
+					carForChange.get().setCarType(carType.get());
+					carForChange.get().setCarBranchOffice( branchOffice.get() );
+					
+					carForChange.get().setRentPrice(car.getRentPrice());
+					
+					carRepository.save(carForChange.get());
+					
+					car.setId(carForChange.get().getId());
+					
+					return car;	
+					
+				}
+				else {
+					
+					CarDTO carDTO = new CarDTO();
+					
+					carDTO.setRentPrice(-10);
+					
+					return carDTO;
+					
+				}
 				
-				carRepository.save(carForChange.get());
 				
-				car.setId(carForChange.get().getId());
 				
-				return car;
 				
 			}
 		}

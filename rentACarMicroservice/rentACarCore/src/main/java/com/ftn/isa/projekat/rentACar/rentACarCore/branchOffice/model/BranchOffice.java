@@ -2,6 +2,7 @@ package com.ftn.isa.projekat.rentACar.rentACarCore.branchOffice.model;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -58,7 +59,6 @@ public class BranchOffice {
 	/*
 	 *List of reservation who has a car who needs to get back to this branch office
 	 *
-	 *OneToMany mappedBy ide ime one promenljive u kojoj si ubacio taj nas office iz neke klase koja je koristila ovo
 	 * */
 	@JsonIgnore
 	@OneToMany (mappedBy="branchOfficeTo")
