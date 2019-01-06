@@ -2,6 +2,7 @@ package com.ftn.isa.projekat.rentACar.rentACarCore.car.model;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -55,7 +56,7 @@ public class Car {
 	private List<CarReservation> carReservations;
 	
 	@JsonIgnore
-	@OneToMany (mappedBy="carOnDiscount")
+	@OneToMany (mappedBy="carOnDiscount", cascade = CascadeType.ALL)
 	private List<CarDiscounts> carDiscounts;
 	
 	

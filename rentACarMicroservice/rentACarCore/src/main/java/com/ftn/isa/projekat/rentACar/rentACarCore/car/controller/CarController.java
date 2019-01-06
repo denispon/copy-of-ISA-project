@@ -71,7 +71,7 @@ public class CarController {
 	}
 	
 	@DeleteMapping("/{id}")
-	@ApiOperation( value = "Delete a car.", notes = "Returns the car being deleted", httpMethod="DELETE")
+	@ApiOperation( value = "Delete a car.", notes = "Returns the car being deleted. If branch office is not from a rent a car service in car object, car will not be saved and user will get empty object with rentPrice attribute '-10'", httpMethod="DELETE")
 	@ApiResponses( value = { 
 			 @ApiResponse( code = 200, message ="OK"),
 			 @ApiResponse( code = 404, message ="Not Found")})	

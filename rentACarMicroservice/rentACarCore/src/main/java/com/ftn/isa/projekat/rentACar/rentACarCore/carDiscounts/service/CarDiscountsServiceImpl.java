@@ -76,6 +76,14 @@ public class CarDiscountsServiceImpl  implements ICarDiscountsService{
 	@Override
 	public CarDiscountsDTO save(CarDiscountsDTO discountToSave) {
 		
+		//At First we need to check if dateFrom is before dateTo
+		//If it is after dateTo, then we will return an empty object
+		if(discountToSave.getDateFrom().isAfter(discountToSave.getDateTo())) {
+			
+			return new CarDiscountsDTO();
+			
+		}
+		
 		/*
 		 * We don't want to save discount if database already contains some discount for same car at same time...
 		 * So we need to see if there is any car in this time period for discord.
@@ -85,11 +93,18 @@ public class CarDiscountsServiceImpl  implements ICarDiscountsService{
 		
 		if(!discounts.isPresent()) {
 			
-			CarDiscounts discount = discountRepository.save(discountConverter.convertFromDTO(discountToSave));
+			//If car dont exits, then we will return empty object
+			Optional<Car> car = carRepository.findById(discountToSave.getCarId().getId());
 			
-			discountToSave.setId(discount.getId());
+			if(car.isPresent()) {
+				
+				CarDiscounts discount = discountRepository.save(discountConverter.convertFromDTO(discountToSave));
+				
+				discountToSave.setId(discount.getId());
+				
+				return discountToSave;
 			
-			return discountToSave;
+			}
 			
 		}
 		
@@ -114,6 +129,14 @@ public class CarDiscountsServiceImpl  implements ICarDiscountsService{
 
 	@Override
 	public CarDiscountsDTO changeDiscount(Long id, CarDiscountsDTO discount) {
+		
+		//At First we need to check if dateFrom is before dateTo
+		//If it is after dateTo, then we will return an empty object
+		if(discount.getDateFrom().isAfter(discount.getDateTo())) {
+			
+			return new CarDiscountsDTO();
+			
+		}
 		
 		Optional<CarDiscounts> discountForChange = discountRepository.findById(id);
 		

@@ -11,10 +11,14 @@ import org.springframework.stereotype.Component;
 import com.ftn.isa.projekat.rentACar.rentACarApi.dto.BranchOfficeDTO;
 import com.ftn.isa.projekat.rentACar.rentACarCore.branchOffice.model.BranchOffice;
 import com.ftn.isa.projekat.rentACar.rentACarCore.branchOffice.repository.BranchOfficeRepository;
+import com.ftn.isa.projekat.rentACar.rentACarCore.car.model.Car;
+import com.ftn.isa.projekat.rentACar.rentACarCore.car.repository.CarRepository;
 import com.ftn.isa.projekat.rentACar.rentACarCore.dtoConverter.DTOBranchOfficeConverter;
 import com.ftn.isa.projekat.rentACar.rentACarCore.dtoConverter.DTORentACarServiceConverter;
 import com.ftn.isa.projekat.rentACar.rentACarCore.rentACarService.model.RentACarService;
 import com.ftn.isa.projekat.rentACar.rentACarCore.rentACarService.repository.RentACarServiceRepository;
+import com.ftn.isa.projekat.rentACar.rentACarCore.reservation.model.CarReservation;
+import com.ftn.isa.projekat.rentACar.rentACarCore.reservation.repository.CarReservationRepository;
 
 @Component
 public class BranchOfficeServiceImpl implements IBranchOfficeService {
@@ -24,6 +28,10 @@ public class BranchOfficeServiceImpl implements IBranchOfficeService {
 	BranchOfficeRepository branchOfficeRepository;
 	@Autowired
 	RentACarServiceRepository rentACarServiceRepository;
+	@Autowired
+	CarRepository carRepository;
+	@Autowired
+	CarReservationRepository reservationRepository;
 	
 	@Autowired
 	DTOBranchOfficeConverter branchOfficeConverter;
@@ -74,9 +82,21 @@ public class BranchOfficeServiceImpl implements IBranchOfficeService {
 	
 	public BranchOfficeDTO save(BranchOfficeDTO branchOfficeToSave) {
 		
-		branchOfficeRepository.save(branchOfficeConverter.convertFromDTO(branchOfficeToSave));
+		/*
+		 * First we need to find rent a car service. If it exist then we will make branch office.
+		 * 
+		 *  */
 		
-		return branchOfficeToSave;
+		Optional<RentACarService> rentService = rentACarServiceRepository.findById(branchOfficeToSave.getRentServiceDTO().getId());
+		
+		if(rentService.isPresent()) {
+		
+			branchOfficeRepository.save(branchOfficeConverter.convertFromDTO(branchOfficeToSave));
+			
+			return branchOfficeToSave;
+		}
+		
+		return new BranchOfficeDTO();
 	}
 
 	
@@ -85,6 +105,40 @@ public class BranchOfficeServiceImpl implements IBranchOfficeService {
 		Optional<BranchOffice> branchOfficeToDelete = branchOfficeRepository.findById(id);
 		
 		if( branchOfficeToDelete.isPresent() ) {
+			
+			/*
+			 * Now we need to free all cars from this branch office to empty branch office object
+			 *  */
+			
+			//finding another branch office
+			BranchOffice branchOffice = new BranchOffice();
+			
+			for(Car car : branchOfficeToDelete.get().getCars()) {
+				
+				car.setCarBranchOffice(branchOffice);
+				
+				carRepository.save(car);
+				
+			}
+			
+			
+			//also from all reservations we need to swap this branch office with empty object
+			for(CarReservation reservation : branchOfficeToDelete.get().getReservationFromBranchOffice()) {
+				
+				reservation.setBranchOfficeFrom(branchOffice);
+				
+				reservationRepository.save(reservation);
+				
+			}
+			
+			for(CarReservation reservation : branchOfficeToDelete.get().getReservationToBranchOffice()) {
+				
+				reservation.setBranchOfficeTo(branchOffice);
+				
+				reservationRepository.save(reservation);
+				
+			}
+			
 		
 			branchOfficeRepository.deleteById(id);
 			
