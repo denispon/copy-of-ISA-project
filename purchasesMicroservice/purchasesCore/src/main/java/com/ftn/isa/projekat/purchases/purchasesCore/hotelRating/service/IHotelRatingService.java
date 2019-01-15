@@ -14,6 +14,6 @@ public interface IHotelRatingService {
 	public HotelRatingDTO save(HotelRatingDTO rating);
 	public HotelRatingDTO deleteById(Long id);
 	public HotelRatingDTO change(Long id, HotelRatingDTO hotelRatingDTO);
-	//public Double averageRating(Long id);
+	public Double getHotelAverageRating(Long id);
 	
 }

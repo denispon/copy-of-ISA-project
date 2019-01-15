@@ -85,5 +85,16 @@ public class HotelRatingService implements IHotelRatingService{
 		
 	}
 	
+	public Double getHotelAverageRating(Long id) {
+		
+		Optional<Double> rating = hotelRatingRepository.getHotelAverageRating(id);
+		
+		if(rating != null) {
+			return rating.get();
+		}else {
+			return null;
+		}
+	}
+	
 
 }

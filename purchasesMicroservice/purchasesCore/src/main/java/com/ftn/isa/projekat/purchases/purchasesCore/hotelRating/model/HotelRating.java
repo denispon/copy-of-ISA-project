@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table (name="hotel_rating")
+@Table (name="hotel_rating_table")
 public class HotelRating {
 	
 	@Id
