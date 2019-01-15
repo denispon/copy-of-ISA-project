@@ -280,4 +280,92 @@ public class CarServiceImpl  implements ICarService{
 		return Collections.emptyList();
 		
 	}
+
+	@Override
+	public List<CarDTO> findAllByRentACarService(Long rentId) {
+
+		Optional< List<Car> > list = carRepository.findAllByCarRentServiceId(rentId);
+		ArrayList< CarDTO > CarsDTO = new ArrayList< CarDTO >();
+		
+		if ( list.isPresent() ) {
+			
+			for ( Car car : list.get()) {
+				
+				CarsDTO.add(carConverter.convertToDTO(car));
+				
+			}
+			
+			return CarsDTO;
+			
+		}
+		
+		return Collections.emptyList();
+		
+	}
+
+	@Override
+	public List<CarDTO> getAllCurrentlyDiscount(LocalDate date) {
+
+		Optional< List<Car> > list = carRepository.findAllCurrentlyOnDiscount(date);
+		ArrayList< CarDTO > CarsDTO = new ArrayList< CarDTO >();
+		
+		if ( list.isPresent() ) {
+			
+			for ( Car car : list.get()) {
+				
+				CarsDTO.add(carConverter.convertToDTO(car));
+				
+			}
+			
+			return CarsDTO;
+			
+		}
+		
+		return Collections.emptyList();
+		
+	}
+
+	@Override
+	public List<CarDTO> getAllNotOnDiscount(LocalDate date) {
+
+		Optional< List<Car> > list = carRepository.findAllNotOnDiscount(date);
+		ArrayList< CarDTO > CarsDTO = new ArrayList< CarDTO >();
+		
+		if ( list.isPresent() ) {
+			
+			for ( Car car : list.get()) {
+				
+				CarsDTO.add(carConverter.convertToDTO(car));
+				
+			}
+			
+			return CarsDTO;
+			
+		}
+		
+		return Collections.emptyList();
+		
+	}
+
+	@Override
+	public List<CarDTO> getAllOnDiscount() {
+
+		Optional< List<Car> > list = carRepository.findAllOnDiscount();
+		ArrayList< CarDTO > CarsDTO = new ArrayList< CarDTO >();
+		
+		if ( list.isPresent() ) {
+			
+			for ( Car car : list.get()) {
+				
+				CarsDTO.add(carConverter.convertToDTO(car));
+				
+			}
+			
+			return CarsDTO;
+			
+		}
+		
+		return Collections.emptyList();
+		
+	}
 }

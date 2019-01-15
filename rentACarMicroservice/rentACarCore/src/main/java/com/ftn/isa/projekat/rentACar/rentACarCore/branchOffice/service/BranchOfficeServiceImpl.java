@@ -182,6 +182,29 @@ public class BranchOfficeServiceImpl implements IBranchOfficeService {
 		
 		return new BranchOfficeDTO();
 	}
+
+
+	@Override
+	public List<BranchOfficeDTO> findAllByRentServiceId(Long rentId) {
+
+		Optional< List<BranchOffice> > list = branchOfficeRepository.findAllByBranchRentServiceId(rentId);
+		ArrayList< BranchOfficeDTO > branchOfficesDTO = new ArrayList< BranchOfficeDTO >();
+		
+		if ( list.isPresent() ) {
+			
+			for ( BranchOffice branch : list.get()) {
+				
+				branchOfficesDTO.add(branchOfficeConverter.convertToDTO(branch));
+				
+			}
+			
+			return branchOfficesDTO;
+			
+		}
+		
+		return Collections.emptyList();
+		
+	}
 	
 	
 }

@@ -22,6 +22,8 @@ public interface IBranchOfficeService {
 	public BranchOfficeDTO deleteById ( Long id );
 	
 	public BranchOfficeDTO changeBranchOffice ( Long id, BranchOfficeDTO branchOffice );
+
+	public List<BranchOfficeDTO> findAllByRentServiceId(Long rentId);
 	
 	
 	

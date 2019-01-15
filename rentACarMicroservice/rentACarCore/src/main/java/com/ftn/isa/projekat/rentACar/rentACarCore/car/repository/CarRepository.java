@@ -27,5 +27,28 @@ public interface CarRepository extends JpaRepository < Car, Long > {
 			+ "and r.date_from > :dateFrom AND r.date_to < :dateTo );", nativeQuery = true)
 	Optional< List<Car> > findFreeCars(@Param("dateFrom") LocalDate dateFrom, @Param("dateTo") LocalDate dateTo);
 
+
+	Optional< List<Car> > findAllByCarRentServiceId(Long rentId);
+
+	@Query(value="select * from car where id in"
+			+ " (select car_on_discount_id from car_discounts "
+			+ "where date_from <= :date and date_to >= :date);" 
+			,nativeQuery=true)
+	Optional< List<Car> > findAllCurrentlyOnDiscount(LocalDate date);
+	
+	
+	@Query(value="select * from car where id not in"
+			+ " (select car_on_discount_id from car_discounts "
+			+ "where date_from <= :date and date_to >= :date);" 
+			,nativeQuery=true)
+	Optional< List<Car> > findAllNotOnDiscount(LocalDate date);
+
+	
+	
+	@Query(value="select * from car where id in"
+			+ " (select car_on_discount_id from car_discounts);"
+			,nativeQuery=true)
+	Optional<List<Car>> findAllOnDiscount();
+
 	
 }

@@ -90,5 +90,17 @@ public class BranchOfficeController {
 	
 	    return ( branchToEdit.getId() != null )? new ResponseEntity<BranchOfficeDTO>(branchToEdit,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
+	
+	@GetMapping("/getAllByRentService/{id}")
+	@ApiOperation( value = "Returns all branch offices of one rent a car service", httpMethod = "GET")
+	@ApiResponses( value = { @ApiResponse( code = 200, message ="OK"),
+							 @ApiResponse( code = 404, message ="Not Found")})	
+	public ResponseEntity<List<BranchOfficeDTO>> getAllBranchesByRentService(@PathVariable("id") Long rentId){
+		
+		List<BranchOfficeDTO> branches = branchOfficeService.findAllByRentServiceId(rentId);
+		
+		return ( !branches.isEmpty() )? new ResponseEntity<List<BranchOfficeDTO>>(branches,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		
+	}
 
 }

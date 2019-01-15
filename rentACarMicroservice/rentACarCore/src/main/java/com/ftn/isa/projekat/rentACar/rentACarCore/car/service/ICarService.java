@@ -12,6 +12,14 @@ public interface ICarService {
 	
 	public List<CarDTO> findAll();
 	
+	public List<CarDTO> findAllByRentACarService(Long rentId);
+	
+	public List<CarDTO> getAllNotOnDiscount(LocalDate date);
+	
+	public List<CarDTO> getAllOnDiscount();
+	
+	public List<CarDTO> getAllCurrentlyDiscount(LocalDate date);
+	
 	public CarDTO save (CarDTO carToSave);
 	
 	public CarDTO deleteById ( Long id );
@@ -21,5 +29,13 @@ public interface ICarService {
 	public List<CarDTO> getReservedCarsFromTo(LocalDate dateFrom, LocalDate dateTo);
 
 	public List<CarDTO> getFreeCarsFromTo(LocalDate dateFrom, LocalDate dateTo);
+
+	
+
+	
+
+	
+
+	
 	
 }

@@ -115,4 +115,52 @@ public class CarController {
 		
 	}
 	
+	@GetMapping("/getByRentService/{id}")
+	@ApiOperation( value = "Returns all cars by some rent a car service", httpMethod = "GET")
+	@ApiResponses( value = { @ApiResponse( code = 200, message ="OK"),
+							 @ApiResponse( code = 404, message ="Not Found")})	
+	public ResponseEntity< List<CarDTO> > getAllCarsByRentService(@PathVariable("id") Long rentId){
+		
+		List<CarDTO> cars = carService.findAllByRentACarService(rentId);
+		
+		return ( !cars.isEmpty() )? new ResponseEntity<List<CarDTO>>(cars,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		
+	}
+
+	@GetMapping("/currentlyDiscount/{date}")
+	@ApiOperation( value = "Returns all cars that are on discount on that date", httpMethod = "GET")
+	@ApiResponses( value = { @ApiResponse( code = 200, message ="OK"),
+							 @ApiResponse( code = 404, message ="Not Found")})	
+	public ResponseEntity< List<CarDTO> > findAllCurrentlyOnDiscount(@PathVariable("date") String date){
+		
+		List<CarDTO> cars = carService.getAllCurrentlyDiscount(LocalDate.parse(date));
+		
+		return ( !cars.isEmpty() )? new ResponseEntity<List<CarDTO>>(cars,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);		
+		
+	}
+	
+	@GetMapping("/AllOnDiscount")
+	@ApiOperation( value = "Returns all cars that are on discount", httpMethod = "GET")
+	@ApiResponses( value = { @ApiResponse( code = 200, message ="OK"),
+							 @ApiResponse( code = 404, message ="Not Found")})		
+	public ResponseEntity< List<CarDTO> > findAllOnDiscount(){
+		
+		List<CarDTO> cars = carService.getAllOnDiscount();
+		
+		return ( !cars.isEmpty() )? new ResponseEntity<List<CarDTO>>(cars,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);		
+		
+	}
+	
+	@GetMapping("/allNotOnDiscount/{date}")
+	@ApiOperation( value = "Returns all cars that are not on discount on that date", httpMethod = "GET")
+	@ApiResponses( value = { @ApiResponse( code = 200, message ="OK"),
+							 @ApiResponse( code = 404, message ="Not Found")})	
+	public ResponseEntity< List<CarDTO> > findAllNotOnDiscount(@PathVariable("date") String date){
+		
+		List<CarDTO> cars = carService.getAllNotOnDiscount(LocalDate.parse(date));
+		
+		return ( !cars.isEmpty() )? new ResponseEntity<List<CarDTO>>(cars,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);		
+		
+	}
+	
 }
