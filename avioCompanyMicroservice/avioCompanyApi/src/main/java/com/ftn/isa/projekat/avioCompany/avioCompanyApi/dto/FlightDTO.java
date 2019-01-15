@@ -17,4 +17,6 @@ public class FlightDTO
 	private int flightTime; //u satima
 	private float flightLength;
 	private int numberOfTransfers; //broj presedanja
+	
+	private AvioCompanyDTO company;
 }

@@ -2,8 +2,11 @@ package com.ftn.isa.projekat.avioCompany.avioCompanyCore.TransferLocation.servic
 
 import java.util.List;
 
+import org.springframework.stereotype.Component;
+
 import com.ftn.isa.projekat.avioCompany.avioCompanyApi.dto.TransferLocationDTO;
 
+@Component
 public interface ITransferLocationService {
 
 	TransferLocationDTO findOneById(Long id);

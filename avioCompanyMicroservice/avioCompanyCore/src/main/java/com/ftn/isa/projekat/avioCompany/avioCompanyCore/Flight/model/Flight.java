@@ -18,6 +18,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.ftn.isa.projekat.avioCompany.avioCompanyCore.AvioCompany.model.AvioCompany;
 import com.ftn.isa.projekat.avioCompany.avioCompanyCore.Destination.model.Destination;
 import com.ftn.isa.projekat.avioCompany.avioCompanyCore.PlaceInPlane.model.PlaceInPlane;
 import com.ftn.isa.projekat.avioCompany.avioCompanyCore.Ticket.model.Ticket;
@@ -50,11 +51,12 @@ public class Flight
 	@Column (name = "number_of_transfers") //broj presedanja
 	private int numberOfTransfers;
 	
+	
 	/*
 	 * List of destinations that support specified flight
 	 */
 	@JsonIgnore
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne()
 	@JoinColumn (name = "flights_destination")
 	private Destination flightsDestination;
 	
@@ -83,7 +85,14 @@ public class Flight
 	 * List of places in plane available on flight
 	 */
 	@JsonIgnore
-	@OneToMany (mappedBy = "flightPlace")
+	@OneToMany (mappedBy = "flightPlace", cascade = CascadeType.ALL)
 	private List<PlaceInPlane> places;
-
+	
+	/*
+	 * Attached airline for concrete flight (dodato)
+	 */
+	@JsonIgnore
+	@ManyToOne()
+	@JoinColumn (name = "avio_company_id", nullable = false)
+	private AvioCompany companyId;
 }

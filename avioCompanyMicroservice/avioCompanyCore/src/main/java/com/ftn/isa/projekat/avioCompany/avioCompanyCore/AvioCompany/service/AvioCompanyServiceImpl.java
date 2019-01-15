@@ -9,21 +9,38 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ftn.isa.projekat.avioCompany.avioCompanyApi.dto.AvioCompanyDTO;
+import com.ftn.isa.projekat.avioCompany.avioCompanyApi.dto.FlightDTO;
+import com.ftn.isa.projekat.avioCompany.avioCompanyApi.dto.TicketDTO;
 import com.ftn.isa.projekat.avioCompany.avioCompanyCore.AvioCompany.model.AvioCompany;
 import com.ftn.isa.projekat.avioCompany.avioCompanyCore.AvioCompany.repository.AvioCompanyRepository;
-import com.ftn.isa.projekat.avioCompany.avioCompanyCore.AvioIncome.repository.AvioIncomeRepository;
+import com.ftn.isa.projekat.avioCompany.avioCompanyCore.Flight.model.Flight;
+import com.ftn.isa.projekat.avioCompany.avioCompanyCore.Flight.repository.FlightRepository;
+import com.ftn.isa.projekat.avioCompany.avioCompanyCore.Ticket.model.Ticket;
+import com.ftn.isa.projekat.avioCompany.avioCompanyCore.Ticket.repository.TicketRepository;
 import com.ftn.isa.projekat.avioCompany.avioCompanyCore.dtoConverter.DTOAvioCompanyConverter;
+import com.ftn.isa.projekat.avioCompany.avioCompanyCore.dtoConverter.DTOFlightConverter;
+import com.ftn.isa.projekat.avioCompany.avioCompanyCore.dtoConverter.DTOTicketConverter;
 
 @Service
 public class AvioCompanyServiceImpl implements IAvioCompanyService
 {
 	@Autowired
 	AvioCompanyRepository companyRepository;
+	@Autowired
+	DTOAvioCompanyConverter companyConverter;
 //	@Autowired
 //	AvioIncomeRepository incomerep;
 	
 	@Autowired
-	DTOAvioCompanyConverter companyConverter;
+	FlightRepository flightRepository;
+	@Autowired
+	DTOFlightConverter flightConverter;
+	
+	@Autowired
+	TicketRepository ticketRepository;
+	@Autowired 
+	DTOTicketConverter ticketConverter;
+	
 	
 	
 
@@ -98,6 +115,76 @@ public class AvioCompanyServiceImpl implements IAvioCompanyService
 		}
 		
 		return null;
+	}
+	
+	/*
+	 * 
+	 * Prosecna ocena za kompaniju
+	 */
+
+	@Override
+	public Float getAvgRating(Long id) //prosledjujemo ID kompanije za koju trazimo prosecnu sumu
+	{
+		Optional<List<Flight>> flights = Optional.of(flightRepository.findAll());
+		Optional<List<Ticket>> tickets = Optional.of(ticketRepository.findAll());
+		
+		ArrayList<FlightDTO> flDtos = new ArrayList<FlightDTO>();
+		ArrayList<TicketDTO> tDtos = new ArrayList<TicketDTO>();
+		
+		int flightSum = 0; //zbir svih ocena za jedan let
+		float companyAvg = 0; //konacna prosecna ocena kompanije
+		
+		if(flights.isPresent()) //ako postoji let => znaci da je zavrsen i postoje ocene korisnika
+		{
+			for(Ticket ticket : tickets.get())
+			{
+				tDtos.add(ticketConverter.convertToDto(ticket)); //dodajemo karte u spisak karata
+			}
+			
+			for(Flight flight : flights.get())
+			{
+				flDtos.add(flightConverter.convertToDTO(flight)); //dodajemo letove u spisak letova
+			}
+			
+			int sumTickets = 0; //zbir ocena sa karata
+			int nFlights = 0; //koliko puta je nasao let na osnovu karte
+			for(FlightDTO fDto : flDtos) 
+			{
+				for(TicketDTO tDto : tDtos)
+				{
+					if(!tDto.getFlight().getId().equals(fDto.getId())) 
+					{
+						continue;
+					}
+					else
+					{
+						sumTickets += tDto.getRating(); //sadrzi zbir svih ocena iz karata (za jedan let)
+					}
+						
+				}
+				
+				//ovaj deo mi se ne svidja, nisam lepo realizovao zbir ocena svih letova za jednu kompaniju
+				if(!fDto.getCompany().getId().equals(id))
+				{
+					continue;
+				}
+				else
+				{//sad mi ovde treba zbir svih ocena sa svih letova jedne kompanije
+					flightSum += sumTickets;
+					nFlights++;
+				}
+				
+				
+		
+			}
+			companyAvg = flightSum / nFlights;
+			System.out.println(companyAvg);
+			return companyAvg;
+		}
+		else	
+			return null;
+		
+			
 	}
 
 }
