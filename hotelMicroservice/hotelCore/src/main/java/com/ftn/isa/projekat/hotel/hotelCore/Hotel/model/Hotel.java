@@ -63,5 +63,9 @@ public class Hotel {
 	@OneToMany (mappedBy="hotel_dodatneUsluge", cascade=CascadeType.ALL)
 	private List<DodatneUsluge> dodatneUslugeList;
 	
+	@JsonIgnore
+	@OneToMany (mappedBy="hotel_rezervacijeSobe", cascade=CascadeType.ALL)
+	private List<DodatneUsluge> rezervacijeList;
+	
 
 }

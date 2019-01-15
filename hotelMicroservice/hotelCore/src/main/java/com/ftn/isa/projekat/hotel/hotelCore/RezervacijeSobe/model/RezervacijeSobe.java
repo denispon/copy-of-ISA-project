@@ -15,14 +15,16 @@ import javax.persistence.Table;
 import org.springframework.boot.jackson.JsonComponent;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.ftn.isa.projekat.hotel.hotelCore.Hotel.model.Hotel;
 import com.ftn.isa.projekat.hotel.hotelCore.HotelskaSoba.model.HotelskaSoba;
 
 import lombok.Data;
 
+@Data
 @JsonComponent
 @Entity
 @Table (name="rezervacija_sobe")
-@Data 
+
 
 public class RezervacijeSobe {
 
@@ -39,13 +41,13 @@ public class RezervacijeSobe {
 	
 	@Column (name="dateUntil", nullable=false)
 	private Date dateUntil;
-	
-	@Column (name="rating", nullable=false)//ocena za hotel
-	private int rating;
+
+	@Column (name="sobaId", nullable=false)
+	private Long sobaId;
 	
 	@JsonIgnore
 	@ManyToOne ()
-	@JoinColumn (name="hotelskaSoba_rezervacijeSobe", nullable = false)
-	private HotelskaSoba hotelskaSoba_rezervacijeSobe;
+	@JoinColumn (name="hotel_rezervacijeSobe", nullable = false)
+	private Hotel hotel_rezervacijeSobe;
 	
 }

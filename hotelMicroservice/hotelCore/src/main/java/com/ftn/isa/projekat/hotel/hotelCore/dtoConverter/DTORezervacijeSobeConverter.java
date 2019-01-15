@@ -17,19 +17,20 @@ import com.ftn.isa.projekat.hotel.hotelCore.RezervacijeSobe.repository.Rezervaci
 public class DTORezervacijeSobeConverter {
 	
 	@Autowired
-	DTOHotelskaSobaConverter hotelskaSobaConverter;
+	DTOHotelConverter hotelConverter;
 	
 	@Autowired
 	RezervacijeSobeRepository rezervacijeSobeRepository;
+	
 	
 	public RezervacijeSobeDTO convertToDTO(RezervacijeSobe rezervacijeSobe) {
 		RezervacijeSobeDTO dto = new RezervacijeSobeDTO();
 		dto.setId(rezervacijeSobe.getId());
 		dto.setDateFrom(rezervacijeSobe.getDateFrom());
 		dto.setDateUntil(rezervacijeSobe.getDateUntil());
-		dto.setRating(rezervacijeSobe.getRating());
 		dto.setTotalPrice(rezervacijeSobe.getTotalPrice());
-		dto.setHotelskaSoba_rezervacijeSobe(hotelskaSobaConverter.convertToDTO(rezervacijeSobe.getHotelskaSoba_rezervacijeSobe()));	
+		dto.setHotel_rezervacijeSobe(hotelConverter.convertToDTO(rezervacijeSobe.getHotel_rezervacijeSobe()));
+		dto.setSobaId(rezervacijeSobe.getSobaId());
 		
 		return dto;
 	}
@@ -44,9 +45,9 @@ public class DTORezervacijeSobeConverter {
 		RezervacijeSobe bean = new RezervacijeSobe();
 		bean.setDateFrom(rezervacijeSobeDTO.getDateFrom());
 		bean.setDateUntil(rezervacijeSobeDTO.getDateUntil());
-		bean.setRating(rezervacijeSobeDTO.getRating());
 		bean.setTotalPrice(rezervacijeSobeDTO.getTotalPrice());
-		bean.setHotelskaSoba_rezervacijeSobe(hotelskaSobaConverter.convertFromDTO(rezervacijeSobeDTO.getHotelskaSoba_rezervacijeSobe()));
+		bean.setHotel_rezervacijeSobe(hotelConverter.convertFromDTO(rezervacijeSobeDTO.getHotel_rezervacijeSobe()));
+		bean.setSobaId(rezervacijeSobeDTO.getSobaId());
 		
 		
 		return bean;

@@ -1,9 +1,11 @@
 package com.ftn.isa.projekat.hotel.hotelCore.RezervacijeSobe.service;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.ftn.isa.projekat.hotel.hotelApi.dto.HotelskaSobaDTO;
 import com.ftn.isa.projekat.hotel.hotelApi.dto.RezervacijeSobeDTO;
 
 @Service
@@ -14,5 +16,5 @@ public interface IRezervacijeSobeService {
 	public RezervacijeSobeDTO save(RezervacijeSobeDTO rezervacijeSobeDTO);
 	public RezervacijeSobeDTO deleteById(Long id);
 	public RezervacijeSobeDTO change(Long id, RezervacijeSobeDTO rezervacijeSobeDTO);
-	
+	public List<HotelskaSobaDTO> getFreeRooms(Long hotelId, Date datumOd, Date datumDo);
 }
