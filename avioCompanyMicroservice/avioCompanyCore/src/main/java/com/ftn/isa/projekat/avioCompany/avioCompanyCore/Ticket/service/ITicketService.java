@@ -2,8 +2,11 @@ package com.ftn.isa.projekat.avioCompany.avioCompanyCore.Ticket.service;
 
 import java.util.List;
 
+import org.springframework.stereotype.Component;
+
 import com.ftn.isa.projekat.avioCompany.avioCompanyApi.dto.TicketDTO;
 
+@Component
 public interface ITicketService {
 
 	TicketDTO findOneById(Long id);

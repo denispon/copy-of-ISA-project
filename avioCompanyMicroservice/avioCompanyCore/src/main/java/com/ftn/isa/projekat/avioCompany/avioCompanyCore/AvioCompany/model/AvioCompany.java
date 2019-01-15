@@ -18,6 +18,7 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ftn.isa.projekat.avioCompany.avioCompanyCore.AvioIncome.model.AvioIncome;
 import com.ftn.isa.projekat.avioCompany.avioCompanyCore.Destination.model.Destination;
+import com.ftn.isa.projekat.avioCompany.avioCompanyCore.Flight.model.Flight;
 
 import lombok.Data;
 import lombok.Getter;
@@ -61,6 +62,13 @@ public class AvioCompany
 			@JoinColumn(name = "avio_company_id")
 	})
 	private List<Destination> companyDestinations;
+	
+	/*
+	 * List of flights
+	 */
+	@JsonIgnore
+	@OneToMany (mappedBy = "companyId", cascade = CascadeType.ALL)
+	private List<Flight> flights;
 	
 	public AvioCompany(String name, String add, String desc)
 	{

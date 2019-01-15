@@ -1,5 +1,6 @@
 package com.ftn.isa.projekat.avioCompany.avioCompanyCore.Flight.service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -96,4 +97,56 @@ public class FlightServiceImpl implements IFlightService
 		return null;
 	}
 
+	@Override
+	public List<FlightDTO> getFlightsByDate(LocalDate takeOffTime, LocalDate landingTime) 
+	{
+		Optional<List<Flight>> flights = repository.findFlightsByDate(takeOffTime, landingTime);
+		
+		ArrayList<FlightDTO> flDtos = new ArrayList<FlightDTO>();
+		
+		if(flights.isPresent())
+		{
+			for(Flight fl : flights.get())
+			{
+				flDtos.add(converter.convertToDTO(fl));
+			}
+			return flDtos;
+		}
+		
+		return Collections.emptyList();
+	}
+
+	@Override
+	public float getAvgRating(Long id)
+	{
+		float flight = repository.findAverageRating(id);
+		
+		return flight;
+	}
+
+	@Override
+	public List<FlightDTO> getFlightsByPrice(float bottomPrice, float topPrice) 
+	{
+		Optional<List<Flight>> flights = repository.findFlightsByPrice(bottomPrice, topPrice);
+		
+		ArrayList<FlightDTO> flDtos = new ArrayList<FlightDTO>();
+		
+		if(flights.isPresent())
+		{
+			for(Flight fl : flights.get())
+			{
+				flDtos.add(converter.convertToDTO(fl));
+			}
+			return flDtos;
+		}
+		
+		return Collections.emptyList();
+	}
+	
+	
+	
+	
+
+	
+	
 }

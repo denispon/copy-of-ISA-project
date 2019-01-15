@@ -1,5 +1,8 @@
 package com.ftn.isa.projekat.avioCompany.avioCompanyCore.Flight.controller;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ftn.isa.projekat.avioCompany.avioCompanyApi.dto.FlightDTO;
 import com.ftn.isa.projekat.avioCompany.avioCompanyCore.Flight.service.IFlightService;
 
+import feign.Response;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -93,6 +97,41 @@ public class FlightController
 		FlightDTO changedFlight = service.changeFlight(id, dto);
 		
 		return (changedFlight.getId() != null) ? new ResponseEntity<FlightDTO>(changedFlight, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+	}
+	
+	
+	/*
+	 * Search by takeoff date and landing date (doradi za vreme, ne samo za datum)
+	 */
+	@GetMapping("/getFlightsByDate/{takeOffTime}/{landingTime}")
+	public ResponseEntity<List<FlightDTO>> getFlightsByDate(@PathVariable("takeOffTime") String takeOffTime, @PathVariable("landingTime") String landingTime)
+	{
+		List<FlightDTO> flights = service.getFlightsByDate(LocalDate.parse(takeOffTime), LocalDate.parse(landingTime));
+	
+		return (!flights.isEmpty()) ? new ResponseEntity<List<FlightDTO>>(flights, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+	}
+	
+	/*
+	 * Search flights by price
+	 */
+	@GetMapping("/getFlightsByPrice/{bottomPrice}/{topPrice}")
+	public ResponseEntity<List<FlightDTO>> getFlightsByPrice(@PathVariable("bottomPrice") float bottomPrice, @PathVariable("topPrice") float topPrice)
+	{
+		List<FlightDTO> flights = service.getFlightsByPrice(bottomPrice, topPrice);
+		
+		return (!flights.isEmpty()) ? new ResponseEntity<List<FlightDTO>>(flights, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		
+	}
+	
+	/*
+	 * Average rating for one flight (cudilo bi me da radi)
+	 */
+	@GetMapping("/getAvgRating/{id}")
+	public ResponseEntity<Float> getAverageRating(@PathVariable("id") Long id)
+	{
+		Float avg = service.getAvgRating(id);
+		
+		return(avg != null) ? new ResponseEntity<Float>(avg, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
 	
 }

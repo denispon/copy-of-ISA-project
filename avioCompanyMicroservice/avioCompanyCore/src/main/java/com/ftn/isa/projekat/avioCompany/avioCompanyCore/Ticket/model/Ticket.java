@@ -31,14 +31,14 @@ public class Ticket
 	@Column (name = "price")
 	private float price;
 	
-	@Column (name = "rate")
-	private int rate;
+	@Column (name = "rating") 
+	private int rating;
 	
 	/*
 	 * Flight where this ticket is bought
 	 */
 	@JsonIgnore
-	@ManyToOne (cascade = CascadeType.ALL)
+	@ManyToOne ()
 	@JoinColumn (name = "flight_ticket")
 	private Flight flightTicket;
 	

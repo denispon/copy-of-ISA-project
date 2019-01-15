@@ -102,4 +102,22 @@ public class AvioCompanyController
 	    return ( companyToEdit.getId() != null )? new ResponseEntity<AvioCompanyDTO>(companyToEdit,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
 	
+	/*
+	 * Prosecna ocena kompanije 
+	 * Prosledjuje se id kompanije
+	 */
+	@GetMapping("/avg_rate/{id}")
+	@ApiOperation(value = "Get average rating.", notes = "Returns average rating.")
+	@ApiResponses(value = {@ApiResponse(code = 200, message = "OK"),
+						   @ApiResponse(code = 404, message = "NOT_FOUND")
+	})
+	public ResponseEntity<Float> averageRating(@PathVariable("id") Long id)
+	{
+		Float avg = avioCompanyService.getAvgRating(id);
+		
+		System.out.println(avg);
+		
+		return (avg != null) ? new ResponseEntity<Float>(avg, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+	}
+	
 }

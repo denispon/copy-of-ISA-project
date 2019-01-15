@@ -11,5 +11,7 @@ public class TicketDTO
 {
 	private Long id;
 	private float price;
-	private int rate;
+	private int rating;
+	
+	private FlightDTO flight;
 }

@@ -46,6 +46,6 @@ public class PlaceInPlane
 	 * One place in plane eq exactly one ticket
 	 */
 	@JsonIgnore
-	@OneToOne (mappedBy = "place")
+	@OneToOne (mappedBy = "place", cascade = CascadeType.ALL)
 	private Ticket ticketForPlace;
 }

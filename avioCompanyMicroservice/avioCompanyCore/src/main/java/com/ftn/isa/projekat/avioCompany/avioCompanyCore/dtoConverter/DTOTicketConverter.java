@@ -14,7 +14,7 @@ public class DTOTicketConverter
 		
 		dto.setId(bean.getId());
 		dto.setPrice(bean.getPrice());
-		dto.setRate(bean.getRate());
+		dto.setRating(bean.getRating());
 		
 		return dto;
 	}
@@ -25,7 +25,7 @@ public class DTOTicketConverter
 		
 		bean.setId(dto.getId());
 		bean.setPrice(dto.getPrice());
-		bean.setRate(dto.getRate());
+		bean.setRating(dto.getRating());
 		
 		return bean;
 	}

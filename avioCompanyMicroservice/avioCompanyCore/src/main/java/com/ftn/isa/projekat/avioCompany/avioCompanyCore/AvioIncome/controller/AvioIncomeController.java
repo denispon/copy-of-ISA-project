@@ -39,10 +39,11 @@ public class AvioIncomeController
 	@ApiOperation(value = "Finds one income.", notes = "Returns one income.", httpMethod = "GET")
 	@ApiResponses(value = {@ApiResponse(code = 200, message = "OK"),
 						   @ApiResponse(code = 404, message = "Not Found")
-	})
+	})//response entity je kao neki nacin da se kreira custom odgovor koji sadrzi telo, zaglavlje i httpstatus kod odgovora, umesto toga moze se staviti @ResponseBody i to vraca samo podatke, ne i zaglavlje i http kod
 	public ResponseEntity<AvioIncomeDTO> getOneIncomeById(@PathVariable("id") Long id) //ovo PathVariable kupi parametar id iz URL-a i smesta u promenljivu Long id kao parametar funkcije
 	{
-		AvioIncomeDTO incomeDto = incomeService.findOneById(id);
+		AvioIncomeDTO incomeDto = incomeService.findOneById(id); //dto (data transfer object) je objekat koji se salje klijentu, a u servisu ce se raditi sa java objektima (pojo vrv)
+		//da da, iz baze se izvlace java objekti i u servisu se radi sa njima, a servisne metode vracaju dto koji se ovde uzima i salje kao repsonse klijentu
 		
 		return (incomeDto.getId()!=null) ? new ResponseEntity<AvioIncomeDTO>(incomeDto, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	}
