@@ -85,5 +85,20 @@ public class HotelskaSobaRatingController {
 		HotelskaSobaRatingDTO zaIzmenu = hotelskaSobaRatingService.change(id, dto);
 		return (zaIzmenu.getId()!=null) ? new ResponseEntity<HotelskaSobaRatingDTO>(zaIzmenu, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
+	
+	@GetMapping("average/{id}")
+	@ApiOperation( value = "", notes = "", httpMethod="GET")
+	@ApiResponses( value = { @ApiResponse( code = 200, message = "OK"),
+							 @ApiResponse( code = 404, message = "Not Found")})
+	public ResponseEntity<Double> getRoomAverageRating(@PathVariable("id") Long id){
+		
+		Double rating = hotelskaSobaRatingService.getRoomAverageRating(id);
+		
+		if(rating != null) {
+			return new ResponseEntity<Double>(rating, HttpStatus.OK);
+		}else {
+			return new ResponseEntity<Double>(HttpStatus.NOT_FOUND);
+		}
+	}
 
 }

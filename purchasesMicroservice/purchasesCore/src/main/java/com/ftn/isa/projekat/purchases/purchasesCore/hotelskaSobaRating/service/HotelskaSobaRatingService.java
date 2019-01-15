@@ -88,4 +88,15 @@ public class HotelskaSobaRatingService {
 		
 	}
 	
+	public Double getRoomAverageRating(Long id) {
+		
+		Optional<Double> rating = hotelskaSobaRatingRepository.getRoomAverageRating(id);
+		
+		if(rating != null) {
+			return rating.get();
+		}else {
+			return null;
+		}
+	}
+	
 }
