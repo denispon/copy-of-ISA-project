@@ -95,7 +95,7 @@ public class RezervacijeSobeService implements IRezervacijeSobeService{
 			zaIzmenu.get().setDateUntil(dto.getDateUntil());
 			zaIzmenu.get().setTotalPrice(dto.getTotalPrice());
 			//zaIzmenu.get().setHotelskaSoba_rezervacijeSobe(hotelskaSobaConverter.convertFromDTO(dto.getHotelskaSoba_rezervacijeSobe()));
-			zaIzmenu.get().setSobaId(dto.getSobaId());
+			zaIzmenu.get().setSobaId(hotelskaSobaConverter.convertFromDTO(dto.getSobaId()));
 			
 			rezervacijeSobeRepository.save(zaIzmenu.get());
 			
@@ -111,42 +111,52 @@ public class RezervacijeSobeService implements IRezervacijeSobeService{
 	
 	public List<HotelskaSobaDTO> getFreeRooms(Long id, Date datumOd, Date datumDo){
 		int vecPostoji;
+		int pronasao;
 		List<HotelskaSobaDTO> list = new ArrayList<HotelskaSobaDTO>();		
 		Optional<List<RezervacijeSobe>> reservationList = Optional.of(rezervacijeSobeRepository.findAll());
+		List<Long> idList = new ArrayList<Long>();
+		List<HotelskaSobaDTO> returnList = new ArrayList<HotelskaSobaDTO>();
 		
 		if(reservationList.isPresent()) {
-			for(RezervacijeSobe rezervacija : reservationList.get()) {//da li soba pripada zadatom hotelu?
+			for(RezervacijeSobe rezervacija : reservationList.get()) {//da li soba pripada zadatom hotelu i da li je slobodna u okviru zadatog vremenskog intervala?
 				if(rezervacija.getHotel_rezervacijeSobe().getId() == id) {
-					if(rezervacija.getDateFrom().before(datumOd) || rezervacija.getDateUntil().after(datumDo)
+					if((rezervacija.getDateFrom().before(datumOd) && rezervacija.getDateUntil().after(datumOd)) || (rezervacija.getDateUntil().after(datumDo) && rezervacija.getDateFrom().before(datumDo))
 							|| (rezervacija.getDateFrom().after(datumOd) && rezervacija.getDateUntil().before(datumDo))) {
+						idList.add(rezervacija.getSobaId().getId());//dodaj id sobe koja nije slobodna, kako bi kasnije znali da je ignorisemo u daljoj potrazi
 						continue;
 					}else {
 						if(!list.isEmpty()) {
 							vecPostoji = 0;
 							for(int i = 0; i<list.size(); i++) {
-								if(list.get(i).getId()==rezervacija.getSobaId()) {
+								if(list.get(i).getId()==rezervacija.getSobaId().getId()) {
 									vecPostoji = 1;
 									break;
 								}
 							}
-							if(vecPostoji!=1) {
-								list.add(hotelskaSobaConverter.convertToDTO(hotelskaSobaRepository.findById(rezervacija.getSobaId()).get()));
+							if(vecPostoji!=1) {	
+								list.add(hotelskaSobaConverter.convertToDTO(hotelskaSobaRepository.findById(rezervacija.getSobaId().getId()).get()));
 							}
 						}else {
-							list.add(hotelskaSobaConverter.convertToDTO(hotelskaSobaRepository.findById(rezervacija.getSobaId()).get()));
+							list.add(hotelskaSobaConverter.convertToDTO(hotelskaSobaRepository.findById(rezervacija.getSobaId().getId()).get()));
 						}
 					}
 				}
 			}
-			return list;
+			for(int i = 0; i < list.size(); i++) {
+				pronasao = 0;
+				for(int g = 0; g < idList.size(); g++) {
+					if(list.get(i).getId() == idList.get(g)) {
+						pronasao = 1;
+						break;
+					}
+				}
+				if(pronasao != 1) {
+					returnList.add(list.get(i));
+				}
+			}
+			return returnList;
 		}
 
 		return Collections.emptyList();
 	}
-	//uzmem sve rezervacije u koje ulazi datum i gledam koje su to sobe i njih ne ispisujem
-	/*public RezervacijeSobeDTO save(RezervacijeSobeDTO dto) {
-		rezervacijeSobeRepository.save(rezervacijeSobeConverter.convertFromDTO(dto));
-		return dto;
-	}*/
-	
 }

@@ -2,6 +2,7 @@ package com.ftn.isa.projekat.hotel.hotelCore.PrihodiHotela.service;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -94,5 +95,18 @@ public class PrihodiHotelaService implements IPrihodiHotelaService{
 		
 		return new PrihodiHotelaDTO();
 		
+	}
+	
+	public int getPrihodiHotela(Long id, Date datumOd, Date datumDo) {
+		int suma = 0;
+		Optional<List<PrihodiHotela>> list = Optional.of(prihodiHotelaRepository.findAll());
+		for(PrihodiHotela ph : list.get()) {
+			if(ph.getHotel_prihodiHotela().getId() == id) {
+				if((ph.getIncomeDate().after(datumOd) || ph.getIncomeDate().equals(datumOd)) && (ph.getIncomeDate().before(datumDo) || ph.getIncomeDate().equals(datumDo))) {
+					suma = suma + ph.getIncome(); 
+				}
+			}
+		}
+		return suma;	
 	}
 }

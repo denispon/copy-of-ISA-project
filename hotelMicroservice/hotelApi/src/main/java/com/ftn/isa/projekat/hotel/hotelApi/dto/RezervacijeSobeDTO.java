@@ -21,6 +21,6 @@ public class RezervacijeSobeDTO {
 	private Date dateUntil;
 	//private int rating;
 	private HotelDTO hotel_rezervacijeSobe;
-	private Long sobaId;
+	private HotelskaSobaDTO sobaId;
 	
 }

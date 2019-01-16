@@ -1,5 +1,8 @@
 package com.ftn.isa.projekat.hotel.hotelCore.PrihodiHotela.controller;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ftn.isa.projekat.hotel.hotelApi.dto.CenovnikUslugaDTO;
+import com.ftn.isa.projekat.hotel.hotelApi.dto.HotelskaSobaDTO;
 import com.ftn.isa.projekat.hotel.hotelApi.dto.PrihodiHotelaDTO;
 import com.ftn.isa.projekat.hotel.hotelCore.PrihodiHotela.service.IPrihodiHotelaService;
 
@@ -83,6 +87,19 @@ public class PrihodiHotelaController {
 	public ResponseEntity<PrihodiHotelaDTO> changeCenovnik(@PathVariable("id") Long id, @RequestBody PrihodiHotelaDTO dto ){
 		PrihodiHotelaDTO zaIzmenu = prihodiHotelaService.change(id, dto);
 		return (zaIzmenu.getId()!=null) ? new ResponseEntity<PrihodiHotelaDTO>(zaIzmenu, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	}
+	
+	@GetMapping("/{id}/{datumOd}/{datumDo}")
+	@ApiOperation( value = "", notes = "", httpMethod="GET")
+	@ApiResponses( value = { @ApiResponse( code = 200, message = "OK"),
+							 @ApiResponse( code = 404, message = "Not Found")})
+	public ResponseEntity<Integer> getPrihodiHotela(@PathVariable("id") Long id, @PathVariable("datumOd") String datumOd, @PathVariable("datumDo") String datumDo) throws ParseException{
+		
+		Date dateOd = new SimpleDateFormat("dd.MM.yyyy").parse(datumOd);
+		Date dateDo = new SimpleDateFormat("dd.MM.yyyy").parse(datumDo);
+		int suma = prihodiHotelaService.getPrihodiHotela(id, dateOd, dateDo);
+		return new ResponseEntity<Integer>(suma, HttpStatus.OK);
+		
 	}
 
 }

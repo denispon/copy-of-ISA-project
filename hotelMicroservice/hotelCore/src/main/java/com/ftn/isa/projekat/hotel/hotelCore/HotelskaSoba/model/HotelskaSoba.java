@@ -40,9 +40,9 @@ public class HotelskaSoba {
 	@Column (name="reserved", nullable=false)
 	private Boolean reserved;
 	
-	/*@JsonIgnore
-	@OneToMany (mappedBy="hotelskaSoba_rezervacijeSobe")
-	private List<RezervacijeSobe> rezervisaneSobeList;*/
+	@JsonIgnore
+	@OneToMany (mappedBy="sobaId", cascade=CascadeType.ALL)
+	private List<RezervacijeSobe> rezervisaneSobeList;
 	
 	@JsonIgnore
 	@ManyToOne (/*cascade=CascadeType.ALL*/)

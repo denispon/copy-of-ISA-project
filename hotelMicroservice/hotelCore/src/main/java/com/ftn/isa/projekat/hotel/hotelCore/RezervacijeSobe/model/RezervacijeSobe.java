@@ -42,8 +42,10 @@ public class RezervacijeSobe {
 	@Column (name="dateUntil", nullable=false)
 	private Date dateUntil;
 
-	@Column (name="sobaId", nullable=false)
-	private Long sobaId;
+	@JsonIgnore
+	@ManyToOne ()
+	@JoinColumn (name="sobaId", nullable=false)
+	private HotelskaSoba sobaId;
 	
 	@JsonIgnore
 	@ManyToOne ()

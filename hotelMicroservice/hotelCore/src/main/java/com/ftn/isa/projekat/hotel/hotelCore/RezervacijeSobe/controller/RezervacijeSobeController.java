@@ -1,5 +1,8 @@
 package com.ftn.isa.projekat.hotel.hotelCore.RezervacijeSobe.controller;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ftn.isa.projekat.hotel.hotelApi.dto.CenovnikUslugaDTO;
+import com.ftn.isa.projekat.hotel.hotelApi.dto.HotelskaSobaDTO;
 import com.ftn.isa.projekat.hotel.hotelApi.dto.RezervacijeSobeDTO;
 import com.ftn.isa.projekat.hotel.hotelCore.RezervacijeSobe.service.IRezervacijeSobeService;
 
@@ -83,6 +87,19 @@ public class RezervacijeSobeController {
 	public ResponseEntity<RezervacijeSobeDTO> changeCenovnik(@PathVariable("id") Long id, @RequestBody RezervacijeSobeDTO dto ){
 		RezervacijeSobeDTO zaIzmenu = rezervacijeSobeService.change(id, dto);
 		return (zaIzmenu.getId()!=null) ? new ResponseEntity<RezervacijeSobeDTO>(zaIzmenu, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	}
+	
+	@GetMapping("/{id}/{datumOd}/{datumDo}")
+	@ApiOperation( value = "", notes = "", httpMethod="GET")
+	@ApiResponses( value = { @ApiResponse( code = 200, message = "OK"),
+							 @ApiResponse( code = 404, message = "Not Found")})
+	public ResponseEntity<List<HotelskaSobaDTO>> getFreeRooms(@PathVariable("id") Long id, @PathVariable("datumOd") String datumOd, @PathVariable("datumDo") String datumDo) throws ParseException{
+		
+		Date dateOd = new SimpleDateFormat("dd.MM.yyyy").parse(datumOd);
+		Date dateDo = new SimpleDateFormat("dd.MM.yyyy").parse(datumDo);
+		List<HotelskaSobaDTO> lista = rezervacijeSobeService.getFreeRooms(id, dateOd, dateDo);
+		return(!lista.isEmpty()) ? new ResponseEntity<List<HotelskaSobaDTO>>(lista, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		
 	}
 
 }
