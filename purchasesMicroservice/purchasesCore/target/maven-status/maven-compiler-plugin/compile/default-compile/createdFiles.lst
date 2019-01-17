@@ -1,3 +1,7 @@
+com\ftn\isa\projekat\purchases\purchasesCore\carRating\repository\CarRatingRepository.class
+com\ftn\isa\projekat\purchases\purchasesCore\carRating\service\ICarRatingService.class
+com\ftn\isa\projekat\purchases\purchasesCore\reservation\model\Reservation.class
+com\ftn\isa\projekat\purchases\purchasesCore\carRating\service\CarRatingServiceImpl.class
 com\ftn\isa\projekat\purchases\purchasesCore\converter\DTOReservationConverter.class
 com\ftn\isa\projekat\purchases\purchasesCore\rentACarRating\service\RentACarRatingServiceImpl.class
 com\ftn\isa\projekat\purchases\purchasesCore\rentACarRating\service\IRentACarRatingService.class
@@ -5,12 +9,8 @@ com\ftn\isa\projekat\purchases\purchasesCore\reservation\service\IReservationSer
 com\ftn\isa\projekat\purchases\purchasesCore\PurchasesApplication.class
 com\ftn\isa\projekat\purchases\purchasesCore\rentACarRating\repository\RentACarRatingRepository.class
 com\ftn\isa\projekat\purchases\purchasesCore\converter\DTORentACarRatingConverter.class
-com\ftn\isa\projekat\purchases\purchasesCore\carRating\repository\CarRatingRepository.class
-com\ftn\isa\projekat\purchases\purchasesCore\carRating\service\ICarRatingService.class
 com\ftn\isa\projekat\purchases\purchasesCore\converter\DTOCarRatingConverter.class
 com\ftn\isa\projekat\purchases\purchasesCore\reservation\service\ReservationServiceImpl.class
-com\ftn\isa\projekat\purchases\purchasesCore\reservation\model\Reservation.class
 com\ftn\isa\projekat\purchases\purchasesCore\carRating\model\CarRating.class
 com\ftn\isa\projekat\purchases\purchasesCore\rentACarRating\model\RentACarRating.class
-com\ftn\isa\projekat\purchases\purchasesCore\carRating\service\CarRatingServiceImpl.class
 com\ftn\isa\projekat\purchases\purchasesCore\reservation\repository\ReservationRepository.class

@@ -1,6 +1,6 @@
 package com.ftn.isa.projekat.purchases.purchasesCore.carRating.service;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -13,6 +13,9 @@ import com.ftn.isa.projekat.purchases.purchasesApi.dto.CarRatingDTO;
 import com.ftn.isa.projekat.purchases.purchasesCore.carRating.model.CarRating;
 import com.ftn.isa.projekat.purchases.purchasesCore.carRating.repository.CarRatingRepository;
 import com.ftn.isa.projekat.purchases.purchasesCore.converter.DTOCarRatingConverter;
+import com.ftn.isa.projekat.purchases.purchasesCore.utils.DatasFromOtherMicroservices;
+import com.ftn.isa.projekat.rentACar.rentACarApi.dto.CarDTO;
+import com.ftn.isa.projekat.user.userApi.dto.UserDTO;
 
 
 
@@ -24,6 +27,9 @@ public class CarRatingServiceImpl implements ICarRatingService {
 	
 	@Autowired
 	DTOCarRatingConverter carRatingConverter;
+	
+	@Autowired
+	DatasFromOtherMicroservices servicesProxy;
 	
 	@Override
 	public CarRatingDTO findOneById(Long id) {
@@ -65,11 +71,23 @@ public class CarRatingServiceImpl implements ICarRatingService {
 	@Override
 	public CarRatingDTO save(CarRatingDTO carRatingToSave) {
 		
-		CarRating rating = carRatingConverter.convertFromDTO(carRatingToSave);
-		rating.setRatingDate(LocalDate.now());
-		carRatingRepository.save(rating);
+		/*
+		 * First we need to see if car and user exits.If not, then we will return empty object..
+		 *  */
+		CarDTO carForRate = servicesProxy.getCarById(carRatingToSave.getCarId());
+		UserDTO userWhoRates = servicesProxy.getUserById(carRatingToSave.getUserId());
 		
-		return carRatingToSave;
+		if(carForRate.getId()!=null && userWhoRates.getId()!=null) {
+			
+			CarRating rating = carRatingConverter.convertFromDTO(carRatingToSave);
+			rating.setRatingDate(LocalDateTime.now());
+			carRatingRepository.save(rating);
+			
+			return carRatingToSave;
+			
+		}
+		
+		return new CarRatingDTO();
 	}
 
 	@Override
@@ -95,12 +113,18 @@ public class CarRatingServiceImpl implements ICarRatingService {
 		
 		if(carRatingForChange.isPresent() && carRating != null) {
 			
+			/*
+			 * First we need to see if car and user exits.If not, then we will return empty object..
+			 *  */
+			CarDTO carForRate = servicesProxy.getCarById(carRating.getCarId());
+			UserDTO userWhoRates = servicesProxy.getUserById(carRating.getUserId());
 			
+			if(carForRate.getId()!=null && userWhoRates.getId()!=null) {
 				
 				carRatingForChange.get().setCarId(carRating.getCarId());
 				carRatingForChange.get().setRating(carRating.getRating());
 				carRatingForChange.get().setUserId(carRating.getUserId());
-				carRatingForChange.get().setRatingDate(LocalDate.now());
+				carRatingForChange.get().setRatingDate(LocalDateTime.now());
 				
 				carRatingRepository.save(carRatingForChange.get());
 				
@@ -108,7 +132,7 @@ public class CarRatingServiceImpl implements ICarRatingService {
 				
 				return carRating;
 			
-			
+			}
 			
 		}
 		return new CarRatingDTO();
@@ -128,7 +152,7 @@ public class CarRatingServiceImpl implements ICarRatingService {
 				
 				carToRate.get().setRating(rating);
 				//Update date when rating was changed
-				carToRate.get().setRatingDate(LocalDate.now());
+				carToRate.get().setRatingDate(LocalDateTime.now());
 				
 				carRatingRepository.save(carToRate.get());
 				
@@ -144,7 +168,7 @@ public class CarRatingServiceImpl implements ICarRatingService {
 				carRating.setRating(rating);
 				carRating.setCarId(carId);
 				carRating.setUserId(userId);
-				carRating.setRatingDate(LocalDate.now());
+				carRating.setRatingDate(LocalDateTime.now());
 				
 				carRatingRepository.save(carRating);
 				

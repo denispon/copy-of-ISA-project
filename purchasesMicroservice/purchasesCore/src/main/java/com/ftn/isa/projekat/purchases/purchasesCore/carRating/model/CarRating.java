@@ -1,6 +1,6 @@
 package com.ftn.isa.projekat.purchases.purchasesCore.carRating.model;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -34,6 +34,6 @@ public class CarRating {
 	private Integer rating;
 	
 	@Column (name = "date",nullable = false)
-	private LocalDate ratingDate;
+	private LocalDateTime ratingDate;
 
 }

@@ -12,6 +12,8 @@ import com.ftn.isa.projekat.purchases.purchasesApi.dto.BonusPointsDTO;
 import com.ftn.isa.projekat.purchases.purchasesCore.bonusPoints.model.BonusPoints;
 import com.ftn.isa.projekat.purchases.purchasesCore.bonusPoints.repository.BonusPointsRepository;
 import com.ftn.isa.projekat.purchases.purchasesCore.converter.DTOBonusPointsConverter;
+import com.ftn.isa.projekat.purchases.purchasesCore.utils.DatasFromOtherMicroservices;
+import com.ftn.isa.projekat.user.userApi.dto.UserDTO;
 
 @Component
 public class BonusPointsServiceImpl implements IBonusPointsService {
@@ -23,6 +25,8 @@ public class BonusPointsServiceImpl implements IBonusPointsService {
 	@Autowired
 	DTOBonusPointsConverter bonusPointsConverter;
 	
+	@Autowired
+	DatasFromOtherMicroservices servicesProxy;
 	
 	
 	@Override
@@ -68,23 +72,34 @@ public class BonusPointsServiceImpl implements IBonusPointsService {
 	public BonusPointsDTO save(BonusPointsDTO bonusPointsToSave) {
 		
 		/*
-		 * First we need to see if there is already bonus points row for 
-		 * userId. If userId exists in bonus points table, then we will only add points 
+		 * First we need to see if user exists
 		 *  */
 		
-		Optional<BonusPoints> presentBonusPoints = bonusPointsRepository.findOneByUserId(bonusPointsToSave.getUserId());
+		UserDTO user = servicesProxy.getUserById(bonusPointsToSave.getId());
 		
-		if(presentBonusPoints.isPresent()) {
+		if(user.getId()!=null) {
 			
-			presentBonusPoints.get().setPoints(presentBonusPoints.get().getPoints() + bonusPointsToSave.getPoints());
+			/*
+			 * Then we need to see if there is already bonus points row for 
+			 * userId. If userId exists in bonus points table, then we will only add points 
+			 *  */
 			
-			bonusPointsRepository.save(presentBonusPoints.get());
-		}else {
-			BonusPoints bonusPoint = bonusPointsConverter.convertFromDTO(bonusPointsToSave);
+			Optional<BonusPoints> presentBonusPoints = bonusPointsRepository.findOneByUserId(bonusPointsToSave.getUserId());
 			
-			bonusPointsRepository.save(bonusPoint);
+			if(presentBonusPoints.isPresent()) {
+				
+				presentBonusPoints.get().setPoints(presentBonusPoints.get().getPoints() + bonusPointsToSave.getPoints());
+				
+				bonusPointsRepository.save(presentBonusPoints.get());
+			}else {
+				BonusPoints bonusPoint = bonusPointsConverter.convertFromDTO(bonusPointsToSave);
+				
+				bonusPointsRepository.save(bonusPoint);
+				
+				return bonusPointsToSave;	
+				
+			}
 			
-			return bonusPointsToSave;			
 		}
 		
 		return new BonusPointsDTO();
@@ -114,14 +129,23 @@ public class BonusPointsServiceImpl implements IBonusPointsService {
 		
 		if(bonusPointsToChange.isPresent()) {
 			
-			bonusPointsToChange.get().setPoints(bonusPoints.getPoints());
-			bonusPointsToChange.get().setUserId(bonusPoints.getUserId());
+			/*
+			 * First we need to see if user exists
+			 *  */
 			
-			bonusPointsRepository.save(bonusPointsToChange.get());
+			UserDTO user = servicesProxy.getUserById(bonusPoints.getId());
 			
-			bonusPoints.setId(bonusPointsToChange.get().getId());
+			if(user.getId()!=null) {
 			
-			return bonusPoints;
+				bonusPointsToChange.get().setPoints(bonusPoints.getPoints());
+				bonusPointsToChange.get().setUserId(bonusPoints.getUserId());
+				
+				bonusPointsRepository.save(bonusPointsToChange.get());
+				
+				bonusPoints.setId(bonusPointsToChange.get().getId());
+				
+				return bonusPoints;
+			}
 			
 		}
 		

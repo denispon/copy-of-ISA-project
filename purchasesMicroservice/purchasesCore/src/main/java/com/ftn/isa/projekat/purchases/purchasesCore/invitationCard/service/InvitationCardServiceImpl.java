@@ -15,6 +15,8 @@ import com.ftn.isa.projekat.purchases.purchasesCore.invitationCard.model.Invitat
 import com.ftn.isa.projekat.purchases.purchasesCore.invitationCard.repository.InvitationCardRepository;
 import com.ftn.isa.projekat.purchases.purchasesCore.reservation.model.Reservation;
 import com.ftn.isa.projekat.purchases.purchasesCore.reservation.repository.ReservationRepository;
+import com.ftn.isa.projekat.purchases.purchasesCore.utils.DatasFromOtherMicroservices;
+import com.ftn.isa.projekat.user.userApi.dto.UserDTO;
 
 @Component
 public class InvitationCardServiceImpl implements IInvitationCardService{
@@ -30,6 +32,8 @@ public class InvitationCardServiceImpl implements IInvitationCardService{
 	@Autowired
 	DTOReservationConverter reservationConverterr;
 	
+	@Autowired
+	DatasFromOtherMicroservices servicesProxy;
 	
 	@Override
 	public InvitationCardDTO findOneById(Long id) {
@@ -74,9 +78,21 @@ public class InvitationCardServiceImpl implements IInvitationCardService{
 	@Override
 	public InvitationCardDTO save(InvitationCardDTO invitationToSave) {
 		
-		invitationRepository.save(invitationConverter.convertFromDTO(invitationToSave));
+		/* 
+		 * First we need to see if both of users exits and them cannot be same person
+		 * */
+		UserDTO user1 = servicesProxy.getUserById(invitationToSave.getUserWhoCreatedId());
+		UserDTO user2 = servicesProxy.getUserById(invitationToSave.getInvitedUserId());
 		
-		return invitationToSave;
+		if(user1.getId()!=null && user1.getId()!=user2.getId() && user2.getId()!=null) {
+		
+			invitationRepository.save(invitationConverter.convertFromDTO(invitationToSave));
+			
+			return invitationToSave;
+			
+		}
+		
+		return new InvitationCardDTO();
 
 	}
 
@@ -107,16 +123,20 @@ public class InvitationCardServiceImpl implements IInvitationCardService{
 			
 			if(invitationReservation.isPresent()) {
 				
-				invitationForChange.get().setInvitedUserId(invitation.getInvitedUserId());
-				invitationForChange.get().setReservation(invitationReservation.get());
-				invitationForChange.get().setStatus(invitation.isStatus());
-				invitationForChange.get().setUserWhoCreatedId(invitation.getUserWhoCreatedId());
-				
-				invitationRepository.save(invitationForChange.get());
-				
-				invitation.setId(invitationForChange.get().getId());
-				
-				return invitation;
+				//User who sent invitation and invited user cannot be the same person.
+				if(invitation.getInvitedUserId() != invitation.getUserWhoCreatedId()) {
+					
+					invitationForChange.get().setInvitedUserId(invitation.getInvitedUserId());
+					invitationForChange.get().setReservation(invitationReservation.get());
+					invitationForChange.get().setStatus(invitation.isStatus());
+					invitationForChange.get().setUserWhoCreatedId(invitation.getUserWhoCreatedId());
+					
+					invitationRepository.save(invitationForChange.get());
+					
+					invitation.setId(invitationForChange.get().getId());
+					
+					return invitation;
+				}
 				
 			}
 			

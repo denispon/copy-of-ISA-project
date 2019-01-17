@@ -6,7 +6,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 
 
 @SpringBootApplication()
-@EnableFeignClients(basePackages = {"client", "com.ftn.isa.projekat.rentACar.rentACarApi.client"})
+@EnableFeignClients(basePackages = {"client", "com.ftn.isa.projekat.rentACar.rentACarApi.client", "com.ftn.isa.projekat.user.userApi.client"})
 public class PurchasesApplication {
 
 	public static void main(String[] args) {

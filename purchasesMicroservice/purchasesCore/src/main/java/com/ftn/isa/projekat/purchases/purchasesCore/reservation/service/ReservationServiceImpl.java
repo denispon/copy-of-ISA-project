@@ -12,6 +12,7 @@ import com.ftn.isa.projekat.purchases.purchasesApi.dto.ReservationDTO;
 import com.ftn.isa.projekat.purchases.purchasesCore.converter.DTOReservationConverter;
 import com.ftn.isa.projekat.purchases.purchasesCore.reservation.model.Reservation;
 import com.ftn.isa.projekat.purchases.purchasesCore.reservation.repository.ReservationRepository;
+import com.ftn.isa.projekat.purchases.purchasesCore.utils.DatasFromOtherMicroservices;
 
 
 @Component
@@ -23,7 +24,8 @@ public class ReservationServiceImpl implements IReservationService {
 	@Autowired
 	DTOReservationConverter reservationConverter;
 	
-	
+	@Autowired
+	DatasFromOtherMicroservices servicesProxy;
 
 	@Override
 	public ReservationDTO findOneById(Long id) {
@@ -67,6 +69,7 @@ public class ReservationServiceImpl implements IReservationService {
 
 	@Override
 	public ReservationDTO save(ReservationDTO reservationToSave) {
+	
 		
 		reservationRepository.save(reservationConverter.convertFromDTO(reservationToSave));
 		

@@ -1,6 +1,6 @@
 package com.ftn.isa.projekat.purchases.purchasesCore.rentACarRating.model;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -35,5 +35,5 @@ public class RentACarRating {
 	private Integer rating;
 	
 	@Column (name = "date",nullable = false)
-	private LocalDate ratingDate;
+	private LocalDateTime ratingDate;
 }

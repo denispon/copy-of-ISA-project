@@ -16,7 +16,7 @@ import com.ftn.isa.projekat.purchases.purchasesCore.hotelskaSobaRating.model.Hot
 import com.ftn.isa.projekat.purchases.purchasesCore.hotelskaSobaRating.repository.HotelskaSobaRatingRepository;
 
 @Component
-public class HotelskaSobaRatingService {
+public class HotelskaSobaRatingService implements IHotelskaSobaRatingService {
 
 	@Autowired
 	DTOHotelskaSobaRatingConverter hotelskaSobaRatingConverter;

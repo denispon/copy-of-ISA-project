@@ -156,7 +156,7 @@ public class ShoppingCartServiceImpl implements IShoppingCartService{
 			
 			//Calclulating price for carResercation
 			
-			long numberOfDaysOfReservation = Duration.between(carReservationToSave.getDateFrom().atStartOfDay(), carReservationToSave.getDateTo().atStartOfDay()).toDays();
+			long numberOfDaysOfReservation = Duration.between(carReservationToSave.getDateFrom(), carReservationToSave.getDateTo()).toDays();
 			
 			Double price = (double) (numberOfDaysOfReservation * carReservationToSave.getReservedCar().getRentPrice());
 			
@@ -199,7 +199,7 @@ public class ShoppingCartServiceImpl implements IShoppingCartService{
 				//Also we need to subtract price of final reservation with price of deleted car reservation
 				//Calclulating price for carResercation
 				
-				long numberOfDaysOfReservation = Duration.between(deletedReservation.getDateFrom().atStartOfDay(), deletedReservation.getDateTo().atStartOfDay()).toDays();
+				long numberOfDaysOfReservation = Duration.between(deletedReservation.getDateFrom(), deletedReservation.getDateTo()).toDays();
 				
 				Double price = (double) (numberOfDaysOfReservation * deletedReservation.getReservedCar().getRentPrice());
 				

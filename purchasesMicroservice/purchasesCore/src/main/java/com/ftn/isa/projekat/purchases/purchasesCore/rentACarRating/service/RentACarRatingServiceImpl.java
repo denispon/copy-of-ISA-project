@@ -1,6 +1,7 @@
 package com.ftn.isa.projekat.purchases.purchasesCore.rentACarRating.service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -13,6 +14,9 @@ import com.ftn.isa.projekat.purchases.purchasesApi.dto.RentACarRatingDTO;
 import com.ftn.isa.projekat.purchases.purchasesCore.converter.DTORentACarRatingConverter;
 import com.ftn.isa.projekat.purchases.purchasesCore.rentACarRating.model.RentACarRating;
 import com.ftn.isa.projekat.purchases.purchasesCore.rentACarRating.repository.RentACarRatingRepository;
+import com.ftn.isa.projekat.purchases.purchasesCore.utils.DatasFromOtherMicroservices;
+import com.ftn.isa.projekat.rentACar.rentACarApi.dto.RentACarServiceDTO;
+import com.ftn.isa.projekat.user.userApi.dto.UserDTO;
 
 @Component
 public class RentACarRatingServiceImpl implements IRentACarRatingService {
@@ -22,6 +26,9 @@ public class RentACarRatingServiceImpl implements IRentACarRatingService {
 	
 	@Autowired
 	DTORentACarRatingConverter rentAcarRatingConverter;
+	
+	@Autowired
+	DatasFromOtherMicroservices servicesProxy;
 	
 	@Override
 	public RentACarRatingDTO findOneById(Long id) {
@@ -63,12 +70,28 @@ public class RentACarRatingServiceImpl implements IRentACarRatingService {
 	@Override
 	public RentACarRatingDTO save(RentACarRatingDTO rentAcarRatingToSave) {
 		
-		RentACarRating rating = rentAcarRatingConverter.convertFromDTO(rentAcarRatingToSave);
-		rating.setRatingDate(LocalDate.now());
+		/* 
+		 * 
+		 * First we need to check if user and rent a car service exits...
+		 * 
+		 * */
 		
-		rentAcarRatingRepository.save(rating);
+		UserDTO user = servicesProxy.getUserById(rentAcarRatingToSave.getUserId());
+		RentACarServiceDTO rentService = servicesProxy.getRentACarServiceById(rentAcarRatingToSave.getRentACarId());
 		
-		return rentAcarRatingToSave;
+		
+		if(user.getId()!=null && rentService.getId()!=null) {
+		
+			RentACarRating rating = rentAcarRatingConverter.convertFromDTO(rentAcarRatingToSave);
+			rating.setRatingDate(LocalDateTime.now());
+			
+			rentAcarRatingRepository.save(rating);
+			
+			return rentAcarRatingToSave;
+		
+		}
+		
+		return new RentACarRatingDTO();
 	}
 
 	@Override
@@ -94,20 +117,30 @@ public class RentACarRatingServiceImpl implements IRentACarRatingService {
 		
 		if(rentAcarRatingForChange.isPresent() && carRating != null) {
 			
+			/* 
+			 * 
+			 * First we need to check if user and rent a car service exits...
+			 * 
+			 * */
 			
-				
-			rentAcarRatingForChange.get().setRentACarId(carRating.getRentACarId());
-			rentAcarRatingForChange.get().setRating(carRating.getRating());
-			rentAcarRatingForChange.get().setUserId(carRating.getUserId());
-			rentAcarRatingForChange.get().setRatingDate(LocalDate.now());
-				
-			rentAcarRatingRepository.save(rentAcarRatingForChange.get());
-				
-			carRating.setId(rentAcarRatingForChange.get().getId());
-				
-			return carRating;
+			UserDTO user = servicesProxy.getUserById(carRating.getUserId());
+			RentACarServiceDTO rentService = servicesProxy.getRentACarServiceById(carRating.getRentACarId());
 			
 			
+			if(user.getId()!=null && rentService.getId()!=null) {
+				
+				rentAcarRatingForChange.get().setRentACarId(carRating.getRentACarId());
+				rentAcarRatingForChange.get().setRating(carRating.getRating());
+				rentAcarRatingForChange.get().setUserId(carRating.getUserId());
+				rentAcarRatingForChange.get().setRatingDate(LocalDateTime.now());
+					
+				rentAcarRatingRepository.save(rentAcarRatingForChange.get());
+					
+				carRating.setId(rentAcarRatingForChange.get().getId());
+					
+				return carRating;
+			
+			}
 			
 		}
 		return new RentACarRatingDTO();
@@ -126,7 +159,7 @@ public class RentACarRatingServiceImpl implements IRentACarRatingService {
 				//If car rating already exist then we will override it.
 				
 				rentACarToRate.get().setRating(rating);
-				rentACarToRate.get().setRatingDate(LocalDate.now());
+				rentACarToRate.get().setRatingDate(LocalDateTime.now());
 				
 				rentAcarRatingRepository.save(rentACarToRate.get());
 				
@@ -142,7 +175,7 @@ public class RentACarRatingServiceImpl implements IRentACarRatingService {
 				carRating.setRating(rating);
 				carRating.setRentACarId(rentACarId);
 				carRating.setUserId(userId);
-				carRating.setRatingDate(LocalDate.now());
+				carRating.setRatingDate(LocalDateTime.now());
 				
 				rentAcarRatingRepository.save(carRating);
 				
