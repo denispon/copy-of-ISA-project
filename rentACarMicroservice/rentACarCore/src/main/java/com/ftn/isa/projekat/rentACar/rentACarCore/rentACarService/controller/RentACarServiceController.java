@@ -1,6 +1,6 @@
 package com.ftn.isa.projekat.rentACar.rentACarCore.rentACarService.controller;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -95,7 +95,7 @@ public class RentACarServiceController {
 	@GetMapping("/getSumOfIncomes/{id}/{dateFrom}/{dateTo}")
 	public ResponseEntity<Integer> getSumOfIncomes(@PathVariable("id") Long rentService,@PathVariable("dateFrom") String dateFrom , @PathVariable("dateTo") String dateTo){
 		
-		Integer sumOfIncomes = rentACarService.getSumOfIncomes(rentService,LocalDate.parse(dateFrom), LocalDate.parse(dateTo));
+		Integer sumOfIncomes = rentACarService.getSumOfIncomes(rentService,LocalDateTime.parse(dateFrom), LocalDateTime.parse(dateTo));
 		
 		return (sumOfIncomes != -1) ? new ResponseEntity<Integer>(sumOfIncomes,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}

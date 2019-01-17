@@ -1,6 +1,6 @@
 package com.ftn.isa.projekat.rentACar.rentACarCore.income.model;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -30,7 +30,7 @@ public class Income {
 	private int rentIncome;
 	
 	@Column (name="date", nullable= false)
-	private LocalDate date;
+	private LocalDateTime date;
 	
 	@Column (name="number_of_cars",nullable = false)
 	private int numberOfCars;

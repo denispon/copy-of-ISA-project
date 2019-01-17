@@ -1,6 +1,6 @@
 package com.ftn.isa.projekat.rentACar.rentACarCore.carDiscounts.model;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -27,10 +27,10 @@ public class CarDiscounts {
 	private Long id;
 		
 	@Column (name = "date_to", nullable = false)
-	private LocalDate dateTo;
+	private LocalDateTime dateTo;
 	
 	@Column (name = "date_from", nullable = false)
-	private LocalDate dateFrom;
+	private LocalDateTime dateFrom;
 	
 	@Column (name = "discount_precentage" , nullable=false)
 	private int discountPrecentage;

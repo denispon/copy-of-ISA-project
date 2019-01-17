@@ -1,6 +1,6 @@
 package com.ftn.isa.projekat.rentACar.rentACarCore.reservation.service;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -9,7 +9,6 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.ftn.isa.projekat.rentACar.rentACarApi.dto.CarDiscountsDTO;
 import com.ftn.isa.projekat.rentACar.rentACarApi.dto.CarReservationDTO;
 import com.ftn.isa.projekat.rentACar.rentACarCore.branchOffice.model.BranchOffice;
 import com.ftn.isa.projekat.rentACar.rentACarCore.branchOffice.repository.BranchOfficeRepository;
@@ -140,7 +139,7 @@ public class CarReservationServiceImpl implements ICarReservationService {
 		if( reservationToDelete.isPresent() ) {
 			
 			//Preventing user to delete reservation if reservation starts in less than 2 days
-			if(LocalDate.now().isAfter(reservationToDelete.get().getDateFrom().minusDays(2))) {
+			if(LocalDateTime.now().isAfter(reservationToDelete.get().getDateFrom().minusDays(2))) {
 				
 				return new CarReservationDTO();
 				

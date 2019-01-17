@@ -1,15 +1,13 @@
 package com.ftn.isa.projekat.rentACar.rentACarCore.reservation.model;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -31,10 +29,10 @@ public class CarReservation {
 	private Long id;
 	
 	@Column (name = "date_from" , nullable= false)
-	private LocalDate dateFrom;
+	private LocalDateTime dateFrom;
 	
 	@Column (name = "date_to", nullable= false)
-	private LocalDate dateTo;
+	private LocalDateTime dateTo;
 	
 	@Column (name="rating")
 	private int rating;

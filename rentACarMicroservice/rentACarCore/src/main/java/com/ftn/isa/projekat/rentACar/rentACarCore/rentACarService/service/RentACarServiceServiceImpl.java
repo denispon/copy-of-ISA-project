@@ -1,6 +1,6 @@
 package com.ftn.isa.projekat.rentACar.rentACarCore.rentACarService.service;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -115,7 +115,7 @@ public class RentACarServiceServiceImpl implements IRentACarServiceService {
 	}
 	
 	@Override
-	public Integer getSumOfIncomes(Long rentService, LocalDate dateFrom, LocalDate dateTo) {
+	public Integer getSumOfIncomes(Long rentService, LocalDateTime dateFrom, LocalDateTime dateTo) {
 		
 		Optional<Integer> sumOfIncomes = rentACarServiceRepository.findSumOfIncomes(rentService,dateFrom,dateTo);
 		

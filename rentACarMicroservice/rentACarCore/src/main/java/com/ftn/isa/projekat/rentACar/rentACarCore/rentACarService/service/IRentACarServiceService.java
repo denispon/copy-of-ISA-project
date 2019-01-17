@@ -1,6 +1,6 @@
 package com.ftn.isa.projekat.rentACar.rentACarCore.rentACarService.service;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import com.ftn.isa.projekat.rentACar.rentACarApi.dto.RentACarServiceDTO;
@@ -18,6 +18,6 @@ public interface IRentACarServiceService {
 	
 	public RentACarServiceDTO changeRentACarService ( Long id, RentACarServiceDTO rentACarService );
 
-	public Integer getSumOfIncomes(Long rentService, LocalDate dateFrom, LocalDate dateTo);
+	public Integer getSumOfIncomes(Long rentService, LocalDateTime dateFrom, LocalDateTime dateTo);
 
 }

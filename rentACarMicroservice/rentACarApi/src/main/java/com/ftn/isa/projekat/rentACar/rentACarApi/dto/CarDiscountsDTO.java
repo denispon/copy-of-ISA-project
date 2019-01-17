@@ -1,6 +1,6 @@
 package com.ftn.isa.projekat.rentACar.rentACarApi.dto;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,9 +15,9 @@ public class CarDiscountsDTO {
 	
 	private CarDTO carId;
 	
-	private LocalDate dateFrom;
+	private LocalDateTime dateFrom;
 	
-	private LocalDate dateTo;
+	private LocalDateTime dateTo;
 	
 	private int carDiscountPrecentage;
 	

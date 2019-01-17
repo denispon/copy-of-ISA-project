@@ -1,6 +1,7 @@
 package com.ftn.isa.projekat.rentACar.rentACarCore.car.service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -134,7 +135,7 @@ public class CarServiceImpl  implements ICarService{
 		 * */
 		for(CarReservation reservation : carToDelete.get().getCarReservations()) {
 			
-			if(reservation.getDateTo().isAfter(LocalDate.now())) {
+			if(reservation.getDateTo().isAfter(LocalDateTime.now())) {
 				
 				return new CarDTO();
 				
@@ -178,7 +179,7 @@ public class CarServiceImpl  implements ICarService{
 			 * */
 			for(CarReservation reservation : carForChange.get().getCarReservations()) {
 				
-				if(reservation.getDateTo().isAfter(LocalDate.now())) {
+				if(reservation.getDateTo().isAfter(LocalDateTime.now())) {
 					
 					return new CarDTO();
 					
