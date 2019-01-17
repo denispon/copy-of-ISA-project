@@ -10,26 +10,24 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.ftn.isa.projekat.avioCompany.avioCompanyCore.AvioIncome.model.AvioIncome;
 import com.ftn.isa.projekat.avioCompany.avioCompanyCore.Destination.model.Destination;
 import com.ftn.isa.projekat.avioCompany.avioCompanyCore.Flight.model.Flight;
+import com.ftn.isa.projekat.avioCompany.avioCompanyCore.Income.model.Income;
 
 import lombok.Data;
-import lombok.Getter;
 
 @Entity
-@Table (name="avio_company")
+@Table (name="aviocompany")
 @Data
 public class AvioCompany 
 {
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO) //kad ovde stavim AUTO i id koji ne postoji, on napravi torku i ubaci je u bazu pod narednim
+	@GeneratedValue(strategy=GenerationType.IDENTITY) //kad ovde stavim AUTO i id koji ne postoji, on napravi torku i ubaci je u bazu pod narednim
 	//sledecim id-jem koji treba da bude, ne sa tim koji sam naznacio - bilo je identity
 	@Column(name = "id")
 	private Long id;
@@ -42,33 +40,34 @@ public class AvioCompany
 	
 	@Column(name = "description")
 	private String description;
+		
 	
 	/*
-	 * Income of aviocompany
+	 * One airline - one destination
 	 */
 	@JsonIgnore
-	@OneToMany (mappedBy = "companyId", cascade = CascadeType.ALL) //bez ovog mapped by bi se kreirala medjutabela koja bi sadrzala id jedne i druge klase
-	private List<AvioIncome> avioIncomes;
-	
-	/*
-	 * List of destinations for aviocompany
-	 */
-	@JsonIgnore
-	@ManyToMany (fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-	//cascadeType.all je jaka veza, dakle sta god referentni entitet da uradi ovaj povezani ce da ga isprati (ako se obrise jedna kompanija - brise se i jedna torka iz prihoda koja je referencirala tu kompaniju)
-	@JoinTable (name = "company_destinations", joinColumns = {
-			@JoinColumn(name = "destination_id")
-	}, inverseJoinColumns = {
-			@JoinColumn(name = "avio_company_id")
-	})
-	private List<Destination> companyDestinations;
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "destination_id")
+	private Destination destination;
 	
 	/*
 	 * List of flights
 	 */
 	@JsonIgnore
-	@OneToMany (mappedBy = "companyId", cascade = CascadeType.ALL)
+	@OneToMany (mappedBy = "avioCompany", cascade = CascadeType.ALL, orphanRemoval = true) //orphan - kad se obrise ovaj brisu se i letovi (kontam treba ovo jer sam stavio za min kard = 1)
 	private List<Flight> flights;
+	
+	
+	/*
+	 * Income for one aviocompany
+	 */
+	@JsonIgnore
+	@OneToOne (fetch = FetchType.LAZY) //bez ovog mapped by bi se kreirala medjutabela koja bi sadrzala id jedne i druge klase
+	@JoinColumn(name = "income_id")
+	private Income income;
+	
+	
+	//************************************************
 	
 	public AvioCompany(String name, String add, String desc)
 	{

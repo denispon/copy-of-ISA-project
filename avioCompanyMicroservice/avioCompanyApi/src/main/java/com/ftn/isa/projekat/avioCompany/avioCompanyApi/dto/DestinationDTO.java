@@ -10,6 +10,12 @@ import lombok.NoArgsConstructor;
 public class DestinationDTO
 {
 	private Long id;
-	private String startingPoint;
-	private String finalPoint;
+	private String name;
+	
+	private AvioCompanyDTO avioCompany;
+	private FlightDTO flightTakeOff;
+	private FlightDTO flightLanding;
+	
+	//da li se pravi zaseban DTO za Many TO many??!?
+
 }

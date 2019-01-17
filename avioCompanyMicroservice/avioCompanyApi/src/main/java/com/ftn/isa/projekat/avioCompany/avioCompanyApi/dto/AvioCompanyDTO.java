@@ -14,14 +14,15 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class AvioCompanyDTO
+public class AvioCompanyDTO //uradjen
 {
 	private Long id;
 	private String name;
 	private String address;
 	private String description;
 	
-	private List<Destination> companyDestinations;
-	
+	private DestinationDTO destination;
+	private IncomeDTO income;
+	//ne pisu se one koje nemaju kolonu u tom modelu (dakle liste)
 	
 }

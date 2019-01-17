@@ -1,6 +1,6 @@
 package com.ftn.isa.projekat.avioCompany.avioCompanyCore.Flight.model;
 
-import java.sql.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -15,14 +15,13 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ftn.isa.projekat.avioCompany.avioCompanyCore.AvioCompany.model.AvioCompany;
 import com.ftn.isa.projekat.avioCompany.avioCompanyCore.Destination.model.Destination;
-import com.ftn.isa.projekat.avioCompany.avioCompanyCore.PlaceInPlane.model.PlaceInPlane;
 import com.ftn.isa.projekat.avioCompany.avioCompanyCore.Ticket.model.Ticket;
-import com.ftn.isa.projekat.avioCompany.avioCompanyCore.TransferLocation.model.TransferLocation;
 
 import lombok.Data;
 
@@ -36,29 +35,43 @@ public class Flight
 	@Column (name = "id")
 	private Long id;
 	
-	@Column (name = "take_off_date")
-	private Date takeOffDate; //poletanje
+	@Column (name = "take_off_time")
+	private LocalDateTime takeOffTime; 
 	
-	@Column (name = "landing_date")
-	private Date landingDate; //sletanje
+	@Column (name = "landing_time")
+	private LocalDateTime landingTime; 
 	
-	@Column (name = "traveling_time")
-	private int travelingTime;
+	@Column (name = "flight_length")
+	private float flightLength;
 	
-	@Column (name = "traveling_distance")
-	private float travelingDistance;
-	
-	@Column (name = "number_of_transfers") //broj presedanja
+	@Column (name = "number_of_transfers") 
 	private int numberOfTransfers;
+	
+	@Column(name = "allTickets") //jedna karta = jedno mesto za sedenje
+	private int allTickets;
+	
+	@Column(name = "tickets_sold")
+	private int ticketsSold;
+	
+	@Column(name = "travel_type")
+	private String travelType;
 	
 	
 	/*
-	 * List of destinations that support specified flight
+	 * List of destinations for takeoff
 	 */
 	@JsonIgnore
-	@ManyToOne()
-	@JoinColumn (name = "flights_destination")
-	private Destination flightsDestination;
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn (name = "destination_takeoff")
+	private Destination destinationTakeOff;
+	
+	/*
+	 * List of destinations for takeoff
+	 */
+	@JsonIgnore
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn (name = "destination_landing")
+	private Destination destinationLanding;
 	
 	/*
 	 * List of locations where transfer is possible
@@ -67,32 +80,30 @@ public class Flight
 	@ManyToMany (fetch = FetchType.LAZY, cascade = {
 			CascadeType.PERSIST, CascadeType.MERGE
 	})
-	@JoinTable(name = "places_for_transfer", joinColumns = {
-			@JoinColumn(name = "transfer_location_id")
-	}, inverseJoinColumns = {
+	@JoinTable(name = "destinations_for_transfer", joinColumns = {
 			@JoinColumn(name = "flight_id")
+	}, inverseJoinColumns = {
+			@JoinColumn(name = "destination_id")
 	})
-	private List<TransferLocation> flightTransfers;
+	private List<Destination> destinationsForTransfer;
 	
-	/*
-	 * List of tickets for flight
-	 */
-	@JsonIgnore
-	@OneToMany (mappedBy = "flightTicket", cascade = CascadeType.ALL)
-	private List<Ticket> tickets;
-	
-	/*
-	 * List of places in plane available on flight
-	 */
-	@JsonIgnore
-	@OneToMany (mappedBy = "flightPlace", cascade = CascadeType.ALL)
-	private List<PlaceInPlane> places;
 	
 	/*
 	 * Attached airline for concrete flight (dodato)
 	 */
 	@JsonIgnore
-	@ManyToOne()
-	@JoinColumn (name = "avio_company_id", nullable = false)
-	private AvioCompany companyId;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn (name = "avio_company_id", nullable = false) //ne moze da postoji let bez aviokompanije
+	private AvioCompany avioCompany;
+	
+	
+	/*
+	 * List of bought tickets
+	 */
+	@JsonIgnore
+	@OneToMany (mappedBy = "flight", cascade = CascadeType.ALL)
+	private List<Ticket> tickets;
+	
+
+	
 }

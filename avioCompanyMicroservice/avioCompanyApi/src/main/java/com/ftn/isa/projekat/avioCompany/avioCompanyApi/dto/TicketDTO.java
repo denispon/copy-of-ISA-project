@@ -10,8 +10,12 @@ import lombok.NoArgsConstructor;
 public class TicketDTO
 {
 	private Long id;
-	private float price;
+	private Boolean fastReservation;
+	private String ticketClass;
+	private int discount;
 	private int rating;
+	private float price;
+	private Boolean isBought;
 	
 	private FlightDTO flight;
 }

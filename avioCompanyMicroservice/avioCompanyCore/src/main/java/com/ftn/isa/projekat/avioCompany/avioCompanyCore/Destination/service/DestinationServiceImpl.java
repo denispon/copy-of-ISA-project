@@ -9,18 +9,32 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ftn.isa.projekat.avioCompany.avioCompanyApi.dto.DestinationDTO;
+import com.ftn.isa.projekat.avioCompany.avioCompanyCore.AvioCompany.model.AvioCompany;
+import com.ftn.isa.projekat.avioCompany.avioCompanyCore.AvioCompany.repository.AvioCompanyRepository;
 import com.ftn.isa.projekat.avioCompany.avioCompanyCore.Destination.model.Destination;
 import com.ftn.isa.projekat.avioCompany.avioCompanyCore.Destination.repository.DestinationRepository;
+import com.ftn.isa.projekat.avioCompany.avioCompanyCore.Flight.repository.FlightRepository;
+import com.ftn.isa.projekat.avioCompany.avioCompanyCore.dtoConverter.DTOAvioCompanyConverter;
 import com.ftn.isa.projekat.avioCompany.avioCompanyCore.dtoConverter.DTODestinationConverter;
+import com.ftn.isa.projekat.avioCompany.avioCompanyCore.dtoConverter.DTOFlightConverter;
 
 @Service
 public class DestinationServiceImpl implements IDestinationService
 {
 	@Autowired
 	DestinationRepository destRepository;
-	
 	@Autowired
 	DTODestinationConverter destConverter;
+	
+	@Autowired
+	AvioCompanyRepository avioRepository;
+	@Autowired
+	DTOAvioCompanyConverter avioConverter;
+	
+	@Autowired
+	FlightRepository flRepository;
+	@Autowired
+	DTOFlightConverter flConverter;
 
 	@Override
 	public DestinationDTO findOneById(Long id)
@@ -55,9 +69,10 @@ public class DestinationServiceImpl implements IDestinationService
 	@Override
 	public DestinationDTO save(DestinationDTO dto) 
 	{
-		//-> nez zasto ne radi, bilo mi je par puta ovako pa se samo resilo
-		//destRepository.save(destConverter.convertFromDTO(dto)); 
+		//ne kapiram zasto ovde baca
+		//destRepository.save(destConverter.convertFromDTO(dto));
 		
+		//ovde je trebalo samo da se sacuva jer kad bi stavio i ovde uslov da ne sme aviokompanija da bude prazna nebi se moglo sacuvati ni jedno ni drugo
 		return dto;
 	}
 
@@ -83,8 +98,7 @@ public class DestinationServiceImpl implements IDestinationService
 		
 		if(dest.isPresent() && dto != null)
 		{
-			dest.get().setStartPoint(dto.getStartingPoint());
-			dest.get().setEndPoint(dto.getFinalPoint());
+			dest.get().setName(dto.getName());
 			
 			destRepository.save(dest.get());
 			
@@ -93,7 +107,7 @@ public class DestinationServiceImpl implements IDestinationService
 			return dto;
 		}
 		
-		return null;
+		return new DestinationDTO();
 	}
 
 }

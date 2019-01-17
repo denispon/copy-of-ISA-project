@@ -9,26 +9,34 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ftn.isa.projekat.avioCompany.avioCompanyApi.dto.TicketDTO;
+import com.ftn.isa.projekat.avioCompany.avioCompanyCore.Flight.model.Flight;
+import com.ftn.isa.projekat.avioCompany.avioCompanyCore.Flight.repository.FlightRepository;
 import com.ftn.isa.projekat.avioCompany.avioCompanyCore.Ticket.model.Ticket;
 import com.ftn.isa.projekat.avioCompany.avioCompanyCore.Ticket.repository.TicketRepository;
+import com.ftn.isa.projekat.avioCompany.avioCompanyCore.dtoConverter.DTOFlightConverter;
 import com.ftn.isa.projekat.avioCompany.avioCompanyCore.dtoConverter.DTOTicketConverter;
 
 @Service
 public class TIcketServiceImpl implements ITicketService
 {
 	@Autowired
-	TicketRepository repository;
+	TicketRepository tickRepo;;
+	@Autowired
+	DTOTicketConverter tickConv;
 	
 	@Autowired
-	DTOTicketConverter converter;
+	FlightRepository flRepo;
+	@Autowired
+	DTOFlightConverter flConv;
+	
 
 	@Override
 	public TicketDTO findOneById(Long id)
 	{
-		Optional<Ticket> ticket = repository.findById(id);
+		Optional<Ticket> ticket = tickRepo.findById(id);
 		
 		if(ticket.isPresent())
-			return converter.convertToDto(ticket.get());
+			return tickConv.convertToDto(ticket.get());
 		else
 			return new TicketDTO();
 	}
@@ -36,14 +44,14 @@ public class TIcketServiceImpl implements ITicketService
 	@Override
 	public List<TicketDTO> findAll()
 	{
-		Optional<List<Ticket>> list = Optional.of(repository.findAll());
+		Optional<List<Ticket>> list = Optional.of(tickRepo.findAll());
 		ArrayList<TicketDTO> dtos = new ArrayList<TicketDTO>();
 		
 		if(list.isPresent())
 		{
 			for(Ticket tick : list.get())
 			{
-				dtos.add(converter.convertToDto(tick));
+				dtos.add(tickConv.convertToDto(tick));
 			}
 			
 			return dtos;
@@ -55,31 +63,61 @@ public class TIcketServiceImpl implements ITicketService
 	@Override
 	public TicketDTO save(TicketDTO dto) 
 	{
-		repository.save(converter.convertFromDto(dto));
+		Optional<Flight> flight = flRepo.findById(dto.getFlight().getId());
 		
-		return dto;
+		if(flight.isPresent())
+		{
+			tickRepo.save(tickConv.convertFromDto(dto));
+			
+			return dto;
+		}
+		return null;
 	}
 
 	@Override
 	public TicketDTO deleteById(Long id)
 	{
-		Optional<Ticket> toDel = repository.findById(id);
+		Optional<Ticket> toDel = tickRepo.findById(id);
 		
 		if(toDel.isPresent())
 		{
-			repository.deleteById(id);
-			return converter.convertToDto(toDel.get());
+			tickRepo.deleteById(id);
+			return tickConv.convertToDto(toDel.get());
 		}
 		
 		return null;
 	}
 
-	//DOVRSI UPDATE
+	
 	@Override
-	public TicketDTO changeTicket(Long id, TicketDTO ticketDTO)
+	public TicketDTO changeTicket(Long id, TicketDTO dto)
 	{
+		Optional<Ticket> change = tickRepo.findById(id);
 		
-		return null;
+		if(change.isPresent() && dto != null)
+		{
+			Optional<Flight> flight = flRepo.findById(dto.getFlight().getId());
+			
+			if(flight.isPresent())
+			{
+				change.get().setFastReservation(dto.getFastReservation());
+				change.get().setTicketClass(dto.getTicketClass());
+				change.get().setDiscount(dto.getDiscount());
+				change.get().setRating(dto.getRating());
+				change.get().setPrice(dto.getPrice());
+				change.get().setIsBought(dto.getIsBought());
+				
+				tickRepo.save(change.get());
+				
+				dto.setId(change.get().getId());
+				
+				return dto;
+			}
+			
+			return new TicketDTO();
+		}
+		
+		return new TicketDTO();
 	}
 
 

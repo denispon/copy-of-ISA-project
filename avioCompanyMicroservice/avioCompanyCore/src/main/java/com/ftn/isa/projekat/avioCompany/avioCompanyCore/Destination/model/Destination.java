@@ -9,10 +9,9 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -31,25 +30,40 @@ public class Destination
 	@Column (name = "id")
 	private Long id;
 	
-	@Column (name = "start_point", nullable = false)
-	private String startPoint;
+	@Column (name = "name", nullable = false)
+	private String name;
 	
-	@Column (name = "end_point", nullable = false)
-	private String endPoint;
+	
+	/*
+	 * AvioCompany
+	 */
+	@JsonIgnore
+	@OneToOne(mappedBy = "destination", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private AvioCompany avioCompany;
+	
 	
 	/*
 	 * List of flights that takeoff or lands in these destinations
 	 */
 	@JsonIgnore
-	@OneToMany (mappedBy = "flightsDestination")
-	private List<Flight> listOfFlights;
+	@OneToOne (mappedBy = "destinationTakeOff", cascade = CascadeType.ALL)
+	private Flight flightTakeOff;
 	
 	/*
-	 * List of aviocompanies that uses these destinations
+	 * List of flights that lands there
 	 */
 	@JsonIgnore
-	@ManyToMany (fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, mappedBy = "companyDestinations")
-	private List<AvioCompany> listOfDestinations;
+	@OneToOne (mappedBy = "destinationLanding", cascade = CascadeType.ALL)
+	private Flight flightLanding;
+	
+	
+	/*
+	 * Flights that includes transfers
+	 */
+	@ManyToMany(mappedBy = "destinationsForTransfer")
+	private List<Flight> flightsWithTransfers;
+	
+	
 	
 	
 	

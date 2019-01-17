@@ -1,5 +1,7 @@
 package com.ftn.isa.projekat.avioCompany.avioCompanyCore.Ticket.model;
 
+import java.util.List;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,12 +11,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ftn.isa.projekat.avioCompany.avioCompanyCore.Flight.model.Flight;
-import com.ftn.isa.projekat.avioCompany.avioCompanyCore.PlaceInPlane.model.PlaceInPlane;
+import com.ftn.isa.projekat.avioCompany.avioCompanyCore.Luggage.model.Luggage;
 
 import lombok.Data;
 
@@ -28,26 +30,39 @@ public class Ticket
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
 	
-	@Column (name = "price")
+	@Column(name = "fast_reservation")
+	private Boolean fastReservation;
+	
+	@Column (name = "ticket_class")
+	private String ticketClass;
+	
+	@Column (name = "discount") 
+	private int discount;
+	
+	@Column(name = "rating")
+	private int rating;
+	
+	@Column(name = "price")
 	private float price;
 	
-	@Column (name = "rating") 
-	private int rating;
+	@Column(name = "is_bought")
+	private Boolean isBought;
+	
 	
 	/*
 	 * Flight where this ticket is bought
 	 */
 	@JsonIgnore
-	@ManyToOne ()
-	@JoinColumn (name = "flight_ticket")
-	private Flight flightTicket;
+	@ManyToOne (fetch = FetchType.LAZY)
+	@JoinColumn (name = "flight_id")
+	private Flight flight;
+	
 	
 	/*
-	 * One place in plane eq exactly one ticket
+	 * Luggage for one ticket
 	 */
 	@JsonIgnore
-	@OneToOne (fetch = FetchType.LAZY)
-	@JoinColumn (name = "place_id")
-	private PlaceInPlane place;
+	@OneToMany(mappedBy = "ticket", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<Luggage> luggage;
 	
 }

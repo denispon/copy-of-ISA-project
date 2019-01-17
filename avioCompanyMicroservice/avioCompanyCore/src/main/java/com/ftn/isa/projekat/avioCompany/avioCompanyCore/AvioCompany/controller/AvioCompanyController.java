@@ -52,7 +52,7 @@ public class AvioCompanyController
 	@ApiOperation( value = "Returns all avio companies", httpMethod = "GET")
 	@ApiResponses( value = { @ApiResponse( code = 200, message ="OK"),
 							 @ApiResponse( code = 404, message ="Not found")})	
-	public ResponseEntity<List<AvioCompanyDTO>> getAllBranches(){
+	public ResponseEntity<List<AvioCompanyDTO>> getAllAvioCompanies(){
 		
 		System.out.println("ISPIS U KONZOLU poziv");
 		List<AvioCompanyDTO> companies = avioCompanyService.findAll();
@@ -68,7 +68,7 @@ public class AvioCompanyController
 					@ApiResponse( code = 201 , message = "Created"),
 					@ApiResponse( code = 400, message= "Bad request")
 	})
-	public ResponseEntity<AvioCompanyDTO> addBranchOffice(@RequestBody AvioCompanyDTO dto){
+	public ResponseEntity<AvioCompanyDTO> addAvioCompany(@RequestBody AvioCompanyDTO dto){
 		
 		System.out.println("EJ BRE ALO BRE");
 		
@@ -83,7 +83,7 @@ public class AvioCompanyController
 	@ApiResponses( value = { 
 			 @ApiResponse( code = 200, message ="OK"),
 			 @ApiResponse( code = 404, message ="Not Found")})	
-	public ResponseEntity<AvioCompanyDTO> deleteBranchOffice(@PathVariable("id") Long id){
+	public ResponseEntity<AvioCompanyDTO> deleteAvioCompany(@PathVariable("id") Long id){
 		AvioCompanyDTO deletedCompanyDTO = avioCompanyService.deleteById(id);
 		
 		return (deletedCompanyDTO.getId() != null ) ? new ResponseEntity<AvioCompanyDTO>(deletedCompanyDTO,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -91,11 +91,11 @@ public class AvioCompanyController
 	
 	//UPDATE
 	@PutMapping("/{id}")
-	@ApiOperation( value= "Change a branch office", notes = "Returns the branch office being changed", httpMethod="PUT")
+	@ApiOperation( value= "Change avio company.", notes = "Returns the avio company that has being changed", httpMethod="PUT")
 	@ApiResponses( value = { 
 			 @ApiResponse( code = 200, message ="OK"),
 			 @ApiResponse( code = 400, message ="Bad Request")})
-	public ResponseEntity<AvioCompanyDTO> changeBranch (@PathVariable("id") Long id, @RequestBody AvioCompanyDTO avioDto){
+	public ResponseEntity<AvioCompanyDTO> changeAvioCompany(@PathVariable("id") Long id, @RequestBody AvioCompanyDTO avioDto){
 		
 		AvioCompanyDTO companyToEdit = avioCompanyService.changeAvioCompany(id, avioDto);
 	

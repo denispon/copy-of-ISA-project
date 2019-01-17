@@ -9,4 +9,5 @@ import com.ftn.isa.projekat.avioCompany.avioCompanyCore.Destination.model.Destin
 public interface DestinationRepository extends JpaRepository<Destination, Long>
 {
 
+
 }
