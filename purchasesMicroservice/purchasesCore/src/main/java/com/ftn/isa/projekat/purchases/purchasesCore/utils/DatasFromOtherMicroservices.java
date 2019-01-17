@@ -33,9 +33,14 @@ public class DatasFromOtherMicroservices {
 		return carReservationClient.deleteReservation(id);
 	}
 	
-	public CarReservationDTO addReservation(CarReservationDTO carResercation) {
+	public CarReservationDTO addCarReservation(CarReservationDTO carResercation) {
 		
 		return carReservationClient.addReservation(carResercation);
+	}
+	
+	public CarReservationDTO getCarReservationById(Long id) {
+		
+		return carReservationClient.getOneReservationById(id);
 	}
 	
 	

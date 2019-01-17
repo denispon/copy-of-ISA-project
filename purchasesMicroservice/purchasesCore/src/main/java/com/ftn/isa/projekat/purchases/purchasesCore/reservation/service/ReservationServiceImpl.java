@@ -13,6 +13,8 @@ import com.ftn.isa.projekat.purchases.purchasesCore.converter.DTOReservationConv
 import com.ftn.isa.projekat.purchases.purchasesCore.reservation.model.Reservation;
 import com.ftn.isa.projekat.purchases.purchasesCore.reservation.repository.ReservationRepository;
 import com.ftn.isa.projekat.purchases.purchasesCore.utils.DatasFromOtherMicroservices;
+import com.ftn.isa.projekat.rentACar.rentACarApi.dto.CarReservationDTO;
+import com.ftn.isa.projekat.user.userApi.dto.UserDTO;
 
 
 @Component
@@ -70,11 +72,32 @@ public class ReservationServiceImpl implements IReservationService {
 	@Override
 	public ReservationDTO save(ReservationDTO reservationToSave) {
 	
+		/*
+		 * 
+		 *  First checking if there are user and other sub reservations if they exits..
+		 * 
+		 *  */
 		
-		reservationRepository.save(reservationConverter.convertFromDTO(reservationToSave));
+		UserDTO user = servicesProxy.getUserById(reservationToSave.getUserId());
 		
-		return reservationToSave;
+		if(user.getId()!=null) {
+			
+			if(reservationToSave.getCarReservationId()!=null) {
+		
+				CarReservationDTO carReservation = servicesProxy.getCarReservationById(reservationToSave.getCarReservationId());
+				
+				if(carReservation.getId()==null) {
+					return new ReservationDTO();
+				}
+				
+			}
+			
+			reservationRepository.save(reservationConverter.convertFromDTO(reservationToSave));
+			
+			return reservationToSave;
+		}
 
+		return new ReservationDTO();
 	}
 
 	@Override
@@ -100,19 +123,38 @@ public class ReservationServiceImpl implements IReservationService {
 		
 		if(reservationForChange.isPresent() && reservation != null) {
 			
+			/*
+			 * 
+			 *  First checking if there are user and other sub reservations if they exits..
+			 * 
+			 *  */
 			
+			UserDTO user = servicesProxy.getUserById(reservation.getUserId());
+			
+			if(user.getId()!=null) {
 				
-			reservationForChange.get().setCarReservationId(reservation.getCarReservationId());
-			reservationForChange.get().setUserId(reservation.getUserId());
-			reservationForChange.get().setPrice(reservation.getPrice());
+				if(reservation.getCarReservationId()!=null) {
 			
-			
-			reservationRepository.save(reservationForChange.get());
-			
-			reservation.setId(reservationForChange.get().getId());
-			
-			return reservation;
+					CarReservationDTO carReservation = servicesProxy.getCarReservationById(reservation.getCarReservationId());
+					
+					if(carReservation.getId()==null) {
+						return new ReservationDTO();
+					}
+					
+				}
 				
+				reservationForChange.get().setCarReservationId(reservation.getCarReservationId());
+				reservationForChange.get().setUserId(reservation.getUserId());
+				reservationForChange.get().setPrice(reservation.getPrice());
+				
+				
+				reservationRepository.save(reservationForChange.get());
+				
+				reservation.setId(reservationForChange.get().getId());
+				
+				return reservation;
+			
+			}
 			
 		}
 		

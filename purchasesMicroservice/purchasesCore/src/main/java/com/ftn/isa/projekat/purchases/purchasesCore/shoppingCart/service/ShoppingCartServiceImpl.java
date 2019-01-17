@@ -23,6 +23,7 @@ import com.ftn.isa.projekat.purchases.purchasesCore.shoppingCart.model.ShoppingC
 import com.ftn.isa.projekat.purchases.purchasesCore.shoppingCart.repository.ShoppingCartRepository;
 import com.ftn.isa.projekat.purchases.purchasesCore.utils.DatasFromOtherMicroservices;
 import com.ftn.isa.projekat.rentACar.rentACarApi.dto.CarReservationDTO;
+import com.ftn.isa.projekat.user.userApi.dto.UserDTO;
 
 @Component
 public class ShoppingCartServiceImpl implements IShoppingCartService{
@@ -91,10 +92,33 @@ public class ShoppingCartServiceImpl implements IShoppingCartService{
 	@Override
 	public ShoppingCartDTO save(ShoppingCartDTO reservationToSave) {
 		
+		/*
+		 * 
+		 *  First checking if there are user and other sub reservations if they exits..
+		 * 
+		 *  */
+		
+		UserDTO user = servicesProxy.getUserById(reservationToSave.getUserId());
+		
+		if(user.getId()!=null) {
+			
+			if(reservationToSave.getCarReservationId()!=null) {
+		
+				CarReservationDTO carReservation = servicesProxy.getCarReservationById(reservationToSave.getCarReservationId());
+				
+				if(carReservation.getId()==null) {
+					return new ShoppingCartDTO();
+				}
+				
+			}
+		
 		cartRepository.save(cartConverter.convertFromDTO(reservationToSave));
 		
 		return reservationToSave;
 
+		}
+		
+		return new ShoppingCartDTO();
 	}
 
 	@Override
@@ -120,7 +144,25 @@ public class ShoppingCartServiceImpl implements IShoppingCartService{
 		
 		if(reservationForChange.isPresent() && reservation != null) {
 			
+			/*
+			 * 
+			 *  First checking if there are user and other sub reservations if they exits..
+			 * 
+			 *  */
 			
+			UserDTO user = servicesProxy.getUserById(reservation.getUserId());
+			
+			if(user.getId()!=null) {
+				
+				if(reservation.getCarReservationId()!=null) {
+			
+					CarReservationDTO carReservation = servicesProxy.getCarReservationById(reservation.getCarReservationId());
+					
+					if(carReservation.getId()==null) {
+						return new ShoppingCartDTO();
+					}
+					
+				}
 				
 			reservationForChange.get().setCarReservationId(reservation.getCarReservationId());
 			reservationForChange.get().setUserId(reservation.getUserId());
@@ -133,7 +175,7 @@ public class ShoppingCartServiceImpl implements IShoppingCartService{
 			
 			return reservation;
 				
-			
+			}
 		}
 		
 		return new ShoppingCartDTO();
@@ -152,7 +194,7 @@ public class ShoppingCartServiceImpl implements IShoppingCartService{
 			 * Note: See, we are using client from RentACar microservice...
 			 *  */
 			
-			CarReservationDTO carReservationToSave = servicesProxy.addReservation(carReservation);
+			CarReservationDTO carReservationToSave = servicesProxy.addCarReservation(carReservation);
 			
 			//Calclulating price for carResercation
 			
