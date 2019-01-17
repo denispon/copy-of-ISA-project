@@ -73,7 +73,7 @@ public class HotelskaSobaService implements IHotelskaSobaService{
 		
 		Optional<HotelskaSoba> soba = hotelskaSobaRepository.findById(id);
 		
-		if(soba.isPresent()) {
+		if(soba.isPresent() && hotelskaSobaRepository.findById(id).get().getReserved() != true) {
 			hotelskaSobaRepository.deleteById(id);
 			return hotelskaSobaConverter.convertToDTO(soba.get());
 		}else {
@@ -86,7 +86,7 @@ public class HotelskaSobaService implements IHotelskaSobaService{
 		
 		Optional<HotelskaSoba> soba = hotelskaSobaRepository.findById(id);
 		
-		if(soba.isPresent() && sobaDTO!=null) {
+		if(soba.isPresent() && sobaDTO!=null && hotelskaSobaRepository.findById(id).get().getReserved() != true) {
 			soba.get().setFloor(sobaDTO.getFloor());
 			soba.get().setReserved(sobaDTO.getReserved());
 			soba.get().setHotel_hotelskeSobe(hotelConverter.convertFromDTO(sobaDTO.getHotel_hotelskeSobe()));

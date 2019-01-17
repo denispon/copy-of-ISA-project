@@ -68,16 +68,30 @@ public class RezervacijeSobeService implements IRezervacijeSobeService{
 	}
 	
 	public RezervacijeSobeDTO save(RezervacijeSobeDTO dto) {
-		rezervacijeSobeRepository.save(rezervacijeSobeConverter.convertFromDTO(dto));
+		if(dto.getSobaId().getReserved()==false) {
+			dto.getSobaId().setReserved(true);
+			rezervacijeSobeRepository.save(rezervacijeSobeConverter.convertFromDTO(dto));
+		}else {
+			rezervacijeSobeRepository.save(rezervacijeSobeConverter.convertFromDTO(dto));
+		}
 		return dto;
 	}
 	
 	public RezervacijeSobeDTO deleteById(Long id) {
-		
+		int postojiRezervacija = 0;
 		Optional<RezervacijeSobe> zaBrisanje = rezervacijeSobeRepository.findById(id);
 		
 		if(zaBrisanje.isPresent()) {
 			rezervacijeSobeRepository.deleteById(id);
+			List<RezervacijeSobe> lista = rezervacijeSobeRepository.findAll();
+			for(RezervacijeSobe rs : lista) {
+				if(rs.getSobaId().getId()==zaBrisanje.get().getSobaId().getId()) {
+					postojiRezervacija = 1; //proveravamo da li postoji barem jos jedna rezervacija sa istom sobom, ako ne onda reserved atribut te sobe postavljamo na false
+				}
+			}
+			if(postojiRezervacija != 1) {
+				zaBrisanje.get().getSobaId().setReserved(false);
+			}
 			return rezervacijeSobeConverter.convertToDTO(zaBrisanje.get());
 		}else {
 			return new RezervacijeSobeDTO();
