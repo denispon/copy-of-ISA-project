@@ -18,20 +18,20 @@ import com.ftn.isa.projekat.user.userApi.dto.FriendRequestDTO;
 public interface FriendRequestClient {
 
 	@GetMapping("/{id}")
-	public ResponseEntity<FriendRequestDTO> getOneFriendRequestById (@PathVariable("id") Long id);
+	public FriendRequestDTO getOneFriendRequestById (@PathVariable("id") Long id);
 	
 	@GetMapping("/all")
-	public ResponseEntity<List<FriendRequestDTO>> getAllRequests();
+	public List<FriendRequestDTO> getAllRequests();
 	
 	@PostMapping("/")
-	public ResponseEntity<FriendRequestDTO> addFriendRequest(@RequestBody FriendRequestDTO dto);
+	public FriendRequestDTO addFriendRequest(@RequestBody FriendRequestDTO dto);
 	
 	@DeleteMapping("/{id}")
-	public ResponseEntity<FriendRequestDTO> deleteFriendRequest(@PathVariable("id") Long id);
+	public FriendRequestDTO deleteFriendRequest(@PathVariable("id") Long id);
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<FriendRequestDTO> changeRequest (@PathVariable("id") Long id, @RequestBody FriendRequestDTO requestDto );
+	public FriendRequestDTO changeRequest (@PathVariable("id") Long id, @RequestBody FriendRequestDTO requestDto );
 	
 	@PutMapping("/acceptRequest/{id}")
-	public ResponseEntity<FriendRequestDTO> acceptRequest (@PathVariable("id") Long id);
+	public FriendRequestDTO acceptRequest (@PathVariable("id") Long id);
 }

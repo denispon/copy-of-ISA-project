@@ -21,32 +21,32 @@ import com.ftn.isa.projekat.user.userApi.dto.UserForRegistrationDTO;
 public interface UserClient {
 
 	@GetMapping("/{id}")
-	public ResponseEntity<UserDTO> getOneUserById (@PathVariable("id") Long id);
+	public UserDTO getOneUserById (@PathVariable("id") Long id);
 	
 	@GetMapping("/all")	
-	public ResponseEntity<List<UserDTO>> getAllUsers();
+	public List<UserDTO> getAllUsers();
 	
 	@PostMapping("/")
-	public ResponseEntity<UserDTO> addUser(@RequestBody UserDTO dto);
+	public UserDTO addUser(@RequestBody UserDTO dto);
 	
 	@DeleteMapping("/{id}")
-	public ResponseEntity<UserDTO> deleteUser(@PathVariable("id") Long id);
+	public UserDTO deleteUser(@PathVariable("id") Long id);
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<UserDTO> changeUser (@PathVariable("id") Long id, @RequestBody UserDTO userDto );
+	public UserDTO changeUser (@PathVariable("id") Long id, @RequestBody UserDTO userDto );
 	
 	@GetMapping("/friends/{id}")
-	public ResponseEntity<List<UserDTO>> getAllFriends(@PathVariable("id") Long id);
+	public List<UserDTO> getAllFriends(@PathVariable("id") Long id);
 	
 	
 	@PostMapping("/register")
-	public ResponseEntity<UserForRegistrationDTO> registerUser(@RequestBody UserForRegistrationDTO dto);
+	public UserForRegistrationDTO registerUser(@RequestBody UserForRegistrationDTO dto);
 	
 	@GetMapping("/activate/{id}")
-	public ResponseEntity<UserDTO> activateUser(@PathVariable("id") Long id);
+	public UserDTO activateUser(@PathVariable("id") Long id);
 	
 	
 	@GetMapping("/role/{id}")
-	public ResponseEntity<List<UserDTO>> getAllUsersByRole(@PathVariable("id") Long id);
+	public List<UserDTO> getAllUsersByRole(@PathVariable("id") Long id);
 	
 }

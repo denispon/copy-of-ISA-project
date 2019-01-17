@@ -20,19 +20,19 @@ import com.ftn.isa.projekat.user.userApi.dto.UserRoleDTO;
 public interface UserRoleClient {
 
 	@GetMapping("/{id}")
-	public ResponseEntity<UserRoleDTO> getOneUserRoleById (@PathVariable("id") Long id);
+	public UserRoleDTO getOneUserRoleById (@PathVariable("id") Long id);
 	
 	@GetMapping("/all")
-	public ResponseEntity<List<UserRoleDTO>> getAllUserRoles();
+	public List<UserRoleDTO> getAllUserRoles();
 	
 	@PostMapping("/")
-	public ResponseEntity<UserRoleDTO> addUserRole(@RequestBody UserRoleDTO dto);
+	public UserRoleDTO addUserRole(@RequestBody UserRoleDTO dto);
 	
 	@DeleteMapping("/{id}")
-	public ResponseEntity<UserRoleDTO> deleteUserRole(@PathVariable("id") Long id);
+	public UserRoleDTO deleteUserRole(@PathVariable("id") Long id);
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<UserRoleDTO> changeUserRole (@PathVariable("id") Long id, @RequestBody UserRoleDTO roleDto );
+	public UserRoleDTO changeUserRole (@PathVariable("id") Long id, @RequestBody UserRoleDTO roleDto );
 
 
 }
