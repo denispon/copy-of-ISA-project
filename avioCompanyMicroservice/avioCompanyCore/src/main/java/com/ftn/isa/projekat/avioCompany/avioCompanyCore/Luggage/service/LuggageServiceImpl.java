@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.ftn.isa.projekat.avioCompany.avioCompanyApi.dto.LuggageDTO;
 import com.ftn.isa.projekat.avioCompany.avioCompanyCore.Luggage.model.Luggage;
@@ -15,6 +16,7 @@ import com.ftn.isa.projekat.avioCompany.avioCompanyCore.Ticket.repository.Ticket
 import com.ftn.isa.projekat.avioCompany.avioCompanyCore.dtoConverter.DTOLuggageConverter;
 import com.ftn.isa.projekat.avioCompany.avioCompanyCore.dtoConverter.DTOTicketConverter;
 
+@Service
 public class LuggageServiceImpl implements ILuggageService
 {
 	@Autowired

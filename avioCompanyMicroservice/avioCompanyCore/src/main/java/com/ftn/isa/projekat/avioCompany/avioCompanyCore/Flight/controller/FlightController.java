@@ -124,6 +124,18 @@ public class FlightController
 	}
 	
 	/*
+	 * Cancel flight (returns true if cancel is allowed)
+	 */
+	@GetMapping("/cancelFlight/{id}")
+	public ResponseEntity<Boolean> ifFlightCanceled(@PathVariable("id") Long flightId)
+	{
+		Boolean canceled = service.cancelFlight(flightId);
+		
+		return (!canceled) ? new ResponseEntity<Boolean>(canceled, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
+		
+	}
+	
+	/*
 	 * Average rating for one flight (cudilo bi me da radi)
 	 */
 	@GetMapping("/getAvgRating/{id}")

@@ -30,9 +30,9 @@ public class DTODestinationConverter
 		
 		dto.setId(dest.getId());
 		dto.setName(dest.getName());
-		dto.setAvioCompany(avioConverter.convertToDTO(dest.getAvioCompany()));
-		dto.setFlightTakeOff(flightConverter.convertToDTO(dest.getFlightTakeOff()));
-		dto.setFlightLanding(flightConverter.convertToDTO(dest.getFlightLanding()));
+		//dto.setAvioCompany(avioConverter.convertToDTO(dest.getAvioCompany()));
+		//dto.setFlightTakeOff(flightConverter.convertToDTO(dest.getFlightTakeOff()));
+		//dto.setFlightLanding(flightConverter.convertToDTO(dest.getFlightLanding()));
 		
 		return dto;
 	}
@@ -48,10 +48,11 @@ public class DTODestinationConverter
 		
 		Destination dest = new Destination();
 		
+		dest.setId(dto.getId());
 		dest.setName(dto.getName());
-		dest.setAvioCompany(avioConverter.convertFromDTO(dto.getAvioCompany()));
-		dest.setFlightTakeOff(flightConverter.convertFromDTO(dto.getFlightTakeOff()));
-		dest.setFlightLanding(flightConverter.convertFromDTO(dto.getFlightLanding()));
+		//dest.setAvioCompany(avioConverter.convertFromDTO(dto.getAvioCompany()));
+		//dest.setFlightTakeOff(flightConverter.convertFromDTO(dto.getFlightTakeOff()));
+		//dest.setFlightLanding(flightConverter.convertFromDTO(dto.getFlightLanding()));
 		
 		return dest;
 	}

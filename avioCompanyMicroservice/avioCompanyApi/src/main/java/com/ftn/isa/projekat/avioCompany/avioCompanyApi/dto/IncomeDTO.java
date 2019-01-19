@@ -16,5 +16,5 @@ public class IncomeDTO
 	private LocalDateTime incomeDate;
 	private int ticketsNumnber;
 	
-	private AvioCompanyDTO companyId; //u react-u odavde treba samo id pozvati (nad ovim objektom), mozda je i logicnije da se samo pozove ovde id al nema veze
+//	private AvioCompanyDTO companyId; //u react-u odavde treba samo id pozvati (nad ovim objektom), mozda je i logicnije da se samo pozove ovde id al nema veze
 }
