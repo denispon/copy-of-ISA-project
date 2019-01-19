@@ -13,6 +13,7 @@ import com.ftn.isa.projekat.hotel.hotelApi.dto.TipSobeDTO;
 import com.ftn.isa.projekat.hotel.hotelCore.Hotel.model.Hotel;
 import com.ftn.isa.projekat.hotel.hotelCore.TipSobe.model.TipSobe;
 import com.ftn.isa.projekat.hotel.hotelCore.TipSobe.repository.TipSobeRepository;
+import com.ftn.isa.projekat.hotel.hotelCore.dtoConverter.DTOHotelConverter;
 import com.ftn.isa.projekat.hotel.hotelCore.dtoConverter.DTOHotelskaSobaConverter;
 import com.ftn.isa.projekat.hotel.hotelCore.dtoConverter.DTOTipSobeConverter;
 import com.ftn.isa.projekat.hotel.hotelCore.dtoConverter.DTOVanredneCeneConverter;
@@ -24,7 +25,7 @@ public class TipSobeService implements ITipSobeService{
 	TipSobeRepository tipSobeRepository;
 	
 	@Autowired
-	DTOVanredneCeneConverter vanredneCeneConverter;
+	DTOHotelConverter hotelConverter;
 	
 	@Autowired
 	DTOHotelskaSobaConverter hotelskaSobaConverter;
@@ -79,11 +80,12 @@ public class TipSobeService implements ITipSobeService{
 		Optional<TipSobe> tip = tipSobeRepository.findById(id);
 		
 		if(tip.isPresent() && tipDTO!=null) {
-			tip.get().setNocenjePrice(tipDTO.getNocenjePrice());
+			/*tip.get().setNocenjePrice(tipDTO.getNocenjePrice());
 			tip.get().setPansionPrice(tipDTO.getPansionPrice());
-			tip.get().setPolupansionPrice(tipDTO.getPolupansionPrice());
+			tip.get().setPolupansionPrice(tipDTO.getPolupansionPrice());*/
+			tip.get().setKapacitet(tipDTO.getKapacitet());
 			tip.get().setRoomType(tipDTO.getRoomType());
-			tip.get().setVanredneCeneNocenja_tipSobe(vanredneCeneConverter.convertFromDTO(tipDTO.getVanredneCeneNocenja_tipSobe()));
+			tip.get().setHotel_tipSobe(hotelConverter.convertFromDTO(tipDTO.getHotel_tipSobe()));
 			
 			tipSobeRepository.save(tip.get());
 			

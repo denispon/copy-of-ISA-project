@@ -16,6 +16,7 @@ import javax.persistence.Table;
 import org.springframework.boot.jackson.JsonComponent;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.ftn.isa.projekat.hotel.hotelCore.CeneSoba.model.CeneSoba;
 import com.ftn.isa.projekat.hotel.hotelCore.Hotel.model.Hotel;
 import com.ftn.isa.projekat.hotel.hotelCore.RezervacijeSobe.model.RezervacijeSobe;
 import com.ftn.isa.projekat.hotel.hotelCore.TipSobe.model.TipSobe;
@@ -43,6 +44,10 @@ public class HotelskaSoba {
 	@JsonIgnore
 	@OneToMany (mappedBy="sobaId", cascade=CascadeType.ALL)
 	private List<RezervacijeSobe> rezervisaneSobeList;
+	
+	@JsonIgnore
+	@OneToMany (mappedBy="hotelskaSoba_cena", cascade=CascadeType.ALL)
+	private List<CeneSoba> ceneList;
 	
 	@JsonIgnore
 	@ManyToOne (/*cascade=CascadeType.ALL*/)

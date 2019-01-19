@@ -36,6 +36,9 @@ public class DodatneUsluge {
 	@Column (name="additionalServicePrice", nullable=false)
 	private int additionalServicePrice;
 	
+	@Column (name = "popust", nullable = false)
+	private int popust;
+	
 	@JsonIgnore
 	@ManyToOne ()
 	@JoinColumn (name="hotel_id", nullable = false)

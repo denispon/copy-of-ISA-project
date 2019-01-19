@@ -20,6 +20,7 @@ import com.ftn.isa.projekat.hotel.hotelCore.DodatneUsluge.model.DodatneUsluge;
 import com.ftn.isa.projekat.hotel.hotelCore.HotelskaSoba.model.HotelskaSoba;
 import com.ftn.isa.projekat.hotel.hotelCore.PrihodiHotela.model.PrihodiHotela;
 import com.ftn.isa.projekat.hotel.hotelCore.RezervacijeSobe.model.RezervacijeSobe;
+import com.ftn.isa.projekat.hotel.hotelCore.TipSobe.model.TipSobe;
 import com.ftn.isa.projekat.hotel.hotelCore.VanredneCeneNocenja.model.VanredneCeneNocenja;
 
 import lombok.Data;
@@ -67,6 +68,10 @@ public class Hotel {
 	@JsonIgnore
 	@OneToMany (mappedBy="hotel_rezervacijeSobe", cascade=CascadeType.ALL)
 	private List<RezervacijeSobe> rezervacijeList;
+	
+	@JsonIgnore
+	@OneToMany (mappedBy="hotel_tipSobe", cascade=CascadeType.ALL)
+	private List<TipSobe> tipSoleList;
 	
 
 }

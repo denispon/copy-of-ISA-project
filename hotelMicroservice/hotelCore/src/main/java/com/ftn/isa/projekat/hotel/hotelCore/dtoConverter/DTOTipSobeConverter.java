@@ -15,7 +15,7 @@ import com.ftn.isa.projekat.hotel.hotelCore.TipSobe.repository.TipSobeRepository
 public class DTOTipSobeConverter {
 
 	@Autowired
-	DTOVanredneCeneConverter vanredneConverter;
+	DTOHotelConverter hotelConverter;
 	
 	@Autowired
 	TipSobeRepository tipSobeRepository;
@@ -24,11 +24,12 @@ public class DTOTipSobeConverter {
 		
 		TipSobeDTO dto=new TipSobeDTO();	
 		dto.setId(tip.getId());
-		dto.setNocenjePrice(tip.getNocenjePrice());
+		/*dto.setNocenjePrice(tip.getNocenjePrice());
 		dto.setPansionPrice(tip.getPansionPrice());
-		dto.setPolupansionPrice(tip.getPolupansionPrice());
+		dto.setPolupansionPrice(tip.getPolupansionPrice());*/
 		dto.setRoomType(tip.getRoomType());
-		dto.setVanredneCeneNocenja_tipSobe(vanredneConverter.convertToDTO(tip.getVanredneCeneNocenja_tipSobe()));
+		dto.setKapacitet(tip.getKapacitet());
+		dto.setHotel_tipSobe(hotelConverter.convertToDTO(tip.getHotel_tipSobe()));
 		return dto;
 		
 	}
@@ -41,11 +42,12 @@ public class DTOTipSobeConverter {
 		}
 		
 		TipSobe bean=new TipSobe();
-		bean.setNocenjePrice(tipDTO.getPansionPrice());
+		/*bean.setNocenjePrice(tipDTO.getPansionPrice());
 		bean.setPansionPrice(tipDTO.getNocenjePrice());
-		bean.setPolupansionPrice(tipDTO.getPolupansionPrice());
+		bean.setPolupansionPrice(tipDTO.getPolupansionPrice());*/
 		bean.setRoomType(tipDTO.getRoomType());
-		bean.setVanredneCeneNocenja_tipSobe(vanredneConverter.convertFromDTO(tipDTO.getVanredneCeneNocenja_tipSobe()));
+		bean.setKapacitet(tipDTO.getKapacitet());
+		//bean.setVanredneCeneNocenja_tipSobe(vanredneConverter.convertFromDTO(tipDTO.getVanredneCeneNocenja_tipSobe()));
 		return bean;
 		
 	}

@@ -30,6 +30,7 @@ public class DTODodatneUslugeConverter {
 		dto.setId(dodatneUsluge.getId());
 		dto.setAdditionalServiceName(dodatneUsluge.getAdditionalServiceName());
 		dto.setAdditionalServicePrice(dodatneUsluge.getAdditionalServicePrice());
+		dto.setPopust(dodatneUsluge.getPopust());
 		dto.setHotel_dodatneUsluge(hotelConverter.convertToDTO(dodatneUsluge.getHotel_dodatneUsluge()));
 		
 		return dto;
@@ -45,6 +46,7 @@ public class DTODodatneUslugeConverter {
 		DodatneUsluge bean = new DodatneUsluge();
 		bean.setAdditionalServiceName(dodatneUslugeDTO.getAdditionalServiceName());
 		bean.setAdditionalServicePrice(dodatneUslugeDTO.getAdditionalServicePrice());
+		bean.setPopust(dodatneUslugeDTO.getPopust());
 		bean.setHotel_dodatneUsluge(hotelConverter.convertFromDTO(dodatneUslugeDTO.getHotel_dodatneUsluge()));
 		
 		return bean;
