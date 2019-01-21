@@ -1,6 +1,9 @@
 package com.ftn.isa.projekat.hotel.hotelCore.RezervacijeSobe.service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -172,5 +175,76 @@ public class RezervacijeSobeService implements IRezervacijeSobeService{
 		}
 
 		return Collections.emptyList();
+	}
+	
+	
+	public Integer getDnevnaPosecenost(Long id, Date datumOd) {
+		int posecenost=0;
+		Optional<List<RezervacijeSobe>> rezervacijeList = Optional.of(rezervacijeSobeRepository.findAll());
+		
+		for(RezervacijeSobe rs : rezervacijeList.get()) {
+			if(rs.getHotel_rezervacijeSobe().getId() == id) {
+				if(rs.getDateFrom().equals(datumOd) || rs.getDateUntil().equals(datumOd) || (rs.getDateFrom().before(datumOd) && rs.getDateUntil().after(datumOd))) {
+					int kapacitet = rs.getSobaId().getTipSobe_hotelskeSobe().getKapacitet();
+					posecenost+=kapacitet;
+				}	
+			}
+		}
+		
+		return posecenost;
+	}
+	
+	public Integer getNedeljnaPosecenost(Long id, String datumOd) throws ParseException {
+		String dt = datumOd;
+		String dd = "";
+		SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
+		Date dateOd = sdf.parse(dt);
+		Calendar c = Calendar.getInstance();
+		c.setTime(dateOd);
+		c.add(Calendar.DATE, 7);
+		dd = sdf.format(c.getTime());
+		Date dateDo = sdf.parse(dd);
+		
+		int posecenost=0;
+		Optional<List<RezervacijeSobe>> rezervacijeList = Optional.of(rezervacijeSobeRepository.findAll());
+		
+		for(RezervacijeSobe rs : rezervacijeList.get()) {
+			if(rs.getHotel_rezervacijeSobe().getId() == id) {
+				if((rs.getDateFrom().before(dateOd) && rs.getDateUntil().after(dateOd)) || (rs.getDateUntil().after(dateDo) && rs.getDateFrom().before(dateDo))
+						|| (rs.getDateFrom().after(dateOd) && rs.getDateUntil().before(dateDo)) || (rs.getDateFrom().equals(dateOd) && rs.getDateUntil().equals(dateDo))) {
+					int kapacitet = rs.getSobaId().getTipSobe_hotelskeSobe().getKapacitet();
+					posecenost+=kapacitet;
+				}	
+			}
+		}
+		
+		return posecenost;
+	}
+	
+	public Integer getMesecnaPosecenost(Long id, String datumOd) throws ParseException {
+		String dt = datumOd;
+		String dd = "";
+		SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
+		Date dateOd = sdf.parse(dt);
+		Calendar c = Calendar.getInstance();
+		c.setTime(dateOd);
+		c.add(Calendar.MONTH, 1);
+		dd = sdf.format(c.getTime());
+		Date dateDo = sdf.parse(dd);
+		
+		int posecenost=0;
+		Optional<List<RezervacijeSobe>> rezervacijeList = Optional.of(rezervacijeSobeRepository.findAll());
+		
+		for(RezervacijeSobe rs : rezervacijeList.get()) {
+			if(rs.getHotel_rezervacijeSobe().getId() == id) {
+				if((rs.getDateFrom().before(dateOd) && rs.getDateUntil().after(dateOd)) || (rs.getDateUntil().after(dateDo) && rs.getDateFrom().before(dateDo))
+						|| (rs.getDateFrom().after(dateOd) && rs.getDateUntil().before(dateDo)) || (rs.getDateFrom().equals(dateOd) && rs.getDateUntil().equals(dateDo))) {
+					int kapacitet = rs.getSobaId().getTipSobe_hotelskeSobe().getKapacitet();
+					posecenost+=kapacitet;
+				}	
+			}
+		}
+		
+		return posecenost;
 	}
 }

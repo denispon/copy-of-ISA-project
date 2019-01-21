@@ -101,5 +101,38 @@ public class RezervacijeSobeController {
 		return(!lista.isEmpty()) ? new ResponseEntity<List<HotelskaSobaDTO>>(lista, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		
 	}
+	
+	@GetMapping("/{id}/{datumOd}")
+	@ApiOperation( value = "", notes = "", httpMethod="GET")
+	@ApiResponses( value = { @ApiResponse( code = 200, message = "OK"),
+							 @ApiResponse( code = 404, message = "Not Found")})
+	public ResponseEntity<Integer> getDnevnuPosecenost(@PathVariable("id") Long id, @PathVariable("datumOd") String datumOd) throws ParseException{
+		
+		Date dateOd = new SimpleDateFormat("dd.MM.yyyy").parse(datumOd);
+		int posecenost = rezervacijeSobeService.getDnevnaPosecenost(id, dateOd);
+		return (posecenost!=-1) ? new ResponseEntity<Integer>(posecenost, HttpStatus.OK): new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		
+	}
 
+	@GetMapping("/{id}/{datumOd}/nedelja")
+	@ApiOperation( value = "", notes = "", httpMethod="GET")
+	@ApiResponses( value = { @ApiResponse( code = 200, message = "OK"),
+							 @ApiResponse( code = 404, message = "Not Found")})
+	public ResponseEntity<Integer> getNedeljnuPosecenost(@PathVariable("id") Long id, @PathVariable("datumOd") String datumOd) throws ParseException{
+		
+		int posecenost = rezervacijeSobeService.getNedeljnaPosecenost(id, datumOd);
+		return (posecenost!=-1) ? new ResponseEntity<Integer>(posecenost, HttpStatus.OK): new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		
+	}
+	
+	@GetMapping("/{id}/{datumOd}/mesec")
+	@ApiOperation( value = "", notes = "", httpMethod="GET")
+	@ApiResponses( value = { @ApiResponse( code = 200, message = "OK"),
+							 @ApiResponse( code = 404, message = "Not Found")})
+	public ResponseEntity<Integer> getMesecnuPosecenost(@PathVariable("id") Long id, @PathVariable("datumOd") String datumOd) throws ParseException{
+		
+		int posecenost = rezervacijeSobeService.getMesecnaPosecenost(id, datumOd);
+		return (posecenost!=-1) ? new ResponseEntity<Integer>(posecenost, HttpStatus.OK): new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		
+	}
 }

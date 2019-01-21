@@ -1,5 +1,6 @@
 package com.ftn.isa.projekat.hotel.hotelCore.RezervacijeSobe.service;
 
+import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 
@@ -17,4 +18,7 @@ public interface IRezervacijeSobeService {
 	public RezervacijeSobeDTO deleteById(Long id);
 	public RezervacijeSobeDTO change(Long id, RezervacijeSobeDTO rezervacijeSobeDTO);
 	public List<HotelskaSobaDTO> getFreeRooms(Long hotelId, Date datumOd, Date datumDo);
+	public Integer getDnevnaPosecenost(Long id, Date datumOd);
+	public Integer getNedeljnaPosecenost(Long id, String datumOd) throws ParseException;
+	public Integer getMesecnaPosecenost(Long id, String datumOd) throws ParseException;
 }
