@@ -30,8 +30,8 @@ public class CeneSoba {
 	@Column (name="id")
 	private Long id;
 	
-	@Column (name = "standardna")
-	private Boolean standardna;
+	/*@Column (name = "standardna")
+	private Boolean standardna;*/
 	
 	@Column (name="cena", nullable=false)
 	private int cena;

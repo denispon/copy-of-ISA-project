@@ -16,7 +16,7 @@ public class CeneSobaDTO {
 
 	private Long id;
 	private int cena;
-	private Boolean standardna;
+	//private Boolean standardna;
 	private Date datumOd;
 	private Date datumDo;
 	private HotelskaSobaDTO hotelskaSoba_cena;

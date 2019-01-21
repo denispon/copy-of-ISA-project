@@ -83,5 +83,27 @@ public class HotelskaSobaController {
 		HotelskaSobaDTO sobaZaIzmenu = hotelskaSobaService.change(id, sobaDTO);
 		return (sobaZaIzmenu.getId()!=null) ? new ResponseEntity<HotelskaSobaDTO>(sobaZaIzmenu, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
+	
+	@GetMapping("/all/{id}")
+	@ApiOperation( value = "", httpMethod = "GET")
+	@ApiResponses( value = { @ApiResponse( code = 200, message ="OK"),
+							 @ApiResponse( code = 404, message ="Not Found")})	
+	public ResponseEntity<List<HotelskaSobaDTO>> getAllHotelRoomsByHotelId(@PathVariable("id") Long id){
+		
+		List<HotelskaSobaDTO> rooms = hotelskaSobaService.findAllByHotelId(id);
+		return(!rooms.isEmpty()) ? new ResponseEntity<List<HotelskaSobaDTO>>(rooms, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		
+	}
+	
+	@GetMapping("/discount/{id}")
+	@ApiOperation( value = "", httpMethod = "GET")
+	@ApiResponses( value = { @ApiResponse( code = 200, message ="OK"),
+							 @ApiResponse( code = 404, message ="Not Found")})	
+	public ResponseEntity<List<HotelskaSobaDTO>> getAllDiscountedHotelRooms(@PathVariable("id") Long id){
+		
+		List<HotelskaSobaDTO> rooms = hotelskaSobaService.getRoomsOnDiscount(id);
+		return(!rooms.isEmpty()) ? new ResponseEntity<List<HotelskaSobaDTO>>(rooms, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		
+	}
 
 }

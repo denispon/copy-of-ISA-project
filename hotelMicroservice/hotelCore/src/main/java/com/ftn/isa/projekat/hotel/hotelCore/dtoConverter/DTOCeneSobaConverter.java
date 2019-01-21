@@ -26,7 +26,7 @@ public class DTOCeneSobaConverter {
 		CeneSobaDTO dto = new CeneSobaDTO();	
 		dto.setId(cena.getId());
 		dto.setCena(cena.getCena());
-		dto.setStandardna(cena.getStandardna());
+		//dto.setStandardna(cena.getStandardna());
 		dto.setDatumOd(cena.getDatumOd());
 		dto.setDatumDo(cena.getDatumDo());
 		dto.setHotelskaSoba_cena(hotelskaSobaConverter.convertToDTO(cena.getHotelskaSoba_cena()));
@@ -44,7 +44,7 @@ public class DTOCeneSobaConverter {
 		
 		CeneSoba bean = new CeneSoba();		
 		bean.setCena(cenaDTO.getCena());
-		bean.setStandardna(cenaDTO.getStandardna());
+		//bean.setStandardna(cenaDTO.getStandardna());
 		bean.setDatumOd(cenaDTO.getDatumOd());
 		bean.setDatumDo(cenaDTO.getDatumDo());
 		bean.setHotelskaSoba_cena(hotelskaSobaConverter.convertFromDTO(cenaDTO.getHotelskaSoba_cena()));

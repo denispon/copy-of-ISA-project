@@ -1,5 +1,6 @@
 package com.ftn.isa.projekat.hotel.hotelCore.HotelskaSoba.model;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -38,8 +39,15 @@ public class HotelskaSoba {
 	@Column (name="floor", nullable=false)
 	private int floor;
 	
+	@Column (name="originalnaCena", nullable=false)
+	private int originalnaCena;
+	
 	@Column (name="reserved", nullable=false)
 	private Boolean reserved;
+	
+	private Date datumOd;
+	
+	private Date datumDo;
 	
 	@JsonIgnore
 	@OneToMany (mappedBy="sobaId", cascade=CascadeType.ALL)

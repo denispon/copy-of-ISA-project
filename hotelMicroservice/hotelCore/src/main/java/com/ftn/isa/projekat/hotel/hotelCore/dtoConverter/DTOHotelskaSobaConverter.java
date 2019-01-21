@@ -28,6 +28,7 @@ public class DTOHotelskaSobaConverter {
 		HotelskaSobaDTO dto=new HotelskaSobaDTO();	
 		dto.setId(soba.getId());
 		dto.setFloor(soba.getFloor());
+		dto.setOriginalnaCena(soba.getOriginalnaCena());
 		dto.setReserved(soba.getReserved());
 		dto.setHotel_hotelskeSobe(hotelConverter.convertToDTO(soba.getHotel_hotelskeSobe()));
 		dto.setTipSobe_hotelskeSobe(tipSobeConverter.convertToDTO(soba.getTipSobe_hotelskeSobe()));
@@ -44,6 +45,7 @@ public class DTOHotelskaSobaConverter {
 		
 		HotelskaSoba bean = new HotelskaSoba();		
 		bean.setFloor(sobaDTO.getFloor());
+		bean.setOriginalnaCena(sobaDTO.getOriginalnaCena());
 		bean.setReserved(sobaDTO.getReserved());
 		bean.setHotel_hotelskeSobe(hotelConverter.convertFromDTO(sobaDTO.getHotel_hotelskeSobe()));
 		bean.setTipSobe_hotelskeSobe(tipSobeConverter.convertFromDTO(sobaDTO.getTipSobe_hotelskeSobe()));

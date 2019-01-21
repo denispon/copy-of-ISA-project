@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+import org.bouncycastle.asn1.eac.CertificationAuthorityReference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -56,6 +57,14 @@ public class CeneSobaService implements ICeneSobaService{
 	}
 	
 	public CeneSobaDTO save(CeneSobaDTO dto) {
+		/*if(dto.getStandardna()) {
+			List<CeneSoba> list = ceneSobaRepository.findAll();
+			for(CeneSoba cena : list) {
+				if(cena.getHotelskaSoba_cena().getId() == dto.getHotelskaSoba_cena().getId() && cena.getStandardna() == true) {
+					return null;		
+				}
+			}
+		}*/
 		ceneSobaRepository.save(ceneSobaConverter.convertFromDTO(dto));
 		return dto;
 	}
@@ -80,7 +89,7 @@ public class CeneSobaService implements ICeneSobaService{
 		if(zaIzmenu.isPresent() && dto!=null) {
 			
 			zaIzmenu.get().setCena(dto.getCena());
-			zaIzmenu.get().setStandardna(dto.getStandardna());
+			//zaIzmenu.get().setStandardna(dto.getStandardna());
 			zaIzmenu.get().setDatumOd(dto.getDatumOd());
 			zaIzmenu.get().setDatumDo(dto.getDatumDo());
 			zaIzmenu.get().setHotelskaSoba_cena(hotelskaSobaConverter.convertFromDTO(dto.getHotelskaSoba_cena()));
