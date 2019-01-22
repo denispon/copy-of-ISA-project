@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ftn.isa.projekat.avioCompany.avioCompanyApi.dto.LuggageDTO;
-import com.ftn.isa.projekat.avioCompany.avioCompanyApi.dto.LuggageDTO;
 import com.ftn.isa.projekat.avioCompany.avioCompanyCore.Luggage.service.ILuggageService;
 
 import io.swagger.annotations.Api;

@@ -1,6 +1,8 @@
 package com.ftn.isa.projekat.avioCompany.avioCompanyCore.Flight.service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.Month;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -66,16 +68,16 @@ public class FlightServiceImpl implements IFlightService
 	public FlightDTO save(FlightDTO dto) 
 	{
 		//samo provera za airline, ako to postoji postoji sigurno i ta destinacija, pa ne moram eksplicitno proveravati destinaciju
-		Optional<AvioCompany> avio = avioRepo.findById(dto.getAvioCompany().getId());
+		//Optional<AvioCompany> avio = avioRepo.findById(dto.getAvioCompany().getId());
 		
-		if(avio.isPresent())
-		{
+		//if(avio.isPresent())
+		//{
 			flRepo.save(flConv.convertFromDTO(dto));
 			
 			return dto;
-		}
+		//}
 				
-		return new FlightDTO();
+		//return new FlightDTO();
 	}
 
 	@Override
@@ -165,6 +167,66 @@ public class FlightServiceImpl implements IFlightService
 		return Collections.emptyList();
 	}
 	
+	/*
+	 * Cancel is possible 3 hours before flight began.
+	 * @see com.ftn.isa.projekat.avioCompany.avioCompanyCore.Flight.service.IFlightService#cancelFlight(java.lang.Long)
+	 */
+	@Override
+	public Boolean cancelFlight(Long flightId)
+	{
+		Boolean cancel = false;
+		
+		Optional<Flight> flight = flRepo.findById(flightId);
+		
+		LocalDateTime currentTime = LocalDateTime.now();
+		
+		if(flight.isPresent())
+		{
+			LocalDateTime takeOff = flight.get().getTakeOffTime();
+			int hourTakeOff = takeOff.getHour();
+			
+			int currentHour = currentTime.getHour();
+			
+			if(currentTime.getYear() <= takeOff.getYear())
+			{
+				if(currentTime.getMonthValue() <= takeOff.getMonthValue())
+				{
+					if(currentTime.getDayOfMonth() <= takeOff.getDayOfMonth())
+					{
+						if(currentTime.getHour() > 20)
+						{
+							currentHour -= 4;
+							hourTakeOff -= 4;
+							if((currentHour + 3) <= hourTakeOff)
+							{
+								cancel = true;
+							}
+						}
+						else
+						{
+							if((currentHour + 3) <= hourTakeOff)
+							{
+								cancel = true;
+							}
+						}  
+					}
+					else
+						System.out.println("CANCEL_IMPOSSIBLE(DAY)");
+				}
+				else
+					System.out.println("CANCEL_IMPOSSIBLE(MONTH)");
+			}
+			else
+				System.out.println("CANCEL_IMPOSSIBLE(YEAR)");
+		}
+		else
+			System.out.println("Flight doesn't exists.");
+		
+		System.out.println(cancel);
+		
+		return cancel;
+	}
+	
 	
 	@Override
 	public float getAvgRating(Long id)
@@ -173,6 +235,8 @@ public class FlightServiceImpl implements IFlightService
 		
 		return flight;
 	}
+
+	
 	
 
 	

@@ -30,7 +30,7 @@ public class DTOTicketConverter
 		dto.setPrice(bean.getPrice());
 		dto.setIsBought(bean.getIsBought());
 		
-		dto.setFlight(flightConverter.convertToDTO(bean.getFlight()));
+		//dto.setFlight(flightConverter.convertToDTO(bean.getFlight()));
 		
 		return dto;
 	}
@@ -53,7 +53,7 @@ public class DTOTicketConverter
 		bean.setPrice(dto.getPrice());
 		bean.setIsBought(dto.getIsBought());
 		
-		bean.setFlight(flightConverter.convertFromDTO(dto.getFlight()));
+		//bean.setFlight(flightConverter.convertFromDTO(dto.getFlight()));
 		
 		return bean;
 	}

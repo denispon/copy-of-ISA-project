@@ -51,7 +51,7 @@ public class VanredneCeneNocenja {
 	@JoinColumn (name="hotel_vandredneCeneNocenja", nullable = false)
 	private Hotel hotel_vandredneCeneNocenja;
 	
-	@JsonIgnore
+	/*@JsonIgnore
 	@OneToMany (mappedBy="vanredneCeneNocenja_tipSobe", cascade=CascadeType.ALL)
-	private List<TipSobe> tipSobe;
+	private List<TipSobe> tipSobe;*/
 }

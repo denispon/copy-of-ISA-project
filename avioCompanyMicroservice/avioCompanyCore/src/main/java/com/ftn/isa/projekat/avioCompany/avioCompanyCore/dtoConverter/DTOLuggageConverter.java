@@ -30,7 +30,7 @@ public class DTOLuggageConverter
 		dto.setHeight(bean.getHeight());
 		dto.setLength(bean.getLength());
 		
-		dto.setTicket(ticketConverter.convertToDto(bean.getTicket()));
+		//dto.setTicket(ticketConverter.convertToDto(bean.getTicket()));
 		
 		return dto;
 	}
@@ -51,7 +51,7 @@ public class DTOLuggageConverter
 		bean.setHeight(dto.getHeight());
 		bean.setLength(dto.getLength());
 		
-		bean.setTicket(ticketConverter.convertFromDto(dto.getTicket()));
+		//bean.setTicket(ticketConverter.convertFromDto(dto.getTicket()));
 		
 		
 		return bean;

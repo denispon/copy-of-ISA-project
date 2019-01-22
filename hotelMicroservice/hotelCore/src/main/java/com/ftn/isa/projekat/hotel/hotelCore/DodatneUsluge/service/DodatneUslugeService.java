@@ -90,6 +90,7 @@ public class DodatneUslugeService implements IDodatneUslugeService{
 			
 			zaIzmenu.get().setAdditionalServiceName(dto.getAdditionalServiceName());
 			zaIzmenu.get().setAdditionalServicePrice(dto.getAdditionalServicePrice());
+			zaIzmenu.get().setPopust(dto.getPopust());
 			zaIzmenu.get().setHotel_dodatneUsluge(hotelConverter.convertFromDTO(dto.getHotel_dodatneUsluge()));
 			dodatneUslugeRepository.save(zaIzmenu.get());
 			

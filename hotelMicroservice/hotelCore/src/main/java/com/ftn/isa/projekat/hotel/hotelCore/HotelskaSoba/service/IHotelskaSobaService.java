@@ -11,8 +11,10 @@ public interface IHotelskaSobaService {
 	
 	public HotelskaSobaDTO findOneById(Long id);
 	public List<HotelskaSobaDTO> findAll();
+	public List<HotelskaSobaDTO> findAllByHotelId(Long id);
 	public HotelskaSobaDTO save(HotelskaSobaDTO hotelskaSobaDTO);
 	public HotelskaSobaDTO deleteById(Long id);
 	public HotelskaSobaDTO change(Long id, HotelskaSobaDTO hotelskaSobaDTO);
+	public List<HotelskaSobaDTO> getRoomsOnDiscount(Long id);
 
 }

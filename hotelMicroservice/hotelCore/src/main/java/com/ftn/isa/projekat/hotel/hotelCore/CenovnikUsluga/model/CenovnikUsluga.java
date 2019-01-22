@@ -29,12 +29,6 @@ import lombok.Data;
 
 public class CenovnikUsluga {
 	
-	//@Version
-	//private Long version hibernet nova kolona proverava 
-	//da li je ista verzija torke kada vise niti pristupa nekom
-	//resursu istovremeno
-	//@Lock(LockModeType.Pessimistic_Write) vrsi zakljucavanje resursa
-	
 	@Id
 	@GeneratedValue (strategy=GenerationType.IDENTITY)
 	@Column (name="id")

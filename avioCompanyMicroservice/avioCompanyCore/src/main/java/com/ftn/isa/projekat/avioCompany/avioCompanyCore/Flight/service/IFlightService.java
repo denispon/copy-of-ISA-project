@@ -1,6 +1,7 @@
 package com.ftn.isa.projekat.avioCompany.avioCompanyCore.Flight.service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.stereotype.Component;
@@ -22,8 +23,9 @@ public interface IFlightService {
 	
 	List<FlightDTO> getFlightsByDate(LocalDate takeOffTime, LocalDate landingTime); //radi
 
-	float getAvgRating(Long id);
-
 	List<FlightDTO> getFlightsByPrice(float bottomPrice, float topPrice);
 
+	Boolean cancelFlight(Long companyId);
+	
+	float getAvgRating(Long id);
 }

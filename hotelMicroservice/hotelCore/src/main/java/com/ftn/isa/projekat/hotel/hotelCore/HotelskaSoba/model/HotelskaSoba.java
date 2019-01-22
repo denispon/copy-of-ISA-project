@@ -1,5 +1,6 @@
 package com.ftn.isa.projekat.hotel.hotelCore.HotelskaSoba.model;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -16,6 +17,7 @@ import javax.persistence.Table;
 import org.springframework.boot.jackson.JsonComponent;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.ftn.isa.projekat.hotel.hotelCore.CeneSoba.model.CeneSoba;
 import com.ftn.isa.projekat.hotel.hotelCore.Hotel.model.Hotel;
 import com.ftn.isa.projekat.hotel.hotelCore.RezervacijeSobe.model.RezervacijeSobe;
 import com.ftn.isa.projekat.hotel.hotelCore.TipSobe.model.TipSobe;
@@ -37,12 +39,23 @@ public class HotelskaSoba {
 	@Column (name="floor", nullable=false)
 	private int floor;
 	
+	@Column (name="originalnaCena", nullable=false)
+	private int originalnaCena;
+	
 	@Column (name="reserved", nullable=false)
 	private Boolean reserved;
+	
+	private Date datumOd;
+	
+	private Date datumDo;
 	
 	@JsonIgnore
 	@OneToMany (mappedBy="sobaId", cascade=CascadeType.ALL)
 	private List<RezervacijeSobe> rezervisaneSobeList;
+	
+	@JsonIgnore
+	@OneToMany (mappedBy="hotelskaSoba_cena", cascade=CascadeType.ALL)
+	private List<CeneSoba> ceneList;
 	
 	@JsonIgnore
 	@ManyToOne (/*cascade=CascadeType.ALL*/)

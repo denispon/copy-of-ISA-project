@@ -17,6 +17,7 @@ import javax.persistence.Table;
 import org.springframework.boot.jackson.JsonComponent;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.ftn.isa.projekat.hotel.hotelCore.Hotel.model.Hotel;
 import com.ftn.isa.projekat.hotel.hotelCore.HotelskaSoba.model.HotelskaSoba;
 import com.ftn.isa.projekat.hotel.hotelCore.VanredneCeneNocenja.model.VanredneCeneNocenja;
 
@@ -36,21 +37,29 @@ public class TipSobe {
 	@Column (name="roomType", nullable=false)
 	private String roomType;
 	
-	@Column (name="nocenjePrice", nullable=false)
+	@Column (name = "kapacitet", nullable = false)
+	private int kapacitet; //broj kreveta
+	
+	/*@Column (name="nocenjePrice", nullable=false)
 	private int nocenjePrice;
 	
 	@Column (name="polupansionPrice", nullable=false)
 	private int polupansionPrice;
 	
 	@Column (name="pansionPrice", nullable=false)
-	private int pansionPrice;
+	private int pansionPrice;*/
 	
 	@JsonIgnore
 	@OneToMany (mappedBy="tipSobe_hotelskeSobe", cascade=CascadeType.ALL)
 	private List<HotelskaSoba> hotelskaSoba;
 	
 	@JsonIgnore
-	@ManyToOne (/*cascade=CascadeType.ALL*/)
-	@JoinColumn (name="vanredneCeneNocenja_tipSobe", nullable = false)
-	private VanredneCeneNocenja vanredneCeneNocenja_tipSobe;
+	@ManyToOne ()
+	@JoinColumn (name="hotel_tipSobe", nullable = false)
+	private Hotel hotel_tipSobe;
+	
+	//@JsonIgnore
+	//@ManyToOne (/*cascade=CascadeType.ALL*/)
+	//@JoinColumn (name="vanredneCeneNocenja_tipSobe", nullable = false)
+	//private VanredneCeneNocenja vanredneCeneNocenja_tipSobe;
 }

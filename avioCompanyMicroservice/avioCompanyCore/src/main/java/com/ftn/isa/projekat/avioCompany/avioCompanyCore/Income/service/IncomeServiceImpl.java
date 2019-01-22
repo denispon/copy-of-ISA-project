@@ -70,17 +70,17 @@ public class IncomeServiceImpl implements IIncomeService
 	@Override
 	public IncomeDTO save(IncomeDTO dto)
 	{
-		Optional<AvioCompany> avio = companyRepository.findById(dto.getCompanyId().getId());
+		//Optional<AvioCompany> avio = companyRepository.findById(dto.getCompanyId().getId());
 		
-		if(avio.isPresent())
-		{
+		//if(avio.isPresent())
+		//{
 			incomeRepository.save(incomeConverter.convertFromDTO(dto));
 			
 			return dto;
-		}
+		//}
 
 
-		return new IncomeDTO();
+		//return new IncomeDTO();
 	}
 
 	@Override
@@ -104,10 +104,10 @@ public class IncomeServiceImpl implements IIncomeService
 		if(incToChange.isPresent() && income != null)
 		{
 			//setting AvioCompany for income
-			Optional<AvioCompany> company = companyRepository.findById(income.getCompanyId().getId());
+			//Optional<AvioCompany> company = companyRepository.findById(income.getCompanyId().getId());
 			
-			if(company.isPresent())
-			{
+			//if(company.isPresent())
+			//{
 				incToChange.get().setIncomeDate(income.getIncomeDate());
 				incToChange.get().setValue(income.getValue());
 				incToChange.get().setTicketsNumber(income.getTicketsNumnber());
@@ -117,7 +117,7 @@ public class IncomeServiceImpl implements IIncomeService
 				income.setId(incToChange.get().getId());
 				
 				return income;
-			}
+			//}
 			
 		}
 		
