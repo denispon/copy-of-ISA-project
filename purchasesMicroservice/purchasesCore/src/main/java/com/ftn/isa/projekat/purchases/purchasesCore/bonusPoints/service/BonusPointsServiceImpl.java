@@ -75,7 +75,7 @@ public class BonusPointsServiceImpl implements IBonusPointsService {
 		 * First we need to see if user exists
 		 *  */
 		
-		UserDTO user = servicesProxy.getUserById(bonusPointsToSave.getId());
+		UserDTO user = servicesProxy.getUserById(bonusPointsToSave.getUserId());
 		
 		if(user.getId()!=null) {
 			
@@ -133,7 +133,7 @@ public class BonusPointsServiceImpl implements IBonusPointsService {
 			 * First we need to see if user exists
 			 *  */
 			
-			UserDTO user = servicesProxy.getUserById(bonusPoints.getId());
+			UserDTO user = servicesProxy.getUserById(bonusPoints.getUserId());
 			
 			if(user.getId()!=null) {
 			

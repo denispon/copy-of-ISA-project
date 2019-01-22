@@ -12,6 +12,8 @@ import com.ftn.isa.projekat.rentACar.rentACarApi.dto.RentACarServiceDTO;
 import com.ftn.isa.projekat.user.userApi.client.UserClient;
 import com.ftn.isa.projekat.user.userApi.dto.UserDTO;
 
+import feign.FeignException;
+
 @Component
 public class DatasFromOtherMicroservices {
 	
@@ -29,29 +31,64 @@ public class DatasFromOtherMicroservices {
 	
 	
 	public CarReservationDTO deleteCarReservation(Long id) {
-		
-		return carReservationClient.deleteReservation(id);
+		CarReservationDTO carReservation = null;
+		try {
+			carReservation = carReservationClient.deleteReservation(id);
+		}
+		catch(FeignException e) {
+			return new CarReservationDTO();
+		}
+		return carReservation;
 	}
 	
 	public CarReservationDTO addCarReservation(CarReservationDTO carResercation) {
 		
-		return carReservationClient.addReservation(carResercation);
+		CarReservationDTO carReservation = null;
+		try {
+			carReservation = carReservationClient.addReservation(carResercation);
+		}
+		catch(FeignException e) {
+			return new CarReservationDTO();
+		}
+		return carReservation;
 	}
 	
 	public CarReservationDTO getCarReservationById(Long id) {
 		
-		return carReservationClient.getOneReservationById(id);
+		CarReservationDTO carReservation = null;
+		try {
+			carReservation = carReservationClient.getOneReservationById(id);
+		}
+		catch(FeignException e) {
+			return new CarReservationDTO();
+			
+		}		
+		return carReservation;
 	}
 	
 	
 	public CarDTO getCarById(Long id) {
 		
-		return carClient.getOneCarById(id);
+		CarDTO car = null;
+		try {
+			car = carClient.getOneCarById(id);
+		}
+		catch(FeignException e) {
+			new CarDTO();
+		}
+		return car;
 	}
 	
 	public RentACarServiceDTO getRentACarServiceById(Long id) {
 		
-		return rentClient.getOneRentACarServiceById(id);
+		RentACarServiceDTO rentService = null;
+		try {
+			rentService = rentClient.getOneRentACarServiceById(id);
+		}
+		catch(FeignException e) {
+			new RentACarServiceDTO();
+		}
+		return rentService;
 	}
 	
 	
@@ -63,8 +100,14 @@ public class DatasFromOtherMicroservices {
 	
 	
 	public UserDTO getUserById(Long id) {
-		
-		return userClient.getOneUserById(id);
+		UserDTO user= null;
+		try {
+		user = userClient.getOneUserById(id);
+		}
+		catch(FeignException e) {
+			return new UserDTO();
+		}
+		return user;
 	}
 
 }
