@@ -24,6 +24,7 @@ public class DTOShoppingCartConverter {
 		dto.setId(bean.getId());
 		dto.setUserId(bean.getUserId());
 		dto.setPrice(bean.getPrice());
+		dto.setBonusPoints(bean.getBonusPoints());
 		
 		return dto;
 		
@@ -46,6 +47,7 @@ public class DTOShoppingCartConverter {
 		bean.setId(dto.getId());
 		bean.setUserId(dto.getUserId());
 		bean.setPrice(dto.getPrice());
+		bean.setBonusPoints(dto.getBonusPoints());
 		
 		return bean;
 	}

@@ -86,6 +86,11 @@ public class InvitationCardServiceImpl implements IInvitationCardService{
 		
 		if(user1.getId()!=null && user1.getId()!=user2.getId() && user2.getId()!=null) {
 		
+			//We are copying reservation from user who created it, we need to change Id
+			//because we don't want to override user's reservation with this one, we need
+			//to create new one.
+			invitationToSave.getReservation().setId(-1l);
+			
 			invitationRepository.save(invitationConverter.convertFromDTO(invitationToSave));
 			
 			return invitationToSave;

@@ -11,9 +11,13 @@ public class ShoppingCartDTO {
 	
 	private Long id;
 	
+	private int bonusPoints;
+	
 	private Long userId;
 	
 	private Long carReservationId;
 
 	private Double price;
+	
+	
 }

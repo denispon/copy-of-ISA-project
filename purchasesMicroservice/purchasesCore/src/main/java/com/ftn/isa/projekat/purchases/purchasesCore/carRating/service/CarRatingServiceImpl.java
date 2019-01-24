@@ -77,7 +77,7 @@ public class CarRatingServiceImpl implements ICarRatingService {
 		CarDTO carForRate = servicesProxy.getCarById(carRatingToSave.getCarId());
 		UserDTO userWhoRates = servicesProxy.getUserById(carRatingToSave.getUserId());
 		
-		if(carForRate.getId()!=null && userWhoRates.getId()!=null) {
+		if(carForRate.getId()!=null && userWhoRates.getId()!=null && carRatingToSave.getRating()>0 && carRatingToSave.getRating()<6) {
 			
 			CarRating rating = carRatingConverter.convertFromDTO(carRatingToSave);
 			rating.setRatingDate(LocalDateTime.now());
@@ -119,7 +119,7 @@ public class CarRatingServiceImpl implements ICarRatingService {
 			CarDTO carForRate = servicesProxy.getCarById(carRating.getCarId());
 			UserDTO userWhoRates = servicesProxy.getUserById(carRating.getUserId());
 			
-			if(carForRate.getId()!=null && userWhoRates.getId()!=null) {
+			if(carForRate.getId()!=null && userWhoRates.getId()!=null && carRating.getRating()>0 && carRating.getRating()<6) {
 				
 				carRatingForChange.get().setCarId(carRating.getCarId());
 				carRatingForChange.get().setRating(carRating.getRating());

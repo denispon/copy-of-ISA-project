@@ -20,8 +20,6 @@ public interface IRentACarRatingService {
 	
 	public RentACarRatingDTO changeRentACarRating ( Long id, RentACarRatingDTO rentCarRating );
 	
-	public RentACarRatingDTO rateRentACarService(Long userId, Long carId, int rating);
-
 	public Double getAverageRating(Long rentServiceId, LocalDate dateFrom, LocalDate dateTo);
 
 }

@@ -80,7 +80,7 @@ public class RentACarRatingServiceImpl implements IRentACarRatingService {
 		RentACarServiceDTO rentService = servicesProxy.getRentACarServiceById(rentAcarRatingToSave.getRentACarId());
 		
 		
-		if(user.getId()!=null && rentService.getId()!=null) {
+		if(user.getId()!=null && rentService.getId()!=null && rentAcarRatingToSave.getRating()>0 && rentAcarRatingToSave.getRating()<6) {
 		
 			RentACarRating rating = rentAcarRatingConverter.convertFromDTO(rentAcarRatingToSave);
 			rating.setRatingDate(LocalDateTime.now());
@@ -127,7 +127,7 @@ public class RentACarRatingServiceImpl implements IRentACarRatingService {
 			RentACarServiceDTO rentService = servicesProxy.getRentACarServiceById(carRating.getRentACarId());
 			
 			
-			if(user.getId()!=null && rentService.getId()!=null) {
+			if(user.getId()!=null && rentService.getId()!=null && carRating.getRating()>0 && carRating.getRating()<6) {
 				
 				rentAcarRatingForChange.get().setRentACarId(carRating.getRentACarId());
 				rentAcarRatingForChange.get().setRating(carRating.getRating());
@@ -147,47 +147,7 @@ public class RentACarRatingServiceImpl implements IRentACarRatingService {
 		
 	}
 
-	@Override
-	public RentACarRatingDTO rateRentACarService(Long userId, Long rentACarId, int rating) {
-		//constraint on rating. We need only ratings between 1-5
-		if( rating > 0  &&  rating < 6 ) {
-			
-			Optional<RentACarRating> rentACarToRate = rentAcarRatingRepository.findByUserId(userId);
-			
-			
-			if(rentACarToRate.isPresent()) {
-				//If car rating already exist then we will override it.
-				
-				rentACarToRate.get().setRating(rating);
-				rentACarToRate.get().setRatingDate(LocalDateTime.now());
-				
-				rentAcarRatingRepository.save(rentACarToRate.get());
-				
-				return rentAcarRatingConverter.convertToDTO(rentACarToRate.get());
-				
-			}
-			else {
-				
-				//if this is new rating , then we will crate it
-				
-				RentACarRating carRating = new RentACarRating();
-				
-				carRating.setRating(rating);
-				carRating.setRentACarId(rentACarId);
-				carRating.setUserId(userId);
-				carRating.setRatingDate(LocalDateTime.now());
-				
-				rentAcarRatingRepository.save(carRating);
-				
-				return rentAcarRatingConverter.convertToDTO(carRating);
-				
-			}
-			
-		}
-		
-		return new RentACarRatingDTO();
-		
-	}
+	
 
 	@Override
 	public Double getAverageRating(Long rentServiceId, LocalDate dateFrom, LocalDate dateTo) {

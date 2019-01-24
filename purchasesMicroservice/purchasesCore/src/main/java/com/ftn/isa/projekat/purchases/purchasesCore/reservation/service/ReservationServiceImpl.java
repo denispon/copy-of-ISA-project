@@ -107,7 +107,13 @@ public class ReservationServiceImpl implements IReservationService {
 		
 		if( reservationToDelete.isPresent() ) {
 			
-		
+			//also we need to delete Car reservation if it exits in reservation
+			if(reservationToDelete.get().getCarReservationId() !=null) {
+				
+				servicesProxy.deleteCarReservation(reservationToDelete.get().getCarReservationId());
+				
+			}
+			
 			reservationRepository.deleteById(id);
 			return reservationConverter.convertToDTO(reservationToDelete.get());
 		
@@ -140,6 +146,13 @@ public class ReservationServiceImpl implements IReservationService {
 					if(carReservation.getId()==null) {
 						return new ReservationDTO();
 					}
+					
+				}
+				
+				//if car reservation changed then we need to delete old one
+				if(reservationForChange.get().getCarReservationId() != reservation.getCarReservationId()) {
+					
+					servicesProxy.deleteCarReservation(reservation.getCarReservationId());
 					
 				}
 				

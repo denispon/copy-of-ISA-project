@@ -23,12 +23,17 @@ public class ShoppingCart {
 	@Column (name="id")
 	private Long id;
 	
+	@Column (name = "bonus_points", nullable = true)
+	private int bonusPoints;
+	
 	@Column (name = "user_id",nullable = false)
 	private Long userId;
 	
-	@Column (name = "carReservation_id", nullable= false)
+	@Column (name = "carReservation_id", nullable= true)
 	private Long carReservationId;
 	
 	@Column (name = "price" , nullable = false)
 	private Double price;
+	
+	
 }

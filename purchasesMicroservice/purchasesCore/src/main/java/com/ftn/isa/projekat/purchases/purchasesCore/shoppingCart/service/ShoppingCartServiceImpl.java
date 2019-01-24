@@ -128,8 +128,24 @@ public class ShoppingCartServiceImpl implements IShoppingCartService{
 		
 		if( reservationToDelete.isPresent() ) {
 			
-		
+			//at first we need to restore bonus points to a user
+			if(reservationToDelete.get().getBonusPoints()!= 0) {
+				
+				Optional<BonusPoints> bonusPointsByUser = bonusPointsRepository.findOneByUserId(reservationToDelete.get().getUserId());
+
+				if(bonusPointsByUser.isPresent()) {
+					
+					bonusPointsByUser.get().setPoints(bonusPointsByUser.get().getPoints() + reservationToDelete.get().getBonusPoints());
+					
+					bonusPointsRepository.save(bonusPointsByUser.get());
+					
+				}			
+				
+			}
+			
+
 			cartRepository.deleteById(id);
+			
 			return cartConverter.convertToDTO(reservationToDelete.get());
 		
 		}
@@ -167,7 +183,7 @@ public class ShoppingCartServiceImpl implements IShoppingCartService{
 			reservationForChange.get().setCarReservationId(reservation.getCarReservationId());
 			reservationForChange.get().setUserId(reservation.getUserId());
 			reservationForChange.get().setPrice(reservation.getPrice());
-			
+			reservationForChange.get().setBonusPoints(reservation.getBonusPoints());
 			
 			cartRepository.save(reservationForChange.get());
 			
@@ -194,6 +210,11 @@ public class ShoppingCartServiceImpl implements IShoppingCartService{
 			 * Note: See, we are using client from RentACar microservice...
 			 *  */
 			
+			//at first we need to delete last one if exits in shopping cart
+			if(reservation.get().getCarReservationId()!=null) {
+				servicesProxy.deleteCarReservation(reservation.get().getCarReservationId());
+			}
+			
 			CarReservationDTO carReservationToSave = servicesProxy.addCarReservation(carReservation);
 			
 			//Calclulating price for carResercation
@@ -201,10 +222,6 @@ public class ShoppingCartServiceImpl implements IShoppingCartService{
 			long numberOfDaysOfReservation = Duration.between(carReservationToSave.getDateFrom(), carReservationToSave.getDateTo()).toDays();
 			
 			Double price = (double) (numberOfDaysOfReservation * carReservationToSave.getReservedCar().getRentPrice());
-			
-			//On that price we give 5% off 
-			
-			price = price * 0.95;
 			
 			
 			
@@ -278,8 +295,30 @@ public class ShoppingCartServiceImpl implements IShoppingCartService{
 		
 		if(tempReservation.isPresent()) {
 			
+			//now we need to decrease price
+			Optional<BonusPointsDiscounts> discount =  discountRepository.findOneByPoints(tempReservation.get().getBonusPoints());
+			
+			if(discount.isPresent()) {
+				
+				//everything is fine now we need to decrease final price.
+				
+				Double newPrice = tempReservation.get().getPrice();
+				
+				newPrice = newPrice * (1- discount.get().getDiscount()/100);
+				
+				tempReservation.get().setPrice(newPrice);				
+				
+			}
+			
 			reservation.setCarReservationId(tempReservation.get().getCarReservationId());
 			reservation.setUserId(tempReservation.get().getUserId());
+			reservation.setPrice(tempReservation.get().getPrice());
+			reservation.setId(-1l);
+			
+			if(reservation.getCarReservationId() != null) {
+				//On that price we give 5% off if user reserved car 
+				reservation.setPrice(reservation.getPrice() * 0.95);
+			}
 			
 			//saving temporary reservation into final reservations
 			ReservationDTO savedReservation = reservationService.save(reservationConverter.convertToDTO(reservation));
@@ -288,6 +327,8 @@ public class ShoppingCartServiceImpl implements IShoppingCartService{
 				
 				//now we need to delete temporary reservation from shopping cart
 				cartRepository.deleteById(id);
+				
+				tempReservation.get().setPrice(savedReservation.getPrice());
 				
 				return cartConverter.convertToDTO(tempReservation.get());
 			}
@@ -313,20 +354,16 @@ public class ShoppingCartServiceImpl implements IShoppingCartService{
 			
 			Optional<BonusPoints> bonusPointsByUser = bonusPointsRepository.findOneByUserId(tempReservation.get().getUserId());
 			
-			if(bonusPointsByUser.get().getPoints() >= bonusPoints) {
+			if(bonusPointsByUser.isPresent()) {
 				
-				Optional<BonusPointsDiscounts> discount =  discountRepository.findOneByPoints(bonusPoints);
-				
-				if(discount.isPresent()) {
+				if(bonusPointsByUser.get().getPoints() >= bonusPoints) {
 					
-					//everything is fine now we need to decrease final price.
+					//now we need to decrease bonus points for specific user
+					bonusPointsByUser.get().setPoints(bonusPointsByUser.get().getPoints()-bonusPoints);
+					bonusPointsRepository.save(bonusPointsByUser.get());
 					
-					Double newPrice = tempReservation.get().getPrice();
-					
-					newPrice = newPrice * ((100-discount.get().getDiscount())/100);
-					
-					tempReservation.get().setPrice(newPrice);
-					
+					//then add to shopping cart
+					tempReservation.get().setBonusPoints(tempReservation.get().getBonusPoints() + bonusPoints);
 					cartRepository.save(tempReservation.get());
 					
 					return cartConverter.convertToDTO(tempReservation.get());

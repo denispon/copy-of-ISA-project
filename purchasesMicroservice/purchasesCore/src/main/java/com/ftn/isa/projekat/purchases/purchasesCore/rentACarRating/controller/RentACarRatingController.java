@@ -91,14 +91,6 @@ public class RentACarRatingController {
 	    return ( ratingToEdit.getId() != null )? new ResponseEntity<RentACarRatingDTO>(ratingToEdit,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
 
-	@PutMapping("/rateRentACar/{userId}/{carId}/{rating}")
-	public ResponseEntity<RentACarRatingDTO> rateCar (@PathVariable("userId") Long userId,@PathVariable("carId") Long carId, @PathVariable("rating") int rating){
-		
-		RentACarRatingDTO ratedRentACar = rentACarRatingService.rateRentACarService(userId, carId, rating);
-		
-	    return ( ratedRentACar.getId() != null )? new ResponseEntity<RentACarRatingDTO>(ratedRentACar,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		
-	}
 	
 	@GetMapping("/getAverageRating/{id}/{dateFrom}/{dateTo}")
 	public ResponseEntity<Double> getAverageRating (@PathVariable("id")Long rentService, @PathVariable("dateFrom") String dateFrom, @PathVariable("dateTo") String dateTo){
