@@ -19,5 +19,4 @@ public interface ICarRatingService {
 	
 	public CarRatingDTO changeCarRating ( Long id, CarRatingDTO carRating );
 	
-	public CarRatingDTO rateCarReservation(Long userId, Long carId, int rating);
 }

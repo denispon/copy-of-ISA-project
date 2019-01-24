@@ -139,48 +139,7 @@ public class CarRatingServiceImpl implements ICarRatingService {
 		
 	}
 
-	@Override
-	public CarRatingDTO rateCarReservation(Long userId, Long carId, int rating) {
-		//constraint on rating. We need only ratings between 1-5
-		if( rating > 0  &&  rating < 6 ) {
-			
-			Optional<CarRating> carToRate = carRatingRepository.findByUserId(userId);
-			
-			
-			if(carToRate.isPresent()) {
-				//If car rating already exist then we will override it.
-				
-				carToRate.get().setRating(rating);
-				//Update date when rating was changed
-				carToRate.get().setRatingDate(LocalDateTime.now());
-				
-				carRatingRepository.save(carToRate.get());
-				
-				return carRatingConverter.convertToDTO(carToRate.get());
-				
-			}
-			else {
-				
-				//if this is new rating , then we will crate it
-				
-				CarRating carRating = new CarRating();
-				
-				carRating.setRating(rating);
-				carRating.setCarId(carId);
-				carRating.setUserId(userId);
-				carRating.setRatingDate(LocalDateTime.now());
-				
-				carRatingRepository.save(carRating);
-				
-				return carRatingConverter.convertToDTO(carRating);
-				
-			}
-			
-		}
-		
-		return new CarRatingDTO();
-		
-	}
+	
 	
 	
 

@@ -68,11 +68,13 @@ public class BonusPointsDiscountsServiceImpl implements IBonusPointsDiscountsSer
 		/*
 		 * First we need to see if there is already discount row for 
 		 * number of bonus points . If it exists in bonus points discounts table, then we will override it 
+		 * 
+		 * Also discount must be between [1, 100]
 		 *  */
 		
 		Optional<BonusPointsDiscounts> presentBonusPoints = discountRepository.findOneByPoints(discountsToSave.getPoints());
 		
-		if(presentBonusPoints.isPresent()) {
+		if(presentBonusPoints.isPresent() && discountsToSave.getDiscount()<=100 && discountsToSave.getDiscount()>0) {
 			
 			presentBonusPoints.get().setDiscount(discountsToSave.getDiscount());
 			
@@ -80,9 +82,10 @@ public class BonusPointsDiscountsServiceImpl implements IBonusPointsDiscountsSer
 			
 			
 		}else {
+			if(discountsToSave.getDiscount()<=100 && discountsToSave.getDiscount()>0) {
 			BonusPointsDiscounts bonusPoint = discountConverter.convertFromDTO(discountsToSave);
-			
 			discountRepository.save(bonusPoint);
+			}
 			
 			return discountsToSave;			
 		}
@@ -112,12 +115,11 @@ public class BonusPointsDiscountsServiceImpl implements IBonusPointsDiscountsSer
 	
 		Optional<BonusPointsDiscounts> discountToChange = discountRepository.findById(id);
 		
-		if(discountToChange.isPresent()) {
+		if(discountToChange.isPresent() && discount.getDiscount()<=100 && discount.getDiscount()>0) {
 			
 			discountToChange.get().setPoints(discount.getPoints());
 			discountToChange.get().setDiscount(discount.getDiscount());
 			
-			discountRepository.save(discountToChange.get());
 			
 			discount.setId(discountToChange.get().getId());
 			

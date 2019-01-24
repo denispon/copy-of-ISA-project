@@ -92,13 +92,4 @@ public class CarRatingController {
 	}	
 	
 	
-	@PutMapping("/rateCar/{userId}/{carId}/{rating}")
-	public ResponseEntity<CarRatingDTO> rateCar (@PathVariable("userId") Long userId,@PathVariable("carId") Long carId, @PathVariable("rating") int rating){
-		
-		CarRatingDTO ratedCar = carRatingService.rateCarReservation(userId, carId, rating);
-		
-	    return ( ratedCar.getId() != null )? new ResponseEntity<CarRatingDTO>(ratedCar,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		
-	}
-	
 }
