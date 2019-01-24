@@ -117,7 +117,10 @@ public class CarReservationServiceImpl implements ICarReservationService {
 			// now we need to see if they are from same rent a car service. If not , we are returning empty object.
 			if(branchFromRentId == rentId && branchToRentId==rentId && carRentId==rentId) {
 				
-				reservationRepository.save(reservationConverter.convertFromDTO(reservationToSave));
+				CarReservation reservation =reservationRepository.save(reservationConverter.convertFromDTO(reservationToSave));
+				
+				//setting id
+				reservationToSave.setId(reservation.getId());
 				
 				return reservationToSave;
 				
