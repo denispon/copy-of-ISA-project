@@ -18,4 +18,8 @@ public interface IInvitationCardService {
 	public InvitationCardDTO deleteById ( Long id );
 	
 	public InvitationCardDTO changeInvitation ( Long id, InvitationCardDTO invitation );
+
+	public InvitationCardDTO acceptInvitation(Long id);
+
+	public InvitationCardDTO declineInvitation(Long id);
 }

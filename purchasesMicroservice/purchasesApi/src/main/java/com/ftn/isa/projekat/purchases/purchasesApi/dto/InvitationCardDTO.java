@@ -15,7 +15,7 @@ public class InvitationCardDTO {
 	
 	private Long invitedUserId;
 	
-	private boolean status;
+	private String status;
 	
     private ReservationDTO reservation;
 

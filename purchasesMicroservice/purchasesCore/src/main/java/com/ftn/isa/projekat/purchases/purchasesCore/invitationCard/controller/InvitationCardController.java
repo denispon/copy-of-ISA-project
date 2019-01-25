@@ -89,4 +89,33 @@ public class InvitationCardController {
 	
 	    return ( invitationToEdit.getId() != null )? new ResponseEntity<InvitationCardDTO>(invitationToEdit,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
+	
+	
+	@PutMapping("/accept/{id}")
+	@ApiOperation( value= "Accept a invitation card", notes = "Returns the invitation card being accepted", httpMethod="PUT")
+	@ApiResponses( value = { 
+			 @ApiResponse( code = 200, message ="OK"),
+			 @ApiResponse( code = 400, message ="Bad Request")})
+	public ResponseEntity<InvitationCardDTO> acceptInvitation (@PathVariable("id") Long id){
+		
+		InvitationCardDTO invitationToAccept = invitationService.acceptInvitation(id);
+		
+		return ( invitationToAccept.getId() != null) ? new ResponseEntity<InvitationCardDTO>(invitationToAccept,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);		
+	}
+	
+	
+	
+	@PutMapping("/decline/{id}")
+	@ApiOperation( value= "Decline a invitation card", notes = "Returns the invitation card being declined", httpMethod="PUT")
+	@ApiResponses( value = { 
+			 @ApiResponse( code = 200, message ="OK"),
+			 @ApiResponse( code = 400, message ="Bad Request")})
+	public ResponseEntity<InvitationCardDTO> declineInvitation (@PathVariable("id") Long id){
+		
+		InvitationCardDTO invitationToDecline = invitationService.declineInvitation(id);
+		
+		return ( invitationToDecline.getId() != null) ? new ResponseEntity<InvitationCardDTO>(invitationToDecline,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);		
+	}
+	
+	
 }

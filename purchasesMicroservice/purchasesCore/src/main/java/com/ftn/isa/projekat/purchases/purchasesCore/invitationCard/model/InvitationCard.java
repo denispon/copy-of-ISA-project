@@ -34,10 +34,10 @@ public class InvitationCard {
 	private Long invitedUserId;
 	
 	@Column (name ="status", nullable= false)
-	private boolean status;
+	private String status;
 
 	@OneToOne()
-	@JoinColumn(name="reservation_id" , nullable = false)
+	@JoinColumn(name="reservation_id" , nullable = true)
     private Reservation reservation;
 	
 	

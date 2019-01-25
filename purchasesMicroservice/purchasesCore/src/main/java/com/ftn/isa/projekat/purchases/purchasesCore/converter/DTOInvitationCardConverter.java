@@ -28,7 +28,7 @@ public class DTOInvitationCardConverter {
 		dto.setId(bean.getId());
 		dto.setInvitedUserId(bean.getInvitedUserId());
 		dto.setReservation(reservationConverter.convertToDTO(bean.getReservation()));
-		dto.setStatus(bean.isStatus());
+		dto.setStatus(bean.getStatus());
 		dto.setUserWhoCreatedId(bean.getUserWhoCreatedId());
 		
 		
@@ -52,7 +52,7 @@ public class DTOInvitationCardConverter {
 		bean.setId(dto.getId());
 		bean.setInvitedUserId(dto.getInvitedUserId());
 		bean.setReservation(reservationConverter.convertFromDTO(dto.getReservation()));
-		bean.setStatus(dto.isStatus());
+		bean.setStatus(dto.getStatus());
 		bean.setUserWhoCreatedId(dto.getUserWhoCreatedId());
 		
 		return bean;
