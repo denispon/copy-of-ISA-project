@@ -10,14 +10,10 @@ class LetoviPretraga extends Component {
 
     }
 
-    
-   /*componentDidMount() {
-        var element = ReactDOM.findDOMNode(this.refs.dropdown)
-      
-        $(element).ready(function() {
-          $('select').material_select();
-        });
-      }*/
+    handleSubmit = (e) => {
+        e.preventDefault();
+        this.props.history.push('/listaLetova')
+    }
 
     render() {
         return (
@@ -25,7 +21,7 @@ class LetoviPretraga extends Component {
                 <UserLoggedTabs></UserLoggedTabs>
                 <div className="container">
                     
-                    <form className="white" >
+                    <form className="white" onSubmit={this.handleSubmit}>
                         <h2 className="red-text lighten-1 center">Pretraga letova</h2>
                         <div className="container">
 

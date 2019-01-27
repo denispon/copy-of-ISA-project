@@ -9,13 +9,18 @@ class RentACarPretraga extends Component {
 
     }
 
+    handleSubmit = (e) => {
+        e.preventDefault();
+        this.props.history.push('/listaVozila')
+    }
+
     render() {
         return (
             <div>
                 <UserLoggedTabs></UserLoggedTabs>
                 <div className="container">
                     
-                    <form className="white" >
+                    <form className="white" onSubmit = { this.handleSubmit }>
                         <h2 className="red-text lighten-1 center">Pretraga vozila</h2>
                         <div className="container">
 
