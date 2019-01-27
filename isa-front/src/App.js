@@ -6,8 +6,11 @@ import DashboardUserLogged from "./components/layout/UserLoggedTabs";
 import Friends from "./components/dashboard/friends/FriendsComponent";
 import UserProfile from "./components/dashboard/UserProfile";
 import HotelPretraga from "./components/dashboard/HotelPretraga";
+import LetoviPretraga from "./components/dashboard/LetoviPretraga";
+import RentACarPretraga from "./components/dashboard/RentACarPretraga";
 
 class App extends Component {
+
   render() {
     return (
       <BrowserRouter>
@@ -18,6 +21,8 @@ class App extends Component {
             <Route path="/friends" component={Friends}></Route>
             <Route path="/userProfile" component={UserProfile}></Route>
             <Route path="/smestaj" component={HotelPretraga}></Route>
+            <Route path="/letovi" component={LetoviPretraga}></Route>
+            <Route path="/vozila" component={RentACarPretraga}></Route>
           </Switch>
         </div>
       </BrowserRouter>

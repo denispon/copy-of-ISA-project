@@ -1,12 +1,16 @@
 import React, {Component} from 'react'
 import UserLoggedTabs from '../layout/UserLoggedTabs';
 
-
-
 class HotelPretraga extends Component {
+
+    
 
     state = {
 
+    }
+
+    handleSubmit = (e) => {
+        e.preventDefault();
     }
 
     render() {
@@ -15,7 +19,7 @@ class HotelPretraga extends Component {
                 <UserLoggedTabs></UserLoggedTabs>
                 <div className="container">
                     
-                    <form className="white" >
+                    <form className="white" onSubmit={this.handleSubmit} >
                         <h2 className="red-text lighten-1 center">Pretraga hotela</h2>
                         <div className="container">
                             <div className="input-field">
@@ -23,12 +27,12 @@ class HotelPretraga extends Component {
                                 <input type="text" id='ime_adresa' />
                             </div>     
                             <div className="input-field">
-                                <label htmlFor="datom_dolaska">Datum dolaska</label>
-                                <input type="text" id='datom_dolaska' />
+                                <label htmlFor="datum_dolaska">Datum dolaska</label>
+                                <input type="text" id='datum_dolaska' className="datepicker"/>
                             </div> 
                             <div className="input-field">
                                 <label htmlFor="datum_odlaska">Datum odlaska</label>
-                                <input type="text" id='datum_odlaska' />
+                                <input type="text" id='datum_odlaska' className="datepicker"/>
                             </div> 
                             <div className="input-field">
                                 <label htmlFor="sobe">Broj soba</label>
