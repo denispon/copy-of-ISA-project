@@ -8,6 +8,7 @@ import UserProfile from "./components/dashboard/UserProfile";
 import HotelPretraga from "./components/dashboard/HotelPretraga";
 import LetoviPretraga from "./components/dashboard/LetoviPretraga";
 import RentACarPretraga from "./components/dashboard/RentACarPretraga";
+import HoteliIzlistavanje from "./components/dashboard/HoteliIzlistavanje";
 
 class App extends Component {
 
@@ -23,6 +24,7 @@ class App extends Component {
             <Route path="/smestaj" component={HotelPretraga}></Route>
             <Route path="/letovi" component={LetoviPretraga}></Route>
             <Route path="/vozila" component={RentACarPretraga}></Route>
+            <Route path = "/listaHotela" component={HoteliIzlistavanje}></Route>
           </Switch>
         </div>
       </BrowserRouter>
