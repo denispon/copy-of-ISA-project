@@ -2,9 +2,8 @@ import React, {Component} from 'react'
 import UserLoggedTabs from '../layout/UserLoggedTabs';
 import "./izlistavanje.css"
 
-class LetoviIzlistavanje extends Component {
+const LetoviIzlistavanje = () => {
 
-    render() {
         return (
             <div>
                 <UserLoggedTabs></UserLoggedTabs>
@@ -24,7 +23,6 @@ class LetoviIzlistavanje extends Component {
                 </div>
             </div>
         )
-    }
 
 };
 export default LetoviIzlistavanje;

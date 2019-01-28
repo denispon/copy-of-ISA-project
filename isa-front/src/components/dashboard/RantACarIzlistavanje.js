@@ -3,9 +3,8 @@ import UserLoggedTabs from '../layout/UserLoggedTabs';
 import { Link } from "react-router-dom"
 import "./izlistavanje.css"
 
-class RentACarIzlistavanje extends Component {
+const RentACarIzlistavanje = () => {
 
-    render() {
         return (
             <div>
                 <UserLoggedTabs></UserLoggedTabs>
@@ -24,7 +23,6 @@ class RentACarIzlistavanje extends Component {
                 </div>
             </div>
         )
-    }
 
 };
 export default RentACarIzlistavanje;
