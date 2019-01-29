@@ -1,9 +1,9 @@
-import React, {Component} from 'react'
-import UserLoggedTabs from '../layout/UserLoggedTabs';
+import React, { Component } from 'react'
+import UserLoggedTabs from '../layout/tabs/UserLoggedTabs';
 
 class HotelPretraga extends Component {
 
-    
+
 
     state = {
 
@@ -25,26 +25,26 @@ class HotelPretraga extends Component {
                             <div className="input-field">
                                 <label htmlFor="ime_adresa">Ime ili adresa</label>
                                 <input type="text" id='ime_adresa' />
-                            </div>     
+                            </div>
                             <div className="input-field">
                                 <label htmlFor="datum_dolaska" className="active">Datum dolaska</label>
-                                <input type="date" id='datum_dolaska' className="datepicker"/>
-                            </div> 
+                                <input type="date" id='datum_dolaska' className="datepicker" />
+                            </div>
                             <div className="input-field">
                                 <label htmlFor="datum_odlaska" className="active">Datum odlaska</label>
-                                <input type="date" id='datum_odlaska' className="datepicker"/>
-                            </div> 
+                                <input type="date" id='datum_odlaska' className="datepicker" />
+                            </div>
                             <div className="input-field">
                                 <label htmlFor="sobe">Broj soba</label>
                                 <input type="number" id='sobe' />
-                            </div> 
+                            </div>
                             <div className="input-field">
                                 <label htmlFor="gosti">Broj gostiju</label>
                                 <input type="number" id='gosti' />
-                            </div> 
+                            </div>
                             <div className="input-field">
                                 <button className="btn blue lighten-1 z-depth-0">Pretraži</button>
-                             </div>
+                            </div>
                         </div>
                     </form>
                 </div>

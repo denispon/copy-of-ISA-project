@@ -1,5 +1,5 @@
 import React from "react";
-import SingedUserLinks from "../layout/UserLoggedTabs"
+import SingedUserLinks from "../layout/tabs/UserLoggedTabs"
 
 
 const Dashboard = () => {

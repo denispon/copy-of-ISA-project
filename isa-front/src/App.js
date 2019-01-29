@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import "./App.css";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import Navbar from "./components/layout/Navbar";
-import DashboardUserLogged from "./components/layout/UserLoggedTabs";
+import DashboardUserLogged from "./components/layout/tabs/UserLoggedTabs";
 import Friends from "./components/dashboard/friends/FriendsComponent";
 import UserProfile from "./components/dashboard/UserProfile";
 import HotelPretraga from "./components/dashboard/HotelPretraga";
@@ -14,6 +14,9 @@ import RentACarIzlistavanje from "./components/dashboard/RantACarIzlistavanje";
 import RegistracijaKorisnika from './components/dashboard/RegistracijaKorisnika';
 import PrijavaKorisnika from './components/dashboard/PrijavaKorisnika';
 import UserReservations from './components/dashboard/reservation/UserReservations';
+import ShoppingCart from './components/dashboard/reservation/ShoppingCart';
+import DashboardMainAdminLogged from './components/dashboard/mainAdmin/DashboardMainAdminLogged';
+import DashboardRentACarAdminLogged from './components/dashboard/rentACarAdmin/DashboardRentACarAdminLogged';
 
 class App extends Component {
 
@@ -23,8 +26,11 @@ class App extends Component {
         <div className="App">
           <Navbar />
           <Switch>
+            <Route exact path="/" component={DashboardRentACarAdminLogged}></Route>
+            <Route exact path="/" component={DashboardMainAdminLogged}></Route>
             <Route exact path="/" component={DashboardUserLogged}></Route>
             <Route path="/friends" component={Friends}></Route>
+            <Route path="/korpa" component={ShoppingCart}></Route>
             <Route path="/userProfile" component={UserProfile}></Route>
             <Route path="/smestaj" component={HotelPretraga}></Route>
             <Route path="/letovi" component={LetoviPretraga}></Route>

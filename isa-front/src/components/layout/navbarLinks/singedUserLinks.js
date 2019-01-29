@@ -7,7 +7,7 @@ const SignedInLinks = () => {
     <div>
       <ul className="right">
         <li className="isa_links">
-          <NavLink to="/pocetna">korpa</NavLink>
+          <NavLink to="/korpa">korpa</NavLink>
         </li>
         <li className="isa_links">
           <NavLink to="/#">invitacije</NavLink>

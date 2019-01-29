@@ -21,6 +21,9 @@ const ReservationInfo = () => {
 
                     <CarReservation></CarReservation>
 
+                    <h6 className="white-text " ><strong>Ukupna cena: 10480 din</strong></h6>
+
+
                 </div>
 
             </div>

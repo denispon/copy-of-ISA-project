@@ -1,5 +1,5 @@
-import React, {Component} from 'react'
-import UserLoggedTabs from '../layout/UserLoggedTabs';
+import React, { Component } from 'react'
+import UserLoggedTabs from '../layout/tabs/UserLoggedTabs';
 
 
 
@@ -19,8 +19,8 @@ class RentACarPretraga extends Component {
             <div>
                 <UserLoggedTabs></UserLoggedTabs>
                 <div className="container">
-                    
-                    <form className="white" onSubmit = { this.handleSubmit }>
+
+                    <form className="white" onSubmit={this.handleSubmit}>
                         <h2 className="red-text lighten-1 center">Pretraga vozila</h2>
                         <div className="container">
 
@@ -35,30 +35,30 @@ class RentACarPretraga extends Component {
                             </div>
 
                             <div className="input-field">
-                                <label htmlFor="datum_preuzimanja"  className = "active">Datum preuzimanja</label>
-                                <input type="date" id='datum_preuzimanja' className="datepicker"/>
-                            </div>     
-
-                            <div className="input-field">
-                                <label htmlFor="vreme_preuzimanja" className = "active">Vreme preuzimanja</label>
-                                <input type="time" id='vreme_preuzimanja' />
-                            </div> 
-                            
-
-                            <div className="input-field">
-                                <label htmlFor="datum_ostavljanja"  className = "active">Datum ostavljanja</label>
-                                <input type="date" id='datum_ostavljanja' className="datepicker"/>
+                                <label htmlFor="datum_preuzimanja" className="active">Datum preuzimanja</label>
+                                <input type="date" id='datum_preuzimanja' className="datepicker" />
                             </div>
 
                             <div className="input-field">
-                                <label htmlFor="vreme_ostavljanja" className = "active">Vreme ostavljanja</label>
+                                <label htmlFor="vreme_preuzimanja" className="active">Vreme preuzimanja</label>
+                                <input type="time" id='vreme_preuzimanja' />
+                            </div>
+
+
+                            <div className="input-field">
+                                <label htmlFor="datum_ostavljanja" className="active">Datum ostavljanja</label>
+                                <input type="date" id='datum_ostavljanja' className="datepicker" />
+                            </div>
+
+                            <div className="input-field">
+                                <label htmlFor="vreme_ostavljanja" className="active">Vreme ostavljanja</label>
                                 <input type="time" id='vreme_ostavljanja' />
-                            </div> 
- 
+                            </div>
+
                             <div className="input-field">
                                 <label htmlFor="broj_putnika">Broj putnika</label>
                                 <input type="number" id='broj_putnika' />
-                            </div> 
+                            </div>
 
                             <div class="input-field col s12">
                                 <select className="browser-default">
@@ -71,7 +71,7 @@ class RentACarPretraga extends Component {
 
                             <div className="input-field">
                                 <button className="btn blue lighten-1 z-depth-0">Pretraži</button>
-                             </div>
+                            </div>
                         </div>
                     </form>
                 </div>

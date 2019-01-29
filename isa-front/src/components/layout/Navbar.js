@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import SingedUserLinks from "./navbarLinks/singedUserLinks";
 import SignedOutOutLinks from './navbarLinks/SignedOutUserLinks';
 import SignedInLinks from "./navbarLinks/singedUserLinks";
+import SingedAdminLinks from "./navbarLinks/SingedAdminLinks";
 
 const Navbar = () => {
   return (
@@ -11,11 +12,15 @@ const Navbar = () => {
         <Link to="/" className="brand-logo left">
           ISA
         </Link>
-        <SignedOutOutLinks />
-        <SignedInLinks></SignedInLinks>
+
+        <SingedAdminLinks />
       </div>
     </nav>
   );
 };
 
 export default Navbar;
+/*
+<SignedOutOutLinks />
+<SignedInLinks></SignedInLinks>
+*/

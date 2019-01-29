@@ -1,5 +1,5 @@
-import React, {Component} from 'react'
-import UserLoggedTabs from '../layout/UserLoggedTabs';
+import React, { Component } from 'react'
+import UserLoggedTabs from '../layout/tabs/UserLoggedTabs';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
 
@@ -11,10 +11,9 @@ class LetoviPretraga extends Component {
 
     }
 
-    componentDidMount()
-    {
+    componentDidMount() {
         axios('http://localhost:8091/api/aviocompany/company/all').then(
-            res=>{
+            res => {
                 console.log(res);
             }
         )
@@ -33,7 +32,7 @@ class LetoviPretraga extends Component {
             <div>
                 <UserLoggedTabs></UserLoggedTabs>
                 <div className="container">
-                    
+
                     <form className="white" onSubmit={this.handleSubmit}>
                         <h2 className="red-text lighten-1 center">Pretraga letova</h2>
                         <div className="container">
@@ -41,7 +40,7 @@ class LetoviPretraga extends Component {
                             <div className="input-field">
                                 <label htmlFor="destinacija">Destinacija</label>
                                 <input type="text" id='destinacija' />
-                            </div> 
+                            </div>
 
                             <div class="input-field col s12">
                                 <select className="browser-default">
@@ -67,25 +66,25 @@ class LetoviPretraga extends Component {
                                     <option value="1">Economy</option>
                                     <option value="2">Business</option>
                                     <option value="3">First</option>
-                                </select>                    
+                                </select>
                             </div>
-  
+
                             <div className="input-field">
                                 <label htmlFor="mesto_polaska">Mesto polaska</label>
                                 <input type="text" id='mesto_polaska' />
-                            </div> 
-                            
+                            </div>
+
                             <div className="input-field">
-                                <label htmlFor="datum_polaska"  className = "active">Datum polaska</label>
-                                <input type="date" id='datum_polaska' className="datepicker"/>
-                            </div> 
+                                <label htmlFor="datum_polaska" className="active">Datum polaska</label>
+                                <input type="date" id='datum_polaska' className="datepicker" />
+                            </div>
                             <div className="input-field">
-                                <label htmlFor="datum_dolaska" className = "active">Datum dolaska</label>
-                                <input type="date" id='datum_dolaska' className="datepicker"/>
-                            </div> 
+                                <label htmlFor="datum_dolaska" className="active">Datum dolaska</label>
+                                <input type="date" id='datum_dolaska' className="datepicker" />
+                            </div>
                             <div className="input-field">
                                 <button className="btn blue lighten-1 z-depth-0">Pretraži</button>
-                             </div>
+                            </div>
                         </div>
                     </form>
                 </div>
