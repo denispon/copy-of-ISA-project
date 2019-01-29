@@ -75,6 +75,9 @@ public class HotelService implements IHotelService{
 	}
 	
 	public HotelDTO save(HotelDTO hotelDTO) {
+		if(hotelDTO.getId() == null) {
+			hotelDTO.setId((long) -1);
+		}
 		hotelRepository.save(hotelConverter.convertFromDTO(hotelDTO));
 		return hotelDTO;
 	}

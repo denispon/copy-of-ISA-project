@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,6 +28,7 @@ import io.swagger.annotations.ApiResponses;
 @RestController
 @RequestMapping("/api/hotel/hotel")
 @Api(value = "hotel")
+@CrossOrigin(origins = "http://localhost:3000")
 public class HotelController {
 	
 	@Autowired
@@ -50,10 +51,10 @@ public class HotelController {
 							 @ApiResponse( code = 404, message ="Not Found")})	
 	public ResponseEntity<List<HotelDTO>> getAllHotels(){
 		
-		HttpHeaders head = new HttpHeaders();
-		head.add("Access-Control-Allow-Origin", "*");
+		//HttpHeaders head = new HttpHeaders();
+		//head.add("Access-Control-Allow-Origin", "*");
 		List<HotelDTO> hotels = hotelService.findAll();
-		return(!hotels.isEmpty()) ? new ResponseEntity<List<HotelDTO>>(hotels, head, HttpStatus.OK) : new ResponseEntity<>(head, HttpStatus.NOT_FOUND);
+		return(!hotels.isEmpty()) ? new ResponseEntity<List<HotelDTO>>(hotels, /*head,*/ HttpStatus.OK) : new ResponseEntity<>(/*head,*/ HttpStatus.NOT_FOUND);
 		
 	}
 	
@@ -63,8 +64,10 @@ public class HotelController {
 					@ApiResponse( code = 201 , message = "Created"),
 					@ApiResponse( code = 400, message= "Bad request")})
 	public ResponseEntity<HotelDTO> addHotel(@RequestBody HotelDTO hotelDTO){
+		HttpHeaders head = new HttpHeaders();
+		head.add("Access-Control-Allow-Origin", "*");
 		HotelDTO hotelZaSnimanje = hotelService.save(hotelDTO);
-		return(hotelZaSnimanje!=null) ? new ResponseEntity<HotelDTO>(hotelZaSnimanje, HttpStatus.CREATED) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		return(hotelZaSnimanje!=null) ? new ResponseEntity<HotelDTO>(hotelZaSnimanje, head, HttpStatus.CREATED) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
 	
 	@DeleteMapping("/{id}")
