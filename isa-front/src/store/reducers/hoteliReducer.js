@@ -4,7 +4,8 @@ const initState = {
 
 const hoteliReducer = (state = initState, action) => {
     switch(action.type){
-        case 'GET_FILTERED_HOTELS':
+        case 'CREATE_HOTEL':
+            console.log('kreiran hotel', action.hotel)
             
     }
     return state

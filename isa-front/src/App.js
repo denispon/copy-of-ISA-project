@@ -17,6 +17,8 @@ import UserReservations from './components/dashboard/reservation/UserReservation
 import ShoppingCart from './components/dashboard/reservation/ShoppingCart';
 import DashboardMainAdminLogged from './components/dashboard/mainAdmin/DashboardMainAdminLogged';
 import DashboardRentACarAdminLogged from './components/dashboard/rentACarAdmin/DashboardRentACarAdminLogged';
+import CreateHotel from './components/dashboard/CreateHotel';
+
 
 class App extends Component {
 
@@ -40,7 +42,7 @@ class App extends Component {
             <Route path="/listaVozila" component={RentACarIzlistavanje}></Route>
             <Route path="/prijavaKorisnika" component={PrijavaKorisnika}></Route>
             <Route path="/registracijaKorisnika" component={RegistracijaKorisnika}></Route>
-
+            <Route path="/createHotel" component={CreateHotel}></Route>
             <Route path="/userReservations" component={UserReservations}></Route>
           </Switch>
         </div>
