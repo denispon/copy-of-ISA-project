@@ -13,6 +13,7 @@ import LetoviIzlistavanje from "./components/dashboard/LetoviIzlistavanje";
 import RentACarIzlistavanje from "./components/dashboard/RantACarIzlistavanje";
 import RegistracijaKorisnika from './components/dashboard/RegistracijaKorisnika';
 import PrijavaKorisnika from './components/dashboard/PrijavaKorisnika';
+import UserReservations from './components/dashboard/reservation/UserReservations';
 
 class App extends Component {
 
@@ -28,11 +29,13 @@ class App extends Component {
             <Route path="/smestaj" component={HotelPretraga}></Route>
             <Route path="/letovi" component={LetoviPretraga}></Route>
             <Route path="/vozila" component={RentACarPretraga}></Route>
-            <Route path = "/listaHotela" component={HoteliIzlistavanje}></Route>
-            <Route path = "/listaLetova" component={LetoviIzlistavanje}></Route>
-            <Route path = "/listaVozila" component={RentACarIzlistavanje}></Route>
+            <Route path="/listaHotela" component={HoteliIzlistavanje}></Route>
+            <Route path="/listaLetova" component={LetoviIzlistavanje}></Route>
+            <Route path="/listaVozila" component={RentACarIzlistavanje}></Route>
             <Route path="/prijavaKorisnika" component={PrijavaKorisnika}></Route>
             <Route path="/registracijaKorisnika" component={RegistracijaKorisnika}></Route>
+
+            <Route path="/userReservations" component={UserReservations}></Route>
           </Switch>
         </div>
       </BrowserRouter>
