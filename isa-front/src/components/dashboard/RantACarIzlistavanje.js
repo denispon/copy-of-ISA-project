@@ -1,7 +1,6 @@
 import React, {Component} from 'react'
 import UserLoggedTabs from '../layout/UserLoggedTabs';
 import { Link } from "react-router-dom"
-import "./izlistavanje.css"
 
 const RentACarIzlistavanje = () => {
 

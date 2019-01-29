@@ -1,6 +1,5 @@
 import React, {Component} from 'react'
 import UserLoggedTabs from '../layout/UserLoggedTabs';
-import "./izlistavanje.css"
 
 const LetoviIzlistavanje = () => {
 

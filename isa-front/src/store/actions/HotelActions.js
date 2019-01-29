@@ -1,7 +1,13 @@
-export const createHotel = (hotel) => {
+/*import React, {Component} from 'react'
+import axios from 'axios'
 
-    return (dispatch, getState) =>{
-        dispatch({type: 'CREATE_HOTEL', hotel: hotel});
+class HotelActions extends Component {
+    componentDidMount(){
+        axios.get('http://localhost:8092/api/hotel/hotel/all')
+        .then(res =>{
+            
+        })
     }
 
-};
+}
+export default HotelActions*/
