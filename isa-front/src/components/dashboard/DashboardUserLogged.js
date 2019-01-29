@@ -8,7 +8,6 @@ const Dashboard = () => {
         <div className="containter">
             <SingedUserLinks></SingedUserLinks>
 
-            <p>blablablalallblablablal</p>
         </div>
     );
 
