@@ -4,8 +4,10 @@ import java.text.ParseException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -48,8 +50,10 @@ public class HotelController {
 							 @ApiResponse( code = 404, message ="Not Found")})	
 	public ResponseEntity<List<HotelDTO>> getAllHotels(){
 		
+		HttpHeaders head = new HttpHeaders();
+		head.add("Access-Control-Allow-Origin", "*");
 		List<HotelDTO> hotels = hotelService.findAll();
-		return(!hotels.isEmpty()) ? new ResponseEntity<List<HotelDTO>>(hotels, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		return(!hotels.isEmpty()) ? new ResponseEntity<List<HotelDTO>>(hotels, head, HttpStatus.OK) : new ResponseEntity<>(head, HttpStatus.NOT_FOUND);
 		
 	}
 	
