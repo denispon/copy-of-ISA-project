@@ -19,7 +19,6 @@ class HotelPretraga extends Component {
             <div>
                 <UserLoggedTabs></UserLoggedTabs>
                 <div className="container">
-                    
                     <form className="white" onSubmit={this.handleSubmit} >
                         <h2 className="red-text lighten-1 center">Pretraga hotela</h2>
                         <div className="container">
@@ -28,12 +27,12 @@ class HotelPretraga extends Component {
                                 <input type="text" id='ime_adresa' />
                             </div>     
                             <div className="input-field">
-                                <label htmlFor="datum_dolaska">Datum dolaska</label>
-                                <input type="text" id='datum_dolaska' className="datepicker"/>
+                                <label htmlFor="datum_dolaska" className="active">Datum dolaska</label>
+                                <input type="date" id='datum_dolaska' className="datepicker"/>
                             </div> 
                             <div className="input-field">
-                                <label htmlFor="datum_odlaska">Datum odlaska</label>
-                                <input type="text" id='datum_odlaska' className="datepicker"/>
+                                <label htmlFor="datum_odlaska" className="active">Datum odlaska</label>
+                                <input type="date" id='datum_odlaska' className="datepicker"/>
                             </div> 
                             <div className="input-field">
                                 <label htmlFor="sobe">Broj soba</label>

@@ -35,24 +35,24 @@ class RentACarPretraga extends Component {
                             </div>
 
                             <div className="input-field">
-                                <label htmlFor="datum_preuzimanja">Datum preuzimanja</label>
-                                <input type="text" id='datum_preuzimanja' className="datepicker"/>
+                                <label htmlFor="datum_preuzimanja"  className = "active">Datum preuzimanja</label>
+                                <input type="date" id='datum_preuzimanja' className="datepicker"/>
                             </div>     
 
                             <div className="input-field">
-                                <label htmlFor="vreme_preuzimanja">Vreme preuzimanja</label>
-                                <input type="text" id='vreme_preuzimanja' />
+                                <label htmlFor="vreme_preuzimanja" className = "active">Vreme preuzimanja</label>
+                                <input type="time" id='vreme_preuzimanja' />
                             </div> 
                             
 
                             <div className="input-field">
-                                <label htmlFor="datum_ostavljanja">Datum ostavljanja</label>
-                                <input type="text" id='datum_ostavljanja' className="datepicker"/>
+                                <label htmlFor="datum_ostavljanja"  className = "active">Datum ostavljanja</label>
+                                <input type="date" id='datum_ostavljanja' className="datepicker"/>
                             </div>
 
                             <div className="input-field">
-                                <label htmlFor="vreme_ostavljanja">Vreme ostavljanja</label>
-                                <input type="text" id='vreme_ostavljanja' />
+                                <label htmlFor="vreme_ostavljanja" className = "active">Vreme ostavljanja</label>
+                                <input type="time" id='vreme_ostavljanja' />
                             </div> 
  
                             <div className="input-field">
