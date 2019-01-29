@@ -1,27 +1,43 @@
 import React, {Component} from 'react'
 import UserLoggedTabs from '../layout/UserLoggedTabs';
+import {Link} from "react-router-dom"
+import axios from 'axios';
 
-const LetoviIzlistavanje = () => {
+class LetoviIzlistavanje extends Component
+{
+    state = {
+        airlineData: []
+    }
 
-        return (
-            <div>
-                <UserLoggedTabs></UserLoggedTabs>
-                <div className = "container center">
-                    <h2 className="red-text lighten-1 center">Lista letova</h2>
-                    <div className = "post card grey lighten-2">
-                        <div className = "card-content container">
-                            <span className = "card-title center">Prevoznik</span>
-                            <div className = "left-align">
-                                <p>Vreme i mesto polaska:</p>
-                                <p>Vreme i mesto dolaska:</p>
-                                <p>Broj stajanja:</p>
-                                <p>Cena:</p>
-                            </div>
+    componentDidMount()
+    {
+        axios.get('http://localhost:8091/api/aviocompany/company/all').then(res =>{
+            this.setState({
+                airlineData: res.data
+            })
+        })
+    }
+
+    render()
+    {
+        
+            return (
+                <div className="post card grey lighten-2">
+                {this.state.airlineData.map(airline =>
+                    <div className = "card-content container">
+                        <span className="card-title center">{airline.name}</span>
+                        <div className = "left-align">
+                            <p>Adresa: {airline.address}</p>
+                            <p>Opis: {airline.description}</p>
                         </div>
+                    
                     </div>
+                )}
                 </div>
-            </div>
-        )
+            )
+        
+    }
+        
 
 };
 export default LetoviIzlistavanje;
