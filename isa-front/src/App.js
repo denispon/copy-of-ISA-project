@@ -14,6 +14,8 @@ import RentACarIzlistavanje from "./components/dashboard/RantACarIzlistavanje";
 import RegistracijaKorisnika from './components/dashboard/RegistracijaKorisnika';
 import PrijavaKorisnika from './components/dashboard/PrijavaKorisnika';
 import UserReservations from './components/dashboard/reservation/UserReservations';
+import CreateHotel from './components/dashboard/CreateHotel';
+
 
 class App extends Component {
 
@@ -34,7 +36,7 @@ class App extends Component {
             <Route path="/listaVozila" component={RentACarIzlistavanje}></Route>
             <Route path="/prijavaKorisnika" component={PrijavaKorisnika}></Route>
             <Route path="/registracijaKorisnika" component={RegistracijaKorisnika}></Route>
-
+            <Route path = "/createHotel" component = {CreateHotel}></Route>
             <Route path="/userReservations" component={UserReservations}></Route>
           </Switch>
         </div>
