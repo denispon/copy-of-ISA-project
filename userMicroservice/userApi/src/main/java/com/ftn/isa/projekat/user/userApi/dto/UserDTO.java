@@ -23,6 +23,5 @@ public class UserDTO {
 	
 	private String passport;
 	
-	private UserRoleDTO role;
 
 }

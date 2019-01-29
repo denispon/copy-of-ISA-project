@@ -28,6 +28,8 @@ public interface IUserService {
 	public UserDTO activateUser(Long id);
 
 	public List<UserDTO> findUsersByRole(Long id);
+
+	public UserDTO changeRoleOfUser(Long userId, Long roleId);
 	
 	
 

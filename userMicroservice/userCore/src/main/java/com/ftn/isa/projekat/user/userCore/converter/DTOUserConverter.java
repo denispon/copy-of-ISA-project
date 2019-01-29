@@ -29,7 +29,6 @@ public class DTOUserConverter {
 		dto.setSurname(user.getSurname());
 		dto.setPassport(user.getPassport());
 		dto.setTelephoneNumber(user.getTelephoneNumber());
-		dto.setRole(roleConverter.convertToDTO(user.getRole()));
 		
 
 		return dto;
@@ -55,7 +54,6 @@ public class DTOUserConverter {
 		bean.setSurname(user.getSurname());
 		bean.setPassport(user.getPassport());
 		bean.setTelephoneNumber(user.getTelephoneNumber());
-		bean.setRole(roleConverter.convertFromDTO(user.getRole()));
 		
 		return bean;
 		

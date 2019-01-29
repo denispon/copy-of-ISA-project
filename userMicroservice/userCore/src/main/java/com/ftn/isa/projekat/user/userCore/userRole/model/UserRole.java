@@ -25,9 +25,6 @@ public class UserRole {
 	@Column (name = "id")
 	private Long id;
 	
-	@OneToMany( cascade = CascadeType.ALL , mappedBy="role")
-	private List<User> user;
-	
 	@Column (name= "role", nullable= false)
 	private String role;
 	

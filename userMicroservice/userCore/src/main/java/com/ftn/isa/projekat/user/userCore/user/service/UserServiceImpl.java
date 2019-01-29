@@ -121,25 +121,22 @@ public class UserServiceImpl implements IUserService {
 		
 		if( userForChange.isPresent() && user!=null) {
 			
-			Optional<UserRole> role = roleRepository.findById(user.getRole().getId());
 			
-			if(role.isPresent()) {
 				
-				userForChange.get().setCity(user.getCity());
-				userForChange.get().setEmail(user.getEmail());
-				userForChange.get().setName(user.getName());
-				userForChange.get().setPassport(user.getPassport());
-				userForChange.get().setRole(role.get());
-				userForChange.get().setSurname(user.getSurname());
-				userForChange.get().setTelephoneNumber(user.getTelephoneNumber());
-				
-				userRepository.save(userForChange.get());
-				
-				user.setId(userForChange.get().getId());
-				
-				return user;
-				
-			}
+			userForChange.get().setCity(user.getCity());
+			userForChange.get().setEmail(user.getEmail());
+			userForChange.get().setName(user.getName());
+			userForChange.get().setPassport(user.getPassport());
+			userForChange.get().setSurname(user.getSurname());
+			userForChange.get().setTelephoneNumber(user.getTelephoneNumber());
+			
+			userRepository.save(userForChange.get());
+			
+			user.setId(userForChange.get().getId());
+			
+			return user;
+			
+			
 			
 		}
 		
@@ -188,6 +185,8 @@ public class UserServiceImpl implements IUserService {
 			return foundUser;
 		}
 		
+		UserRole userRole = roleRepository.getOne(2l);
+		
 		//if there is not user with same email, we are saving this one
 		User userForSave = new User();
 		
@@ -197,7 +196,7 @@ public class UserServiceImpl implements IUserService {
 		userForSave.setName(dto.getName());
 		userForSave.setPassport(dto.getPassport());
 		userForSave.setPassword(dto.getPassword());
-		userForSave.setRole(roleConverter.convertFromDTO(dto.getRole()));
+		userForSave.getRoles().add(userRole);
 		userForSave.setSurname(dto.getSurname());
 		userForSave.setTelephoneNumber(dto.getTelephoneNumber());
 		
@@ -249,7 +248,7 @@ public class UserServiceImpl implements IUserService {
 	@Override
 	public List<UserDTO> findUsersByRole(Long id) {
 		
-		Optional<List<User>> users = userRepository.findAllByRoleId(id);
+		Optional<List<User>> users = userRepository.findAllByRolesId(id);
 		
 		if(users.isPresent()) {
 			
@@ -266,6 +265,37 @@ public class UserServiceImpl implements IUserService {
 		}
 		
 		return Collections.emptyList();
+	}
+
+	@Override
+	public UserDTO changeRoleOfUser(Long userId, Long roleId) {
+		
+		Optional<User> foundUser = userRepository.findById(userId);
+		
+		if(foundUser.isPresent()) {
+			
+			Optional<UserRole> userRole = roleRepository.findById(roleId);
+			
+			if(userRole.isPresent()) {
+				
+				ArrayList<UserRole> userRoles = new ArrayList<UserRole>();
+				userRoles.add(userRole.get());
+				
+				foundUser.get().setRoles(userRoles);
+
+				userRepository.save(foundUser.get());
+				return userConverter.convertToDTO(foundUser.get());
+				
+			}
+			foundUser.get().setActive(true);
+			
+			
+			
+			
+		}
+		
+		return new UserDTO();
+		
 	}
 
 }

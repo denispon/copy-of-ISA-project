@@ -148,4 +148,17 @@ public class UserController {
 		
 	}
 	
+	@PutMapping("/{id}/{idRole}")
+	@ApiOperation( value= "Change an user", notes = "Returns the user being changed", httpMethod="PUT")
+	@ApiResponses( value = { 
+			 @ApiResponse( code = 200, message ="OK"),
+			 @ApiResponse( code = 400, message ="Bad Request")})
+	public ResponseEntity<UserDTO> changeRoleOfUser(@PathVariable("id") Long userId, @PathVariable("idRole") Long roleId){
+		
+		UserDTO user = userService.changeRoleOfUser(userId,roleId);
+		
+		
+	    return ( user.getId() != null )? new ResponseEntity<UserDTO>(user,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	}
+	
 }

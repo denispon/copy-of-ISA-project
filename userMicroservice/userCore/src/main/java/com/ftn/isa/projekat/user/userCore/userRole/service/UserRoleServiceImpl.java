@@ -119,7 +119,6 @@ public class UserRoleServiceImpl implements IUserRoleService{
 			}
 			
 			roleForChange.get().setRole(userRole.getRole());
-			roleForChange.get().setUser(users);
 			
 			roleRepository.save(roleForChange.get());
 			
