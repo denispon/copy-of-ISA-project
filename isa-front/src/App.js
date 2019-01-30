@@ -26,6 +26,7 @@ import CreateDodatnaUsluga from './components/dashboard/dodavanjaHotel/CreateDod
 import CreatePrihodHotela from "./components/dashboard/dodavanjaHotel/CreatePrihodHotela";
 import InvitationPage from "./components/dashboard/invitation/InvitationPage";
 
+import LetoviAdminDashboard from "./components/dashboard/letoviAdmin/LetoviAdminDashboard";
 
 class App extends Component {
 
