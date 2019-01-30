@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 import com.ftn.isa.projekat.avioCompany.avioCompanyApi.dto.TicketDTO;
 import com.ftn.isa.projekat.avioCompany.avioCompanyCore.Flight.model.Flight;
 import com.ftn.isa.projekat.avioCompany.avioCompanyCore.Flight.repository.FlightRepository;
+import com.ftn.isa.projekat.avioCompany.avioCompanyCore.Luggage.model.Luggage;
+import com.ftn.isa.projekat.avioCompany.avioCompanyCore.Luggage.repository.LuggageRepository;
 import com.ftn.isa.projekat.avioCompany.avioCompanyCore.Ticket.model.Ticket;
 import com.ftn.isa.projekat.avioCompany.avioCompanyCore.Ticket.repository.TicketRepository;
 import com.ftn.isa.projekat.avioCompany.avioCompanyCore.dtoConverter.DTOFlightConverter;
@@ -23,6 +25,9 @@ public class TIcketServiceImpl implements ITicketService
 	TicketRepository tickRepo;;
 	@Autowired
 	DTOTicketConverter tickConv;
+	
+	@Autowired
+	LuggageRepository lugRepo;
 	
 	@Autowired
 	FlightRepository flRepo;
@@ -81,6 +86,16 @@ public class TIcketServiceImpl implements ITicketService
 		
 		if(toDel.isPresent())
 		{
+			//moramo sav prtljag da obrisemo koji je vezan za tu kartu
+			Ticket ticket = new Ticket();
+			
+			for(Luggage lug : toDel.get().getLuggage())
+			{
+				lug.setTicket(ticket);
+				
+				lugRepo.save(lug);
+			}
+			
 			tickRepo.deleteById(id);
 			return tickConv.convertToDto(toDel.get());
 		}

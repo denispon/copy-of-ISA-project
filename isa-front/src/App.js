@@ -25,6 +25,7 @@ import CreateRezervacijaSobe from './components/dashboard/dodavanjaHotel/CreateR
 import CreateDodatnaUsluga from './components/dashboard/dodavanjaHotel/CreateDodatnaUsluga';
 import CreatePrihodHotela from "./components/dashboard/dodavanjaHotel/CreatePrihodHotela";
 import InvitationPage from "./components/dashboard/invitation/InvitationPage";
+import HoteliIzlistavanjeAdmin from "./components/dashboard/izlistavanjeHotelAdmin/HotelIzlistavanjeAdmin"
 
 import LetoviAdminDashboard from "./components/dashboard/letoviAdmin/LetoviAdminDashboard";
 
@@ -63,6 +64,7 @@ class App extends Component {
             <Route path="/createRoomReservation" component={CreateRezervacijaSobe}></Route>
             <Route path="/createAdditionalService" component={CreateDodatnaUsluga}></Route>
             <Route path="/createHotelIncome" component={CreatePrihodHotela}></Route>
+            <Route path="/listaHotelaAdmin" component={HoteliIzlistavanjeAdmin}></Route>
 
           </Switch>
         </div>

@@ -16,13 +16,6 @@ public class DTODestinationConverter
 	@Autowired
 	private DestinationRepository destRepository;
 	
-	@Autowired 
-	private DTOFlightConverter flightConverter;
-	
-	@Autowired
-	private DTOAvioCompanyConverter avioConverter;
-	
-	
 	
 	public DestinationDTO convertToDto(Destination dest)
 	{
@@ -30,9 +23,6 @@ public class DTODestinationConverter
 		
 		dto.setId(dest.getId());
 		dto.setName(dest.getName());
-		//dto.setAvioCompany(avioConverter.convertToDTO(dest.getAvioCompany()));
-		//dto.setFlightTakeOff(flightConverter.convertToDTO(dest.getFlightTakeOff()));
-		//dto.setFlightLanding(flightConverter.convertToDTO(dest.getFlightLanding()));
 		
 		return dto;
 	}
@@ -50,9 +40,6 @@ public class DTODestinationConverter
 		
 		dest.setId(dto.getId());
 		dest.setName(dto.getName());
-		//dest.setAvioCompany(avioConverter.convertFromDTO(dto.getAvioCompany()));
-		//dest.setFlightTakeOff(flightConverter.convertFromDTO(dto.getFlightTakeOff()));
-		//dest.setFlightLanding(flightConverter.convertFromDTO(dto.getFlightLanding()));
 		
 		return dest;
 	}

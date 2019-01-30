@@ -21,5 +21,5 @@ public class AvioCompanyDTO //uradjen
 	private String address;
 	private String description;
 	
-	
+	private DestinationDTO destination;
 }

@@ -36,6 +36,8 @@ public class DTOFlightConverter
 		dto.setTravelType(bean.getTravelType());
 		
 		dto.setAvioCompany(companyConverter.convertToDTO(bean.getAvioCompany()));
+		dto.setDestinationTakeOff(destConverter.convertToDto(bean.getTakeOffDestination()));
+		dto.setDestinationLanding(destConverter.convertToDto(bean.getLandingDestination()));
 		
 		return dto;
 		
@@ -61,7 +63,8 @@ public class DTOFlightConverter
 		bean.setTravelType(dto.getTravelType());
 		
 		bean.setAvioCompany(companyConverter.convertFromDTO(dto.getAvioCompany()));
-		
+		bean.setTakeOffDestination(destConverter.convertFromDTO(dto.getDestinationTakeOff()));
+		bean.setLandingDestination(destConverter.convertFromDTO(dto.getDestinationLanding()));
 		
 		return bean;
 	}

@@ -12,5 +12,4 @@ public class DestinationDTO
 	private Long id;
 	private String name;
 	
-	private AvioCompanyDTO avioCompany;
 }

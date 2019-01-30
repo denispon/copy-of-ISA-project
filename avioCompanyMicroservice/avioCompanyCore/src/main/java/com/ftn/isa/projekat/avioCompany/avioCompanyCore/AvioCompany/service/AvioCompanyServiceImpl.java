@@ -17,24 +17,35 @@ import com.ftn.isa.projekat.avioCompany.avioCompanyCore.Destination.model.Destin
 import com.ftn.isa.projekat.avioCompany.avioCompanyCore.Destination.repository.DestinationRepository;
 import com.ftn.isa.projekat.avioCompany.avioCompanyCore.Flight.model.Flight;
 import com.ftn.isa.projekat.avioCompany.avioCompanyCore.Flight.repository.FlightRepository;
+import com.ftn.isa.projekat.avioCompany.avioCompanyCore.Income.model.Income;
+import com.ftn.isa.projekat.avioCompany.avioCompanyCore.Income.repository.IncomeRepository;
 import com.ftn.isa.projekat.avioCompany.avioCompanyCore.Ticket.model.Ticket;
 import com.ftn.isa.projekat.avioCompany.avioCompanyCore.Ticket.repository.TicketRepository;
 import com.ftn.isa.projekat.avioCompany.avioCompanyCore.dtoConverter.DTOAvioCompanyConverter;
 import com.ftn.isa.projekat.avioCompany.avioCompanyCore.dtoConverter.DTODestinationConverter;
-import com.ftn.isa.projekat.avioCompany.avioCompanyCore.dtoConverter.DTOTicketConverter;
 
 @Service
 public class AvioCompanyServiceImpl implements IAvioCompanyService
 {
+	/*
+	 * repozitorijumi od onog koji njega vezuju i njega
+	 */
 	@Autowired
 	AvioCompanyRepository avioRepository;
 	@Autowired
-	DTOAvioCompanyConverter avioConverter;
-	
+	FlightRepository flRepository;
+	@Autowired
+	IncomeRepository incRepository;
 	@Autowired
 	DestinationRepository destRepository;
+	
+	/*
+	 * konverteri za one koje on vezuje i njega
+	 */
 	@Autowired
 	DTODestinationConverter destConverter;
+	@Autowired
+	DTOAvioCompanyConverter avioConverter;
 	
 	
 	@Override
@@ -66,25 +77,26 @@ public class AvioCompanyServiceImpl implements IAvioCompanyService
 		
 	}
 
-	//kontam za save i change se uzimaju strani kljucevi samo ako zavise od njih, u suprotnom ne
 	@Override
 	public AvioCompanyDTO save(AvioCompanyDTO companyToSave)
 	{
-//		Optional<Destination> destination = destRepository.findById(companyToSave.getDestination().getId());
-//		
-//		//proveravamo da li postoji ta destinacija prvo (ne moze kompanije bez postojece destinacije da se kreira)
-//		if(destination.isPresent())
-//		{
+		//prvo proveravamo da li postoji destinacija
+		Optional<Destination> destService = destRepository.findById(companyToSave.getId());
+		
+		if(destService.isPresent())
+		{
 			avioRepository.save(avioConverter.convertFromDTO(companyToSave));
 
 			return companyToSave;
-//		}
+		}
 		
-		//u suprotnom samo snimi novi prazan objekat
-//		return new AvioCompanyDTO();
-		
+		return new AvioCompanyDTO();
 	}
 
+	/*
+	 * (non-Javadoc) Stavljamo prazan objekat u sve one koji su vezani sa ovim
+	 * @see com.ftn.isa.projekat.avioCompany.avioCompanyCore.AvioCompany.service.IAvioCompanyService#changeAvioCompany(java.lang.Long, com.ftn.isa.projekat.avioCompany.avioCompanyApi.dto.AvioCompanyDTO)
+	 */
 	@Override
 	public AvioCompanyDTO deleteById(Long id)
 	{
@@ -92,6 +104,28 @@ public class AvioCompanyServiceImpl implements IAvioCompanyService
 		
 		if(companyToDelete.isPresent())
 		{
+			/*
+			 * ponistavamo sve letove iz ove kompanije
+			 */
+			AvioCompany avio = new AvioCompany();
+			
+			for(Flight flight : companyToDelete.get().getFlights())
+			{
+				flight.setAvioCompany(avio);
+				
+				flRepository.save(flight);
+			}
+			
+			/*
+			 * postavljamo prihod za sve te aviokompanije na 0
+			 */
+			for(Income income : companyToDelete.get().getIncomes())
+			{
+				income.setCompanyId(avio);
+				
+				incRepository.save(income);
+			}
+			
 			avioRepository.deleteById(id);
 			return avioConverter.convertToDTO(companyToDelete.get());
 		}
@@ -100,6 +134,7 @@ public class AvioCompanyServiceImpl implements IAvioCompanyService
 
 	}
 
+	
 	@Override
 	public AvioCompanyDTO changeAvioCompany(Long id, AvioCompanyDTO avioDto)
 	{
@@ -108,20 +143,20 @@ public class AvioCompanyServiceImpl implements IAvioCompanyService
 		if(companyChange.isPresent() && avioDto != null)
 		{
 			
-//			Optional<Destination> dest = destRepository.findById(avioDto.getDestination().getId());
-			//provera i za destinaciju da li postoji
-//			if(dest.isPresent())
-//			{
+			Optional<Destination> destService = destRepository.findById(avioDto.getDestination().getId());
+			
+			if(destService.isPresent())
+			{
 				companyChange.get().setName(avioDto.getName());
 				companyChange.get().setAddress(avioDto.getAddress());
 				companyChange.get().setDescription(avioDto.getDescription());
-				
+					
 				avioRepository.save(companyChange.get());
-				
+					
 				avioDto.setId(companyChange.get().getId());
-				
+					
 				return avioDto;
-//			}
+			}
 			
 		}
 		
@@ -130,7 +165,7 @@ public class AvioCompanyServiceImpl implements IAvioCompanyService
 	
 	/*
 	 * 
-	 * Prosecna ocena za kompaniju
+	 * Prosecna ocena za kompaniju (sad po novom treba da se opravi..)
 	 */
 
 	@Override

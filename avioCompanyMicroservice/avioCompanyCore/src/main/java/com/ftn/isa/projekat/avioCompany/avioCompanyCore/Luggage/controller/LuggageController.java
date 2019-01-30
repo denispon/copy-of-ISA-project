@@ -80,7 +80,8 @@ public class LuggageController
 	@ApiResponses( value = { 
 			 @ApiResponse( code = 200, message ="OK"),
 			 @ApiResponse( code = 404, message ="Not Found")})	
-	public ResponseEntity<LuggageDTO> deleteLuggage(@PathVariable("id") Long id){
+	public ResponseEntity<LuggageDTO> deleteLuggage(@PathVariable("id") Long id)
+	{
 		LuggageDTO deletedCompanyDTO = luggageService.deleteById(id);
 		
 		return (deletedCompanyDTO.getId() != null ) ? new ResponseEntity<LuggageDTO>(deletedCompanyDTO,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -92,7 +93,7 @@ public class LuggageController
 	@ApiResponses( value = { 
 			 @ApiResponse( code = 200, message ="OK"),
 			 @ApiResponse( code = 400, message ="Bad Request")})
-	public ResponseEntity<LuggageDTO> changeBranch (@PathVariable("id") Long id, @RequestBody LuggageDTO luggageDto){
+	public ResponseEntity<LuggageDTO> changeLuggage(@PathVariable("id") Long id, @RequestBody LuggageDTO luggageDto){
 		
 		LuggageDTO companyToEdit = luggageService.changeLuggage(id, luggageDto);
 	
