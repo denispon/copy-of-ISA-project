@@ -70,18 +70,18 @@ public class AvioCompanyServiceImpl implements IAvioCompanyService
 	@Override
 	public AvioCompanyDTO save(AvioCompanyDTO companyToSave)
 	{
-		Optional<Destination> destination = destRepository.findById(companyToSave.getDestination().getId());
-		
-		//proveravamo da li postoji ta destinacija prvo (ne moze kompanije bez postojece destinacije da se kreira)
-		if(destination.isPresent())
-		{
+//		Optional<Destination> destination = destRepository.findById(companyToSave.getDestination().getId());
+//		
+//		//proveravamo da li postoji ta destinacija prvo (ne moze kompanije bez postojece destinacije da se kreira)
+//		if(destination.isPresent())
+//		{
 			avioRepository.save(avioConverter.convertFromDTO(companyToSave));
 
 			return companyToSave;
-		}
+//		}
 		
 		//u suprotnom samo snimi novi prazan objekat
-		return new AvioCompanyDTO();
+//		return new AvioCompanyDTO();
 		
 	}
 
@@ -108,10 +108,10 @@ public class AvioCompanyServiceImpl implements IAvioCompanyService
 		if(companyChange.isPresent() && avioDto != null)
 		{
 			
-			Optional<Destination> dest = destRepository.findById(avioDto.getDestination().getId());
+//			Optional<Destination> dest = destRepository.findById(avioDto.getDestination().getId());
 			//provera i za destinaciju da li postoji
-			if(dest.isPresent())
-			{
+//			if(dest.isPresent())
+//			{
 				companyChange.get().setName(avioDto.getName());
 				companyChange.get().setAddress(avioDto.getAddress());
 				companyChange.get().setDescription(avioDto.getDescription());
@@ -121,7 +121,7 @@ public class AvioCompanyServiceImpl implements IAvioCompanyService
 				avioDto.setId(companyChange.get().getId());
 				
 				return avioDto;
-			}
+//			}
 			
 		}
 		

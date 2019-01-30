@@ -23,6 +23,4 @@ public class LuggageDTO
 	private int length;
 	
 	private TicketDTO ticket;
-	
-	
 }

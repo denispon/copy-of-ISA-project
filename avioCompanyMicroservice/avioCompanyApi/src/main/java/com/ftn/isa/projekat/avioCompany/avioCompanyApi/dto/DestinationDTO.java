@@ -12,10 +12,5 @@ public class DestinationDTO
 	private Long id;
 	private String name;
 	
-	//private AvioCompanyDTO avioCompany;
-	//private FlightDTO flightTakeOff;
-	private FlightDTO flightLanding;
-	
-	//da li se pravi zaseban DTO za Many TO many??!?
-
+	private AvioCompanyDTO avioCompany;
 }

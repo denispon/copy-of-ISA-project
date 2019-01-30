@@ -35,9 +35,7 @@ public class DTOFlightConverter
 		dto.setTicketsSold(bean.getTicketsSold());
 		dto.setTravelType(bean.getTravelType());
 		
-		//dto.setDestinationTakeOff(destConverter.convertToDto(bean.getDestinationTakeOff()));
-		//dto.setDestinationLanding(destConverter.convertToDto(bean.getDestinationLanding()));
-		//dto.setAvioCompany(companyConverter.convertToDTO(bean.getAvioCompany()));
+		dto.setAvioCompany(companyConverter.convertToDTO(bean.getAvioCompany()));
 		
 		return dto;
 		
@@ -62,10 +60,7 @@ public class DTOFlightConverter
 		bean.setTicketsSold(dto.getTicketsSold());
 		bean.setTravelType(dto.getTravelType());
 		
-		//ovde isto moraju 2 cast-a
-		//bean.setDestinationTakeOff((Destination) destConverter.convertFromDTO(dto.getDestinationTakeOff()));
-		//bean.setDestinationLanding((Destination) destConverter.convertFromDTO(dto.getDestinationLanding()));
-		//bean.setAvioCompany(companyConverter.convertFromDTO(dto.getAvioCompany()));
+		bean.setAvioCompany(companyConverter.convertFromDTO(dto.getAvioCompany()));
 		
 		
 		return bean;

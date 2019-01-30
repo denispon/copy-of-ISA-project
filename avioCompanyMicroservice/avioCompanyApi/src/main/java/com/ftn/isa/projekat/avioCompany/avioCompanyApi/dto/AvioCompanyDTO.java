@@ -21,8 +21,5 @@ public class AvioCompanyDTO //uradjen
 	private String address;
 	private String description;
 	
-	private DestinationDTO destination;
-	private IncomeDTO income;
-	//ne pisu se one koje nemaju kolonu u tom modelu (dakle liste)
 	
 }

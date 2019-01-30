@@ -70,7 +70,7 @@ public class DestinationServiceImpl implements IDestinationService
 	public DestinationDTO save(DestinationDTO dto) 
 	{
 		//ne kapiram zasto ovde baca
-		//destRepository.save(destConverter.convertFromDTO(dto));
+		destRepository.save(destConverter.convertFromDTO(dto));
 		
 		//ovde je trebalo samo da se sacuva jer kad bi stavio i ovde uslov da ne sme aviokompanija da bude prazna nebi se moglo sacuvati ni jedno ni drugo
 		return dto;

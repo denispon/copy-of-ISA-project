@@ -15,7 +15,6 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -58,20 +57,20 @@ public class Flight
 	
 	
 	/*
-	 * List of destinations for takeoff
+	 * Destinacija za poletanje
 	 */
 	@JsonIgnore
-	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn (name = "destination_takeoff")
-	private Destination destinationTakeOff;
+	@ManyToOne()
+	@JoinColumn(name = "takeOffDestinationId", nullable = false)
+	private Destination takeOffDestination;
 	
 	/*
-	 * List of destinations for takeoff
+	 * Destinacija za sletanje
 	 */
 	@JsonIgnore
-	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn (name = "destination_landing")
-	private Destination destinationLanding;
+	@ManyToOne()
+	@JoinColumn(name = "landingDestinationId", nullable = false)
+	private Destination landingDestination;
 	
 	/*
 	 * List of locations where transfer is possible

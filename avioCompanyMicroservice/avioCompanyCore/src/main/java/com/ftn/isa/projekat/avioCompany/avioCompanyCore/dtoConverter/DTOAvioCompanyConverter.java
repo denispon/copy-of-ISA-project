@@ -22,8 +22,6 @@ public class DTOAvioCompanyConverter
 	@Autowired 
 	private DTOIncomeConverter incomeConverter;
 	
-	//ovde sto se doda u konverteru on ce to da vrati preko json-a u postman-u
-	
 	
 	/*
 	 * Returns DTO object from regular model object
@@ -36,8 +34,6 @@ public class DTOAvioCompanyConverter
 		dto.setAddress(avio.getAddress());
 		dto.setName(avio.getName());
 		dto.setDescription(avio.getDescription());
-		//dto.setDestination(destConverter.convertToDto(avio.getDestination()));
-		//dto.setIncome(incomeConverter.convertToDTO(avio.getIncome()));
 		
 		return dto;
 	}
@@ -56,10 +52,6 @@ public class DTOAvioCompanyConverter
 		bean.setName(dto.getName());
 		bean.setAddress(dto.getAddress());
 		bean.setDescription(dto.getDescription());
-		//***********************************************
-		//bean.setDestination((Destination) destConverter.convertFromDTO(dto.getDestination())); //zasto ovde cast mora??
-		//***********************************************
-		//bean.setIncome(incomeConverter.convertFromDTO(dto.getIncome()));
 		
 		return bean;
 	}

@@ -124,7 +124,7 @@ public class FlightController
 	}
 	
 	/*
-	 * Cancel flight (returns true if cancel is allowed)
+	 * Cancel flight (returns true if operation is allowed)
 	 */
 	@GetMapping("/cancelFlight/{id}")
 	public ResponseEntity<Boolean> ifFlightCanceled(@PathVariable("id") Long flightId)

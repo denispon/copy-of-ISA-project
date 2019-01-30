@@ -43,12 +43,11 @@ public class AvioCompany
 		
 	
 	/*
-	 * One airline - one destination
+	 * Jedan airline - vise destinacija na kojima posluje
 	 */
 	@JsonIgnore
-	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "destination_id")
-	private Destination destination;
+	@OneToMany(mappedBy="avioCompany", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<Destination> destinations;
 	
 	/*
 	 * List of flights
@@ -59,12 +58,11 @@ public class AvioCompany
 	
 	
 	/*
-	 * Income for one aviocompany
+	 * List of incomes
 	 */
 	@JsonIgnore
-	@OneToOne (fetch = FetchType.LAZY) //bez ovog mapped by bi se kreirala medjutabela koja bi sadrzala id jedne i druge klase
-	@JoinColumn(name = "income_id")
-	private Income income;
+	@OneToMany (mappedBy = "companyId", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<Income> incomes;
 	
 	
 	//************************************************

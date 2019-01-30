@@ -37,7 +37,7 @@ public class DTODestinationConverter
 		return dto;
 	}
 
-	public Object convertFromDTO(DestinationDTO dto)
+	public Destination convertFromDTO(DestinationDTO dto)
 	{
 		Optional<Destination> destination = destRepository.findById(dto.getId());
 		

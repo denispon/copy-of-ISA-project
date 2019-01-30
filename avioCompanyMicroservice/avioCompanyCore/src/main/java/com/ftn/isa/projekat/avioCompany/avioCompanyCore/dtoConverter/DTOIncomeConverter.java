@@ -37,7 +37,7 @@ public class DTOIncomeConverter
 		dto.setIncomeDate(bean.getIncomeDate());
 		dto.setTicketsNumnber(bean.getTicketsNumber());
 		
-		//dto.setCompanyId(avioConverter.convertToDTO(bean.getCompanyId()));
+		dto.setCompanyId(avioConverter.convertToDTO(bean.getCompanyId()));
 		
 		return dto;
 	}
@@ -57,7 +57,7 @@ public class DTOIncomeConverter
 		bean.setIncomeDate(dto.getIncomeDate());
 		bean.setTicketsNumber(dto.getTicketsNumnber());
 		
-		//bean.setCompanyId(avioConverter.convertFromDTO(dto.getCompanyId()));
+		bean.setCompanyId(avioConverter.convertFromDTO(dto.getCompanyId()));
 		
 		return bean;
 	}
