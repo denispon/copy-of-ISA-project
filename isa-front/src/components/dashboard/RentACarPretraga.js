@@ -34,23 +34,23 @@ class RentACarPretraga extends Component {
                                 <input type="text" id='lokacija_ostavljanja' />
                             </div>
 
-                            <div className="input-field">
+                            <div>
                                 <label htmlFor="datum_preuzimanja" className="active">Datum preuzimanja</label>
                                 <input type="date" id='datum_preuzimanja' className="datepicker" />
                             </div>
 
-                            <div className="input-field">
+                            <div>
                                 <label htmlFor="vreme_preuzimanja" className="active">Vreme preuzimanja</label>
                                 <input type="time" id='vreme_preuzimanja' />
                             </div>
 
 
-                            <div className="input-field">
+                            <div>
                                 <label htmlFor="datum_ostavljanja" className="active">Datum ostavljanja</label>
                                 <input type="date" id='datum_ostavljanja' className="datepicker" />
                             </div>
 
-                            <div className="input-field">
+                            <div>
                                 <label htmlFor="vreme_ostavljanja" className="active">Vreme ostavljanja</label>
                                 <input type="time" id='vreme_ostavljanja' />
                             </div>

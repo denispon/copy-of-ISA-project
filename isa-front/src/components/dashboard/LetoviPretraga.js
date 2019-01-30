@@ -74,11 +74,11 @@ class LetoviPretraga extends Component {
                                 <input type="text" id='mesto_polaska' />
                             </div>
 
-                            <div className="input-field">
+                            <div>
                                 <label htmlFor="datum_polaska" className="active">Datum polaska</label>
                                 <input type="date" id='datum_polaska' className="datepicker" />
                             </div>
-                            <div className="input-field">
+                            <div>
                                 <label htmlFor="datum_dolaska" className="active">Datum dolaska</label>
                                 <input type="date" id='datum_dolaska' className="datepicker" />
                             </div>

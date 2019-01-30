@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
-import UserLoggedTabs from '../layout/UserLoggedTabs';
+import UserLoggedTabs from '../../layout/tabs/UserLoggedTabs';
 import { connect } from 'react-redux'
-import { createHotel } from '../../store/actions/HotelActions'
+import { createHotel } from '../../../store/actions/HotelActions'
 
 class CreateHotel extends Component {
 

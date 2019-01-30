@@ -17,7 +17,13 @@ import UserReservations from './components/dashboard/reservation/UserReservation
 import ShoppingCart from './components/dashboard/reservation/ShoppingCart';
 import DashboardMainAdminLogged from './components/dashboard/mainAdmin/DashboardMainAdminLogged';
 import DashboardRentACarAdminLogged from './components/dashboard/rentACarAdmin/DashboardRentACarAdminLogged';
-import CreateHotel from './components/dashboard/CreateHotel';
+import CreateHotel from './components/dashboard/dodavanjaHotel/CreateHotel';
+import CreateTipSobe from './components/dashboard/dodavanjaHotel/CreateTipSobe';
+import CreateHotelskaSoba from './components/dashboard/dodavanjaHotel/CreateHotelskaSoba';
+import CreateCenaSobe from './components/dashboard/dodavanjaHotel/CreateCenaSobe';
+import CreateRezervacijaSobe from './components/dashboard/dodavanjaHotel/CreateRezervacijaSobe';
+import CreateDodatnaUsluga from './components/dashboard/dodavanjaHotel/CreateDodatnaUsluga';
+import CreatePrihodHotela from "./components/dashboard/dodavanjaHotel/CreatePrihodHotela";
 
 
 class App extends Component {
@@ -43,6 +49,12 @@ class App extends Component {
             <Route path="/prijavaKorisnika" component={PrijavaKorisnika}></Route>
             <Route path="/registracijaKorisnika" component={RegistracijaKorisnika}></Route>
             <Route path="/createHotel" component={CreateHotel}></Route>
+            <Route path = "/createRoomType" component = {CreateTipSobe}></Route>
+            <Route path = "/createHotelRoom" component = {CreateHotelskaSoba}></Route>
+            <Route path = "/createRoomPrice" component = {CreateCenaSobe}></Route>
+            <Route path = "/createRoomReservation" component = {CreateRezervacijaSobe}></Route>
+            <Route path = "/createAdditionalService" component = {CreateDodatnaUsluga}></Route>
+            <Route path = "/createHotelIncome" component = {CreatePrihodHotela}></Route>
             <Route path="/userReservations" component={UserReservations}></Route>
           </Switch>
         </div>
