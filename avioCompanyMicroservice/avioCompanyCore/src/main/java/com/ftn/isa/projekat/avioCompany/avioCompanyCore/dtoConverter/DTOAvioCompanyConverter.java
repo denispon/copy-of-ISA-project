@@ -9,6 +9,7 @@ import com.ftn.isa.projekat.avioCompany.avioCompanyApi.dto.AvioCompanyDTO;
 import com.ftn.isa.projekat.avioCompany.avioCompanyCore.AvioCompany.model.AvioCompany;
 import com.ftn.isa.projekat.avioCompany.avioCompanyCore.AvioCompany.repository.AvioCompanyRepository;
 import com.ftn.isa.projekat.avioCompany.avioCompanyCore.Destination.model.Destination;
+import com.ftn.isa.projekat.avioCompany.avioCompanyCore.Destination.repository.DestinationRepository;
 
 @Component
 public class DTOAvioCompanyConverter 
@@ -18,9 +19,6 @@ public class DTOAvioCompanyConverter
 	
 	@Autowired
 	private DTODestinationConverter destConverter;
-	
-	@Autowired 
-	private DTOIncomeConverter incomeConverter;
 	
 	
 	/*
@@ -34,6 +32,8 @@ public class DTOAvioCompanyConverter
 		dto.setAddress(avio.getAddress());
 		dto.setName(avio.getName());
 		dto.setDescription(avio.getDescription());
+		
+		dto.setDestination(destConverter.convertToDto(avio.getDestination()));
 		
 		return dto;
 	}
@@ -52,6 +52,8 @@ public class DTOAvioCompanyConverter
 		bean.setName(dto.getName());
 		bean.setAddress(dto.getAddress());
 		bean.setDescription(dto.getDescription());
+		
+		bean.setDestination(destConverter.convertFromDTO(dto.getDestination()));
 		
 		return bean;
 	}

@@ -2,7 +2,6 @@ package com.ftn.isa.projekat.avioCompany.avioCompanyCore.Flight.service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.Month;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -14,9 +13,12 @@ import org.springframework.stereotype.Service;
 import com.ftn.isa.projekat.avioCompany.avioCompanyApi.dto.FlightDTO;
 import com.ftn.isa.projekat.avioCompany.avioCompanyCore.AvioCompany.model.AvioCompany;
 import com.ftn.isa.projekat.avioCompany.avioCompanyCore.AvioCompany.repository.AvioCompanyRepository;
+import com.ftn.isa.projekat.avioCompany.avioCompanyCore.Destination.model.Destination;
 import com.ftn.isa.projekat.avioCompany.avioCompanyCore.Destination.repository.DestinationRepository;
 import com.ftn.isa.projekat.avioCompany.avioCompanyCore.Flight.model.Flight;
 import com.ftn.isa.projekat.avioCompany.avioCompanyCore.Flight.repository.FlightRepository;
+import com.ftn.isa.projekat.avioCompany.avioCompanyCore.Ticket.model.Ticket;
+import com.ftn.isa.projekat.avioCompany.avioCompanyCore.Ticket.repository.TicketRepository;
 import com.ftn.isa.projekat.avioCompany.avioCompanyCore.dtoConverter.DTOAvioCompanyConverter;
 import com.ftn.isa.projekat.avioCompany.avioCompanyCore.dtoConverter.DTODestinationConverter;
 import com.ftn.isa.projekat.avioCompany.avioCompanyCore.dtoConverter.DTOFlightConverter;
@@ -27,12 +29,18 @@ public class FlightServiceImpl implements IFlightService
 	@Autowired
 	FlightRepository flRepo;
 	@Autowired
-	DTOFlightConverter flConv;
-	
-	@Autowired
 	AvioCompanyRepository avioRepo;
 	@Autowired
+	DestinationRepository destRepo;
+	@Autowired
+	TicketRepository tickRepo;
+	
+	@Autowired
+	DTOFlightConverter flConv;
+	@Autowired
 	DTOAvioCompanyConverter avioConv;
+	@Autowired
+	DTODestinationConverter destConv;
 
 	@Override
 	public FlightDTO findOneById(Long id)
@@ -68,16 +76,20 @@ public class FlightServiceImpl implements IFlightService
 	public FlightDTO save(FlightDTO dto) 
 	{
 		//samo provera za airline, ako to postoji postoji sigurno i ta destinacija, pa ne moram eksplicitno proveravati destinaciju
-		//Optional<AvioCompany> avio = avioRepo.findById(dto.getAvioCompany().getId());
+		Optional<AvioCompany> avio = avioRepo.findById(dto.getAvioCompany().getId());
+		Optional<Destination> destTake = destRepo.findById(dto.getDestinationTakeOff().getId());
+		Optional<Destination> destLan = destRepo.findById(dto.getDestinationLanding().getId());
 		
-		//if(avio.isPresent())
-		//{
+		
+		if(avio.isPresent() && destTake.isPresent() && destLan.isPresent())
+		{
+			
 			flRepo.save(flConv.convertFromDTO(dto));
 			
 			return dto;
-		//}
+		}
 				
-		//return new FlightDTO();
+		return new FlightDTO();
 	}
 
 	@Override
@@ -87,6 +99,16 @@ public class FlightServiceImpl implements IFlightService
 		
 		if(flDel.isPresent())
 		{
+			//sad brisemo sve karte vezane za ovaj let
+			Flight flight = new Flight();
+			
+			for(Ticket tick : flDel.get().getTickets()) //ovaj for baca error
+			{
+				tick.setFlight(flight);
+				System.out.println(tick.getPrice());
+				tickRepo.save(tick);
+			}
+			
 			flRepo.deleteById(id);
 			return flConv.convertToDTO(flDel.get());
 		}
@@ -94,6 +116,10 @@ public class FlightServiceImpl implements IFlightService
 		return null;
 	}
 
+	/*
+	 * Podesiti da se moze menjati sve osim destinacije poletanja
+	 * @see com.ftn.isa.projekat.avioCompany.avioCompanyCore.Flight.service.IFlightService#changeFlight(java.lang.Long, com.ftn.isa.projekat.avioCompany.avioCompanyApi.dto.FlightDTO)
+	 */
 	@Override
 	public FlightDTO changeFlight(Long id, FlightDTO dto)
 	{
@@ -105,19 +131,29 @@ public class FlightServiceImpl implements IFlightService
 			
 			if(avio.isPresent())
 			{
-				flUpdate.get().setTakeOffTime(dto.getTakeOffTime());
-				flUpdate.get().setLandingTime(dto.getLandingTime());
-				flUpdate.get().setFlightLength(dto.getFlightLength());
-				flUpdate.get().setNumberOfTransfers(dto.getNumberOfTransfers());
-				flUpdate.get().setAllTickets(dto.getAllTickets());
-				flUpdate.get().setTicketsSold(dto.getTicketsSold());
-				flUpdate.get().setTravelType(dto.getTravelType());
 				
-				flRepo.save(flUpdate.get());
+				Optional<Destination> destService = destRepo.findById(dto.getDestinationLanding().getId());
 				
-				dto.setId(flUpdate.get().getId());
+				if(destService.isPresent())
+				{
+					flUpdate.get().setTakeOffTime(dto.getTakeOffTime());
+					flUpdate.get().setLandingTime(dto.getLandingTime());
+					flUpdate.get().setFlightLength(dto.getFlightLength());
+					flUpdate.get().setNumberOfTransfers(dto.getNumberOfTransfers());
+					flUpdate.get().setAllTickets(dto.getAllTickets());
+					flUpdate.get().setTicketsSold(dto.getTicketsSold());
+					flUpdate.get().setTravelType(dto.getTravelType());
+					
+					flUpdate.get().setLandingDestination(destConv.convertFromDTO(dto.getDestinationLanding()));
+					
+					flRepo.save(flUpdate.get());
+					
+					dto.setId(flUpdate.get().getId());
+					
+					return dto;
+				}
 				
-				return dto;
+				
 			}
 			
 			

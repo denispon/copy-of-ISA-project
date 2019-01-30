@@ -9,14 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ftn.isa.projekat.avioCompany.avioCompanyApi.dto.DestinationDTO;
-import com.ftn.isa.projekat.avioCompany.avioCompanyCore.AvioCompany.model.AvioCompany;
-import com.ftn.isa.projekat.avioCompany.avioCompanyCore.AvioCompany.repository.AvioCompanyRepository;
 import com.ftn.isa.projekat.avioCompany.avioCompanyCore.Destination.model.Destination;
 import com.ftn.isa.projekat.avioCompany.avioCompanyCore.Destination.repository.DestinationRepository;
-import com.ftn.isa.projekat.avioCompany.avioCompanyCore.Flight.repository.FlightRepository;
-import com.ftn.isa.projekat.avioCompany.avioCompanyCore.dtoConverter.DTOAvioCompanyConverter;
 import com.ftn.isa.projekat.avioCompany.avioCompanyCore.dtoConverter.DTODestinationConverter;
-import com.ftn.isa.projekat.avioCompany.avioCompanyCore.dtoConverter.DTOFlightConverter;
 
 @Service
 public class DestinationServiceImpl implements IDestinationService
@@ -26,15 +21,6 @@ public class DestinationServiceImpl implements IDestinationService
 	@Autowired
 	DTODestinationConverter destConverter;
 	
-	@Autowired
-	AvioCompanyRepository avioRepository;
-	@Autowired
-	DTOAvioCompanyConverter avioConverter;
-	
-	@Autowired
-	FlightRepository flRepository;
-	@Autowired
-	DTOFlightConverter flConverter;
 
 	@Override
 	public DestinationDTO findOneById(Long id)
@@ -69,10 +55,8 @@ public class DestinationServiceImpl implements IDestinationService
 	@Override
 	public DestinationDTO save(DestinationDTO dto) 
 	{
-		//ne kapiram zasto ovde baca
 		destRepository.save(destConverter.convertFromDTO(dto));
 		
-		//ovde je trebalo samo da se sacuva jer kad bi stavio i ovde uslov da ne sme aviokompanija da bude prazna nebi se moglo sacuvati ni jedno ni drugo
 		return dto;
 	}
 

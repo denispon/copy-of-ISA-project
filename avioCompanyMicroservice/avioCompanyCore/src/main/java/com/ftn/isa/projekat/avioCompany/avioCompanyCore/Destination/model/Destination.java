@@ -38,9 +38,8 @@ public class Destination
 	 * AvioCompany
 	 */
 	@JsonIgnore
-	@ManyToOne()
-	@JoinColumn(name = "avioCompanyId", nullable = false)
-	private AvioCompany avioCompany;
+	@OneToMany(mappedBy="destination", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<AvioCompany> companies;
 	
 	
 	/*

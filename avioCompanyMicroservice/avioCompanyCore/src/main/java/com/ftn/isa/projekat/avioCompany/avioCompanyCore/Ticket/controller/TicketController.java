@@ -85,9 +85,9 @@ public class TicketController
 	@ApiResponses( value = { 
 			 @ApiResponse( code = 200, message ="OK"),
 			 @ApiResponse( code = 400, message ="Bad Request")})
-	public ResponseEntity<TicketDTO> changeTicket (@PathVariable("id") Long id, @RequestBody TicketDTO TicketDTO ){
+	public ResponseEntity<TicketDTO> changeTicket (@PathVariable("id") Long id, @RequestBody TicketDTO tdto ){
 		
-		TicketDTO dto = service.changeTicket(id, TicketDTO);
+		TicketDTO dto = service.changeTicket(id, tdto);
 	
 	    return ( dto.getId() != null )? new ResponseEntity<TicketDTO>(dto,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
