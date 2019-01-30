@@ -36,14 +36,18 @@ class App extends Component {
         <div className="App">
           <Navbar />
           <Switch>
+            <Route exact path="/" component={DashboardRentACarAdminLogged}></Route>
             <Route exact path="/" component={DashboardMainAdminLogged}></Route>
             <Route exact path="/" component={DashboardUserLogged}></Route>
-            <Route exact path="/" component={DashboardRentACarAdminLogged}></Route>
 
+
+            <Route path="/userReservations" component={UserReservations}></Route>
             <Route exact path="/invitations" component={InvitationPage} />
             <Route path="/friends" component={Friends}></Route>
             <Route path="/korpa" component={ShoppingCart}></Route>
             <Route path="/userProfile" component={UserProfile}></Route>
+
+
             <Route path="/smestaj" component={HotelPretraga}></Route>
             <Route path="/letovi" component={LetoviPretraga}></Route>
             <Route path="/vozila" component={RentACarPretraga}></Route>
@@ -59,7 +63,7 @@ class App extends Component {
             <Route path="/createRoomReservation" component={CreateRezervacijaSobe}></Route>
             <Route path="/createAdditionalService" component={CreateDodatnaUsluga}></Route>
             <Route path="/createHotelIncome" component={CreatePrihodHotela}></Route>
-            <Route path="/userReservations" component={UserReservations}></Route>
+
           </Switch>
         </div>
       </BrowserRouter>
