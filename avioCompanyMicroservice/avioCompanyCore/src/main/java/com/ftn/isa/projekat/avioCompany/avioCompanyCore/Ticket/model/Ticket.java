@@ -62,7 +62,7 @@ public class Ticket
 	 * Luggage for one ticket
 	 */
 	@JsonIgnore
-	@OneToMany(mappedBy = "ticket", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "ticket", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Luggage> luggage;
 	
 }

@@ -29,6 +29,7 @@ public class IncomeServiceImpl implements IIncomeService
 	
 	@Autowired
 	DTOIncomeConverter incomeConverter;
+	//takodje uvezujemo i convertere ovih repozitorijuma (u ovom sl to je jedan)
 	@Autowired
 	DTOAvioCompanyConverter companyConverter;
 	

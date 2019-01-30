@@ -102,10 +102,10 @@ public class FlightServiceImpl implements IFlightService
 			//sad brisemo sve karte vezane za ovaj let
 			Flight flight = new Flight();
 			
-			for(Ticket tick : flDel.get().getTickets()) //ovaj for baca error
+			for(Ticket tick : flDel.get().getTickets())
 			{
 				tick.setFlight(flight);
-				System.out.println(tick.getPrice());
+				
 				tickRepo.save(tick);
 			}
 			
@@ -116,10 +116,6 @@ public class FlightServiceImpl implements IFlightService
 		return null;
 	}
 
-	/*
-	 * Podesiti da se moze menjati sve osim destinacije poletanja
-	 * @see com.ftn.isa.projekat.avioCompany.avioCompanyCore.Flight.service.IFlightService#changeFlight(java.lang.Long, com.ftn.isa.projekat.avioCompany.avioCompanyApi.dto.FlightDTO)
-	 */
 	@Override
 	public FlightDTO changeFlight(Long id, FlightDTO dto)
 	{
@@ -131,29 +127,19 @@ public class FlightServiceImpl implements IFlightService
 			
 			if(avio.isPresent())
 			{
+				flUpdate.get().setTakeOffTime(dto.getTakeOffTime());
+				flUpdate.get().setLandingTime(dto.getLandingTime());
+				flUpdate.get().setFlightLength(dto.getFlightLength());
+				flUpdate.get().setNumberOfTransfers(dto.getNumberOfTransfers());
+				flUpdate.get().setAllTickets(dto.getAllTickets());
+				flUpdate.get().setTicketsSold(dto.getTicketsSold());
+				flUpdate.get().setTravelType(dto.getTravelType());
 				
-				Optional<Destination> destService = destRepo.findById(dto.getDestinationLanding().getId());
+				flRepo.save(flUpdate.get());
 				
-				if(destService.isPresent())
-				{
-					flUpdate.get().setTakeOffTime(dto.getTakeOffTime());
-					flUpdate.get().setLandingTime(dto.getLandingTime());
-					flUpdate.get().setFlightLength(dto.getFlightLength());
-					flUpdate.get().setNumberOfTransfers(dto.getNumberOfTransfers());
-					flUpdate.get().setAllTickets(dto.getAllTickets());
-					flUpdate.get().setTicketsSold(dto.getTicketsSold());
-					flUpdate.get().setTravelType(dto.getTravelType());
-					
-					flUpdate.get().setLandingDestination(destConv.convertFromDTO(dto.getDestinationLanding()));
-					
-					flRepo.save(flUpdate.get());
-					
-					dto.setId(flUpdate.get().getId());
-					
-					return dto;
-				}
+				dto.setId(flUpdate.get().getId());
 				
-				
+				return dto;
 			}
 			
 			

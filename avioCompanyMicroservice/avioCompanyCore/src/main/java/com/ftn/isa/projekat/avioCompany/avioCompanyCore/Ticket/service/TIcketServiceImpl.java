@@ -19,7 +19,7 @@ import com.ftn.isa.projekat.avioCompany.avioCompanyCore.dtoConverter.DTOFlightCo
 import com.ftn.isa.projekat.avioCompany.avioCompanyCore.dtoConverter.DTOTicketConverter;
 
 @Service
-public class TicketServiceImpl implements ITicketService
+public class TIcketServiceImpl implements ITicketService
 {
 	@Autowired
 	TicketRepository tickRepo;;
@@ -121,8 +121,6 @@ public class TicketServiceImpl implements ITicketService
 				change.get().setRating(dto.getRating());
 				change.get().setPrice(dto.getPrice());
 				change.get().setIsBought(dto.getIsBought());
-				
-				//ne treba dozvoliti da se moze menjati let
 				
 				tickRepo.save(change.get());
 				
