@@ -1,8 +1,11 @@
 package com.ftn.isa.projekat.avioCompany.avioCompanyCore.Income.controller;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -104,5 +107,24 @@ public class IncomeController
 		return (editIncome.getId() != null) ? new ResponseEntity<IncomeDTO>(editIncome, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
 	
-	
+	/*
+	 * (RADI)
+	 * Prosledjuju se id kompanije za koju se trazi suma prihoda, pocetni i krajnji datum
+	 */
+	@GetMapping("/getsum/{id}/{startDate}/{endDate}")
+	@ApiOperation(value = "Return sum of incomes for concrete time period.", httpMethod = "GET")
+	@ApiResponses(value = {@ApiResponse(code = 200, message = "OK"),
+						   @ApiResponse(code = 400, message = "BAD REQUEST")
+	})
+	public ResponseEntity<Float> getSumOfIncomes(@PathVariable("id") Long id, @PathVariable("startDate") String startDate, @PathVariable("endDate") String endDate)
+	{
+		DateTimeFormatter format = DateTimeFormatter.ISO_DATE_TIME;//DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
+		
+		String st = LocalDateTime.parse(startDate).format(format);
+		String end = LocalDateTime.parse(endDate).format(format);
+		
+		Float sum = incomeService.getSumOfIncomesByDate(id, LocalDateTime.parse(st), LocalDateTime.parse(end));
+		
+		return (sum != null) ? new ResponseEntity<Float>(sum, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST); 
+	}
 }

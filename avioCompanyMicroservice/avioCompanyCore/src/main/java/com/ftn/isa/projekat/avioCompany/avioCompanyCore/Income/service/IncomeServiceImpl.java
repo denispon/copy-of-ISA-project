@@ -2,11 +2,13 @@
 
 package com.ftn.isa.projekat.avioCompany.avioCompanyCore.Income.service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+import org.hibernate.id.IncrementGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,7 +31,6 @@ public class IncomeServiceImpl implements IIncomeService
 	
 	@Autowired
 	DTOIncomeConverter incomeConverter;
-	//takodje uvezujemo i convertere ovih repozitorijuma (u ovom sl to je jedan)
 	@Autowired
 	DTOAvioCompanyConverter companyConverter;
 	
@@ -124,4 +125,20 @@ public class IncomeServiceImpl implements IIncomeService
 		
 	}
 
+	@Override
+	public Float getSumOfIncomesByDate(Long id, LocalDateTime startDate, LocalDateTime endDate)
+	{
+		Optional<Float> sum = incomeRepository.getIncomeByDate(id, startDate, endDate);
+		
+		if(sum.isPresent())
+		{
+			return sum.get();
+		}
+		
+		return null;
+	}
+
+	
+	
+	
 }

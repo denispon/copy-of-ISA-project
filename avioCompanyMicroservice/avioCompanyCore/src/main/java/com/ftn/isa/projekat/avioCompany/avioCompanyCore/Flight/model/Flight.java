@@ -60,7 +60,7 @@ public class Flight
 	 * Destinacija za poletanje
 	 */
 	@JsonIgnore
-	@ManyToOne()
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "takeOffDestinationId", nullable = false)
 	private Destination takeOffDestination;
 	
@@ -68,7 +68,7 @@ public class Flight
 	 * Destinacija za sletanje
 	 */
 	@JsonIgnore
-	@ManyToOne()
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "landingDestinationId", nullable = false)
 	private Destination landingDestination;
 	

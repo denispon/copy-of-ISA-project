@@ -150,6 +150,7 @@ public class AvioCompanyServiceImpl implements IAvioCompanyService
 				companyChange.get().setName(avioDto.getName());
 				companyChange.get().setAddress(avioDto.getAddress());
 				companyChange.get().setDescription(avioDto.getDescription());
+				companyChange.get().setDestination(destConverter.convertFromDTO(avioDto.getDestination()));
 					
 				avioRepository.save(companyChange.get());
 					
