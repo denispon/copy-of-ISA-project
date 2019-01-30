@@ -12,3 +12,14 @@ export const createHotel = (hotel) =>{
     }
 
 }
+
+export const deleteHotel = (hotelId) =>{
+    return (dispatch, getState) =>{
+        //async call to db dodavanje u bazu
+        axios.delete('http://localhost:8092/api/hotel/hotel/'+hotelId)
+            .then(res => {
+            console.log(res);
+      })
+        dispatch({type: 'DELETE_HOTEL', hotelId});
+    }
+}

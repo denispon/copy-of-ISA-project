@@ -13,7 +13,7 @@ const Navbar = () => {
           ISA
         </Link>
 
-        <SingedAdminLinks />
+        <SignedInLinks />
       </div>
     </nav>
   );
@@ -22,5 +22,6 @@ const Navbar = () => {
 export default Navbar;
 /*
 <SignedOutOutLinks />
-<SignedInLinks></SignedInLinks>
+
+<SingedAdminLinks />
 */

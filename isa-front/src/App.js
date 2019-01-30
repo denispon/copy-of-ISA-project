@@ -24,6 +24,8 @@ import CreateCenaSobe from './components/dashboard/dodavanjaHotel/CreateCenaSobe
 import CreateRezervacijaSobe from './components/dashboard/dodavanjaHotel/CreateRezervacijaSobe';
 import CreateDodatnaUsluga from './components/dashboard/dodavanjaHotel/CreateDodatnaUsluga';
 import CreatePrihodHotela from "./components/dashboard/dodavanjaHotel/CreatePrihodHotela";
+import InvitationPage from "./components/dashboard/invitation/InvitationPage";
+import HoteliIzlistavanjeAdmin from "./components/dashboard/izlistavanjeHotelAdmin/HotelIzlistavanjeAdmin"
 
 import LetoviAdminDashboard from "./components/dashboard/letoviAdmin/LetoviAdminDashboard";
 
@@ -38,9 +40,15 @@ class App extends Component {
             <Route exact path="/" component={DashboardRentACarAdminLogged}></Route>
             <Route exact path="/" component={DashboardMainAdminLogged}></Route>
             <Route exact path="/" component={DashboardUserLogged}></Route>
+
+
+            <Route path="/userReservations" component={UserReservations}></Route>
+            <Route exact path="/invitations" component={InvitationPage} />
             <Route path="/friends" component={Friends}></Route>
             <Route path="/korpa" component={ShoppingCart}></Route>
             <Route path="/userProfile" component={UserProfile}></Route>
+
+
             <Route path="/smestaj" component={HotelPretraga}></Route>
             <Route path="/letovi" component={LetoviPretraga}></Route>
             <Route path="/vozila" component={RentACarPretraga}></Route>
@@ -56,7 +64,8 @@ class App extends Component {
             <Route path="/createRoomReservation" component={CreateRezervacijaSobe}></Route>
             <Route path="/createAdditionalService" component={CreateDodatnaUsluga}></Route>
             <Route path="/createHotelIncome" component={CreatePrihodHotela}></Route>
-            <Route path="/userReservations" component={UserReservations}></Route>
+            <Route path="/listaHotelaAdmin" component={HoteliIzlistavanjeAdmin}></Route>
+
           </Switch>
         </div>
       </BrowserRouter>

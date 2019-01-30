@@ -2,8 +2,8 @@ import React from "react"
 import { BrowserRouter, Route } from "react-router-dom"
 import RentACarAdminTabs from "../../layout/tabs/RentACarAdminTabs";
 import AdminRentServiceInfo from "./AdminRentServiceInfo";
-import CarTypeManipulation from "./CarTypeManipulation";
 import CarManipulation from "./CarManipulation";
+import CarDiscountManipulation from "./CarDiscountsManipulation";
 
 const DashboardRentACarAdminLogged = () => {
 
@@ -18,8 +18,8 @@ const DashboardRentACarAdminLogged = () => {
 
                     <div>
                         <Route path="/rentAdminRentService" component={AdminRentServiceInfo}></Route>
-                        <Route path="/rentAdminCarTypes" component={CarTypeManipulation}></Route>
                         <Route path="/rentAdminCars" component={CarManipulation}></Route>
+                        <Route path="/rentAdminDiscounts" component={CarDiscountManipulation}></Route>
                     </div>
                 </div>
             </BrowserRouter>

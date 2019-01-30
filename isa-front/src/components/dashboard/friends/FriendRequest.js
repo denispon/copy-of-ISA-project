@@ -7,9 +7,16 @@ const FriendRequest = () => {
     return (
         <div className="center container">
             <div className="row container center">
-                <p className="col s7">Danijel Venus</p>
-                <a className="waves-effect  waves-light teal btn friendsButton">Dodaj</a>
-                <a className="waves-effect waves-light red btn friendsButton">Odbi</a>
+                <div className="col s6">
+                    <p>Danijel Venus</p>
+                </div>
+                <div className="col s2">
+                    <a className="waves-effect  waves-light teal btn friendsButton">Dodaj</a>
+                </div>
+                <div className="col s2">
+                    <a className="waves-effect waves-light red btn friendsButton">Odbi</a>
+                </div>
+
             </div>
         </div>
     );

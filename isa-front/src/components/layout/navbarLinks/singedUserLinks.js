@@ -10,7 +10,7 @@ const SignedInLinks = () => {
           <NavLink to="/korpa">korpa</NavLink>
         </li>
         <li className="isa_links">
-          <NavLink to="/#">invitacije</NavLink>
+          <NavLink to="/invitations">pozivnice</NavLink>
         </li>
         <li className="isa_links">
           <NavLink to="/userReservations">rezervacije</NavLink>

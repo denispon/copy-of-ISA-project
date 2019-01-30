@@ -8,8 +8,12 @@ const Friend = () => {
     return (
         <div className="center container">
             <div className="row container center">
-                <p className="col s7">Dragan Ivetic</p>
-                <NavLink to="/#" className=" red-text " >Obrisi prijatelja</NavLink>
+                <div className="col s6">
+                    <p >Dragan Ivetic</p>
+                </div>
+                <div className="col s2">
+                    <NavLink to="/#" className=" red-text " >Obrisi prijatelja</NavLink>
+                </div>
 
             </div>
         </div>
