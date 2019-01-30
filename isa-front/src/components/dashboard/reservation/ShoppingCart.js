@@ -12,6 +12,10 @@ const ShoppingCart = () => {
                 <ShoppingCartReservation></ShoppingCartReservation>
 
                 <h5 className="red-text lighten-1" ><strong>Ukupna cena: 10480 din</strong></h5>
+                <p>Bonus poeni</p>
+                <a class="btn-floating btn-small waves-effect waves-light red"><i class="material-icons">-</i></a>
+                0 poena
+                <a class="btn-floating btn-small waves-effect waves-light red"><i class="material-icons">+</i></a>
 
                 <div className="row right">
                     <div className="col s8">

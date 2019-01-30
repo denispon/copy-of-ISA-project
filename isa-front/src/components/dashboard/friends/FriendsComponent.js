@@ -4,6 +4,7 @@ import FriendRequest from "./FriendRequest";
 import Friend from "./Friend";
 import "./friends.css"
 import SendFriendRequest from "./SendFriendRequest";
+import FindFriend from "./FindFriend";
 
 
 const FriendsComponent = () => {
@@ -15,7 +16,10 @@ const FriendsComponent = () => {
 
             <div className="center ">
                 <NavLink to="/dodajPrijatelja">Dodaj novog prijatelja</NavLink>
+                <br />
+                <NavLink to="/#">Pretrazi prijatelje</NavLink>
             </div>
+            <FindFriend />
             <SendFriendRequest />
             <br />
             <br />

@@ -1,4 +1,5 @@
 import React, { Component } from "react"
+import StarRating from "../reservation/StarRating";
 
 
 class ChangeCar extends Component {
@@ -15,8 +16,10 @@ class ChangeCar extends Component {
                         <div className="card-content">
                             <span className="card-title right"><a class="btn-floating btn-small waves-effect waves-light red"><i>x</i></a></span>
                             <span className="card-title indigo-text lighten-1 left"><strong>Id vozila</strong></span>
+                            <StarRating></StarRating>
 
                             <div className="container">
+
                                 <form className="white" >
                                     <div className="input-field">
                                         <label htmlFor="rentPrice">Cena</label>

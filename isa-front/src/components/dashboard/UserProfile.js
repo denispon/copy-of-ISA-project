@@ -13,6 +13,7 @@ class UserProfile extends Component {
                     <div className="container">
                         <form className="white" >
                             <h2 className="red-text lighten-1">Veljko Petrovic</h2>
+                            <h4 className="indigo-text lighten-1">Bonus poeni : -5</h4>
                             <div className="input-field">
                                 <label htmlFor="ime">Ime</label>
                                 <input type="text" id='ime' />
