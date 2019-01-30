@@ -25,6 +25,7 @@ import CreateRezervacijaSobe from './components/dashboard/dodavanjaHotel/CreateR
 import CreateDodatnaUsluga from './components/dashboard/dodavanjaHotel/CreateDodatnaUsluga';
 import CreatePrihodHotela from "./components/dashboard/dodavanjaHotel/CreatePrihodHotela";
 
+import LetoviAdminDashboard from "./components/dashboard/letoviAdmin/LetoviAdminDashboard";
 
 class App extends Component {
 
