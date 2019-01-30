@@ -24,6 +24,7 @@ import CreateCenaSobe from './components/dashboard/dodavanjaHotel/CreateCenaSobe
 import CreateRezervacijaSobe from './components/dashboard/dodavanjaHotel/CreateRezervacijaSobe';
 import CreateDodatnaUsluga from './components/dashboard/dodavanjaHotel/CreateDodatnaUsluga';
 import CreatePrihodHotela from "./components/dashboard/dodavanjaHotel/CreatePrihodHotela";
+import InvitationPage from "./components/dashboard/invitation/InvitationPage";
 
 
 class App extends Component {
@@ -34,9 +35,11 @@ class App extends Component {
         <div className="App">
           <Navbar />
           <Switch>
-            <Route exact path="/" component={DashboardRentACarAdminLogged}></Route>
             <Route exact path="/" component={DashboardMainAdminLogged}></Route>
             <Route exact path="/" component={DashboardUserLogged}></Route>
+            <Route exact path="/" component={DashboardRentACarAdminLogged}></Route>
+
+            <Route exact path="/invitations" component={InvitationPage} />
             <Route path="/friends" component={Friends}></Route>
             <Route path="/korpa" component={ShoppingCart}></Route>
             <Route path="/userProfile" component={UserProfile}></Route>

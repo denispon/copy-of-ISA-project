@@ -27,4 +27,4 @@ class PrijavaKorisnika extends Component {
     }
 }
 
-export default PrijavaKorisnika
+export default PrijavaKorisnika;

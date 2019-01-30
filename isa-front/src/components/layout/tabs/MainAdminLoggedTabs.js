@@ -19,6 +19,9 @@ const MainAdminLoggedTabs = () => {
                     <NavLink to="/mainAdminRentCar" className="white-text text-darken-4">Rent servisi</NavLink>
                 </li>
                 <li className="tab col s3">
+                    <NavLink to="/mainAdminBonusPoints" className="white-text text-darken-4">Definisanje popusta</NavLink>
+                </li>
+                <li className="tab col s3">
                     <NavLink to="/mainAdminAdministrators" className="white-text text-darken-4">Administratori</NavLink>
                 </li>
 
