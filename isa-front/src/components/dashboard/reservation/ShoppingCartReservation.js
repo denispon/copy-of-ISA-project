@@ -7,7 +7,7 @@ import CarReservation from "./CarReservation";
 const ShoppingCartReservation = () => {
 
     return (
-        <div className="center contrainer">
+        <div className=" contrainer">
             <FlightReservation></FlightReservation>
             <HotelReservation></HotelReservation>
             <CarReservation></CarReservation>

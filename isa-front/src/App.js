@@ -49,12 +49,12 @@ class App extends Component {
             <Route path="/prijavaKorisnika" component={PrijavaKorisnika}></Route>
             <Route path="/registracijaKorisnika" component={RegistracijaKorisnika}></Route>
             <Route path="/createHotel" component={CreateHotel}></Route>
-            <Route path = "/createRoomType" component = {CreateTipSobe}></Route>
-            <Route path = "/createHotelRoom" component = {CreateHotelskaSoba}></Route>
-            <Route path = "/createRoomPrice" component = {CreateCenaSobe}></Route>
-            <Route path = "/createRoomReservation" component = {CreateRezervacijaSobe}></Route>
-            <Route path = "/createAdditionalService" component = {CreateDodatnaUsluga}></Route>
-            <Route path = "/createHotelIncome" component = {CreatePrihodHotela}></Route>
+            <Route path="/createRoomType" component={CreateTipSobe}></Route>
+            <Route path="/createHotelRoom" component={CreateHotelskaSoba}></Route>
+            <Route path="/createRoomPrice" component={CreateCenaSobe}></Route>
+            <Route path="/createRoomReservation" component={CreateRezervacijaSobe}></Route>
+            <Route path="/createAdditionalService" component={CreateDodatnaUsluga}></Route>
+            <Route path="/createHotelIncome" component={CreatePrihodHotela}></Route>
             <Route path="/userReservations" component={UserReservations}></Route>
           </Switch>
         </div>

@@ -5,13 +5,13 @@ import AdminInfo from "./AdminInfo"
 const AdministratorsDashboard = () => {
 
     return (
-        <div className="container center">
+        <div className="container">
 
-            <div>
+            <div className="center">
                 <NavLink to="#" className="indigo-text lighten-1">Dodaj novi tip administratora</NavLink>
             </div>
             <br />
-            <div>
+            <div className="center">
                 <NavLink to="#" className="indigo-text lighten-1">Dodaj novog administratora</NavLink>
             </div>
 
