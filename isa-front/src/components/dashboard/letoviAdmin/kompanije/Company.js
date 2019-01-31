@@ -5,6 +5,11 @@ class Company extends Component
     state = {
 
     }
+
+    handleChange()
+    {
+
+    }
     //<!--SPISAK KARATA SA POPUSTIMA ZA BRZU REZ (??!) -->
     //konfiguracija mesta u avionima ide za svaki let posebno, kao i prtljag i cenovnik
     render()
@@ -19,31 +24,30 @@ class Company extends Component
                             <div className="container">
                                 <form className="white">
                                     <div className="input-field">
-                                        <label htmlFor="name">Ime</label>
-                                        <input type="text" placeholder="Postojece ime" id="name"/>
+                                        <label htmlFor="name">Naziv</label>
+                                        <input type="text" id="name"/>
                                     </div>
                                     <div className="input-field">
                                         <label htmlFor="address">Adresa</label>
-                                        <input type="text" placeholder="Postojeca adresa" id="address"/>
+                                        <input type="text" id="address"/>
                                     </div>
                                     <div className="input-field">
                                         <label htmlFor="desc">Opis</label>
-                                        <textarea placeholder="Postojeci opis" id="desc"/>
+                                        <textarea id="desc"/>
                                     </div>
-                                    <div className="input-field">
-                                        <label htmlFor="dest">Destinacija</label>
-                                        <select id="dest">
-                                            <option value="">PostojecaDest1</option>
-                                            <option value="">PostojecaDest2</option>
-                                            <option value="">PostojecaDest3</option>
+                                    <div className="input-field col s12">
+                                        <select i
+                                        ="dest" onChange={this.handleChange} className="browser-default">
+                                            <option value="vr1" defaultValue>PostojecaDest1</option>
+                                            <option value="vr2">PostojecaDest2</option>
+                                            <option value="vr3">PostojecaDest3</option>
                                         </select>
                                     </div>
-                                    <div className="input-field">
-                                        <label htmlFor="flight">Letovi</label>
-                                        <select id="flight" multiple>
-                                            <option value="">PostojeciLet1</option>
-                                            <option value="">PostojeciLet2</option>
-                                            <option value="">PostojeciLet3</option>
+                                    <div className="input-field col s12">
+                                        <select id="flight" className="browser-default" multiple>
+                                            <option value="v41">PostojeciLet1</option>
+                                            <option value="sad">PostojeciLet2</option>
+                                            <option value="wqe">PostojeciLet3</option>
                                         </select>
                                     </div>
                                     <button className="btn green lighten-1 z-depth-0">Izmeni</button>
