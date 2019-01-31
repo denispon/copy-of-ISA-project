@@ -1,15 +1,14 @@
 import React from "react"
 import ChangeRentService from "./ChangeRentService";
-import BranchOfficeManipulation from "./BranchOfficeManipulation";
+import BranchOfficeManipulation from "./BranchOfficeManipulation"
 
 
-const AdminRentServiceInfo = () => {
+const AdminRentServiceInfo = ({ rentACarService, branchOffices }) => {
 
     return (
         <div className="container">
-            <ChangeRentService></ChangeRentService>
-            <BranchOfficeManipulation></BranchOfficeManipulation>
-
+            <ChangeRentService rentACarService={rentACarService} ></ChangeRentService>
+            <BranchOfficeManipulation branchOffices={branchOffices}></BranchOfficeManipulation>
         </div>
     );
 

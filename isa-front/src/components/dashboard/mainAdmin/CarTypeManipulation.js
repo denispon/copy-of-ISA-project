@@ -3,7 +3,8 @@ import { NavLink } from "react-router-dom"
 import ChangeCarType from "./ChangeCarType";
 
 
-const CarTypeManipulation = () => {
+const CarTypeManipulation = ({ carTypes }) => {
+
 
     return (
         <div className="container">
@@ -13,11 +14,12 @@ const CarTypeManipulation = () => {
             <div className="center">
                 <NavLink to="#" className="indigo-text lighten-1">Dodaj novi tip vozila</NavLink>
 
-                <ChangeCarType />
-                <ChangeCarType />
-                <ChangeCarType />
-                <ChangeCarType />
-                <ChangeCarType />
+                {carTypes.map(carType => {
+                    return (
+                        <ChangeCarType carType={carType} key={carType.id} />
+                    )
+                })}
+
             </div>
 
 

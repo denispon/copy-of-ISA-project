@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom"
 import ChangeBonusPointsDiscount from "./ChangeBonusPointsDiscount";
 
 
-const BonusPointsDiscounts = () => {
+const BonusPointsDiscounts = ({ bonusPointsDiscounts }) => {
 
     return (
         <div className="container">
@@ -13,10 +13,12 @@ const BonusPointsDiscounts = () => {
             <div className="center">
                 <NavLink to="#" className="indigo-text lighten-1">Dodaj novi popust</NavLink>
 
-                <ChangeBonusPointsDiscount></ChangeBonusPointsDiscount>
-                <ChangeBonusPointsDiscount></ChangeBonusPointsDiscount>
-                <ChangeBonusPointsDiscount></ChangeBonusPointsDiscount>
-                <ChangeBonusPointsDiscount></ChangeBonusPointsDiscount>
+                {bonusPointsDiscounts.map(discount => {
+                    return (
+                        <ChangeBonusPointsDiscount discount={discount} />
+                    );
+                })}
+
 
             </div>
 

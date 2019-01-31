@@ -13,7 +13,7 @@ class ChangeBonusPointsDiscount extends Component {
                     <div className="card">
                         <div className="card-content">
                             <span className="card-title right"><a class="btn-floating btn-small waves-effect waves-light red"><i>x</i></a></span>
-                            <span className="card-title indigo-text lighten-1 left"><strong>Id popusta</strong></span>
+                            <span className="card-title indigo-text lighten-1 left"><strong>{this.props.discount.id}</strong></span>
 
 
 
@@ -21,11 +21,11 @@ class ChangeBonusPointsDiscount extends Component {
                                 <form className="white" >
                                     <div className="input-field">
                                         <label htmlFor="bonusPoeni">Broj bonus poena</label>
-                                        <input type="number" id='bonusPoeni' />
+                                        <input type="number" id='bonusPoeni' defaultValue={this.props.discount.points} />
                                     </div>
                                     <div className="input-field">
                                         <label htmlFor="popust">Popust</label>
-                                        <input type="number" id='popust' />
+                                        <input type="number" id='popust' defaultValue={this.props.discount.discount} />
                                     </div>
                                     <div className="input-field">
                                         <button className="btn blue lighten-1 z-depth-0">Azuriraj</button>

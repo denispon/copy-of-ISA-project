@@ -15,7 +15,7 @@ class ChangeCar extends Component {
                     <div className="card">
                         <div className="card-content">
                             <span className="card-title right"><a class="btn-floating btn-small waves-effect waves-light red"><i>x</i></a></span>
-                            <span className="card-title indigo-text lighten-1 left"><strong>Id vozila</strong></span>
+                            <span className="card-title indigo-text lighten-1 left"><strong>{this.props.car.id}</strong></span>
                             <StarRating></StarRating>
 
                             <div className="container">
@@ -23,22 +23,24 @@ class ChangeCar extends Component {
                                 <form className="white" >
                                     <div className="input-field">
                                         <label htmlFor="rentPrice">Cena</label>
-                                        <input type="text" id='rentPrice' />
+                                        <input type="text" id='rentPrice' defaultValue={this.props.car.rentPrice} />
                                     </div>
                                     <div class="input-field col s12">
                                         <select className="browser-default">
-                                            <option value="" disabled selected>Tip vozila</option>
-                                            <option value="1">Option 1</option>
-                                            <option value="2">Option 2</option>
-                                            <option value="3">Option 3</option>
+                                            {this.props.carTypes.map(carType => {
+                                                return (
+                                                    <option selected={carType.id == this.props.car.carType.id} value={carType.id}>{carType.brand} {carType.model} {carType.modelYear}, {carType.carType}, broj sedista: {carType.numberOfSeats}</option>
+                                                );
+                                            })}
                                         </select>
                                     </div>
                                     <div class="input-field col s12">
                                         <select className="browser-default">
-                                            <option value="" disabled selected>Filijala</option>
-                                            <option value="1">Option 1</option>
-                                            <option value="2">Option 2</option>
-                                            <option value="3">Option 3</option>
+                                            {this.props.branchOffices.map(branch => {
+                                                return (
+                                                    <option selected={branch.id == this.props.car.branchOffice.id} value={branch.id}>{branch.name}, {branch.adress}, {branch.city} </option>
+                                                );
+                                            })}
                                         </select>
                                     </div>
                                     <div className="input-field">

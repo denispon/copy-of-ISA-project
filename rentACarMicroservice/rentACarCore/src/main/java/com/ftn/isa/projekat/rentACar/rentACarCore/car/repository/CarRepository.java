@@ -50,5 +50,7 @@ public interface CarRepository extends JpaRepository < Car, Long > {
 			,nativeQuery=true)
 	Optional<List<Car>> findAllOnDiscount();
 
+
+
 	
 }

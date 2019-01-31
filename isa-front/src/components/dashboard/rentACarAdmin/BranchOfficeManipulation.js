@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom"
 import ChangeBranchOffice from "./ChangeBranchOffice";
 
 
-const BranchOfficeManipulation = () => {
+const BranchOfficeManipulation = ({ branchOffices }) => {
 
     return (
         <div className="container">
@@ -13,10 +13,11 @@ const BranchOfficeManipulation = () => {
             <div className="center">
                 <NavLink to="#" className="indigo-text lighten-1">Dodaj novu filijalu</NavLink>
 
-                <ChangeBranchOffice />
-                <ChangeBranchOffice />
-                <ChangeBranchOffice />
-                <ChangeBranchOffice />
+                {branchOffices.map(branchOffice => {
+                    return (
+                        <ChangeBranchOffice branchOffice={branchOffice} key={branchOffice.id}></ChangeBranchOffice>
+                    );
+                })}
 
             </div>
 

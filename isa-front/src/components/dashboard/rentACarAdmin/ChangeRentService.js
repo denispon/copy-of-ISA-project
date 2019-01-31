@@ -12,7 +12,7 @@ class ChangeRentService extends Component {
         return (
             <div className="card indigo lighten-1">
                 <div className="card-content">
-                    <span className="card-title white-text lighten-1 center"><strong>Id rent servisa</strong></span>
+                    <span className="card-title white-text lighten-1 center"><strong>{this.props.rentACarService.id}</strong></span>
                     <div className="card">
                         <div className="card-content">
                             <div className="container">
@@ -22,14 +22,14 @@ class ChangeRentService extends Component {
                                 <form className="white" >
                                     <div className="input-field">
                                         <label htmlFor="ime">Ime</label>
-                                        <input type="text" id='ime' />
+                                        <input type="text" id='ime' defaultValue={this.props.rentACarService.name} />
                                     </div>
                                     <div className="input-field">
                                         <label htmlFor="adresa">Adresa</label>
-                                        <input type="text" id='adresa' />
+                                        <input type="text" id='adresa' defaultValue={this.props.rentACarService.adress} />
                                     </div>
                                     <div className="input-field">
-                                        <textarea id="textarea1" class="materialize-textarea"></textarea>
+                                        <textarea id="textarea1" class="materialize-textarea" defaultValue={this.props.rentACarService.description}></textarea>
                                         <label for="textarea1">Textarea</label>
                                     </div>
                                     <div className="input-field">

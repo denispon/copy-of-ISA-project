@@ -2,7 +2,7 @@ import React from "react"
 import ChangeCarDiscount from "./ChangeCarDiscount";
 import { NavLink } from "react-router-dom"
 
-const CarDiscountManipulation = () => {
+const CarDiscountManipulation = ({ carDiscounts, cars }) => {
 
     return (
         <div className="container">
@@ -12,10 +12,13 @@ const CarDiscountManipulation = () => {
             <div className="center">
                 <NavLink to="#" className="indigo-text lighten-1">Dodaj novi popust</NavLink>
 
-                <ChangeCarDiscount />
-                <ChangeCarDiscount />
-                <ChangeCarDiscount />
-                <ChangeCarDiscount />
+                {carDiscounts.map(carDiscount => {
+
+                    return (
+                        <ChangeCarDiscount key={carDiscount.id} cars={cars} carDiscount={carDiscount} />
+                    );
+
+                })}
             </div>
 
         </div>

@@ -18,6 +18,8 @@ public interface ICarDiscountsService {
 	public CarDiscountsDTO deleteById ( Long id );
 	
 	public CarDiscountsDTO changeDiscount ( Long id, CarDiscountsDTO discount );
+
+	public List<CarDiscountsDTO> findAllByRentService(Long rentId);
 	
 
 }

@@ -45,6 +45,10 @@ class App extends Component {
           <Switch>
             <Route exact path="/" component={DashboardRentACarAdminLogged}></Route>
             <Route exact path="/" component={DashboardMainAdminLogged}></Route>
+
+
+
+
             <Route exact path="/" component={DashboardUserLogged}></Route>
 
 

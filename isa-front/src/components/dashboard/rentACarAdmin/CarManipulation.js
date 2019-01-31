@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 import ChangeCar from "./ChangeCar";
 
 
-const CarManipulation = () => {
+const CarManipulation = ({ cars, carTypes, branchOffices }) => {
 
     return (
         <div className="container">
@@ -13,9 +13,11 @@ const CarManipulation = () => {
             <div className="center">
                 <NavLink to="#" className="indigo-text lighten-1">Dodaj novo vozilo</NavLink>
 
-                <ChangeCar />
-                <ChangeCar />
-                <ChangeCar />
+                {cars.map(car => {
+                    return (
+                        <ChangeCar car={car} carTypes={carTypes} branchOffices={branchOffices} />
+                    );
+                })}
             </div>
 
         </div>

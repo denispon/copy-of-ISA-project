@@ -184,5 +184,27 @@ public class CarDiscountsServiceImpl  implements ICarDiscountsService{
 		return new CarDiscountsDTO();
 	}
 
+	@Override
+	public List<CarDiscountsDTO> findAllByRentService(Long rentId) {
+		
+		Optional< List<CarDiscounts> > list = discountRepository.findAllByCarCarRentServiceId(rentId);
+		ArrayList< CarDiscountsDTO > discountsDTO = new ArrayList< CarDiscountsDTO >();
+		
+		if ( list.isPresent() ) {
+			
+			for ( CarDiscounts discount : list.get()) {
+				
+				discountsDTO.add(discountConverter.convertToDTO(discount));
+				
+			}
+			
+			return discountsDTO;
+			
+		}
+		
+		return Collections.emptyList();
+
+	}
+
 	
 }

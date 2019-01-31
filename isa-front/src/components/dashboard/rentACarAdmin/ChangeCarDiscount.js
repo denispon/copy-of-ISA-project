@@ -4,6 +4,28 @@ class ChangeCarDiscount extends Component {
 
     state = {
 
+        datumPocetka: {},
+        datumKraja: {},
+        vremePocetka: {},
+        vremeKraja: {}
+
+    }
+
+    componentDidMount() {
+
+        var Pocetak = this.props.carDiscount.dateFrom.split("T");
+        var Kraj = this.props.carDiscount.dateTo.split("T")
+
+
+        this.setState(
+            {
+                datumPocetka: Pocetak[0],
+                datumKraja: Kraj[0],
+                vremePocetka: Pocetak[1],
+                vremeKraja: Kraj[1]
+            }
+        );
+
     }
 
     render() {
@@ -13,42 +35,44 @@ class ChangeCarDiscount extends Component {
                     <div className="card">
                         <div className="card-content">
                             <span className="card-title right"><a class="btn-floating btn-small waves-effect waves-light red"><i>x</i></a></span>
-                            <span className="card-title indigo-text lighten-1 left"><strong>Id popusta</strong></span>
+                            <span className="card-title indigo-text lighten-1 left"><strong>{this.props.carDiscount.id}</strong></span>
 
                             <div className="container">
                                 <form className="white" >
                                     <div class="input-field col s12">
                                         <select className="browser-default">
-                                            <option value="" disabled selected>Vozilo</option>
-                                            <option value="1">Option 1</option>
-                                            <option value="2">Option 2</option>
-                                            <option value="3">Option 3</option>
+
+                                            {this.props.cars.map(car => {
+                                                return (
+                                                    <option selected={car.id == this.props.carDiscount.carId.id} value={car.id}>Id vozila: {car.id}, Cena: {car.rentPrice}</option>
+                                                );
+                                            })}
                                         </select>
                                     </div>
                                     <div className="input-field">
                                         <label htmlFor="carDiscount">Popust</label>
-                                        <input type="number" id='carDiscount' />
+                                        <input type="number" id='carDiscount' defaultValue={this.props.carDiscount.carDiscountPrecentage} />
                                     </div>
 
                                     <div>
                                         <label htmlFor="datum_pocetka" className="active">Datum pocetka popusta</label>
-                                        <input type="date" id='datum_pocetka' className="datepicker" />
+                                        <input type="date" id='datum_pocetka' value={this.state.datumPocetka} />
                                     </div>
 
                                     <div>
                                         <label htmlFor="vreme_pocetka" className="active">Vreme pocetka popusta</label>
-                                        <input type="time" id='vreme_pocetka' />
+                                        <input type="time" id='vreme_pocetka' value={this.state.vremePocetka} />
                                     </div>
 
 
                                     <div>
                                         <label htmlFor="datum_kraja" className="active">Datum kraja popusta</label>
-                                        <input type="date" id='datum_kraja' className="datepicker" />
+                                        <input type="date" id='datum_kraja' value={this.state.datumKraja} />
                                     </div>
 
                                     <div>
                                         <label htmlFor="vreme_kraja" className="active">Vreme kraja popusta</label>
-                                        <input type="time" id='vreme_kraja' />
+                                        <input type="time" id='vreme_kraja' value={this.state.vremeKraja} />
                                     </div>
 
                                     <div className="input-field">
