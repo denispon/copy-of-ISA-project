@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.ftn.isa.projekat.hotel.hotelApi.dto.DodatneUslugeDTO;
 import com.ftn.isa.projekat.hotel.hotelApi.dto.HotelskaSobaDTO;
 
 @Service

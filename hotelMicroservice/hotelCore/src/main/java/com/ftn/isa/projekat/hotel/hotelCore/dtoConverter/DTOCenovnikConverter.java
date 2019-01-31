@@ -24,8 +24,8 @@ public class DTOCenovnikConverter {
 		CenovnikUslugaDTO dto = new CenovnikUslugaDTO();
 		dto.setId(cenovnikUsluga.getId());
 		dto.setHotel_cenovnikUsluga(hotelConverter.convertToDTO(cenovnikUsluga.getHotel_cenovnikUsluga()));
-		dto.setTransferPrice(cenovnikUsluga.getTransferPrice());
-		
+		dto.setImeUsluge(cenovnikUsluga.getImeUsluge());
+		dto.setCenaUsluge(cenovnikUsluga.getCenaUsluge());		
 		return dto;
 	}
 	
@@ -37,7 +37,8 @@ public class DTOCenovnikConverter {
 		}
 		
 		CenovnikUsluga bean = new CenovnikUsluga();
-		bean.setTransferPrice(cenovnikUslugaDTO.getTransferPrice());
+		bean.setImeUsluge(cenovnikUslugaDTO.getImeUsluge());
+		bean.setCenaUsluge(cenovnikUslugaDTO.getCenaUsluge());
 		bean.setHotel_cenovnikUsluga(hotelConverter.convertFromDTO(cenovnikUslugaDTO.getHotel_cenovnikUsluga()));
 		
 		return bean;

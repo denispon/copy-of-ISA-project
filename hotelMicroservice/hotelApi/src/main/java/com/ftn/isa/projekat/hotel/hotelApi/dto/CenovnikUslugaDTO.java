@@ -6,31 +6,15 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+@Data
 @JsonComponent
 @NoArgsConstructor
 @AllArgsConstructor
 public class CenovnikUslugaDTO {
 	
-	public Long getId() {
-		return id;
-	}
-	public void setId(Long id) {
-		this.id = id;
-	}
-	public int getTransferPrice() {
-		return transferPrice;
-	}
-	public void setTransferPrice(int transferPrice) {
-		this.transferPrice = transferPrice;
-	}
-	public HotelDTO getHotel_cenovnikUsluga() {
-		return hotel_cenovnikUsluga;
-	}
-	public void setHotel_cenovnikUsluga(HotelDTO hotel_cenovnikUsluga) {
-		this.hotel_cenovnikUsluga = hotel_cenovnikUsluga;
-	}
 	private Long id;
-	private int transferPrice;
+	private String imeUsluge;
+	private int cenaUsluge;
 	private HotelDTO hotel_cenovnikUsluga;
 	
 }

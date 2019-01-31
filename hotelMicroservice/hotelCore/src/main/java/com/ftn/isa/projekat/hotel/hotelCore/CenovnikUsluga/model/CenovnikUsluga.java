@@ -34,8 +34,11 @@ public class CenovnikUsluga {
 	@Column (name="id")
 	private Long id;
 	
-	@Column (name="transferPrice", nullable=false)
-	private int transferPrice;
+	@Column (name="imeUsluge", nullable=false)
+	private String imeUsluge;
+	
+	@Column (name="cenaUsluge", nullable=false)
+	private int cenaUsluge;
 	
 	@JsonIgnore
 	@ManyToOne ()

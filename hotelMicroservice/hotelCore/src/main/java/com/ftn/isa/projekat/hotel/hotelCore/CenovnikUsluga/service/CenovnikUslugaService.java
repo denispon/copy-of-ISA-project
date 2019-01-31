@@ -83,7 +83,8 @@ public class CenovnikUslugaService implements ICenovnikUslugaService{
 		
 		if(zaIzmenu.isPresent() && dto!=null) {
 			
-			zaIzmenu.get().setTransferPrice(dto.getTransferPrice());
+			zaIzmenu.get().setImeUsluge(dto.getImeUsluge());
+			zaIzmenu.get().setCenaUsluge(dto.getCenaUsluge());
 			zaIzmenu.get().setHotel_cenovnikUsluga(hotelConverter.convertFromDTO(dto.getHotel_cenovnikUsluga()));
 
 			cenovnikRepository.save(zaIzmenu.get());
