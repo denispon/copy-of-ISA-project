@@ -34,6 +34,7 @@ public class DTOFlightConverter
 		dto.setAllTickets(bean.getAllTickets());
 		dto.setTicketsSold(bean.getTicketsSold());
 		dto.setTravelType(bean.getTravelType());
+		dto.setAvgRating(bean.getAvgRating());
 		
 		dto.setAvioCompany(companyConverter.convertToDTO(bean.getAvioCompany()));
 		dto.setDestinationTakeOff(destConverter.convertToDto(bean.getTakeOffDestination()));
@@ -61,6 +62,7 @@ public class DTOFlightConverter
 		bean.setAllTickets(dto.getAllTickets());
 		bean.setTicketsSold(dto.getTicketsSold());
 		bean.setTravelType(dto.getTravelType());
+		bean.setAvgRating(dto.getAvgRating());
 		
 		bean.setAvioCompany(companyConverter.convertFromDTO(dto.getAvioCompany()));
 		bean.setTakeOffDestination(destConverter.convertFromDTO(dto.getDestinationTakeOff()));

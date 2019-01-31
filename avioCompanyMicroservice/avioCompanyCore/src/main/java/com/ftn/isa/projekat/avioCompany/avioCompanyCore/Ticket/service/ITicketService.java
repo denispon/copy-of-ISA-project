@@ -22,5 +22,7 @@ public interface ITicketService {
 
 	List<TicketDTO> getTicketsByPrice(Float bottomPrice, Float topPrice);
 
+	Boolean cancelFlight(Long flightId);
+
 
 }

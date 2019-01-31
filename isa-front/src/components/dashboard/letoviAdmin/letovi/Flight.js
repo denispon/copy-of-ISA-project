@@ -46,7 +46,7 @@ class Flight extends Component
                                     </div>
                                     <div className="input-field">
                                         <label htmlFor="grade">Razredi</label>
-                                        <select id="grade" multiple>
+                                        <select id="grade" multiple className="browser-default">
                                             <option value="">1. klasa</option>
                                             <option value="">2. klasa</option>
                                             <option value="">3. klasa</option>

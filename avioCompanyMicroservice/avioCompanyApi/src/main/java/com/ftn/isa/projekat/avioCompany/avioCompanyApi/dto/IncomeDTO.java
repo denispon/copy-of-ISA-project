@@ -12,9 +12,9 @@ import lombok.NoArgsConstructor;
 public class IncomeDTO 
 {
 	private Long id;
-	private int value;
+	private Integer value;
 	private LocalDateTime incomeDate;
-	private int ticketsNumnber;
+	private Integer ticketsNumnber;
 	
 	private AvioCompanyDTO companyId; //u react-u odavde treba samo id pozvati (nad ovim objektom), mozda je i logicnije da se samo pozove ovde id al nema veze
 }

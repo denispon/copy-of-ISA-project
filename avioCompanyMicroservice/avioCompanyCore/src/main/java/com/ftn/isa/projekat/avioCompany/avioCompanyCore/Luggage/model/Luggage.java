@@ -26,16 +26,16 @@ public class Luggage
 	private Long id;
 	
 	@Column (name = "weight")
-	private float weight;
+	private Float weight;
 	
 	@Column (name = "width")
-	private  int width;
+	private  Integer width;
 	
 	@Column (name = "height")
-	private int height;
+	private Integer height;
 	
 	@Column(name = "length")
-	private int length;
+	private Integer length;
 	
 	@JsonIgnore
 	@ManyToOne(fetch = FetchType.LAZY)

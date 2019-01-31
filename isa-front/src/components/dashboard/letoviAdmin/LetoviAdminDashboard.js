@@ -13,6 +13,9 @@ const LetoviAdminDashboard = () =>
             <BrowserRouter>
                 <div>
                     <div>
+                        <Route path="/" component={LetoviAdminTabs}></Route>
+                    </div>
+                    <div>
                         <Route path="/letoviAdminCompanies" component={CompaniesMain}></Route>
                         <Route path="/letoviAdminFlights" component={FlightsMain}></Route>
                         <Route path="/letoviAdminStatistics" component={StatisticsMain}></Route>

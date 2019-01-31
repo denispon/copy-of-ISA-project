@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ftn.isa.projekat.avioCompany.avioCompanyApi.dto.FlightDTO;
+import com.ftn.isa.projekat.avioCompany.avioCompanyCore.Destination.model.Destination;
 import com.ftn.isa.projekat.avioCompany.avioCompanyCore.Flight.service.IFlightService;
 
 import feign.Response;
@@ -117,13 +118,11 @@ public class FlightController
 	}
 	
 	
-	
-	
 	/* (Y)
 	 * Trazimo prosecnu ocenu za jedan let
 	 * Prosledjujemo id leta
 	 */
-	@GetMapping("/getavg/{id}")
+	@GetMapping("/getavgrating/{id}")
 	@ApiOperation(value = "Get average rating for one flight.", notes = "Returns average.", httpMethod = "GET")
 	@ApiResponses(value = {@ApiResponse(code = 200, message = "OK"),
 						   @ApiResponse(code = 404, message = "NOT_FOUND")
@@ -135,22 +134,40 @@ public class FlightController
 		return(avg != null) ? new ResponseEntity<Float>(avg, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
 	
-	//************************************
-	//PROVERI*****************************
-	//************************************
 	
 	/*
-	 * Cancel flight (returns true if operation is allowed)
+	 * Pretraga letova po destinaciji poletanja i sletanja (preko id-jeva)
 	 */
-	@GetMapping("/cancelFlight/{id}")
-	public ResponseEntity<Boolean> ifFlightCanceled(@PathVariable("id") Long flightId)
+	@GetMapping("/getbydest/{fromDest}/{toDest}")
+	@ApiOperation(value = "Get flights by destination.", httpMethod = "GET")
+	@ApiResponses(value = {@ApiResponse(code = 200, message = "OK"),
+						   @ApiResponse(code = 400, message = "BAD_REQUEST")
+	})
+	public ResponseEntity<List<FlightDTO>> getFlightsByDestination(@PathVariable("fromDest") Long takeOffDestination, @PathVariable("toDest") Long landingDestination)
 	{
-		Boolean canceled = service.cancelFlight(flightId);
+//		Destination fromDest = new Destination();
+//		fromDest.setName(takeOffDestination);
+//		Destination toDest = new Destination();
+//		toDest.setName(landingDestination);
 		
-		return (!canceled) ? new ResponseEntity<Boolean>(canceled, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
+		List<FlightDTO> flights = service.getFlightsByDestination(takeOffDestination, landingDestination);
 		
+		return(!flights.isEmpty()) ? new ResponseEntity<List<FlightDTO>>(flights, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST); 
 	}
 	
-	
+	/*
+	 * Pretraga letova po tipu leta
+	 */
+	@GetMapping("/getbytype/{type}")
+	@ApiOperation(value = "Get flights by type.", httpMethod = "GET")
+	@ApiResponses(value = {@ApiResponse(code = 200, message = "OK"),
+						   @ApiResponse(code = 400, message = "BAD_REQUEST")
+	})
+	public ResponseEntity<List<FlightDTO>> getFlightsByType(@PathVariable("type") String type)
+	{		
+		List<FlightDTO> flights = service.getFlightsByType(type);
+		
+		return(!flights.isEmpty()) ? new ResponseEntity<List<FlightDTO>>(flights, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST); 
+	}
 	
 }

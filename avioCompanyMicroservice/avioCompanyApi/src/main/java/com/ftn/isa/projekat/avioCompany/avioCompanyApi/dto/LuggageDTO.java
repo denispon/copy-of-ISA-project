@@ -17,10 +17,10 @@ import lombok.Setter;
 public class LuggageDTO
 {
 	private Long id;
-	private float weight;
-	private int width;
-	private int height;
-	private int length;
+	private Float weight;
+	private Integer width;
+	private Integer height;
+	private Integer length;
 	
 	private TicketDTO ticket;
 }

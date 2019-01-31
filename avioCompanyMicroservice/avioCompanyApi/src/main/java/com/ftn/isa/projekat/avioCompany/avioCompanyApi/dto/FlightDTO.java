@@ -15,11 +15,12 @@ public class FlightDTO
 	private Long id;
 	private LocalDateTime takeOffTime;
 	private LocalDateTime landingTime;
-	private float flightLength;
-	private int numberOfTransfers; //broj presedanja
-	private int allTickets;
-	private int ticketsSold;	
+	private Float flightLength;
+	private Integer numberOfTransfers; //broj presedanja
+	private Integer allTickets;
+	private Integer ticketsSold;	
 	private String travelType;
+	private Float avgRating;
 	
 	private DestinationDTO destinationTakeOff;
 	private DestinationDTO destinationLanding;

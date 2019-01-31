@@ -197,74 +197,58 @@ public class FlightServiceImpl implements IFlightService
 		
 		if(avg.isPresent())
 		{
+			//treba je smestiti u avg_rating u flight tabeli (ovo ne radi najbolje bas)
+			flRepo.findById(id).get().setAvgRating(avg.get()); 
 			return avg.get();
 		}
 		
 		return null;
 	}
 
+	/**
+	 * Vrsi pretragu po polaznim i odredisnim destinacijama
+	 */
+	@Override
+	public List<FlightDTO> getFlightsByDestination(Long takeOffDestination, Long landingDestination)
+	{
+		Optional<List<Flight>> flights = flRepo.findFlightsByDestination(takeOffDestination, landingDestination);
+		
+		ArrayList<FlightDTO> dtos = new ArrayList<FlightDTO>();
+		
+		if(flights.isPresent())
+		{
+			for(Flight fl : flights.get())
+			{
+				dtos.add(flConv.convertToDTO(fl));
+			}
+		}
+		
+		
+		
+		return dtos;
+	}
+
+	@Override
+	public List<FlightDTO> getFlightsByType(String type)
+	{
+		Optional<List<Flight>> flights = flRepo.findFlightsByType(type);
+		
+		ArrayList<FlightDTO> dtos = new ArrayList<FlightDTO>();
+		
+		if(flights.isPresent()) //ovo treba da ne baca exc
+		{
+			for(Flight fl : flights.get())
+			{
+				dtos.add(flConv.convertToDTO(fl));
+			}
+		}
+		
+		return dtos;
+	}
+
 
 	
 	
-	/*
-	 * Cancel is possible 3 hours before flight began.
-	 * @see com.ftn.isa.projekat.avioCompany.avioCompanyCore.Flight.service.IFlightService#cancelFlight(java.lang.Long)
-	 */
-	@Override
-	public Boolean cancelFlight(Long flightId)
-	{
-		Boolean cancel = false;
-		
-		Optional<Flight> flight = flRepo.findById(flightId);
-		
-		LocalDateTime currentTime = LocalDateTime.now();
-		
-		if(flight.isPresent())
-		{
-			LocalDateTime takeOff = flight.get().getTakeOffTime();
-			int hourTakeOff = takeOff.getHour();
-			
-			int currentHour = currentTime.getHour();
-			
-			if(currentTime.getYear() <= takeOff.getYear())
-			{
-				if(currentTime.getMonthValue() <= takeOff.getMonthValue())
-				{
-					if(currentTime.getDayOfMonth() <= takeOff.getDayOfMonth())
-					{
-						if(currentTime.getHour() > 20)
-						{
-							currentHour -= 4;
-							hourTakeOff -= 4;
-							if((currentHour + 3) <= hourTakeOff)
-							{
-								cancel = true;
-							}
-						}
-						else
-						{
-							if((currentHour + 3) <= hourTakeOff)
-							{
-								cancel = true;
-							}
-						}  
-					}
-					else
-						System.out.println("CANCEL_IMPOSSIBLE(DAY)");
-				}
-				else
-					System.out.println("CANCEL_IMPOSSIBLE(MONTH)");
-			}
-			else
-				System.out.println("CANCEL_IMPOSSIBLE(YEAR)");
-		}
-		else
-			System.out.println("Flight doesn't exists.");
-		
-		System.out.println(cancel);
-		
-		return cancel;
-	}
 	
 	
 	

@@ -163,77 +163,95 @@ public class AvioCompanyServiceImpl implements IAvioCompanyService
 		
 		return new AvioCompanyDTO();
 	}
-	
-	/*
-	 * 
-	 * Prosecna ocena za kompaniju (sad po novom treba da se opravi..)
-	 */
 
+	/**
+	 * Prosecna ocena za aviokompaniju
+	 */
 	@Override
-	public Float getAvgRating(Long id) //prosledjujemo ID kompanije za koju trazimo prosecnu sumu
+	public Float getAvgRating(Long id)
 	{
-		FlightRepository flightRepository = null;
-		TicketRepository ticketRepository = null; //ovo sam samo uveo da ne baca gresku
-		Optional<List<Flight>> flights = Optional.of(flightRepository.findAll());
-		Optional<List<Ticket>> tickets = Optional.of(ticketRepository.findAll());
+		Optional<Float> avg = avioRepository.findAverageRating(id);
 		
-		ArrayList<FlightDTO> flDtos = new ArrayList<FlightDTO>();
-		ArrayList<TicketDTO> tDtos = new ArrayList<TicketDTO>();
-		
-		int flightSum = 0; //zbir svih ocena za jedan let
-		float companyAvg = 0; //konacna prosecna ocena kompanije
-		
-		if(flights.isPresent()) //ako postoji let => znaci da je zavrsen i postoje ocene korisnika
+		if(avg.isPresent())
 		{
-			for(Ticket ticket : tickets.get())
-			{
-				//tDtos.add(ticketConverter.convertToDto(ticket)); //dodajemo karte u spisak karata
-			}
-			
-			for(Flight flight : flights.get())
-			{
-				//flDtos.add(flightConverter.convertToDTO(flight)); //dodajemo letove u spisak letova
-			}
-			
-			int sumTickets = 0; //zbir ocena sa karata
-			int nFlights = 0; //koliko puta je nasao let na osnovu karte
-			for(FlightDTO fDto : flDtos) 
-			{
-				for(TicketDTO tDto : tDtos)
-				{
-					if(!tDto.getFlight().getId().equals(fDto.getId())) 
-					{
-						continue;
-					}
-					else
-					{
-						sumTickets += tDto.getRating(); //sadrzi zbir svih ocena iz karata (za jedan let)
-					}
-						
-				}
-				
-				//ovaj deo mi se ne svidja, nisam lepo realizovao zbir ocena svih letova za jednu kompaniju
-				if(!fDto.getAvioCompany().getId().equals(id))
-				{
-					continue;
-				}
-				else
-				{//sad mi ovde treba zbir svih ocena sa svih letova jedne kompanije
-					flightSum += sumTickets;
-					nFlights++;
-				}
-				
-				
-		
-			}
-			companyAvg = flightSum / nFlights;
-			System.out.println(companyAvg);
-			return companyAvg;
+			return avg.get();
 		}
-		else	
-			return null;
 		
-			
+		return null;
 	}
+	
+	
+	
+//	/*
+//	 * 
+//	 * Prosecna ocena za kompaniju (sad po novom treba da se opravi..)
+//	 */
+//
+//	@Override
+//	public Float getAvgRating(Long id) //prosledjujemo ID kompanije za koju trazimo prosecnu sumu
+//	{
+//		FlightRepository flightRepository = null;
+//		TicketRepository ticketRepository = null; //ovo sam samo uveo da ne baca gresku
+//		Optional<List<Flight>> flights = Optional.of(flightRepository.findAll());
+//		Optional<List<Ticket>> tickets = Optional.of(ticketRepository.findAll());
+//		
+//		ArrayList<FlightDTO> flDtos = new ArrayList<FlightDTO>();
+//		ArrayList<TicketDTO> tDtos = new ArrayList<TicketDTO>();
+//		
+//		int flightSum = 0; //zbir svih ocena za jedan let
+//		float companyAvg = 0; //konacna prosecna ocena kompanije
+//		
+//		if(flights.isPresent()) //ako postoji let => znaci da je zavrsen i postoje ocene korisnika
+//		{
+//			for(Ticket ticket : tickets.get())
+//			{
+//				//tDtos.add(ticketConverter.convertToDto(ticket)); //dodajemo karte u spisak karata
+//			}
+//			
+//			for(Flight flight : flights.get())
+//			{
+//				//flDtos.add(flightConverter.convertToDTO(flight)); //dodajemo letove u spisak letova
+//			}
+//			
+//			int sumTickets = 0; //zbir ocena sa karata
+//			int nFlights = 0; //koliko puta je nasao let na osnovu karte
+//			for(FlightDTO fDto : flDtos) 
+//			{
+//				for(TicketDTO tDto : tDtos)
+//				{
+//					if(!tDto.getFlight().getId().equals(fDto.getId())) 
+//					{
+//						continue;
+//					}
+//					else
+//					{
+//						sumTickets += tDto.getRating(); //sadrzi zbir svih ocena iz karata (za jedan let)
+//					}
+//						
+//				}
+//				
+//				//ovaj deo mi se ne svidja, nisam lepo realizovao zbir ocena svih letova za jednu kompaniju
+//				if(!fDto.getAvioCompany().getId().equals(id))
+//				{
+//					continue;
+//				}
+//				else
+//				{//sad mi ovde treba zbir svih ocena sa svih letova jedne kompanije
+//					flightSum += sumTickets;
+//					nFlights++;
+//				}
+//				
+//				
+//		
+//			}
+//			companyAvg = flightSum / nFlights;
+//			System.out.println(companyAvg);
+//			return companyAvg;
+//		}
+//		else	
+//			return null;
+//		
+//			
+//	}
 
 }
