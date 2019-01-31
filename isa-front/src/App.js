@@ -26,6 +26,12 @@ import CreateDodatnaUsluga from './components/dashboard/dodavanjaHotel/CreateDod
 import CreatePrihodHotela from "./components/dashboard/dodavanjaHotel/CreatePrihodHotela";
 import InvitationPage from "./components/dashboard/invitation/InvitationPage";
 import HoteliIzlistavanjeAdmin from "./components/dashboard/izlistavanjeHotelAdmin/HotelIzlistavanjeAdmin"
+import HotelskaSobaIzlistavanjeAdmin from "./components/dashboard/izlistavanjeHotelAdmin/HotelskaSobaIzlistavanjeAdmin"
+import TipSobeIzlistavanjeAdmin from "./components/dashboard/izlistavanjeHotelAdmin/TipSobeIzlistavanjeAdmin"
+import DodatnaUslugaIzlistavanjeAdmin from "./components/dashboard/izlistavanjeHotelAdmin/DodatnaUslugaIzlistavanjeAdmin"
+import CenaSobeIzlistavanjeAdmin from "./components/dashboard/izlistavanjeHotelAdmin/CenaSobeIzlistavanjeAdmin"
+import RezervacijaSobeIzlistavanjeAdmin from "./components/dashboard/izlistavanjeHotelAdmin/RezervacijaSobeIzlistavanjeAdmin";
+import PrihodHotelaIzlistavanjeAdmin from "./components/dashboard/izlistavanjeHotelAdmin/PrihodHotelaIzlistavanjeAdmin";
 
 import LetoviAdminDashboard from "./components/dashboard/letoviAdmin/LetoviAdminDashboard";
 
@@ -65,6 +71,12 @@ class App extends Component {
             <Route path="/createAdditionalService" component={CreateDodatnaUsluga}></Route>
             <Route path="/createHotelIncome" component={CreatePrihodHotela}></Route>
             <Route path="/listaHotelaAdmin" component={HoteliIzlistavanjeAdmin}></Route>
+            <Route path="/listaHotelskihSobaAdmin" component={HotelskaSobaIzlistavanjeAdmin}></Route>
+            <Route path="/listaTipovaSobaAdmin" component={TipSobeIzlistavanjeAdmin}></Route>
+            <Route path="/listaDodatnihUslugaAdmin" component={DodatnaUslugaIzlistavanjeAdmin}></Route>
+            <Route path="/listaCenaSobaAdmin" component={CenaSobeIzlistavanjeAdmin}></Route>
+            <Route path="/listaRezervacijaSobaAdmin" component={RezervacijaSobeIzlistavanjeAdmin}></Route>
+            <Route path="/listaPrihodaHotelaAdmin" component={PrihodHotelaIzlistavanjeAdmin}></Route>
 
           </Switch>
         </div>
