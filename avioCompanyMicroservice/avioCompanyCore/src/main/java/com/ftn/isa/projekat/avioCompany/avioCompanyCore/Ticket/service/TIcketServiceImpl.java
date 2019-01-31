@@ -8,6 +8,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ftn.isa.projekat.avioCompany.avioCompanyApi.dto.FlightDTO;
 import com.ftn.isa.projekat.avioCompany.avioCompanyApi.dto.TicketDTO;
 import com.ftn.isa.projekat.avioCompany.avioCompanyCore.Flight.model.Flight;
 import com.ftn.isa.projekat.avioCompany.avioCompanyCore.Flight.repository.FlightRepository;
@@ -137,7 +138,27 @@ public class TicketServiceImpl implements ITicketService
 		return new TicketDTO();
 	}
 
-
+	/**
+	 * Pronalazi karte za let u cenovnom rangu
+	 */
+	@Override
+	public List<TicketDTO> getTicketsByPrice(Float bottomPrice, Float topPrice) 
+	{
+		Optional<List<Ticket>> tickets = tickRepo.findTicketsByPrice(bottomPrice, topPrice);
+		
+		ArrayList<TicketDTO> tickDto = new ArrayList<TicketDTO>();
+		
+		if(tickets.isPresent())
+		{
+			for(Ticket tick : tickets.get())
+			{
+				tickDto.add(tickConv.convertToDto(tick));
+			}
+			return tickDto;
+		}
+		
+		return Collections.emptyList();
+	}
 	
 
 }

@@ -48,6 +48,9 @@ public class Ticket
 	@Column(name = "is_bought")
 	private Boolean isBought;
 	
+	//DODATO
+	@Column(name = "is_canceled")
+	private Boolean isCanceled;
 	
 	/*
 	 * Flight where this ticket is bought

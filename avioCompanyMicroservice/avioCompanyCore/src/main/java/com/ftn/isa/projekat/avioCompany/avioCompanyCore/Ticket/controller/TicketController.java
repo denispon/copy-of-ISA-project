@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ftn.isa.projekat.avioCompany.avioCompanyApi.dto.FlightDTO;
 import com.ftn.isa.projekat.avioCompany.avioCompanyApi.dto.TicketDTO;
 import com.ftn.isa.projekat.avioCompany.avioCompanyCore.Ticket.service.ITicketService;
 
@@ -93,6 +94,16 @@ public class TicketController
 	}
 	
 	
-	
+	/* (Y)
+	 * Search tickets by price
+	 */
+	@GetMapping("/getbyprice/{bottomPrice}/{topPrice}")
+	public ResponseEntity<List<TicketDTO>> getTicketByPrice(@PathVariable("bottomPrice") Float bottomPrice, @PathVariable("topPrice") Float topPrice)
+	{
+		List<TicketDTO> tickets = service.getTicketsByPrice(bottomPrice, topPrice);
+		
+		return (!tickets.isEmpty()) ? new ResponseEntity<List<TicketDTO>>(tickets, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		
+	}
 	
 }

@@ -21,11 +21,9 @@ public interface IFlightService {
 
 	FlightDTO changeFlight(Long id, FlightDTO dto);
 	
-	List<FlightDTO> getFlightsByDate(LocalDate takeOffTime, LocalDate landingTime); //radi
-
-	List<FlightDTO> getFlightsByPrice(float bottomPrice, float topPrice);
+	List<FlightDTO> getFlightsByDate(LocalDateTime takeOffTime, LocalDateTime landingTime); //radi
 
 	Boolean cancelFlight(Long companyId);
 	
-	float getAvgRating(Long id);
+	Float getAvgRating(Long id);
 }

@@ -164,8 +164,11 @@ public class FlightServiceImpl implements IFlightService
 		return null;
 	}
 
+	/**
+	 * Pronalazi letove po datumu i vremenu
+	 */
 	@Override
-	public List<FlightDTO> getFlightsByDate(LocalDate takeOffTime, LocalDate landingTime) 
+	public List<FlightDTO> getFlightsByDate(LocalDateTime takeOffTime, LocalDateTime landingTime) 
 	{
 		Optional<List<Flight>> flights = flRepo.findFlightsByDate(takeOffTime, landingTime);
 		
@@ -182,26 +185,26 @@ public class FlightServiceImpl implements IFlightService
 		
 		return Collections.emptyList();
 	}
-
-
+	
+	
+	/**
+	 * Pronalazi prosecnu ocenu za let
+	 */
 	@Override
-	public List<FlightDTO> getFlightsByPrice(float bottomPrice, float topPrice) 
+	public Float getAvgRating(Long id)
 	{
-		Optional<List<Flight>> flights = flRepo.findFlightsByPrice(bottomPrice, topPrice);
+		Optional<Float> avg = flRepo.findAverageRating(id);
 		
-		ArrayList<FlightDTO> flDtos = new ArrayList<FlightDTO>();
-		
-		if(flights.isPresent())
+		if(avg.isPresent())
 		{
-			for(Flight fl : flights.get())
-			{
-				flDtos.add(flConv.convertToDTO(fl));
-			}
-			return flDtos;
+			return avg.get();
 		}
 		
-		return Collections.emptyList();
+		return null;
 	}
+
+
+	
 	
 	/*
 	 * Cancel is possible 3 hours before flight began.
@@ -264,13 +267,7 @@ public class FlightServiceImpl implements IFlightService
 	}
 	
 	
-	@Override
-	public float getAvgRating(Long id)
-	{
-		float flight = flRepo.findAverageRating(id);
-		
-		return flight;
-	}
+	
 
 	
 	

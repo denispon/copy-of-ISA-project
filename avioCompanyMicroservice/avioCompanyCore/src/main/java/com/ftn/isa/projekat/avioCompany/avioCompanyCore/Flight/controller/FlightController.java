@@ -2,6 +2,7 @@ package com.ftn.isa.projekat.avioCompany.avioCompanyCore.Flight.controller;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -100,28 +101,43 @@ public class FlightController
 	}
 	
 	
-	/*
-	 * Search by takeoff date and landing date (doradi za vreme, ne samo za datum)
+	/* (Y)
+	 * Search by takeoff time and landing time
 	 */
-	@GetMapping("/getFlightsByDate/{takeOffTime}/{landingTime}")
+	@GetMapping("/getbydate/{takeOffTime}/{landingTime}")
 	public ResponseEntity<List<FlightDTO>> getFlightsByDate(@PathVariable("takeOffTime") String takeOffTime, @PathVariable("landingTime") String landingTime)
 	{
-		List<FlightDTO> flights = service.getFlightsByDate(LocalDate.parse(takeOffTime), LocalDate.parse(landingTime));
+		DateTimeFormatter format = DateTimeFormatter.ISO_DATE_TIME;
+		
+		String take = LocalDateTime.parse(takeOffTime).format(format);
+		String land = LocalDateTime.parse(landingTime).format(format);
+		List<FlightDTO> flights = service.getFlightsByDate(LocalDateTime.parse(take), LocalDateTime.parse(land));
 	
 		return (!flights.isEmpty()) ? new ResponseEntity<List<FlightDTO>>(flights, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	}
 	
-	/*
-	 * Search flights by price
+	
+	
+	
+	/* (Y)
+	 * Trazimo prosecnu ocenu za jedan let
+	 * Prosledjujemo id leta
 	 */
-	@GetMapping("/getFlightsByPrice/{bottomPrice}/{topPrice}")
-	public ResponseEntity<List<FlightDTO>> getFlightsByPrice(@PathVariable("bottomPrice") float bottomPrice, @PathVariable("topPrice") float topPrice)
+	@GetMapping("/getavg/{id}")
+	@ApiOperation(value = "Get average rating for one flight.", notes = "Returns average.", httpMethod = "GET")
+	@ApiResponses(value = {@ApiResponse(code = 200, message = "OK"),
+						   @ApiResponse(code = 404, message = "NOT_FOUND")
+	})
+	public ResponseEntity<Float> getAverageRating(@PathVariable("id") Long id)
 	{
-		List<FlightDTO> flights = service.getFlightsByPrice(bottomPrice, topPrice);
+		Float avg = service.getAvgRating(id);
 		
-		return (!flights.isEmpty()) ? new ResponseEntity<List<FlightDTO>>(flights, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		
+		return(avg != null) ? new ResponseEntity<Float>(avg, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
+	
+	//************************************
+	//PROVERI*****************************
+	//************************************
 	
 	/*
 	 * Cancel flight (returns true if operation is allowed)
@@ -135,15 +151,6 @@ public class FlightController
 		
 	}
 	
-	/*
-	 * Average rating for one flight (cudilo bi me da radi)
-	 */
-	@GetMapping("/getAvgRating/{id}")
-	public ResponseEntity<Float> getAverageRating(@PathVariable("id") Long id)
-	{
-		Float avg = service.getAvgRating(id);
-		
-		return(avg != null) ? new ResponseEntity<Float>(avg, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-	}
+	
 	
 }

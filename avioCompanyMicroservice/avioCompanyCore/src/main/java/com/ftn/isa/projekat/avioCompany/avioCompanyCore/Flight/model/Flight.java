@@ -54,7 +54,7 @@ public class Flight
 	
 	@Column(name = "travel_type")
 	private String travelType;
-	
+		
 	
 	/*
 	 * Destinacija za poletanje
