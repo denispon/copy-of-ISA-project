@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.stereotype.Component;
 
 import com.ftn.isa.projekat.avioCompany.avioCompanyApi.dto.FlightDTO;
+import com.ftn.isa.projekat.avioCompany.avioCompanyCore.Destination.model.Destination;
 
 @Component
 public interface IFlightService {
@@ -21,9 +22,14 @@ public interface IFlightService {
 
 	FlightDTO changeFlight(Long id, FlightDTO dto);
 	
-	List<FlightDTO> getFlightsByDate(LocalDateTime takeOffTime, LocalDateTime landingTime); //radi
-
-	Boolean cancelFlight(Long companyId);
+	//////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////////////
 	
-	Float getAvgRating(Long id);
+	List<FlightDTO> getFlightsByDate(LocalDateTime takeOffTime, LocalDateTime landingTime); //(Y)
+	
+	Float getAvgRating(Long id);															//(Y)
+
+	List<FlightDTO> getFlightsByDestination(Long fromDest, Long toDest); //
+
+	List<FlightDTO> getFlightsByType(String type);
 }

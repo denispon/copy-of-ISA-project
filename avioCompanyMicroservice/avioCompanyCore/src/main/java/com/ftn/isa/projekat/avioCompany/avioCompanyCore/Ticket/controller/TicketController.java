@@ -106,4 +106,20 @@ public class TicketController
 		
 	}
 	
+	/*
+	 * Cancel flight (returns true if operation is allowed)
+	 */
+	@GetMapping("/cancelflight/{id}")
+	@ApiOperation(value = "Cancel flight.", notes = "Returns true if cancel is possible.", httpMethod = "GET")
+	@ApiResponses(value = {@ApiResponse(code = 200, message = "OK"),
+						   @ApiResponse(code = 404, message = "NOT_FOUND")
+	})
+	public ResponseEntity<Boolean> isFlightCanceled(@PathVariable("id") Long flightId)
+	{
+		Boolean canceled = service.cancelFlight(flightId);
+		
+		return (canceled) ? new ResponseEntity<Boolean>(canceled, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
+		
+	}
+	
 }

@@ -32,13 +32,13 @@ public class Income
 	private Long id;
 	
 	@Column (name = "value")
-	private int value;
+	private Integer value;
 	
 	@Column (name = "income_date")
 	private LocalDateTime incomeDate;
 	
 	@Column (name = "tickets_number")
-	private int ticketsNumber;
+	private Integer ticketsNumber;
 	
 	/*
 	 * Related company

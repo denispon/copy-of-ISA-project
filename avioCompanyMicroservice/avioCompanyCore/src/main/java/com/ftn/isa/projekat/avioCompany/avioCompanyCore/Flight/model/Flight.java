@@ -41,20 +41,22 @@ public class Flight
 	private LocalDateTime landingTime; 
 	
 	@Column (name = "flight_length")
-	private float flightLength;
+	private Float flightLength;
 	
 	@Column (name = "number_of_transfers") 
-	private int numberOfTransfers;
+	private Integer numberOfTransfers;
 	
 	@Column(name = "allTickets") //jedna karta = jedno mesto za sedenje
-	private int allTickets;
+	private Integer allTickets;
 	
 	@Column(name = "tickets_sold")
-	private int ticketsSold;
+	private Integer ticketsSold;
 	
 	@Column(name = "travel_type")
 	private String travelType;
 		
+	@Column(name = "avg_rating")
+	private Float avgRating;
 	
 	/*
 	 * Destinacija za poletanje

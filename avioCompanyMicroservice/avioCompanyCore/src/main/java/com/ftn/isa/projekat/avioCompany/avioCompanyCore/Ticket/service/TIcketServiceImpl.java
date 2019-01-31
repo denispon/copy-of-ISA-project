@@ -1,5 +1,6 @@
 package com.ftn.isa.projekat.avioCompany.avioCompanyCore.Ticket.service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -158,6 +159,68 @@ public class TicketServiceImpl implements ITicketService
 		}
 		
 		return Collections.emptyList();
+	}
+	
+	
+	/*
+	 * Cancel is possible 3 hours before flight began.
+	 * @see com.ftn.isa.projekat.avioCompany.avioCompanyCore.Flight.service.IFlightService#cancelFlight(java.lang.Long)
+	 */
+	@Override
+	public Boolean cancelFlight(Long flightId)
+	{
+		Boolean cancel = false;
+		
+		Optional<Flight> flight = flRepo.findById(flightId);
+		
+		LocalDateTime currentTime = LocalDateTime.now();
+		
+		if(flight.isPresent())
+		{
+			LocalDateTime takeOff = flight.get().getTakeOffTime();
+			int hourTakeOff = takeOff.getHour();
+			
+			int currentHour = currentTime.getHour();
+			
+			if(currentTime.getYear() <= takeOff.getYear())
+			{
+				if(currentTime.getMonthValue() <= takeOff.getMonthValue())
+				{
+					if(currentTime.getDayOfMonth() <= takeOff.getDayOfMonth())
+					{
+						
+						if(currentTime.getHour() > 20)
+						{
+							currentHour -= 4;
+							hourTakeOff -= 4;
+							if((currentHour + 3) <= hourTakeOff)
+							{
+								cancel = true;
+							}
+						}
+						else
+						{
+							if((currentHour + 3) <= hourTakeOff)
+							{
+								cancel = true;
+							}
+						}  
+					}
+					else
+						System.out.println("CANCEL_IMPOSSIBLE(DAY)");
+				}
+				else
+					System.out.println("CANCEL_IMPOSSIBLE(MONTH)");
+			}
+			else
+				System.out.println("CANCEL_IMPOSSIBLE(YEAR)");
+		}
+		else
+			System.out.println("Flight doesn't exists.");
+		
+		System.out.println(cancel);
+		
+		return cancel;
 	}
 	
 

@@ -12,9 +12,9 @@ public class TicketDTO
 	private Long id;
 	private Boolean fastReservation;
 	private String ticketClass;
-	private int discount;
-	private int rating;
-	private float price;
+	private Integer discount;
+	private Integer rating;
+	private Float price;
 	private Boolean isBought;
 	private Boolean isCanceled;
 	

@@ -37,13 +37,13 @@ public class Ticket
 	private String ticketClass;
 	
 	@Column (name = "discount") 
-	private int discount;
+	private Integer discount;
 	
 	@Column(name = "rating")
-	private int rating;
+	private Integer rating;
 	
 	@Column(name = "price")
-	private float price;
+	private Float price;
 	
 	@Column(name = "is_bought")
 	private Boolean isBought;

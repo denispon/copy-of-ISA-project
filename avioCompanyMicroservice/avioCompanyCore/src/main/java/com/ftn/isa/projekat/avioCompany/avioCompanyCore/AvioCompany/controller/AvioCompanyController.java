@@ -105,7 +105,7 @@ public class AvioCompanyController
 	 * Prosecna ocena kompanije 
 	 * Prosledjuje se id kompanije
 	 */
-	@GetMapping("/avg_rate/{id}")
+	@GetMapping("/getavgrating/{id}")
 	@ApiOperation(value = "Get average rating.", notes = "Returns average rating.")
 	@ApiResponses(value = {@ApiResponse(code = 200, message = "OK"),
 						   @ApiResponse(code = 404, message = "NOT_FOUND")
