@@ -52,6 +52,9 @@ public class Ticket
 	@Column(name = "is_canceled")
 	private Boolean isCanceled;
 	
+	@Column(name = "grade")
+	private String grade;
+	
 	/*
 	 * Flight where this ticket is bought
 	 */

@@ -170,4 +170,35 @@ public class FlightController
 		return(!flights.isEmpty()) ? new ResponseEntity<List<FlightDTO>>(flights, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST); 
 	}
 	
+	/*
+	 * Pretraga letova po broju preostalih karata (broju osoba) -> npr ako korisnik hoce da rezervise za jos {broj} ljudi
+	 */
+	@GetMapping("/getbyticketnum/{number}")
+	@ApiOperation(value = "Get flights by tickets left.", httpMethod = "GET")
+	@ApiResponses(value = {@ApiResponse(code = 200, message = "OK"),
+						   @ApiResponse(code = 400, message = "BAD_REQUEST")
+	})
+	public ResponseEntity<List<FlightDTO>> getFlightsByTicketNumber(@PathVariable("number") String number)
+	{		
+		Integer num = Integer.parseInt(number);
+		List<FlightDTO> flights = service.getFlightsByTicketNumber(num);
+		
+		return(!flights.isEmpty()) ? new ResponseEntity<List<FlightDTO>>(flights, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST); 
+	}
+	
+	/*
+	 * Pretraga letova po klasi koji podrzava, odredjuje se na osnovu karata koje se rezervisu za konkretan let
+	 */
+	@GetMapping("/getbyclass/{klasa}")
+	@ApiOperation(value = "Get flights by type.", httpMethod = "GET")
+	@ApiResponses(value = {@ApiResponse(code = 200, message = "OK"),
+						   @ApiResponse(code = 400, message = "BAD_REQUEST")
+	})
+	public ResponseEntity<List<FlightDTO>> getFlightsByClass(@PathVariable("klasa") String klasa)
+	{		
+		List<FlightDTO> flights = service.getFlightsByClass(klasa);
+		
+		return(!flights.isEmpty()) ? new ResponseEntity<List<FlightDTO>>(flights, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST); 
+	}
+	
 }

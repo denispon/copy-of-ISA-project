@@ -42,9 +42,19 @@ public interface FlightRepository extends JpaRepository<Flight, Long>
 	 */
 	@Query(value = "select distinct f.id, f.avio_company_id, f.take_off_destination_id, f.all_tickets, f.avg_rating, f.tickets_sold, f.landing_destination_id, f.landing_time, f.take_off_time, f.flight_length, f.travel_type, f.number_of_transfers from flight f where f.travel_type = :type ;", nativeQuery = true)
 	Optional<List<Flight>> findFlightsByType(@Param("type") String type);
+
+
+	/*
+	 * Search flights by tickets left
+	 */
+	@Query(value = "select distinct f.id, f.avio_company_id, f.take_off_destination_id, f.all_tickets, f.avg_rating, f.tickets_sold, f.landing_destination_id, f.landing_time, f.take_off_time, f.flight_length, f.travel_type, f.number_of_transfers from flight f where (f.all_tickets - f.tickets_sold) >= :number ;", nativeQuery = true)
+	Optional<List<Flight>> findFlightsByTicketsLeft(@Param("number") Integer number);
 	
-	
-	
+	/*
+	 * Search flights by class that is included in specific flight
+	 */
+	@Query(value = "select distinct f.id, f.avio_company_id, f.take_off_destination_id, f.all_tickets, f.avg_rating, f.tickets_sold, f.landing_destination_id, f.landing_time, f.take_off_time, f.flight_length, f.travel_type, f.number_of_transfers from flight f where f.id in (select id from ticket t where grade = :klasa) ;", nativeQuery = true)
+	Optional<List<Flight>> findFlightsByClass(@Param("klasa") String klasa);
 	
 	
 	

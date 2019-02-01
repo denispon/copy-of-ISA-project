@@ -32,4 +32,8 @@ public interface IFlightService {
 	List<FlightDTO> getFlightsByDestination(Long fromDest, Long toDest); //
 
 	List<FlightDTO> getFlightsByType(String type);
+
+	List<FlightDTO> getFlightsByTicketNumber(Integer number);
+
+	List<FlightDTO> getFlightsByClass(String klasa);
 }

@@ -228,6 +228,9 @@ public class FlightServiceImpl implements IFlightService
 		return dtos;
 	}
 
+	/**
+	 * Vrsi pretragu po tipu leta
+	 */
 	@Override
 	public List<FlightDTO> getFlightsByType(String type)
 	{
@@ -236,6 +239,44 @@ public class FlightServiceImpl implements IFlightService
 		ArrayList<FlightDTO> dtos = new ArrayList<FlightDTO>();
 		
 		if(flights.isPresent()) //ovo treba da ne baca exc
+		{
+			for(Flight fl : flights.get())
+			{
+				dtos.add(flConv.convertToDTO(fl));
+			}
+		}
+		
+		return dtos;
+	}
+
+	/**
+	 * Vrsi pretragu po preostalom broju slobodnih mesta na letu
+	 */
+	@Override
+	public List<FlightDTO> getFlightsByTicketNumber(Integer number)
+	{
+		Optional<List<Flight>> flights = flRepo.findFlightsByTicketsLeft(number);
+		
+		ArrayList<FlightDTO> dtos = new ArrayList<FlightDTO>();
+		
+		if(flights.isPresent())
+		{
+			for(Flight fl : flights.get())
+			{
+				dtos.add(flConv.convertToDTO(fl));
+			}
+		}
+		return dtos;
+	}
+
+	@Override
+	public List<FlightDTO> getFlightsByClass(String klasa)
+	{
+		Optional<List<Flight>> flights = flRepo.findFlightsByClass(klasa);
+		
+		ArrayList<FlightDTO> dtos = new ArrayList<FlightDTO>();
+		
+		if(flights.isPresent())
 		{
 			for(Flight fl : flights.get())
 			{

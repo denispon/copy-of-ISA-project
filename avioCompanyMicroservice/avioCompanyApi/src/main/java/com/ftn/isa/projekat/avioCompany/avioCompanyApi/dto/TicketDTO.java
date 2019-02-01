@@ -17,6 +17,7 @@ public class TicketDTO
 	private Float price;
 	private Boolean isBought;
 	private Boolean isCanceled;
+	private String grade;
 	
 	private FlightDTO flight;
 }

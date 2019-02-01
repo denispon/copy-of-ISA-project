@@ -30,6 +30,7 @@ public class DTOTicketConverter
 		dto.setPrice(bean.getPrice());
 		dto.setIsBought(bean.getIsBought());
 		dto.setIsCanceled(bean.getIsCanceled());
+		dto.setGrade(bean.getGrade());
 		
 		dto.setFlight(flightConverter.convertToDTO(bean.getFlight()));
 		
@@ -54,6 +55,7 @@ public class DTOTicketConverter
 		bean.setPrice(dto.getPrice());
 		bean.setIsBought(dto.getIsBought());
 		bean.setIsCanceled(dto.getIsCanceled());
+		bean.setGrade(dto.getGrade());
 		
 		bean.setFlight(flightConverter.convertFromDTO(dto.getFlight()));
 		
