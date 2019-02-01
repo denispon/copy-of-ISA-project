@@ -23,3 +23,16 @@ export const deleteHotel = (hotelId) =>{
         dispatch({type: 'DELETE_HOTEL', hotelId});
     }
 }
+
+export const editHotel = (hotel) =>{
+    return (dispatch, getState) =>{
+        //async call to db dodavanje u bazu
+        axios.put('http://localhost:8092/api/hotel/hotel/'+hotel.idIzmeni, { adress: hotel.adresaIzmeni, name: hotel.imeIzmeni, promotionalDescription: hotel.opisIzmeni })
+            .then(res => {
+            console.log(res);
+            console.log(res.data);
+      })
+        dispatch({type: 'EDIT_HOTEL', hotel: hotel});
+    }
+
+}

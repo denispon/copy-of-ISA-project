@@ -5,6 +5,7 @@
   "dependencies": {
     "axios": "^0.18.0",
     "canvasjs": "^1.8.1",
+    "google-maps-react": "^2.0.2",
     "react": "^16.7.0",
     "react-canvas-js": "^1.0.0",
     "react-charts": "^2.0.0-alpha.12",

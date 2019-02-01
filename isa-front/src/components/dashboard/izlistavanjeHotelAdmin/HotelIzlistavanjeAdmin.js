@@ -36,6 +36,7 @@ class HotelIzlistavanjeAdmin extends Component {
     }
 
     handleIzmeniClick = (hotelId) => {
+        this.props.history.push('/izmenaHotelaAdmin/'+hotelId)
     }
 
     render() {

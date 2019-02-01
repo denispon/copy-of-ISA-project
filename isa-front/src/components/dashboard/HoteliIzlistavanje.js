@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import UserLoggedTabs from '../layout/tabs/UserLoggedTabs';
 import { Link } from "react-router-dom"
+import MapContainer from "./GoogleMapa/MapContainer";
+import "./neregistrovan.css";
 import axios from 'axios'
 
 
@@ -19,6 +21,19 @@ class HotelIzlistavanje extends Component {
                 })
             })
     }
+
+    handleSobeClick = (hotelId) => {
+        this.props.history.push('/sobe/'+hotelId)
+    }
+
+    handleCenovnikClick = (hotelId) => {
+        this.props.history.push('/cenovnici/'+hotelId)
+    }
+
+    handleUslugeClick = (hotelId) => {
+        this.props.history.push('/usluge/'+hotelId)
+    }
+
     render() {
         const { hoteli } = this.state;
         const hoteliList = hoteli.length ? (hoteli.map(hotel => {
@@ -29,6 +44,9 @@ class HotelIzlistavanje extends Component {
                         <div className="left-align">
                             <p>Adresa: {hotel.adress}</p>
                             <p>Opis: {hotel.promotionalDescription}</p>
+                            <button className="buttons btn-small waves-effect waves-light indigo right" onClick = {() => this.handleUslugeClick(hotel.id)}>Dodatne usluge</button>
+                            <button className="buttons btn-small waves-effect waves-light indigo right" onClick = {() => this.handleCenovnikClick(hotel.id)}>Cenovnik usluga</button>
+                            <button className="buttons btn-small waves-effect waves-light indigo right" onClick = {() => this.handleSobeClick(hotel.id)}>Sobe</button>
                             <Link to="/#">Prikaz na mapi</Link>
                         </div>
                     </div>

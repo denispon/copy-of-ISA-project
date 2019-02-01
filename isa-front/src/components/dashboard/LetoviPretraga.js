@@ -42,7 +42,7 @@ class LetoviPretraga extends Component {
                                 <input type="text" id='destinacija' />
                             </div>
 
-                            <div class="input-field col s12">
+                            <div className="input-field col s12">
                                 <select className="browser-default">
                                     <option value="" disabled selected>Tip leta</option>
                                     <option value="1">One way</option>
@@ -51,7 +51,7 @@ class LetoviPretraga extends Component {
                                 </select>
                             </div>
 
-                            <div class="input-field col s12">
+                            <div className="input-field col s12">
                                 <select className="browser-default">
                                     <option value="" disabled selected>Putnik</option>
                                     <option value="1">Option 1</option>
@@ -60,7 +60,7 @@ class LetoviPretraga extends Component {
                                 </select>
                             </div>
 
-                            <div class="input-field col s12">
+                            <div className="input-field col s12">
                                 <select className="browser-default">
                                     <option value="" disabled selected>Klasa</option>
                                     <option value="1">Economy</option>

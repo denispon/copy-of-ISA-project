@@ -60,7 +60,7 @@ class RentACarPretraga extends Component {
                                 <input type="number" id='broj_putnika' />
                             </div>
 
-                            <div class="input-field col s12">
+                            <div className="input-field col s12">
                                 <select className="browser-default">
                                     <option value="" disabled selected>Tip vozila</option>
                                     <option value="1">Option 1</option>
