@@ -19,4 +19,6 @@ public interface IReservationService {
 	
 	public ReservationDTO changeReservation ( Long id, ReservationDTO reservation );
 
+	public List<ReservationDTO> findAllByUserId(Long id);
+
 }

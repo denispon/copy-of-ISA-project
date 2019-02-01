@@ -51,3 +51,32 @@ export const makeReservation = (id) => {
     }
 
 }
+
+export const getAllUserReservations = (id) => {
+
+    return (dispatch, getState) => {
+        axios.get('http://localhost:8095/api/purchases/reservation/allByUser/' + id)
+            .then(res => {
+                console.log(res.data)
+                res.data.map(reservation => {
+                    return (dispatch(addRentCarReservationToCollection(reservation.carReservationId)));
+                })
+
+                dispatch({ type: 'GET_USER_RESERVATIONS', userReservations: res.data })
+            })
+
+    }
+
+}
+
+export const addRentCarReservationToCollection = (id) => {
+
+    return (dispatch, getState) => {
+        axios.get('http://localhost:8090/api/rentacar/reservation/' + id)
+            .then(res => {
+                console.log(res.data)
+                dispatch({ type: 'GET_USER_RENT_A_CAR_RESERVATIONS', rentCarReservations: res.data })
+            })
+    }
+
+}

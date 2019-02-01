@@ -53,6 +53,13 @@ const CarReservation = ({ carReservation }) => {
                             </div>
                         </BrowserRouter>
                     </div>
+                    <div>
+                        <p className="indigo-text left"><strong>Datum od:</strong> {carReservation.dateFrom}</p>
+                        <br />
+                        <p className="indigo-text left"><strong>Datum do:</strong> {carReservation.dateTo}</p>
+                        <br />
+                        <br />
+                    </div>
                     <p className="red-text lighten-3 left"> <strong>Cena po danu: {carReservation.reservedCar && carReservation.reservedCar.rentPrice} din</strong></p>
                 </div>
 

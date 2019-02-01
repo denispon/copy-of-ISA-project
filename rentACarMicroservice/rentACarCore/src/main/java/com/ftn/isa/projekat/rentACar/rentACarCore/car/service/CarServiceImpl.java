@@ -108,7 +108,9 @@ public class CarServiceImpl  implements ICarService{
 			//if they are not, we will return also empty object with info and car will not be saved
 			if(branch.get().getBranchRentService().getId() == rentService.get().getId()) {
 			
-				carRepository.save(carConverter.convertFromDTO(carToSave));
+				Car savedCar = carRepository.save(carConverter.convertFromDTO(carToSave));
+				
+				carToSave.setId(savedCar.getId());
 				
 				return carToSave;
 				

@@ -1,23 +1,66 @@
-import React from "react";
+import React, { Component } from "react";
 import ReservationInfo from "./ReservationInfo";
+import { connect } from "react-redux"
+import { getAllUserReservations } from "../../../store/actions/PurchasesActions"
 
 
-const UserReservations = () => {
+class UserReservations extends Component {
 
-    return (
 
-        <div>
 
-            <h2 className="center red-text lighten-1">Veljko's reservations</h2>
+    componentDidMount() {
 
-            <ReservationInfo></ReservationInfo>
-            <ReservationInfo></ReservationInfo>
-            <ReservationInfo></ReservationInfo>
+        this.props.getAllUserReservations(2);
 
-        </div>
+    }
 
-    );
+
+
+
+    render() {
+        return (
+
+            <div>
+
+                <h2 className="center red-text lighten-1">Veljko's reservations</h2>
+
+                {
+
+                    this.props.userReservations ?
+                        this.props.userReservations.map(reservation => {
+
+                            return (
+                                <ReservationInfo reservation={reservation} />
+                            );
+                        })
+                        :
+                        ''
+
+
+
+                }
+
+
+
+            </div>
+
+        );
+    }
 
 };
 
-export default UserReservations;
+const mapStateToProps = (state) => {
+    return {
+        userReservations: state.purchases.userReservations,
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        getAllUserReservations: (id) => dispatch(getAllUserReservations(id))
+    }
+}
+
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(UserReservations);

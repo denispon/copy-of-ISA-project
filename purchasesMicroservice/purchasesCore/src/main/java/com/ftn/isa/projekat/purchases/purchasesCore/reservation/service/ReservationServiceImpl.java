@@ -174,5 +174,25 @@ public class ReservationServiceImpl implements IReservationService {
 		return new ReservationDTO();
 	}
 
+	@Override
+	public List<ReservationDTO> findAllByUserId(Long id) {
+		
+		Optional< List<Reservation> > list = reservationRepository.findAllByUserId(id);
+		ArrayList< ReservationDTO > reservationsDTO = new ArrayList< ReservationDTO >();
+		
+		if ( list.isPresent() ) {
+			
+			for ( Reservation reservation : list.get()) {
+				
+				reservationsDTO.add(reservationConverter.convertToDTO(reservation));
+				
+			}
+			
+			return reservationsDTO;
+			
+		}
+		
+		return Collections.emptyList();
 
+	}
 }

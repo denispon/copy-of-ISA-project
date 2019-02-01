@@ -56,6 +56,18 @@ public class ReservationController {
 		
 	}
 	
+	@GetMapping("/allByUser/{id}")
+	@ApiOperation( value = "Returns all reservations", httpMethod = "GET")
+	@ApiResponses( value = { @ApiResponse( code = 200, message ="OK"),
+							 @ApiResponse( code = 404, message ="Not Found")})	
+	public ResponseEntity<List<ReservationDTO>> getAllReservations(@PathVariable("id") Long id){
+		
+		List<ReservationDTO> reservations = reservationService.findAllByUserId(id);
+		
+		return ( !reservations.isEmpty() )? new ResponseEntity<List<ReservationDTO>>(reservations,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		
+	}
+	
 	@PostMapping("/")
 	@ApiOperation( value = "Create a reservation.", notes = "Returns the reservation being saved.", httpMethod="POST", produces = "application/json", consumes = "application/json" )
 	@ApiResponses( value = {

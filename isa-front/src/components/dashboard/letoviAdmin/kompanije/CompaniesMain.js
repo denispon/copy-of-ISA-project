@@ -1,18 +1,16 @@
 import React from 'react'
-import {NavLink} from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 
 import Company from './Company'
-import CreateCompany from './createCompany'
 
 
-const CompaniesMain = () =>
-{
-    return(
+const CompaniesMain = () => {
+    return (
         <div className="container">
             <div className="center">
                 <NavLink to="/createCompany" className="indigo-text lighten-1">Dodaj novu kompaniju</NavLink><br />
                 <br /><h1>Postojece aviokompanije</h1><br />
-                <Company/>
+                <Company />
             </div>
         </div>
     );

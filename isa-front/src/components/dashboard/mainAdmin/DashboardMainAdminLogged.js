@@ -6,8 +6,9 @@ import MainAdminLoggedRentACarTabs from "../../layout/tabs/MainAdminLoggedRentAC
 import CarTypeManipulation from "./CarTypeManipulation";
 import BonusPointsDiscounts from "./BonusPointsDiscounts";
 import { connect } from "react-redux";
-import { getAllCarTypes } from "../../../store/actions/RentACarActions"
+import { getAllCarTypes, getAllRentACarServices } from "../../../store/actions/RentACarActions"
 import { getAllBonusPointsDiscounts } from "../../../store/actions/PurchasesActions"
+import RentCarServiceManipulation from "./RentCarServiceManipulation"
 
 class DashboardMainAdminLogged extends Component {
 
@@ -16,6 +17,7 @@ class DashboardMainAdminLogged extends Component {
     componentDidMount() {
         this.props.getAllCarTypes();
         this.props.getAllBonusPointsDiscounts();
+        this.props.getAllRentACarServices();
     }
 
     render() {
@@ -30,6 +32,7 @@ class DashboardMainAdminLogged extends Component {
                         <Route path="/mainAdminAdministrators" component={AdministratorsDashboard}></Route>
                         <Route path="/mainAdminBonusPoints" render={(props) => <BonusPointsDiscounts bonusPointsDiscounts={this.props.bonusPointsDiscounts} />} />
                         <Route path="/mainAdminRentCar" component={MainAdminLoggedRentACarTabs}></Route>
+                        <Route path="/mainAdminRentCar/mainAdminRentServisi" render={(props) => <RentCarServiceManipulation rentACarServices={this.props.rentACarServices}></RentCarServiceManipulation>} />
                         <Route path="/mainAdminRentCar/mainAdminTipoviVozila" render={(props) => <CarTypeManipulation carTypes={this.props.carTypes} />} />
 
 
@@ -46,14 +49,17 @@ class DashboardMainAdminLogged extends Component {
 const mapStateToProps = (state) => {
     return {
         carTypes: state.rentACar.carTypes,
-        bonusPointsDiscounts: state.purchases.bonusPointsDiscounts
+        bonusPointsDiscounts: state.purchases.bonusPointsDiscounts,
+        rentACarServices: state.rentACar.rentServices
+
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
         getAllCarTypes: () => dispatch(getAllCarTypes()),
-        getAllBonusPointsDiscounts: () => dispatch(getAllBonusPointsDiscounts())
+        getAllBonusPointsDiscounts: () => dispatch(getAllBonusPointsDiscounts()),
+        getAllRentACarServices: () => dispatch(getAllRentACarServices())
     }
 }
 

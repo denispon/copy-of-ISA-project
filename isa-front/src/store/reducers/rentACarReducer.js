@@ -38,6 +38,11 @@ const rentACarReducer = (state = initState, action) => {
                 ...state,
                 carDiscounts: action.carDiscounts
             }
+        case 'GET_ALL_RENT_A_CAR_SERVICES':
+            return {
+                ...state,
+                rentServices: action.rentServices
+            }
     }
     return state
 }

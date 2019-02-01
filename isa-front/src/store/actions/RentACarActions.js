@@ -64,3 +64,18 @@ export const getAllCarDiscountsByRentId = (id) => {
     }
 
 }
+
+export const getAllRentACarServices = () => {
+
+    return (dispatch, getState) => {
+
+        axios.get('http://localhost:8090/api/rentacar/rentACarService/all')
+            .then(res => {
+                console.log(res.data);
+                dispatch({ type: 'GET_ALL_RENT_A_CAR_SERVICES', rentServices: res.data })
+            })
+
+    }
+
+
+}
