@@ -11,6 +11,10 @@ import com.ftn.isa.projekat.rentACar.rentACarApi.dto.CarReservationDTO;
 import com.ftn.isa.projekat.rentACar.rentACarApi.dto.RentACarServiceDTO;
 import com.ftn.isa.projekat.user.userApi.client.UserClient;
 import com.ftn.isa.projekat.user.userApi.dto.UserDTO;
+import com.ftn.isa.projekat.hotel.hotelApi.client.HotelClient;
+import com.ftn.isa.projekat.hotel.hotelApi.client.HotelskaSobaClient;
+import com.ftn.isa.projekat.hotel.hotelApi.dto.HotelDTO;
+import com.ftn.isa.projekat.hotel.hotelApi.dto.HotelskaSobaDTO;
 
 import feign.FeignException;
 
@@ -27,6 +31,12 @@ public class DatasFromOtherMicroservices {
 	RentACarServiceClient rentClient;
 	
 	@Autowired
+	HotelClient hotelClient;
+	
+	@Autowired
+	HotelskaSobaClient hotelskaSobaClient;
+	
+	@Autowired
 	UserClient userClient;
 	
 	
@@ -41,6 +51,17 @@ public class DatasFromOtherMicroservices {
 		return carReservation;
 	}
 	
+	public HotelskaSobaDTO deleteRoomReservation(Long id) {
+		HotelskaSobaDTO roomReservation = null;
+		try {
+			roomReservation = hotelskaSobaClient.deleteHotelRoom(id);
+		}
+		catch(FeignException e) {
+			return new HotelskaSobaDTO();
+		}
+		return roomReservation;
+	}
+	
 	public CarReservationDTO addCarReservation(CarReservationDTO carResercation) {
 		
 		CarReservationDTO carReservation = null;
@@ -51,6 +72,18 @@ public class DatasFromOtherMicroservices {
 			return new CarReservationDTO();
 		}
 		return carReservation;
+	}
+	
+public HotelskaSobaDTO addRoomReservation(HotelskaSobaDTO roomReservationParam) {
+		
+	HotelskaSobaDTO roomReservation = null;
+		try {
+			roomReservation = hotelskaSobaClient.addHotelRoom(roomReservationParam);
+		}
+		catch(FeignException e) {
+			return new HotelskaSobaDTO();
+		}
+		return roomReservation;
 	}
 	
 	public CarReservationDTO getCarReservationById(Long id) {
@@ -64,6 +97,19 @@ public class DatasFromOtherMicroservices {
 			
 		}		
 		return carReservation;
+	}
+	
+	public HotelskaSobaDTO getRoomReservationById(Long id) {
+		
+		HotelskaSobaDTO roomReservation = null;
+		try {
+			roomReservation = hotelskaSobaClient.getHotelskaSoba(id);
+		}
+		catch(FeignException e) {
+			return new HotelskaSobaDTO();
+			
+		}		
+		return roomReservation;
 	}
 	
 	
@@ -89,6 +135,19 @@ public class DatasFromOtherMicroservices {
 			new RentACarServiceDTO();
 		}
 		return rentService;
+	}
+	
+	public HotelDTO getHotelById(Long id) {
+		
+		HotelDTO rentHotel = null;
+		try {
+			rentHotel = hotelClient.getHotel(id);
+		}catch(FeignException e) {
+			new HotelDTO();
+		}
+		
+		return rentHotel;
+		
 	}
 	
 	
