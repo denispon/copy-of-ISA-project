@@ -2,6 +2,7 @@ import React from 'react'
 import {NavLink} from 'react-router-dom'
 
 import Company from './Company'
+import CreateCompany from './createCompany'
 
 
 const CompaniesMain = () =>
@@ -9,9 +10,8 @@ const CompaniesMain = () =>
     return(
         <div className="container">
             <div className="center">
-                <NavLink to="/" className="indigo-text lighten-1">Dodaj novu kompaniju</NavLink>
-                <Company/>
-                <Company/>
+                <NavLink to="/createCompany" className="indigo-text lighten-1">Dodaj novu kompaniju</NavLink><br />
+                <br /><h1>Postojece aviokompanije</h1><br />
                 <Company/>
             </div>
         </div>

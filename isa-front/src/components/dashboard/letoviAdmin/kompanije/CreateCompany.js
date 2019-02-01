@@ -1,25 +1,25 @@
 import React, {Component} from 'react'
 import axios from 'axios'
 
-class Company extends Component
+class CreateCompany extends Component
 {
     state = {
-        companies: [],
         destinations: [],
         flights: []
     }
 
     componentDidMount()
     {
-        axios.get('http://localhost:8091/api/aviocompany/company/all').then(
-            res => {
-                console.log(res);
-                this.setState({
-                    companies: res.data
-                })
-            }
-        );
+        // axios.post('http://localhost:8091/api/aviocompany/company/').then(
+        //     res => {
+        //         console.log(res);
+        //         this.setState({
+        //             companies: res.data
+        //         })
+        //     }
+        // );
 
+        //za combobox sa spiskom destinacija
         axios.get('http://localhost:8091/api/aviocompany/destination/all').then(
             res => {
                 console.log(res);
@@ -29,6 +29,7 @@ class Company extends Component
             }
         );
 
+        //za dodavanje letova
         axios.get('http://localhost:8091/api/aviocompany/flight/all').then(
             res => {
                 console.log(res);
@@ -44,8 +45,7 @@ class Company extends Component
     {
 
     }
-    //<!--SPISAK KARATA SA POPUSTIMA ZA BRZU REZ (??!) -->
-    //konfiguracija mesta u avionima ide za svaki let posebno, kao i prtljag i cenovnik
+
     render()
     { 
         return(
@@ -54,24 +54,23 @@ class Company extends Component
                     <div className="card">
                         <div className="card-content">
                             <span className="card-title right"><a className="btn-floating btn-small waves-effect waves-light red"><i>x</i></a></span>
-                            {this.state.companies.map(company => 
                             <div className="container">
                                 <form className="white">
                                     <div className="input-field">
-                                        <label htmlFor="name"></label>
-                                        <input type="text" id="name" value={company.name}/>
+                                        <label htmlFor="name">Unesi naziv</label>
+                                        <input type="text" id="name"/>
                                     </div>
                                     <div className="input-field">
-                                        <label htmlFor="address"></label>
-                                        <input type="text" id="address" value={company.address}/>
+                                        <label htmlFor="address">Unesi adresu</label>
+                                        <input type="text" id="address"/>
                                     </div>
                                     <div className="input-field">
-                                        <label htmlFor="desc"></label>
-                                        <textarea id="desc" value={company.description}/>
+                                        <label htmlFor="desc">Unesi Opis</label>
+                                        <textarea id="desc"/>
                                     </div>
                                     
                                     <div className="input-field col s12">
-                                        <select id="dest" onChange={this.handleChange} className="browser-default">
+                                        <select id="dest" className="browser-default">
                                             {this.state.destinations.map(destination =>
                                                 <option value="vr1">{destination.name}</option>
                                             )}
@@ -84,11 +83,9 @@ class Company extends Component
                                             )}
                                         </select>
                                     </div>
-                                    <button className="btn green lighten-1 z-depth-0">Izmeni</button>
+                                    <button className="btn green lighten-1 z-depth-0">Kreiraj</button>
                                 </form>
-                                <br /><br /><br /><hr></hr><br /><br /><br />
                             </div>
-                            )}
                         </div>
                     </div>
                 </div>
@@ -98,4 +95,4 @@ class Company extends Component
 
 }
 
-export default Company
+export default CreateCompany
