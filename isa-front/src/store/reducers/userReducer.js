@@ -1,7 +1,9 @@
 const initState = {
 
     user: {},
-    useri: []
+    useri: [],
+    friends: [],
+    friendRequests: []
 }
 
 const userReducer = (state = initState, action) => {
@@ -19,6 +21,17 @@ const userReducer = (state = initState, action) => {
                 useri: action.users
             }
 
+        case 'GET_ALL_USERS_FRIEND_REQUESTS':
+            return {
+                ...state,
+                friendRequests: action.friendRequests
+            }
+
+        case 'GET_ALL_USER_FRIENDS':
+            return {
+                ...state,
+                friends: action.friends
+            }
         default:
             break;
     }

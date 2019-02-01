@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,6 +27,7 @@ import io.swagger.annotations.ApiResponses;
 @RestController
 @RequestMapping("/api/user/user")
 @Api(value="user")
+@CrossOrigin(origins = "http://localhost:3000")
 public class UserController {
 
 	@Autowired
@@ -100,6 +102,18 @@ public class UserController {
 	public ResponseEntity<List<UserDTO>> getAllFriends(@PathVariable("id") Long id){
 		
 		List<UserDTO> friends = userService.getallFriends(id);
+		
+		return ( !friends.isEmpty() )? new ResponseEntity<List<UserDTO>>(friends,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);		
+		
+	}
+	
+	@GetMapping("/friendRequest/{id}")
+	@ApiOperation( value = "Returns all user from friend requests.", notes = "As parametar this function gets user id", httpMethod = "GET")
+	@ApiResponses( value = { @ApiResponse( code = 200, message ="OK"),
+							 @ApiResponse( code = 404, message ="Not Found")})	
+	public ResponseEntity<List<UserDTO>> getAllFriendRequests(@PathVariable("id") Long id){
+		
+		List<UserDTO> friends = userService.getAllFriendRequests(id);
 		
 		return ( !friends.isEmpty() )? new ResponseEntity<List<UserDTO>>(friends,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);		
 		

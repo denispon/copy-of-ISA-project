@@ -3,13 +3,13 @@ import { NavLink } from "react-router-dom"
 import "./friends.css"
 
 
-const Friend = () => {
+const Friend = ({ friend }) => {
 
     return (
         <div className="center container">
             <div className="row container center">
                 <div className="col s6">
-                    <p >Dragan Ivetic</p>
+                    <p >{friend.name} {friend.surname}</p>
                 </div>
                 <div className="col s2">
                     <NavLink to="/#" className=" red-text " >Obrisi prijatelja</NavLink>

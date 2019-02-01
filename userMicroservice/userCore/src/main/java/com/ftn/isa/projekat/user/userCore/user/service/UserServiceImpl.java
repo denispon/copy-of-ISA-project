@@ -298,4 +298,28 @@ public class UserServiceImpl implements IUserService {
 		
 	}
 
+	@Override
+	public List<UserDTO> getAllFriendRequests(Long id) {
+		
+		Optional<List<User>> friendRequests = userRepository.getAllFriendRequests(id);
+		
+		if(friendRequests.isPresent()) {
+			
+			ArrayList<UserDTO> friendsDTO = new ArrayList<UserDTO>();
+			
+			for(User user : friendRequests.get()) {
+				
+				friendsDTO.add(userConverter.convertToDTO(user));
+				
+			}
+			
+			
+			return friendsDTO;
+			
+		}
+		
+		
+		return Collections.emptyList();
+	}
+
 }

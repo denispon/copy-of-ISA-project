@@ -1,6 +1,12 @@
 const initState = {
 
-    bonusPointsDiscounts: []
+    bonusPointsDiscounts: [],
+    userShoppingCart: {},
+    carReservation: undefined,
+    hotelReservation: undefined,
+    avioCompanyReservation: undefined,
+    finalReservation: undefined,
+    userReservations: undefined
 
 }
 
@@ -11,6 +17,27 @@ const purchasesReducer = (state = initState, action) => {
                 ...state,
                 bonusPointsDiscounts: action.bonusPointsDiscounts
             }
+        case 'GET_USER_SHOPPING_CART':
+            return {
+                ...state,
+                userShoppingCart: action.userShoppingCart
+            }
+
+        case 'GET_CAR_RESERVATION':
+            return {
+                ...state,
+                carReservation: action.carReservation
+            }
+        case 'MAKE_RESERVATION':
+            return {
+                ...state,
+                userShoppingCart: undefined,
+                carReservation: undefined,
+                avioCompanyReservation: undefined,
+                hotelReservation: undefined,
+                finalReservation: action.finalReservation
+            }
+
     }
     return state
 }

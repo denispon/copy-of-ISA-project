@@ -378,6 +378,24 @@ public class ShoppingCartServiceImpl implements IShoppingCartService{
 		
 		
 	}
+
+	@Override
+	public ShoppingCartDTO findOneByUserId(Long id) {
+		
+		Optional <ShoppingCart> reservation = cartRepository.findByUserId(id);
+		
+		
+		if (reservation.isPresent()) {
+			
+			return cartConverter.convertToDTO(reservation.get());
+		
+		}
+		else {
+			
+			return new ShoppingCartDTO();
+			
+		}	
+	}
 	
 	
 }

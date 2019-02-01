@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,6 +27,7 @@ import io.swagger.annotations.ApiResponses;
 @RestController
 @RequestMapping("/api/purchases/shoppingCart")
 @Api(value="shoppingCart")
+@CrossOrigin(origins = "http://localhost:3000")
 public class ShoppingCartController {
 
 	@Autowired
@@ -38,6 +40,19 @@ public class ShoppingCartController {
 	public ResponseEntity<ShoppingCartDTO> getOneReservationById (@PathVariable("id") Long id){
 		
 		ShoppingCartDTO ShoppingCartDTO = cartService.findOneById(id);
+		
+		return ( ShoppingCartDTO.getId()!=null)? new ResponseEntity<ShoppingCartDTO>(ShoppingCartDTO,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		
+	}
+	
+	
+	@GetMapping("/user/{id}")
+	@ApiOperation( value = "Returns shopping cart of user.", notes = "Returns found reservations from shopping cart.", httpMethod="GET")
+	@ApiResponses( value = { @ApiResponse( code = 200, message = "OK"),
+							 @ApiResponse( code = 404, message = "Not Found")})
+	public ResponseEntity<ShoppingCartDTO> getOneReservationByUserId (@PathVariable("id") Long id){
+		
+		ShoppingCartDTO ShoppingCartDTO = cartService.findOneByUserId(id);
 		
 		return ( ShoppingCartDTO.getId()!=null)? new ResponseEntity<ShoppingCartDTO>(ShoppingCartDTO,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		

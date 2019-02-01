@@ -4,13 +4,18 @@ import HotelReservation from "./HotelReservation";
 import CarReservation from "./CarReservation";
 
 
-const ShoppingCartReservation = () => {
+
+const ShoppingCartReservation = ({ carReservation, hotelReservation, avioCompanyReservation }) => {
 
     return (
+
+
+
         <div className=" contrainer">
-            <FlightReservation></FlightReservation>
-            <HotelReservation></HotelReservation>
-            <CarReservation></CarReservation>
+            {avioCompanyReservation != undefined ? <FlightReservation></FlightReservation> : ''}
+            {hotelReservation != undefined ? <HotelReservation></HotelReservation> : ''}
+            {carReservation != undefined ? <CarReservation carReservation={carReservation}></CarReservation> : ''}
+
         </div>
     );
 

@@ -21,4 +21,7 @@ public interface UserRepository extends JpaRepository<User,Long>{
 
 	Optional<List<User>> findAllByRolesId(Long id);
 
+	@Query(value="select * from user where id in(select source_user from friend_request where invited_user =:id and status='pending');",nativeQuery=true)	
+	Optional<List<User>> getAllFriendRequests(Long id);
+
 }

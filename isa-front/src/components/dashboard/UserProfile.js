@@ -26,7 +26,7 @@ class UserProfile extends Component {
                 <div className="card-content">
                     <div className="container">
                         <form className="white" >
-                            <h2 className="red-text lighten-1">Veljko Petrovic</h2>
+                            <h2 className="red-text lighten-1">{name} {surname}</h2>
                             <h4 className="indigo-text lighten-1">Bonus poeni : -5</h4>
                             <div className="input-field">
                                 <label htmlFor="ime" className={this.state.aktivna}>Ime</label>

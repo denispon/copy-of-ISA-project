@@ -22,6 +22,8 @@ public interface IUserService {
 	public UserDTO changeUser ( Long id, UserDTO user );
 
 	public List<UserDTO> getallFriends(Long id);
+	
+	public List<UserDTO> getAllFriendRequests(Long id);
 
 	public UserForRegistrationDTO registerUser(UserForRegistrationDTO dto);
 
@@ -30,6 +32,8 @@ public interface IUserService {
 	public List<UserDTO> findUsersByRole(Long id);
 
 	public UserDTO changeRoleOfUser(Long userId, Long roleId);
+
+	
 	
 	
 

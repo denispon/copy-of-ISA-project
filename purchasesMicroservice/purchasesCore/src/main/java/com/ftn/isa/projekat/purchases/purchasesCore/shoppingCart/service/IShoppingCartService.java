@@ -28,4 +28,6 @@ public interface IShoppingCartService {
 
 	public ShoppingCartDTO addBonusPointsToReservation(Long id, int bonusPoints);
 
+	public ShoppingCartDTO findOneByUserId(Long id);
+
 }

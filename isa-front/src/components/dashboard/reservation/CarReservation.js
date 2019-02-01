@@ -4,8 +4,14 @@ import CancelReservation from "./CancelReservation"
 import DeleteFromShoppingCart from "./DeleteFromShoppingCart"
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 
+//Ovde imamo situaciju kada je objekat slozen iz vise objekata
+//pri prvom renderovanju ne ucitaju se svi objekti unutar njega
+//i ukoliko ostavimo samo izraz npr carReservation.service.name
+//pucace nam error cannot get name of undefined, jer service jos nije ucitan
+//zbog toga na svaki ispis je postavljen i uslov ukoliko je objekat jos undefined da se nista ne ispisuje
+//i tek kada dodje da mu dozvoli ispis
 
-const CarReservation = () => {
+const CarReservation = ({ carReservation }) => {
 
     return (
         <div className="card">
@@ -16,7 +22,10 @@ const CarReservation = () => {
                 <div className="container">
                     <div className="row ">
                         <div className="col s4">
-                            <p>Zubac Komerc</p>
+                            {carReservation.service
+                                && <p>{carReservation.service.name}</p>
+                            }
+
                         </div>
                         <BrowserRouter>
                             <div className="col s4">
@@ -34,7 +43,9 @@ const CarReservation = () => {
                     </div>
                     <div className="row">
                         <div className="col s4">
-                            <p>BMW x5</p>
+                            {carReservation.reservedCar && carReservation.reservedCar.carType
+                                && <p>{carReservation.reservedCar.carType.brand} {carReservation.reservedCar.carType.model} {carReservation.reservedCar.carType.modelYear}. {carReservation.reservedCar.carType.carType} broj sedista: {carReservation.reservedCar.carType.numberOfSeats} </p>
+                            }
                         </div>
                         <BrowserRouter>
                             <div className="col s4">
@@ -42,7 +53,7 @@ const CarReservation = () => {
                             </div>
                         </BrowserRouter>
                     </div>
-                    <p className="red-text lighten-3 left"> <strong>Cena: 4000 din</strong></p>
+                    <p className="red-text lighten-3 left"> <strong>Cena po danu: {carReservation.reservedCar && carReservation.reservedCar.rentPrice} din</strong></p>
                 </div>
 
 
