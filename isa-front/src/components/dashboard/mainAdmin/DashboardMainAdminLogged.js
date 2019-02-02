@@ -10,6 +10,8 @@ import { getAllCarTypes, getAllRentACarServices } from "../../../store/actions/R
 import { getAllBonusPointsDiscounts } from "../../../store/actions/PurchasesActions"
 import RentCarServiceManipulation from "./RentCarServiceManipulation"
 
+import AvioCompanyManipulation from "./avioCompany/AvioCompanyManipulation"
+
 class DashboardMainAdminLogged extends Component {
 
     state = {
@@ -54,7 +56,7 @@ class DashboardMainAdminLogged extends Component {
                         <Route path="/mainAdminRentCar/mainAdminRentServisi" render={(props) => <RentCarServiceManipulation otvoriProzorRentACarServisa={this.state.otvoriProzorRentACarServisa} prikaziCardZaDodavanjeRentACarServisa={this.prikaziCardZaDodavanjeRentACarServisa} iskljuciCardZaDodavanjeRentACarServica={this.iskljuciCardZaDodavanjeRentACarServica} rentACarServices={this.props.rentACarServices}></RentCarServiceManipulation>} />
                         <Route path="/mainAdminRentCar/mainAdminTipoviVozila" render={(props) => <CarTypeManipulation carTypes={this.props.carTypes} />} />
 
-
+                        <Route path="/mainAdminAvio/mainAdminAvioCompanies" component={AvioCompanyManipulation}></Route>
                     </div>
                 </div>
             </BrowserRouter>

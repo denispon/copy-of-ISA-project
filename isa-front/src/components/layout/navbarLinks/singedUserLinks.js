@@ -7,22 +7,22 @@ const SignedInLinks = () => {
     <div>
       <ul className="right">
         <li className="isa_links">
-          <NavLink to="/korpa">korpa</NavLink>
+          <NavLink to="/korpa">Korpa</NavLink>
         </li>
         <li className="isa_links">
-          <NavLink to="/invitations">pozivnice</NavLink>
+          <NavLink to="/invitations">Pozivnice</NavLink>
         </li>
         <li className="isa_links">
-          <NavLink to="/userReservations">rezervacije</NavLink>
+          <NavLink to="/userReservations">Rezervacije</NavLink>
         </li>
         <li className="isa_links">
-          <NavLink to="/friends"> prijatelji</NavLink>
+          <NavLink to="/friends"> Prijatelji</NavLink>
         </li>
         <li className="isa_links">
-          <NavLink to="/userProfile">profil</NavLink>
+          <NavLink to="/userProfile">Profil</NavLink>
         </li>
         <li className="isa_links">
-          <NavLink to="/">izloguj se</NavLink>
+          <NavLink to="/">Izloguj se</NavLink>
         </li>
       </ul>
     </div>
