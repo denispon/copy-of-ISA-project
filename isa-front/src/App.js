@@ -42,6 +42,7 @@ import CreateCenovnikUsluga from "./components/dashboard/dodavanjaHotel/CreateCe
 import LetoviAdminDashboard from "./components/dashboard/letoviAdmin/LetoviAdminDashboard";
 import IzmenaDodatnihUslugaAdmin from "./components/dashboard/izlistavanjeHotelAdmin/IzmenaDodatnihUslugaAdmin";
 import IzmenaTipaAdmin from "./components/dashboard/izlistavanjeHotelAdmin/IzmenaTipaAdmin";
+import IzmenaHotelskihSobaAdmin from "./components/dashboard/izlistavanjeHotelAdmin/IzmenaHotelskihSobaAdmin";
 
 
 
@@ -98,6 +99,7 @@ class App extends Component {
             <Route path="/izmenaHotelaAdmin/:hotelId" component={IzmenaHotelaAdmin}></Route>
             <Route path="/izmenaDodatnihUslugaAdmin/:uslugaId" component={IzmenaDodatnihUslugaAdmin}></Route>
             <Route path="/izmenaTipovaAdmin/:tipId" component={IzmenaTipaAdmin}></Route>
+            <Route path="/izmenaHotelskihSobaAdmin/:sobaId" component={IzmenaHotelskihSobaAdmin}></Route>
             <Route path="/sobe/:hotelId" component={Sobe}></Route>
             <Route path="/cenovnici/:hotelId" component={Cenovnici}></Route>
             <Route path="/usluge/:hotelId" component={DodatneUsluge}></Route>

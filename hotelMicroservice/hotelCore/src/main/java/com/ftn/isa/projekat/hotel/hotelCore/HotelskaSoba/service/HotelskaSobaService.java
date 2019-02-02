@@ -71,6 +71,9 @@ public class HotelskaSobaService implements IHotelskaSobaService{
 	}
 	
 	public HotelskaSobaDTO save(HotelskaSobaDTO sobaDTO) {
+		if(sobaDTO.getId() == null) {
+			sobaDTO.setId((long) -1);
+		}
 		hotelskaSobaRepository.save(hotelskaSobaConverter.convertFromDTO(sobaDTO));
 		return sobaDTO;
 	}

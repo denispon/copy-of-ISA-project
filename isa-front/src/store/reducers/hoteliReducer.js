@@ -34,6 +34,16 @@ const hoteliReducer = (state = initState, action) => {
             console.log('izmenjen tip', action.tipId);
             window.location = '/listaTipovaSobaAdmin';
             break;
+        case 'CREATE_SOBA':
+            console.log('kreirana soba', action.soba);
+            break;
+        case 'DELETE_SOBA':
+            console.log('izbrisana soba', action.soba);
+            break;
+        case 'EDIT_SOBA':
+            console.log('izmenjena soba', action.sobaId);
+            window.location = '/listaHotelskihSobaAdmin';
+            break;
             
     }
     return state
