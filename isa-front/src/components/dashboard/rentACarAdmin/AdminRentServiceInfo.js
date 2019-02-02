@@ -7,7 +7,7 @@ const AdminRentServiceInfo = ({ rentACarService, branchOffices }) => {
 
     return (
         <div className="container">
-            <ChangeRentService rentACarService={rentACarService} ></ChangeRentService>
+            <ChangeRentService rentACarService={rentACarService} izmena={true} ></ChangeRentService>
             <BranchOfficeManipulation branchOffices={branchOffices}></BranchOfficeManipulation>
         </div>
     );

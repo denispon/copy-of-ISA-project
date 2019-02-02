@@ -12,13 +12,32 @@ import RentCarServiceManipulation from "./RentCarServiceManipulation"
 
 class DashboardMainAdminLogged extends Component {
 
-    state = {}
+    state = {
+        otvoriProzorRentACarServisa: false,
+    }
 
     componentDidMount() {
         this.props.getAllCarTypes();
         this.props.getAllBonusPointsDiscounts();
         this.props.getAllRentACarServices();
     }
+
+    prikaziCardZaDodavanjeRentACarServisa = (e) => {
+
+        e.preventDefault();
+        this.setState({
+            otvoriProzorRentACarServisa: true
+        })
+
+    }
+
+    iskljuciCardZaDodavanjeRentACarServica = (e) => {
+        e.preventDefault();
+        this.setState({
+            otvoriProzorRentACarServisa: false
+        })
+    }
+
 
     render() {
         return (
@@ -32,7 +51,7 @@ class DashboardMainAdminLogged extends Component {
                         <Route path="/mainAdminAdministrators" component={AdministratorsDashboard}></Route>
                         <Route path="/mainAdminBonusPoints" render={(props) => <BonusPointsDiscounts bonusPointsDiscounts={this.props.bonusPointsDiscounts} />} />
                         <Route path="/mainAdminRentCar" component={MainAdminLoggedRentACarTabs}></Route>
-                        <Route path="/mainAdminRentCar/mainAdminRentServisi" render={(props) => <RentCarServiceManipulation rentACarServices={this.props.rentACarServices}></RentCarServiceManipulation>} />
+                        <Route path="/mainAdminRentCar/mainAdminRentServisi" render={(props) => <RentCarServiceManipulation otvoriProzorRentACarServisa={this.state.otvoriProzorRentACarServisa} prikaziCardZaDodavanjeRentACarServisa={this.prikaziCardZaDodavanjeRentACarServisa} iskljuciCardZaDodavanjeRentACarServica={this.iskljuciCardZaDodavanjeRentACarServica} rentACarServices={this.props.rentACarServices}></RentCarServiceManipulation>} />
                         <Route path="/mainAdminRentCar/mainAdminTipoviVozila" render={(props) => <CarTypeManipulation carTypes={this.props.carTypes} />} />
 
 

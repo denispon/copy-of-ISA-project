@@ -79,3 +79,47 @@ export const getAllRentACarServices = () => {
 
 
 }
+
+export const createRentACarService = (rentService) => {
+
+    return (dispatch, getState) => {
+
+        axios.post('http://localhost:8090/api/rentacar/rentACarService/', { id: rentService.id, name: rentService.name, adress: rentService.adress, description: rentService.description })
+            .then(res => {
+                console.log(res);
+                dispatch({ type: 'CREATE_RENT_A_CAR_SERVICE', rentService: res.data });
+            })
+
+
+    }
+
+}
+
+export const editRentACarService = (id, editedService) => {
+
+    return (dispatch, getState) => {
+
+        axios.put('http://localhost:8090/api/rentacar/rentACarService/' + id, { id: editedService.id, name: editedService.name, adress: editedService.adress, description: editedService.description })
+            .then(res => {
+                console.log(res);
+                dispatch({ type: 'EDIT_RENT_A_CAR_SERVICE', editedService: res.data });
+            })
+
+
+    }
+
+}
+
+export const deleteRentACarService = (id) => {
+
+    return (dispatch, getState) => {
+        console.log("OVO JE ID" + id)
+        axios.delete('http://localhost:8090/api/rentacar/rentACarService/' + id)
+            .then(res => {
+                console.log(res);
+                dispatch({ type: 'DELETE_RENT_A_CAR_SERVICE', deletedService: res.data });
+            })
+
+    }
+
+}

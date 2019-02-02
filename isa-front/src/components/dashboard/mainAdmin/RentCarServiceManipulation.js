@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom"
 import ChangeRentService from "../rentACarAdmin/ChangeRentService"
 
 
-const RentCarServiceManipulation = ({ rentACarServices }) => {
+const RentCarServiceManipulation = ({ rentACarServices, otvoriProzorRentACarServisa, prikaziCardZaDodavanjeRentACarServisa, iskljuciCardZaDodavanjeRentACarServica }) => {
 
     return (
         <div className="container">
@@ -11,11 +11,20 @@ const RentCarServiceManipulation = ({ rentACarServices }) => {
             <h4 className="center red-text lighten-1">Rent servisi</h4>
 
             <div className="center">
-                <NavLink to="#" className="indigo-text lighten-1">Dodaj novi rent servis</NavLink>
+                {
+                    otvoriProzorRentACarServisa == false ?
+                        <NavLink to="#" className="indigo-text lighten-1" onClick={(e) => { prikaziCardZaDodavanjeRentACarServisa(e) }} >Dodaj novi rent servis</NavLink>
+                        :
+                        <div>
+                            <NavLink to="#" className="indigo-text lighten-1" onClick={(e) => { iskljuciCardZaDodavanjeRentACarServica(e) }}>Sakri prozor dodavanja</NavLink>
+                            <ChangeRentService rentACarService={undefined} izmena={false} />
+                        </div>
+                }
+
 
                 {rentACarServices.map(rentACarService => {
                     return (
-                        <ChangeRentService rentACarService={rentACarService} key={rentACarService.id} />
+                        <ChangeRentService brisanje={true} rentACarService={rentACarService} izmena={true} key={rentACarService.id} />
                     )
                 })}
 

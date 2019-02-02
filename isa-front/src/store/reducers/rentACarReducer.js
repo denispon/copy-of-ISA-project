@@ -43,6 +43,23 @@ const rentACarReducer = (state = initState, action) => {
                 ...state,
                 rentServices: action.rentServices
             }
+        case 'CREATE_RENT_A_CAR_SERVICE':
+            return {
+                ...state,
+                rentServices: state.rentServices.concat(action.rentService)
+            }
+        case 'EDIT_RENT_A_CAR_SERVICE':
+            return {
+                ...state,
+                rentServices: (state.rentServices.filter(item => item.id !== action.editedService.id)).concat(action.editedService)
+            }
+
+        case 'DELETE_RENT_A_CAR_SERVICE':
+            return {
+                ...state,
+                rentServices: (state.rentServices.filter(item => item.id !== action.deletedService.id))
+
+            }
     }
     return state
 }

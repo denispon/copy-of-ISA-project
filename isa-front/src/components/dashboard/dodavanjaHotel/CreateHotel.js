@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import UserLoggedTabs from '../../layout/tabs/UserLoggedTabs';
 import { connect } from 'react-redux'
 import { createHotel } from '../../../store/actions/HotelActions'
@@ -33,19 +33,19 @@ class CreateHotel extends Component {
                         <div className="container">
                             <div className="input-field">
                                 <label htmlFor="imeDodaj">Ime:</label>
-                                <input type="text" id='imeDodaj' onChange = {this.handleChange}/>
-                            </div>     
+                                <input type="text" id='imeDodaj' onChange={this.handleChange} />
+                            </div>
                             <div className="input-field">
                                 <label htmlFor="adresaDodaj">Adresa:</label>
-                                <input type="text" id='adresaDodaj'  onChange = {this.handleChange}/>
-                            </div> 
+                                <input type="text" id='adresaDodaj' onChange={this.handleChange} />
+                            </div>
                             <div className="input-field">
                                 <label htmlFor="opisDodaj">Promotivni opis:</label>
-                                <input type="text" id='opisDodaj'  onChange = {this.handleChange}/>
-                            </div> 
+                                <input type="text" id='opisDodaj' onChange={this.handleChange} />
+                            </div>
                             <div className="input-field">
                                 <button className="btn blue lighten-1 z-depth-0">Dodaj</button>
-                             </div>
+                            </div>
                         </div>
                     </form>
                 </div>
@@ -54,8 +54,8 @@ class CreateHotel extends Component {
     }
 };
 
-const mapDispatchToProps = (dispatch) =>{
-    return{
+const mapDispatchToProps = (dispatch) => {
+    return {
         createHotel: (hotel) => dispatch(createHotel(hotel))
     }
 }
