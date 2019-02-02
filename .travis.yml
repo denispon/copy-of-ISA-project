@@ -1,6 +1,2 @@
-
-
-deploy:
-  provider: heroku
-  api_key:
-    secure: "YOUR ENCRYPTED API KEY"
+language: java
+jdk: oraclejdk8
