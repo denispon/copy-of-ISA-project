@@ -38,7 +38,11 @@ import Cenovnici from "./components/dashboard/Cenovnici";
 import DodatneUsluge from "./components/dashboard/DodatneUsluge";
 import Vozila from "./components/dashboard/Vozila";
 import Filijale from "./components/dashboard/Filijale";
+import CreateCenovnikUsluga from "./components/dashboard/dodavanjaHotel/CreateCenovnikUsluga";
 import LetoviAdminDashboard from "./components/dashboard/letoviAdmin/LetoviAdminDashboard";
+import IzmenaDodatnihUslugaAdmin from "./components/dashboard/izlistavanjeHotelAdmin/IzmenaDodatnihUslugaAdmin";
+import IzmenaTipaAdmin from "./components/dashboard/izlistavanjeHotelAdmin/IzmenaTipaAdmin";
+
 
 
 
@@ -83,6 +87,7 @@ class App extends Component {
             <Route path="/createRoomReservation" component={CreateRezervacijaSobe}></Route>
             <Route path="/createAdditionalService" component={CreateDodatnaUsluga}></Route>
             <Route path="/createHotelIncome" component={CreatePrihodHotela}></Route>
+            <Route path="/createCenovnik" component={CreateCenovnikUsluga}></Route>
             <Route path="/listaHotelaAdmin" component={HoteliIzlistavanjeAdmin}></Route>
             <Route path="/listaHotelskihSobaAdmin" component={HotelskaSobaIzlistavanjeAdmin}></Route>
             <Route path="/listaTipovaSobaAdmin" component={TipSobeIzlistavanjeAdmin}></Route>
@@ -91,6 +96,8 @@ class App extends Component {
             <Route path="/listaRezervacijaSobaAdmin" component={RezervacijaSobeIzlistavanjeAdmin}></Route>
             <Route path="/listaPrihodaHotelaAdmin" component={PrihodHotelaIzlistavanjeAdmin}></Route>
             <Route path="/izmenaHotelaAdmin/:hotelId" component={IzmenaHotelaAdmin}></Route>
+            <Route path="/izmenaDodatnihUslugaAdmin/:uslugaId" component={IzmenaDodatnihUslugaAdmin}></Route>
+            <Route path="/izmenaTipovaAdmin/:tipId" component={IzmenaTipaAdmin}></Route>
             <Route path="/sobe/:hotelId" component={Sobe}></Route>
             <Route path="/cenovnici/:hotelId" component={Cenovnici}></Route>
             <Route path="/usluge/:hotelId" component={DodatneUsluge}></Route>

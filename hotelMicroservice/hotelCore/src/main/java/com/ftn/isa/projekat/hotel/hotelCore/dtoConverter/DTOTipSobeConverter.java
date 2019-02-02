@@ -47,6 +47,7 @@ public class DTOTipSobeConverter {
 		bean.setPolupansionPrice(tipDTO.getPolupansionPrice());*/
 		bean.setRoomType(tipDTO.getRoomType());
 		bean.setKapacitet(tipDTO.getKapacitet());
+		bean.setHotel_tipSobe(hotelConverter.convertFromDTO(tipDTO.getHotel_tipSobe()));
 		//bean.setVanredneCeneNocenja_tipSobe(vanredneConverter.convertFromDTO(tipDTO.getVanredneCeneNocenja_tipSobe()));
 		return bean;
 		

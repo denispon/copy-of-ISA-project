@@ -65,6 +65,9 @@ public class DodatneUslugeService implements IDodatneUslugeService{
 	}
 	
 	public DodatneUslugeDTO save(DodatneUslugeDTO dto) {
+		if(dto.getId() == null) {
+			dto.setId((long) -1);
+		}
 		dodatneUslugeRepository.save(dodatneUslugeConverter.convertFromDTO(dto));
 		return dto;
 	}

@@ -14,5 +14,6 @@ public interface ITipSobeService {
 	public TipSobeDTO save(TipSobeDTO tiSobeDTO);
 	public TipSobeDTO deleteById(Long id);
 	public TipSobeDTO change(Long id, TipSobeDTO tiSobeDTO);
+	public List<TipSobeDTO> findTypeByHotelId(Long id);
 
 }

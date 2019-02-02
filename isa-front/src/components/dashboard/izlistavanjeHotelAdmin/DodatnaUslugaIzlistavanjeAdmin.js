@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { BrowserRouter, Switch, Link, Route } from "react-router-dom";
 import axios from 'axios'
 import { connect } from 'react-redux'
-//import { deleteHotel } from '../../../store/actions/HotelActions';
+import { deleteUsluga } from '../../../store/actions/DodatneUslugeActions';
 import "./izlistavanje.css"
 
 
@@ -22,22 +22,13 @@ class DodatnaUslugaIzlistavanjeAdmin extends Component {
             })
     }
 
-    /*componentDidUpdate() {
-         axios.get('http://localhost:8092/api/hotel/hotel/all')
-            .then(res => {
-                console.log(res);
-                this.setState({
-                    hoteli: res.data
-                })
-        })
-    }*/
-
-    /*handleDeleteClick = (hotelId) => {
-        this.props.deleteHotel(hotelId)
+    handleDeleteClick = (uslugaId) => {
+        this.props.deleteUsluga(uslugaId)
     }
 
-    handleIzmeniClick = (hotelId) => {
-    }*/
+    handleIzmeniClick = (uslugaId) => {
+        this.props.history.push('/izmenaDodatnihUslugaAdmin/'+uslugaId)
+    }
 
     render() {
         const { usluge } = this.state;
@@ -46,16 +37,15 @@ class DodatnaUslugaIzlistavanjeAdmin extends Component {
             return (
                 <div className="post card grey lighten-2">
                     <div className="card-content container">
-                        <span className="card-title center"><strong>{usluga.id}</strong></span>
+                        <span className="card-title center"><strong>{usluga.additionalServiceName}</strong></span>
                         <div className="right-align">
                         </div>
                         <div className="left-align">
-                            <p>Naziv: {usluga.additionalServiceName}</p>
                             <p>Cena: {usluga.additionalServicePrice}</p>
                             <p>Popust: {usluga.popust}</p>
                             <p>Hotel: {usluga.hotel_dodatneUsluge.name} {usluga.hotel_dodatneUsluge.adress}</p>
-                            <button className="dugmici1 btn-floating btn-large waves-effect waves-light red right" /*onClick = {() => this.handleDeleteClick(hotel.id)}*/><i>x</i></button>
-                            <button className="dugmici2 btn-floating btn-large waves-effect waves-light green right" /*onClick = {() => this.handleIzmeniClick(hotel.id)}*/>Izmeni</button>
+                            <button className="dugmici1 btn-floating btn-large waves-effect waves-light red right"  onClick = {() => this.handleDeleteClick(usluga.id)}><i>x</i></button>
+                            <button className="dugmici2 btn-floating btn-large waves-effect waves-light green right" onClick = {() => this.handleIzmeniClick(usluga.id)}>Izmeni</button>
                         </div>
                     </div>
                 </div>
@@ -73,10 +63,10 @@ class DodatnaUslugaIzlistavanjeAdmin extends Component {
     }
 }
 
-/*const mapDispatchToProps = (dispatch) =>{
+const mapDispatchToProps = (dispatch) =>{
     return{
-        deleteHotel: (hotel) => dispatch(deleteHotel(hotel))
+        deleteUsluga: (usluga) => dispatch(deleteUsluga(usluga))
     }
-}*/
+}
 
-export default DodatnaUslugaIzlistavanjeAdmin;
+export default connect(null, mapDispatchToProps)(DodatnaUslugaIzlistavanjeAdmin);

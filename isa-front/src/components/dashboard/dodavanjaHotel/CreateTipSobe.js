@@ -1,13 +1,24 @@
 import React, { Component } from 'react'
 import UserLoggedTabs from '../../layout/tabs/UserLoggedTabs';
+import { connect } from 'react-redux'
+import { createTip } from '../../../store/actions/TipActions'
 
 class CreateTipSobe extends Component {
     state = {
+        kapacitetDodaj:"",
+        nazivTipaDodaj:"", 
+        hotelTipaDodaj:""
+    }
 
+    handleChange = (e) => {
+        this.setState({
+            [e.target.id]: e.target.value
+        })
     }
 
     handleSubmit = (e) => {
         e.preventDefault();
+        this.props.createTip(this.state)
     }
 
     render() {
@@ -20,16 +31,15 @@ class CreateTipSobe extends Component {
                         <div className="container">
                             <div className="input-field">
                                 <label htmlFor="nazivTipaDodaj">Naziv:</label>
-                                <input type="text" id='nazivTipaDodaj' />
+                                <input type="text" id='nazivTipaDodaj'  onChange = {this.handleChange}/>
                             </div>
                             <div className="input-field">
                                 <label htmlFor="kapacitetDodaj">Kapacitet:</label>
-                                <input type="number" id='kapacitetDodaj'/>
+                                <input type="number" id='kapacitetDodaj'  onChange = {this.handleChange}/>
                             </div>
-                            <div class="input-field col s12">
-                                <select className="browser-default">
-                                    <option value="" disabled selected>Hotel:</option>
-                                </select>
+                            <div className="input-field">
+                                <label htmlFor="hotelTipaDodaj">Hotel:</label>
+                                <input type="number" id='hotelTipaDodaj'  onChange = {this.handleChange}/>
                             </div>
                             <div className="input-field">
                                 <button className="btn blue lighten-1 z-depth-0">Dodaj</button>
@@ -42,4 +52,10 @@ class CreateTipSobe extends Component {
     }
 };
 
-export default CreateTipSobe;
+const mapDispatchToProps = (dispatch) =>{
+    return{
+        createTip: (tip) => dispatch(createTip(tip))
+    }
+}
+
+export default connect(null, mapDispatchToProps)(CreateTipSobe);

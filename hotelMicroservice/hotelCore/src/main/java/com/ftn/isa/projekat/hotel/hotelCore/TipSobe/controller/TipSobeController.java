@@ -85,5 +85,16 @@ public class TipSobeController {
 		TipSobeDTO tipZaIzmenu = tipSobeService.change(id, tipDTO);
 		return (tipZaIzmenu.getId()!=null) ? new ResponseEntity<TipSobeDTO>(tipZaIzmenu, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
+	
+	@GetMapping("/all/{id}")
+	@ApiOperation( value = "", httpMethod = "GET")
+	@ApiResponses( value = { @ApiResponse( code = 200, message ="OK"),
+							 @ApiResponse( code = 404, message ="Not Found")})	
+	public ResponseEntity<List<TipSobeDTO>> getAllTipoveHotela(@PathVariable("id") Long id){
+		
+		List<TipSobeDTO> tipovi = tipSobeService.findTypeByHotelId(id);
+		return(!tipovi.isEmpty()) ? new ResponseEntity<List<TipSobeDTO>>(tipovi, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		
+	}
 
 }

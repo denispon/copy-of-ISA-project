@@ -23,7 +23,7 @@ import com.ftn.isa.projekat.hotel.hotelCore.VanredneCeneNocenja.model.VanredneCe
 
 import lombok.Data;
 
-//@JsonComponent
+@JsonComponent
 @Entity
 @Table (name="tip_sobe")
 @Data 

@@ -58,6 +58,9 @@ public class TipSobeService implements ITipSobeService{
 	}
 	
 	public TipSobeDTO save(TipSobeDTO tipDTO) {
+		if(tipDTO.getId() == null) {
+			tipDTO.setId((long) -1);
+		}
 		tipSobeRepository.save(tipSobeConverter.convertFromDTO(tipDTO));
 		return tipDTO;
 	}
@@ -96,6 +99,20 @@ public class TipSobeService implements ITipSobeService{
 		
 		return new TipSobeDTO();
 		
+	}
+	
+	public List<TipSobeDTO> findTypeByHotelId(Long id){
+		Optional<List<TipSobe>> list = Optional.of(tipSobeRepository.findAll());
+		ArrayList<TipSobeDTO> tipoviDTO = new ArrayList<TipSobeDTO>();
+		if(list.isPresent()) {
+			for(TipSobe tip : list.get()) {
+				if(tip.getHotel_tipSobe().getId()==id) {
+					tipoviDTO.add(tipSobeConverter.convertToDTO(tip));
+				}
+			}
+			return tipoviDTO;
+		}
+		return Collections.emptyList();
 	}
 
 }

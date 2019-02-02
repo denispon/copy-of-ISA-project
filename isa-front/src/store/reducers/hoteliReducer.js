@@ -14,6 +14,26 @@ const hoteliReducer = (state = initState, action) => {
             console.log('izmenjen hotel', action.hotelId);
             window.location = '/listaHotelaAdmin';
             break;
+        case 'CREATE_USLUGA':
+            console.log('kreirana usluga', action.usluga);
+            break;
+        case 'DELETE_USLUGA':
+            console.log('obrisana usluga', action.uslugaId);
+            break;
+        case 'EDIT_USLUGA':
+            console.log('izmenjena usluga', action.uslugaId);
+            window.location = '/listaDodatnihUslugaAdmin';
+            break;
+        case 'CREATE_TIP':
+            console.log('kreiran tip', action.tip);
+            break;
+        case 'DELETE_TIP':
+            console.log('izbrisan tip', action.tipId);
+            break;
+        case 'EDIT_TIP':
+            console.log('izmenjen tip', action.tipId);
+            window.location = '/listaTipovaSobaAdmin';
+            break;
             
     }
     return state

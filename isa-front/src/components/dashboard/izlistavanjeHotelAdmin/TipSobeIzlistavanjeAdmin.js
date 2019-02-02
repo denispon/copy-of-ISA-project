@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { BrowserRouter, Switch, Link, Route } from "react-router-dom";
 import axios from 'axios'
 import { connect } from 'react-redux'
-//import { deleteHotel } from '../../../store/actions/HotelActions';
+import { deleteTip } from '../../../store/actions/TipActions';
 import "./izlistavanje.css"
 
 
@@ -22,22 +22,13 @@ class TipSobeIzlistavanjeAdmin extends Component {
             })
     }
 
-    /*componentDidUpdate() {
-         axios.get('http://localhost:8092/api/hotel/hotel/all')
-            .then(res => {
-                console.log(res);
-                this.setState({
-                    hoteli: res.data
-                })
-        })
-    }*/
-
-    /*handleDeleteClick = (hotelId) => {
-        this.props.deleteHotel(hotelId)
+    handleDeleteClick = (tipId) => {
+        this.props.deleteTip(tipId)
     }
 
-    handleIzmeniClick = (hotelId) => {
-    }*/
+    handleIzmeniClick = (tipId) => {
+        this.props.history.push('/izmenaTipovaAdmin/'+tipId)
+    }
 
     render() {
         const { tipovi } = this.state;
@@ -46,20 +37,19 @@ class TipSobeIzlistavanjeAdmin extends Component {
             return (
                 <div className="post card grey lighten-2">
                     <div className="card-content container">
-                        <span className="card-title center"><strong>{tip.id}</strong></span>
+                        <span className="card-title center"><strong>{tip.roomType}</strong></span>
                         <div className="right-align">
                         </div>
                         <div className="left-align">
-                            <p>Naziv: {tip.roomType}</p>
                             <p>Kapacitet: {tip.kapacitet}</p>
                             <p>Hotel: {tip.hotel_tipSobe.name} {tip.hotel_tipSobe.adress}</p>
-                            <button className="dugmici1 btn-floating btn-large waves-effect waves-light red right" /*onClick = {() => this.handleDeleteClick(hotel.id)}*/><i>x</i></button>
-                            <button className="dugmici2 btn-floating btn-large waves-effect waves-light green right" /*onClick = {() => this.handleIzmeniClick(hotel.id)}*/>Izmeni</button>
+                            <button className="dugmici1 btn-floating btn-large waves-effect waves-light red right" onClick = {() => this.handleDeleteClick(tip.id)}><i>x</i></button>
+                            <button className="dugmici2 btn-floating btn-large waves-effect waves-light green right" onClick = {() => this.handleIzmeniClick(tip.id)}>Izmeni</button>
                         </div>
                     </div>
                 </div>
             )
-        })) : (<div className="center">Nije pronadjena nijedana soba.</div>)
+        })) : (<div className="center">Nije pronadjen nijedan tip sobe.</div>)
 
         return (
             <div>
@@ -72,10 +62,10 @@ class TipSobeIzlistavanjeAdmin extends Component {
     }
 }
 
-/*const mapDispatchToProps = (dispatch) =>{
+const mapDispatchToProps = (dispatch) =>{
     return{
-        deleteHotel: (hotel) => dispatch(deleteHotel(hotel))
+        deleteTip: (tip) => dispatch(deleteTip(tip))
     }
-}*/
+}
 
-export default TipSobeIzlistavanjeAdmin;
+export default connect(null, mapDispatchToProps)(TipSobeIzlistavanjeAdmin);
