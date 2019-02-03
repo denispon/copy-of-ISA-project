@@ -34,6 +34,26 @@ const hoteliReducer = (state = initState, action) => {
             console.log('izmenjen tip', action.tipId);
             window.location = '/listaTipovaSobaAdmin';
             break;
+        case 'CREATE_SOBA':
+            console.log('kreirana soba', action.soba);
+            break;
+        case 'DELETE_SOBA':
+            console.log('izbrisana soba', action.sobaId);
+            break;
+        case 'EDIT_SOBA':
+            console.log('izmenjena soba', action.sobaId);
+            window.location = '/listaHotelskihSobaAdmin';
+            break;
+        case 'CREATE_CENOVNIK':
+            console.log('kreirana usluga cenovnika', action.cenovnik);
+            break;
+        case 'DELETE_CENOVNIK':
+            console.log('izbrisana usluga', action.cenovnikId);
+            break;
+        case 'EDIT_CENOVNIK':
+            console.log('izmeni cenovnik', action.cenovnikId);
+            window.location = '/listaCenovnikaAdmin';
+            break;
             
     }
     return state

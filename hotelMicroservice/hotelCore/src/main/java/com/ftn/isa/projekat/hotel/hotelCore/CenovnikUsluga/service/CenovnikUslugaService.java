@@ -58,6 +58,9 @@ public class CenovnikUslugaService implements ICenovnikUslugaService{
 	}
 	
 	public CenovnikUslugaDTO save(CenovnikUslugaDTO dto) {
+		if(dto.getId() == null) {
+			dto.setId((long) -1);
+		}
 		cenovnikRepository.save(cenovnikConverter.convertFromDTO(dto));
 		//Optional<Hotel> hotel = hotelRepository.findById(dto.getHotel_cenovnikUsluga().getId());//pronadji hotel ciji je cenovnik
 		//hotel.get().getCenovnikUsluga().add(cenovnikConverter.convertFromDTO(dto));//dodaj cenovnik u listu cenovnika hotela kome pripada

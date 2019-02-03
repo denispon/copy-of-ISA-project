@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { BrowserRouter, Switch, Link, Route } from "react-router-dom";
 import axios from 'axios'
 import { connect } from 'react-redux'
-//import { deleteHotel } from '../../../store/actions/HotelActions';
+import { deleteSoba } from '../../../store/actions/SobeActions';
 import "./izlistavanje.css"
 
 
@@ -22,22 +22,13 @@ class HotelskaSobaIzlistavanjeAdmin extends Component {
             })
     }
 
-    /*componentDidUpdate() {
-         axios.get('http://localhost:8092/api/hotel/hotel/all')
-            .then(res => {
-                console.log(res);
-                this.setState({
-                    hoteli: res.data
-                })
-        })
-    }*/
-
-    /*handleDeleteClick = (hotelId) => {
-        this.props.deleteHotel(hotelId)
+    handleDeleteClick = (sobaId) => {
+        this.props.deleteSoba(sobaId)
     }
 
-    handleIzmeniClick = (hotelId) => {
-    }*/
+    handleIzmeniClick = (sobaId) => {
+        this.props.history.push('/izmenaHotelskihSobaAdmin/'+sobaId)
+    }
 
     render() {
         const { sobe } = this.state;
@@ -60,8 +51,8 @@ class HotelskaSobaIzlistavanjeAdmin extends Component {
                             <p>Rezervisana: {rezervisano}</p>
                             <p>Tip sobe: {soba.tipSobe_hotelskeSobe.roomType}</p>
                             <p>Hotel: {soba.hotel_hotelskeSobe.name} {soba.hotel_hotelskeSobe.adress}</p>
-                            <button className="dugmici1 btn-floating btn-large waves-effect waves-light red right" /*onClick = {() => this.handleDeleteClick(hotel.id)}*/><i>x</i></button>
-                            <button className="dugmici2 btn-floating btn-large waves-effect waves-light green right" /*onClick = {() => this.handleIzmeniClick(hotel.id)}*/>Izmeni</button>
+                            <button className="dugmici1 btn-floating btn-large waves-effect waves-light red right" onClick = {() => this.handleDeleteClick(soba.id)}><i>x</i></button>
+                            <button className="dugmici2 btn-floating btn-large waves-effect waves-light green right" onClick = {() => this.handleIzmeniClick(soba.id)}>Izmeni</button>
                         </div>
                     </div>
                 </div>
@@ -79,10 +70,10 @@ class HotelskaSobaIzlistavanjeAdmin extends Component {
     }
 }
 
-/*const mapDispatchToProps = (dispatch) =>{
+const mapDispatchToProps = (dispatch) =>{
     return{
-        deleteHotel: (hotel) => dispatch(deleteHotel(hotel))
+        deleteSoba: (soba) => dispatch(deleteSoba(soba))
     }
-}*/
+}
 
-export default HotelskaSobaIzlistavanjeAdmin;
+export default connect(null, mapDispatchToProps)(HotelskaSobaIzlistavanjeAdmin);
