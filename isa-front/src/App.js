@@ -2,15 +2,13 @@ import React, { Component } from "react";
 import "./App.css";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import Navbar from "./components/layout/Navbar";
-import DashboardUserLogged from "./components/layout/tabs/UserLoggedTabs";
 import Friends from "./components/dashboard/friends/FriendsComponent";
 import UserProfile from "./components/dashboard/UserProfile";
 import HotelPretraga from "./components/dashboard/HotelPretraga";
 import LetoviPretraga from "./components/dashboard/LetoviPretraga";
-import RentACarPretraga from "./components/dashboard/RentACarPretraga";
 import HoteliIzlistavanje from "./components/dashboard/HoteliIzlistavanje";
 import LetoviIzlistavanje from "./components/dashboard/LetoviIzlistavanje";
-import RentACarIzlistavanje from "./components/dashboard/RantACarIzlistavanje";
+
 import RegistracijaKorisnika from './components/dashboard/RegistracijaKorisnika';
 import PrijavaKorisnika from './components/dashboard/PrijavaKorisnika';
 import UserReservations from './components/dashboard/reservation/UserReservations';
@@ -36,8 +34,8 @@ import IzmenaHotelaAdmin from "./components/dashboard/izlistavanjeHotelAdmin/Izm
 import Sobe from "./components/dashboard/Sobe";
 import Cenovnici from "./components/dashboard/Cenovnici";
 import DodatneUsluge from "./components/dashboard/DodatneUsluge";
-import Vozila from "./components/dashboard/Vozila";
-import Filijale from "./components/dashboard/Filijale";
+import Vozila from "./components/dashboard/classicUser/Vozila";
+import Filijale from "./components/dashboard/classicUser/Filijale";
 import CreateCenovnikUsluga from "./components/dashboard/dodavanjaHotel/CreateCenovnikUsluga";
 import LetoviAdminDashboard from "./components/dashboard/letoviAdmin/LetoviAdminDashboard";
 import IzmenaDodatnihUslugaAdmin from "./components/dashboard/izlistavanjeHotelAdmin/IzmenaDodatnihUslugaAdmin";
@@ -45,7 +43,9 @@ import IzmenaTipaAdmin from "./components/dashboard/izlistavanjeHotelAdmin/Izmen
 import IzmenaHotelskihSobaAdmin from "./components/dashboard/izlistavanjeHotelAdmin/IzmenaHotelskihSobaAdmin";
 import CenovnikIzlistavanjeAdmin from "./components/dashboard/izlistavanjeHotelAdmin/CenovnikIzlistavanjeAdmin";
 import IzmenaCenovnikaAdmin from "./components/dashboard/izlistavanjeHotelAdmin/IzmenaCenovnikaAdmin";
-import PosecenostHotelaAdmin from "./components/dashboard/izlistavanjeHotelAdmin/PosecenostHotelaAdmin";  
+import PosecenostHotelaAdmin from "./components/dashboard/izlistavanjeHotelAdmin/PosecenostHotelaAdmin";
+import DashboardClassicUser from "./components/dashboard/classicUser/DashboardClassicUser";
+import DashboardUserLogged from "./components/dashboard/loggedUser/DashboardUserLogged";
 
 
 
@@ -59,9 +59,14 @@ class App extends Component {
         <div className="App">
           <Navbar />
           <Switch>
-            <Route exact path="/" component={DashboardRentACarAdminLogged}></Route>
-            <Route exact path="/" component={DashboardMainAdminLogged}></Route>
             <Route exact path="/" component={DashboardUserLogged}></Route>
+            <Route exact path="/" component={DashboardRentACarAdminLogged}></Route>
+
+            <Route exact path="/" component={DashboardClassicUser} />
+
+            <Route exact path="/" component={DashboardMainAdminLogged}></Route>
+
+
 
 
             <Route path="/userReservations" component={UserReservations}></Route>
@@ -73,10 +78,17 @@ class App extends Component {
 
             <Route path="/smestaj" component={HotelPretraga}></Route>
             <Route path="/letovi" component={LetoviPretraga}></Route>
-            <Route exact path="/vozila" component={RentACarPretraga}></Route>
+
+
+
+
+
             <Route path="/listaHotela" component={HoteliIzlistavanje}></Route>
             <Route path="/listaLetova" component={LetoviIzlistavanje}></Route>
-            <Route path="/listaVozila" component={RentACarIzlistavanje}></Route>
+
+
+
+
             <Route path="/prijavaKorisnika" component={PrijavaKorisnika}></Route>
             <Route path="/registracijaKorisnika" component={RegistracijaKorisnika}></Route>
             <Route path="/createHotel" component={CreateHotel}></Route>
@@ -102,10 +114,9 @@ class App extends Component {
             <Route path="/sobe/:hotelId" component={Sobe}></Route>
             <Route path="/cenovnici/:hotelId" component={Cenovnici}></Route>
             <Route path="/usluge/:hotelId" component={DodatneUsluge}></Route>
-            <Route path="/vozila/:serviceId" component={Vozila}></Route>
-            <Route path="/filijale/:serviceId" component={Filijale}></Route>
+
             <Route path="/izlistavanjeCenaSobeAdmin/:sobaId" component={CenaSobeIzlistavanjeAdmin}></Route>
-            <Route path="/posecenostPregled" component = {PosecenostHotelaAdmin}></Route>
+            <Route path="/posecenostPregled" component={PosecenostHotelaAdmin}></Route>
 
           </Switch>
         </div>

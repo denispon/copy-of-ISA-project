@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ftn.isa.projekat.rentACar.rentACarApi.dto.RentACarServiceDTO;
+import com.ftn.isa.projekat.rentACar.rentACarCore.branchOffice.model.BranchOffice;
 import com.ftn.isa.projekat.rentACar.rentACarCore.dtoConverter.DTORentACarServiceConverter;
 import com.ftn.isa.projekat.rentACar.rentACarCore.rentACarService.model.RentACarService;
 import com.ftn.isa.projekat.rentACar.rentACarCore.rentACarService.repository.RentACarServiceRepository;
@@ -126,6 +127,58 @@ public class RentACarServiceServiceImpl implements IRentACarServiceService {
 		}
 		
 		return -1;
+		
+	}
+
+	@Override
+	public List<RentACarServiceDTO> findAllFilter(String name, String city1, String city2) {
+
+		Optional< List<RentACarService> > list;
+		if(name.equals("nema")) {
+			list = Optional.of(rentACarServiceRepository.findAll());
+		}
+		else {
+			list = rentACarServiceRepository.findAllByName(name);
+		}
+		
+		ArrayList< RentACarServiceDTO > rentACarServicesDTO = new ArrayList< RentACarServiceDTO >();
+		
+		if ( list.isPresent() ) {
+			
+			for ( RentACarService rentACarService : list.get()) {
+		
+				if(!city1.equals("nema") &&  !city2.equals("nema")) {
+					//znaci da moramo da trazimo servise koje imaju filijale na datim gradovima
+					boolean nasaoCity1 = false;
+					boolean nasaoCity2 = false;
+					
+					for(BranchOffice branch : rentACarService.getBranchOffices()) {
+						if(branch.getCity().equals(city1)) {
+							nasaoCity1 = true;
+						}
+						if(branch.getCity().equals(city2)) {
+							nasaoCity2 = true;
+						}
+					}
+					
+					if(nasaoCity1 && nasaoCity2) {
+						rentACarServicesDTO.add(rentACarServiceConverter.convertToDTO(rentACarService));
+
+					}
+				}
+				else {
+					rentACarServicesDTO.add(rentACarServiceConverter.convertToDTO(rentACarService));
+
+				}
+				
+			}
+			
+			return rentACarServicesDTO;
+			
+		}
+		
+		return Collections.emptyList();
+
 		
 	}
 	

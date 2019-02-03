@@ -20,4 +20,6 @@ public interface IRentACarServiceService {
 
 	public Integer getSumOfIncomes(Long rentService, LocalDateTime dateFrom, LocalDateTime dateTo);
 
+	public List<RentACarServiceDTO> findAllFilter(String name, String city1, String city2);
+
 }

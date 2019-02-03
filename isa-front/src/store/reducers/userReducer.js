@@ -32,6 +32,12 @@ const userReducer = (state = initState, action) => {
                 ...state,
                 friends: action.friends
             }
+
+        case 'USER_CHANGES_HIS_ATRIBUTES':
+            return {
+                ...state,
+                user: action.user
+            }
         default:
             break;
     }

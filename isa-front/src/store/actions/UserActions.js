@@ -36,3 +36,17 @@ export const getUserFriends = (id) => {
             })
     }
 }
+
+export const updateUser = (id, user) => {
+
+    return (dispatch, getState) => {
+
+        axios.put('http://localhost:8096/api/user/user/' + id, { id: user.id, name: user.name, surname: user.surname, city: user.city, email: user.email, telephoneNumber: user.telephoneNumber, passport: user.passport })
+            .then(res => {
+                console.log(res);
+                dispatch({ type: 'USER_CHANGES_HIS_ATRIBUTES', user: res.data });
+            })
+
+    }
+
+}

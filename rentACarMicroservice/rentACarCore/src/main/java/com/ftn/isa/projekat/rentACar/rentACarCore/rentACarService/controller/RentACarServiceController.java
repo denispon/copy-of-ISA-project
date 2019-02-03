@@ -102,5 +102,14 @@ public class RentACarServiceController {
 		return (sumOfIncomes != -1) ? new ResponseEntity<Integer>(sumOfIncomes,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
 	
+	@GetMapping("/getAllServices/{name}/{city1}/{city2}")
+	public ResponseEntity<List<RentACarServiceDTO>> getAllRentACarServicesByFilter(@PathVariable("name") String name, @PathVariable("city1") String city1, @PathVariable("city2") String city2){
+		
+		List<RentACarServiceDTO> rentACarServices = rentACarService.findAllFilter(name,city1,city2);
+		
+		return ( !rentACarServices.isEmpty() )? new ResponseEntity<List<RentACarServiceDTO>>(rentACarServices,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		
+	}
+	
 	
 }
