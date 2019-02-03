@@ -56,6 +56,20 @@ public class CeneSobaService implements ICeneSobaService{
 		return Collections.emptyList();
 	}
 	
+	public List<CeneSobaDTO> findByRoomId(Long id){
+		Optional<List<CeneSoba>> list = Optional.of(ceneSobaRepository.findAll());
+		ArrayList<CeneSobaDTO> arrayDTO = new ArrayList<CeneSobaDTO>();
+		if(list.isPresent()) {
+			for(CeneSoba item : list.get()) {
+				if(item.getHotelskaSoba_cena().getId() == id) {
+					arrayDTO.add(ceneSobaConverter.convertToDTO(item));
+				}
+			}
+			return arrayDTO;
+		}
+		return Collections.emptyList();
+	}
+	
 	public CeneSobaDTO save(CeneSobaDTO dto) {
 		/*if(dto.getStandardna()) {
 			List<CeneSoba> list = ceneSobaRepository.findAll();
@@ -65,6 +79,9 @@ public class CeneSobaService implements ICeneSobaService{
 				}
 			}
 		}*/
+		if(dto.getId() == null) {
+			dto.setId((long) -1);
+		}
 		ceneSobaRepository.save(ceneSobaConverter.convertFromDTO(dto));
 		return dto;
 	}

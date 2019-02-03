@@ -21,6 +21,7 @@ class CreateHotel extends Component {
         e.preventDefault();
         console.log("EOOO", this.state);
         this.props.createHotel(this.state)
+        
     }
 
     render() {
