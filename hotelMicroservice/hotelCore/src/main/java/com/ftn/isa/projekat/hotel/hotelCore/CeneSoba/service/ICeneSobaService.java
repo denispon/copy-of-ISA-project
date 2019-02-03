@@ -15,5 +15,6 @@ public interface ICeneSobaService {
 	public CeneSobaDTO save(CeneSobaDTO cena);
 	public CeneSobaDTO deleteById(Long id);
 	public CeneSobaDTO change(Long id, CeneSobaDTO cena);
+	public List<CeneSobaDTO> findByRoomId(Long id);
 	
 }

@@ -30,6 +30,10 @@ class HotelskaSobaIzlistavanjeAdmin extends Component {
         this.props.history.push('/izmenaHotelskihSobaAdmin/'+sobaId)
     }
 
+    handleCeneClick = (sobaId) => {
+        this.props.history.push('/izlistavanjeCenaSobeAdmin/'+sobaId)
+    }
+
     render() {
         const { sobe } = this.state;
         var rezervisano = "";
@@ -53,6 +57,7 @@ class HotelskaSobaIzlistavanjeAdmin extends Component {
                             <p>Hotel: {soba.hotel_hotelskeSobe.name} {soba.hotel_hotelskeSobe.adress}</p>
                             <button className="dugmici1 btn-floating btn-large waves-effect waves-light red right" onClick = {() => this.handleDeleteClick(soba.id)}><i>x</i></button>
                             <button className="dugmici2 btn-floating btn-large waves-effect waves-light green right" onClick = {() => this.handleIzmeniClick(soba.id)}>Izmeni</button>
+                            <button className="dugmici2 btn-floating btn-large waves-effect waves-light green right" onClick = {() => this.handleCeneClick(soba.id)}>Cene</button>
                         </div>
                     </div>
                 </div>

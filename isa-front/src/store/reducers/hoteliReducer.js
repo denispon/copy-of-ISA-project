@@ -54,6 +54,12 @@ const hoteliReducer = (state = initState, action) => {
             console.log('izmeni cenovnik', action.cenovnikId);
             window.location = '/listaCenovnikaAdmin';
             break;
+        case 'CREATE_CENA':
+            console.log('kreirana cena', action.cena);
+            break;
+        case 'DELETE_CENA':
+            console.log('izbrisana cena', action.cenaId);
+            break;
             
     }
     return state

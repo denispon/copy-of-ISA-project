@@ -45,10 +45,6 @@ public class HotelskaSoba {
 	@Column (name="reserved", nullable=false)
 	private Boolean reserved;
 	
-	private Date datumOd;
-	
-	private Date datumDo;
-	
 	@JsonIgnore
 	@OneToMany (mappedBy="sobaId", cascade=CascadeType.ALL)
 	private List<RezervacijeSobe> rezervisaneSobeList;

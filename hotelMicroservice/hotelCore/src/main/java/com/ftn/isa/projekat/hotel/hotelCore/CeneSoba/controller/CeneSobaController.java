@@ -55,6 +55,17 @@ public class CeneSobaController {
 		
 	}
 	
+	@GetMapping("/soba/{id}")
+	@ApiOperation( value = "", httpMethod = "GET")
+	@ApiResponses( value = { @ApiResponse( code = 200, message ="OK"),
+							 @ApiResponse( code = 404, message ="Not Found")})	
+	public ResponseEntity<List<CeneSobaDTO>> getAllRoomCene(@PathVariable("id") Long id){
+		
+		List<CeneSobaDTO> lista = ceneSobaService.findByRoomId(id);
+		return(!lista.isEmpty()) ? new ResponseEntity<List<CeneSobaDTO>>(lista, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		
+	}
+	
 	@PostMapping("/")
 	@ApiOperation( value = "", notes = "", httpMethod="POST", produces = "application/json", consumes = "application/json" )
 	@ApiResponses( value = {

@@ -81,7 +81,7 @@ class App extends Component {
             <Route path="/createHotel" component={CreateHotel}></Route>
             <Route path="/createRoomType" component={CreateTipSobe}></Route>
             <Route path="/createHotelRoom" component={CreateHotelskaSoba}></Route>
-            <Route path="/createRoomPrice" component={CreateCenaSobe}></Route>
+            <Route path="/createRoomPrice/:sobaId" component={CreateCenaSobe}></Route>
             <Route path="/createRoomReservation" component={CreateRezervacijaSobe}></Route>
             <Route path="/createAdditionalService" component={CreateDodatnaUsluga}></Route>
             <Route path="/createHotelIncome" component={CreatePrihodHotela}></Route>
@@ -90,7 +90,6 @@ class App extends Component {
             <Route path="/listaHotelskihSobaAdmin" component={HotelskaSobaIzlistavanjeAdmin}></Route>
             <Route path="/listaTipovaSobaAdmin" component={TipSobeIzlistavanjeAdmin}></Route>
             <Route path="/listaDodatnihUslugaAdmin" component={DodatnaUslugaIzlistavanjeAdmin}></Route>
-            <Route path="/listaCenaSobaAdmin" component={CenaSobeIzlistavanjeAdmin}></Route>
             <Route path="/listaRezervacijaSobaAdmin" component={RezervacijaSobeIzlistavanjeAdmin}></Route>
             <Route path="/listaPrihodaHotelaAdmin" component={PrihodHotelaIzlistavanjeAdmin}></Route>
             <Route path="/listaCenovnikaAdmin" component={CenovnikIzlistavanjeAdmin}></Route>
@@ -104,6 +103,7 @@ class App extends Component {
             <Route path="/usluge/:hotelId" component={DodatneUsluge}></Route>
             <Route path="/vozila/:serviceId" component={Vozila}></Route>
             <Route path="/filijale/:serviceId" component={Filijale}></Route>
+            <Route path="/izlistavanjeCenaSobeAdmin/:sobaId" component={CenaSobeIzlistavanjeAdmin}></Route>
 
           </Switch>
         </div>
