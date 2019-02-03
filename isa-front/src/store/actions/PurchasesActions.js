@@ -80,3 +80,43 @@ export const addRentCarReservationToCollection = (id) => {
     }
 
 }
+
+
+export const createBonusPointsDiscount = (bonusPointsDiscount) => {
+
+    return (dispatch, getState) => {
+
+        axios.post('http://localhost:8095/api/purchases/bonusPoitsDiscounts/', { id: bonusPointsDiscount.id, points: bonusPointsDiscount.points, discount: bonusPointsDiscount.discount })
+            .then(res => {
+                console.log(res);
+                dispatch({ type: 'CREATE_BONUS_POINTS_DISCOUNT', bonusPointsDiscount: res.data });
+            })
+    }
+}
+
+
+export const editBonusPointsDiscount = (id, bonusPointsDiscount) => {
+
+    return (dispatch, getState) => {
+
+        axios.put('http://localhost:8095/api/purchases/bonusPoitsDiscounts/' + id, { id: bonusPointsDiscount.id, points: bonusPointsDiscount.points, discount: bonusPointsDiscount.discount })
+            .then(res => {
+                console.log(res);
+                dispatch({ type: 'UPDATE_BONUS_POINTS_DISCOUNT', editedDiscount: res.data });
+            })
+    }
+}
+
+
+export const deleteBonusPointsDiscount = (id) => {
+
+    return (dispatch, getState) => {
+
+        axios.delete('http://localhost:8095/api/purchases/bonusPoitsDiscounts/' + id)
+            .then(res => {
+                console.log(res);
+                dispatch({ type: 'DELETE_BONUS_POINTS_DISCOUNT', deletedDiscount: res.data });
+            })
+
+    }
+}

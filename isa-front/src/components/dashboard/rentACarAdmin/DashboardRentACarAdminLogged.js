@@ -10,7 +10,9 @@ import { connect } from "react-redux"
 
 class DashboardRentACarAdminLogged extends Component {
 
-    state = {}
+    state = {
+        otvoriProzorZaDodavanje: false
+    }
 
     componentDidMount = () => {
         this.props.getOneRentService(2);
@@ -19,6 +21,23 @@ class DashboardRentACarAdminLogged extends Component {
         this.props.getAllCarTypes();
         this.props.getAllCarDiscountsByRentId(2);
     }
+
+    prikaziCardZaDodavanje = (e) => {
+
+        e.preventDefault();
+        this.setState({
+            otvoriProzorZaDodavanje: true
+        })
+
+    }
+
+    iskljuciCardZaDodavanje = (e) => {
+        e.preventDefault();
+        this.setState({
+            otvoriProzorZaDodavanje: false
+        })
+    }
+
 
 
     render() {
@@ -32,9 +51,9 @@ class DashboardRentACarAdminLogged extends Component {
                         </div>
 
                         <div>
-                            <Route path="/rentAdminRentService" render={(props) => <AdminRentServiceInfo rentACarService={this.props.rentACarService} branchOffices={this.props.branchOffices} />} />
-                            <Route path="/rentAdminCars" render={(props) => <CarManipulation cars={this.props.cars} carTypes={this.props.carTypes} branchOffices={this.props.branchOffices} />} ></Route>
-                            <Route path="/rentAdminDiscounts" render={(props) => <CarDiscountManipulation carDiscounts={this.props.carDiscounts} cars={this.props.cars} />}></Route>
+                            <Route path="/rentAdminRentService" render={(props) => <AdminRentServiceInfo otvoriProzor={this.state.otvoriProzorZaDodavanje} prikaziCardZaDodavanje={this.prikaziCardZaDodavanje} iskljuciCardZaDodavanje={this.iskljuciCardZaDodavanje} rentACarService={this.props.rentACarService} branchOffices={this.props.branchOffices} />} />
+                            <Route path="/rentAdminCars" render={(props) => <CarManipulation otvoriProzor={this.state.otvoriProzorZaDodavanje} prikaziCardZaDodavanje={this.prikaziCardZaDodavanje} iskljuciCardZaDodavanje={this.iskljuciCardZaDodavanje} cars={this.props.cars} carTypes={this.props.carTypes} branchOffices={this.props.branchOffices} />} ></Route>
+                            <Route path="/rentAdminDiscounts" render={(props) => <CarDiscountManipulation otvoriProzor={this.state.otvoriProzorZaDodavanje} prikaziCardZaDodavanje={this.prikaziCardZaDodavanje} iskljuciCardZaDodavanje={this.iskljuciCardZaDodavanje} carDiscounts={this.props.carDiscounts} cars={this.props.cars} />}></Route>
 
                         </div>
                     </div>

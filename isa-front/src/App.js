@@ -58,8 +58,9 @@ class App extends Component {
         <div className="App">
           <Navbar />
           <Switch>
-            <Route exact path="/" component={DashboardMainAdminLogged}></Route>
             <Route exact path="/" component={DashboardRentACarAdminLogged}></Route>
+            <Route exact path="/" component={DashboardMainAdminLogged}></Route>
+
 
 
 

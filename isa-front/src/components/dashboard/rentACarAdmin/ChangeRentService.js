@@ -79,14 +79,14 @@ class ChangeRentService extends Component {
                                 <form className="white" onSubmit={this.handleSubmit} >
                                     <div className="input-field">
                                         <label htmlFor="name">Ime</label>
-                                        <input type="text" ref={this.rentName} id='name' onChange={this.handleChange} defaultValue={this.props.rentACarService ? this.props.rentACarService.name : ''} />
+                                        <input type="text" id='name' onChange={this.handleChange} defaultValue={this.props.rentACarService ? this.props.rentACarService.name : ''} />
                                     </div>
                                     <div className="input-field">
                                         <label htmlFor="adress">Adresa</label>
-                                        <input type="text" ref={this.rentAdress} id='adress' onChange={this.handleChange} defaultValue={this.props.rentACarService ? this.props.rentACarService.adress : ''} />
+                                        <input type="text" id='adress' onChange={this.handleChange} defaultValue={this.props.rentACarService ? this.props.rentACarService.adress : ''} />
                                     </div>
                                     <div className="input-field">
-                                        <textarea id="description" ref={this.rentDesc} onChange={this.handleChange} class="materialize-textarea" defaultValue={this.props.rentACarService ? this.props.rentACarService.description : ''}></textarea>
+                                        <textarea id="description" onChange={this.handleChange} class="materialize-textarea" defaultValue={this.props.rentACarService ? this.props.rentACarService.description : ''}></textarea>
                                         <label for="description">Textarea</label>
                                     </div>
                                     {this.props.izmena ?
