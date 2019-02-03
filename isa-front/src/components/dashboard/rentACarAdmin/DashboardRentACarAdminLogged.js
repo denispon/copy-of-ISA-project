@@ -52,7 +52,7 @@ class DashboardRentACarAdminLogged extends Component {
 
                         <div>
                             <Route path="/rentAdminRentService" render={(props) => <AdminRentServiceInfo otvoriProzor={this.state.otvoriProzorZaDodavanje} prikaziCardZaDodavanje={this.prikaziCardZaDodavanje} iskljuciCardZaDodavanje={this.iskljuciCardZaDodavanje} rentACarService={this.props.rentACarService} branchOffices={this.props.branchOffices} />} />
-                            <Route path="/rentAdminCars" render={(props) => <CarManipulation otvoriProzor={this.state.otvoriProzorZaDodavanje} prikaziCardZaDodavanje={this.prikaziCardZaDodavanje} iskljuciCardZaDodavanje={this.iskljuciCardZaDodavanje} cars={this.props.cars} carTypes={this.props.carTypes} branchOffices={this.props.branchOffices} />} ></Route>
+                            <Route path="/rentAdminCars" render={(props) => <CarManipulation rentACarService={this.props.rentACarService} otvoriProzor={this.state.otvoriProzorZaDodavanje} prikaziCardZaDodavanje={this.prikaziCardZaDodavanje} iskljuciCardZaDodavanje={this.iskljuciCardZaDodavanje} cars={this.props.cars} carTypes={this.props.carTypes} branchOffices={this.props.branchOffices} />} ></Route>
                             <Route path="/rentAdminDiscounts" render={(props) => <CarDiscountManipulation otvoriProzor={this.state.otvoriProzorZaDodavanje} prikaziCardZaDodavanje={this.prikaziCardZaDodavanje} iskljuciCardZaDodavanje={this.iskljuciCardZaDodavanje} carDiscounts={this.props.carDiscounts} cars={this.props.cars} />}></Route>
 
                         </div>

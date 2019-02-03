@@ -200,3 +200,80 @@ export const deleteBranchOffice = (id) => {
 
     }
 }
+
+
+export const createCar = (car) => {
+
+    return (dispatch, getState) => {
+
+        axios.post('http://localhost:8090/api/rentacar/car/', { id: car.id, rentPrice: car.rentPrice, carType: { id: car.carType.id, numberOfSeats: '', modelYear: '', model: '', brand: '', carType: '' }, rentService: { id: car.rentService.id, name: '', adress: '', description: '' }, branchOffice: { id: car.branchOffice.id, name: '', adress: '', city: '', rentServiceDTO: { id: car.rentService.id, adress: '', name: '', description: '' } } })
+            .then(res => {
+                console.log(res);
+                dispatch({ type: 'CREATE_CAR', createdCar: res.data });
+            })
+    }
+}
+
+export const editCar = (id, car) => {
+
+    return (dispatch, getState) => {
+
+        axios.put('http://localhost:8090/api/rentacar/car/' + id, { id: car.id, rentPrice: car.rentPrice, carType: { id: car.carType.id, numberOfSeats: '', modelYear: '', model: '', brand: '', carType: '' }, rentService: { id: car.rentService.id, name: '', adress: '', description: '' }, branchOffice: { id: car.branchOffice.id, name: '', adress: '', city: '', rentServiceDTO: { id: car.rentService.id, adress: '', name: '', description: '' } } })
+            .then(res => {
+                console.log(res);
+                dispatch({ type: 'UPDATE_CAR', editedCar: res.data });
+            })
+    }
+}
+
+
+export const deleteCar = (id) => {
+
+    return (dispatch, getState) => {
+
+        axios.delete('http://localhost:8090/api/rentacar/car/' + id)
+            .then(res => {
+                console.log(res);
+                dispatch({ type: 'DELETE_CAR', deletedCar: res.data });
+            })
+
+    }
+}
+
+export const createCarDiscount = (carDiscount) => {
+
+    return (dispatch, getState) => {
+
+        axios.post('http://localhost:8090/api/rentacar/carDiscounts/', { id: carDiscount.id, dateFrom: carDiscount.dateFrom, dateTo: carDiscount.dateTo, carDiscountPrecentage: carDiscount.carDiscountPrecentage, carId: { id: carDiscount.carId.id, rentPrice: '', carType: { id: carDiscount.carId.carType.id, numberOfSeats: '', modelYear: '', model: '', brand: '', carType: '' }, rentService: { id: carDiscount.carId.rentService.id, name: '', adress: '', description: '' }, branchOffice: { id: carDiscount.carId.branchOffice.id, name: '', adress: '', city: '', rentServiceDTO: { id: carDiscount.carId.rentService.id, adress: '', name: '', description: '' } } } })
+            .then(res => {
+                console.log(res);
+                dispatch({ type: 'CREATE_CAR_DISCOUNT', createdCarDiscount: res.data });
+            })
+    }
+}
+
+export const editCarDiscount = (id, carDiscount) => {
+
+    return (dispatch, getState) => {
+
+        axios.put('http://localhost:8090/api/rentacar/carDiscounts/' + id, { id: carDiscount.id, dateFrom: carDiscount.dateFrom, dateTo: carDiscount.dateTo, carDiscountPrecentage: carDiscount.carDiscountPrecentage, carId: { id: carDiscount.carId.id, rentPrice: '', carType: { id: carDiscount.carId.carType.id, numberOfSeats: '', modelYear: '', model: '', brand: '', carType: '' }, rentService: { id: carDiscount.carId.rentService.id, name: '', adress: '', description: '' }, branchOffice: { id: carDiscount.carId.branchOffice.id, name: '', adress: '', city: '', rentServiceDTO: { id: carDiscount.carId.rentService.id, adress: '', name: '', description: '' } } } })
+            .then(res => {
+                console.log(res);
+                dispatch({ type: 'UPDATE_CAR_DISCOUNT', editedCarDiscount: res.data });
+            })
+    }
+}
+
+
+export const deleteCarDiscount = (id) => {
+
+    return (dispatch, getState) => {
+
+        axios.delete('http://localhost:8090/api/rentacar/carDiscounts/' + id)
+            .then(res => {
+                console.log(res);
+                dispatch({ type: 'DELETE_CAR_DISCOUNT', deletedCarDiscount: res.data });
+            })
+
+    }
+}

@@ -11,7 +11,7 @@ class Cenovnici extends Component {
 
     componentDidMount() {
         const id = this.props.match.params.serviceId;//id servisa
-        axios.get('http://localhost:8092/api/hotel/cenovnik/cenovniciHotela/'+id)//tvoj url za pronalazak vozila po id servisa
+        axios.get('http://localhost:8090/api/rentacar/car/getByRentService/' + id)//tvoj url za pronalazak vozila po id servisa
             .then(res => {
                 console.log(res);
                 this.setState({
@@ -24,14 +24,14 @@ class Cenovnici extends Component {
         const { vozila } = this.state;
         var imeServisa = "";
         const vozilaList = vozila.length ? (vozila.map(vozilo => {
-            imeServisa = vozilo.carRentService.name;
+            imeServisa = vozilo.rentService.name;
             return (
                 <div className="post card grey lighten-2">
                     <div className="card-content container">
                         <span className="card-title center"><strong>{vozilo.carType.model} {vozilo.carType.brand}</strong></span>
                         <div className="left-align">
                             <p>Cena: {vozilo.rentPrice}</p>
-                            <p>Filijala: {vozilo.carBranchOffice.name} {vozilo.carBranchOffice.city} {vozilo.carBranchOffice.adress}</p>
+                            <p>Filijala: {vozilo.branchOffice.name} {vozilo.branchOffice.city} {vozilo.branchOffice.adress}</p>
                         </div>
                     </div>
                 </div>

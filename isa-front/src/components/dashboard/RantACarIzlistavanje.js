@@ -11,7 +11,7 @@ class RentACarIzlistavanje extends Component {
     }
 
     componentDidMount() {
-        axios.get('http://localhost:8092/api/hotel/hotel/all')//tvoj url
+        axios.get('http://localhost:8090/api/rentacar/rentACarService/all')//tvoj url
             .then(res => {
                 console.log(res);
                 this.setState({
@@ -21,11 +21,11 @@ class RentACarIzlistavanje extends Component {
     }
 
     handleVozilaClick = (serviceId) => {
-        this.props.history.push('/vozila/'+serviceId)
+        this.props.history.push('/vozila/' + serviceId)
     }
 
     handleFilijalaClick = (serviceId) => {
-        this.props.history.push('/filijale/'+serviceId)
+        this.props.history.push('/filijale/' + serviceId)
     }
 
     render() {
@@ -38,8 +38,8 @@ class RentACarIzlistavanje extends Component {
                         <div className="left-align">
                             <p>Adresa: {servis.adress}</p>
                             <p>Opis: {servis.description}</p>
-                            <button className="buttons btn-small waves-effect waves-light indigo right" onClick = {() => this.handleVozilaClick(servis.id)}>Vozila</button>
-                            <button className="buttons btn-small waves-effect waves-light indigo right" onClick = {() => this.handleFilijalaClick(servis.id)}>Filijale</button>
+                            <button className="buttons btn-small waves-effect waves-light indigo right" onClick={() => this.handleVozilaClick(servis.id)}>Vozila</button>
+                            <button className="buttons btn-small waves-effect waves-light indigo right" onClick={() => this.handleFilijalaClick(servis.id)}>Filijale</button>
                         </div>
                     </div>
                 </div>

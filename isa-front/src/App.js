@@ -60,12 +60,6 @@ class App extends Component {
           <Switch>
             <Route exact path="/" component={DashboardRentACarAdminLogged}></Route>
             <Route exact path="/" component={DashboardMainAdminLogged}></Route>
-
-
-
-
-
-
             <Route exact path="/" component={DashboardUserLogged}></Route>
 
 
@@ -78,7 +72,7 @@ class App extends Component {
 
             <Route path="/smestaj" component={HotelPretraga}></Route>
             <Route path="/letovi" component={LetoviPretraga}></Route>
-            <Route path="/vozila" component={RentACarPretraga}></Route>
+            <Route exact path="/vozila" component={RentACarPretraga}></Route>
             <Route path="/listaHotela" component={HoteliIzlistavanje}></Route>
             <Route path="/listaLetova" component={LetoviIzlistavanje}></Route>
             <Route path="/listaVozila" component={RentACarIzlistavanje}></Route>

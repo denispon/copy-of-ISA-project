@@ -94,6 +94,37 @@ const rentACarReducer = (state = initState, action) => {
                 ...state,
                 branchOffices: state.branchOffices.filter(item => item.id !== action.deleteBranchOffice.id)
             }
+        case 'CREATE_CAR':
+            return {
+                ...state,
+                cars: state.cars.concat(action.createdCar)
+            }
+        case 'UPDATE_CAR':
+            return {
+                ...state,
+                cars: (state.cars.filter(item => item.id !== action.editedCar.id)).concat(action.editedCar)
+            }
+        case 'DELETE_CAR':
+            return {
+                ...state,
+                cars: state.cars.filter(item => item.id !== action.deletedCar.id)
+            }
+
+        case 'CREATE_CAR_DISCOUNT':
+            return {
+                ...state,
+                carDiscounts: state.carDiscounts.concat(action.createdCarDiscount)
+            }
+        case 'UPDATE_CAR_DISCOUNT':
+            return {
+                ...state,
+                carDiscounts: (state.carDiscounts.filter(item => item.id !== action.editedCarDiscount.id)).concat(action.editedCarDiscount)
+            }
+        case 'DELETE_CAR_DISCOUNT':
+            return {
+                ...state,
+                carDiscounts: state.carDiscounts.filter(item => item.id !== action.deletedCarDiscount.id)
+            }
     }
     return state
 }

@@ -11,7 +11,7 @@ class Filijale extends Component {
 
     componentDidMount() {
         const id = this.props.match.params.serviceId;//id servisa
-        axios.get('http://localhost:8092/api/hotel/cenovnik/cenovniciHotela/'+id)//tvoj url za pronalazak vozila po id servisa
+        axios.get('http://localhost:8090/api/rentacar/branchOffice/getAllByRentService/' + id)//tvoj url za pronalazak vozila po id servisa
             .then(res => {
                 console.log(res);
                 this.setState({
@@ -24,7 +24,7 @@ class Filijale extends Component {
         const { filijale } = this.state;
         var imeServisa = "";
         const filijaleList = filijale.length ? (filijale.map(filijala => {
-            imeServisa = filijala.branchRentService.name;
+            imeServisa = filijala.rentServiceDTO.name;
             return (
                 <div className="post card grey lighten-2">
                     <div className="card-content container">
