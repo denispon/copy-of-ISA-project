@@ -197,7 +197,7 @@ public class RezervacijeSobeService implements IRezervacijeSobeService{
 	public Integer getNedeljnaPosecenost(Long id, String datumOd) throws ParseException {
 		String dt = datumOd;
 		String dd = "";
-		SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		Date dateOd = sdf.parse(dt);
 		Calendar c = Calendar.getInstance();
 		c.setTime(dateOd);
@@ -224,7 +224,7 @@ public class RezervacijeSobeService implements IRezervacijeSobeService{
 	public Integer getMesecnaPosecenost(Long id, String datumOd) throws ParseException {
 		String dt = datumOd;
 		String dd = "";
-		SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		Date dateOd = sdf.parse(dt);
 		Calendar c = Calendar.getInstance();
 		c.setTime(dateOd);

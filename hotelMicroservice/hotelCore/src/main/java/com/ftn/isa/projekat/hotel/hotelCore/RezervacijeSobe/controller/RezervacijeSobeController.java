@@ -2,6 +2,7 @@ package com.ftn.isa.projekat.hotel.hotelCore.RezervacijeSobe.controller;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -110,7 +111,7 @@ public class RezervacijeSobeController {
 							 @ApiResponse( code = 404, message = "Not Found")})
 	public ResponseEntity<Integer> getDnevnuPosecenost(@PathVariable("id") Long id, @PathVariable("datumOd") String datumOd) throws ParseException{
 		
-		Date dateOd = new SimpleDateFormat("dd.MM.yyyy").parse(datumOd);
+		Date dateOd = new SimpleDateFormat("yyyy-MM-dd").parse(datumOd);
 		int posecenost = rezervacijeSobeService.getDnevnaPosecenost(id, dateOd);
 		return (posecenost!=-1) ? new ResponseEntity<Integer>(posecenost, HttpStatus.OK): new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		

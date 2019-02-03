@@ -45,6 +45,7 @@ import IzmenaTipaAdmin from "./components/dashboard/izlistavanjeHotelAdmin/Izmen
 import IzmenaHotelskihSobaAdmin from "./components/dashboard/izlistavanjeHotelAdmin/IzmenaHotelskihSobaAdmin";
 import CenovnikIzlistavanjeAdmin from "./components/dashboard/izlistavanjeHotelAdmin/CenovnikIzlistavanjeAdmin";
 import IzmenaCenovnikaAdmin from "./components/dashboard/izlistavanjeHotelAdmin/IzmenaCenovnikaAdmin";
+import PosecenostHotelaAdmin from "./components/dashboard/izlistavanjeHotelAdmin/PosecenostHotelaAdmin";  
 
 
 
@@ -104,6 +105,7 @@ class App extends Component {
             <Route path="/vozila/:serviceId" component={Vozila}></Route>
             <Route path="/filijale/:serviceId" component={Filijale}></Route>
             <Route path="/izlistavanjeCenaSobeAdmin/:sobaId" component={CenaSobeIzlistavanjeAdmin}></Route>
+            <Route path="/posecenostPregled" component = {PosecenostHotelaAdmin}></Route>
 
           </Switch>
         </div>
