@@ -13,7 +13,7 @@ import RentCarServiceManipulation from "./RentCarServiceManipulation"
 class DashboardMainAdminLogged extends Component {
 
     state = {
-        otvoriProzorRentACarServisa: false,
+        otvoriProzorZaDodavanje: false,
     }
 
     componentDidMount() {
@@ -22,19 +22,19 @@ class DashboardMainAdminLogged extends Component {
         this.props.getAllRentACarServices();
     }
 
-    prikaziCardZaDodavanjeRentACarServisa = (e) => {
+    prikaziCardZaDodavanje = (e) => {
 
         e.preventDefault();
         this.setState({
-            otvoriProzorRentACarServisa: true
+            otvoriProzorZaDodavanje: true
         })
 
     }
 
-    iskljuciCardZaDodavanjeRentACarServica = (e) => {
+    iskljuciCardZaDodavanje = (e) => {
         e.preventDefault();
         this.setState({
-            otvoriProzorRentACarServisa: false
+            otvoriProzorZaDodavanje: false
         })
     }
 
@@ -49,10 +49,10 @@ class DashboardMainAdminLogged extends Component {
 
                     <div>
                         <Route path="/mainAdminAdministrators" component={AdministratorsDashboard}></Route>
-                        <Route path="/mainAdminBonusPoints" render={(props) => <BonusPointsDiscounts bonusPointsDiscounts={this.props.bonusPointsDiscounts} />} />
+                        <Route path="/mainAdminBonusPoints" render={(props) => <BonusPointsDiscounts otvoriProzor={this.state.otvoriProzorZaDodavanje} prikaziCardZaDodavanje={this.prikaziCardZaDodavanje} iskljuciCardZaDodavanje={this.iskljuciCardZaDodavanje} bonusPointsDiscounts={this.props.bonusPointsDiscounts} />} />
                         <Route path="/mainAdminRentCar" component={MainAdminLoggedRentACarTabs}></Route>
-                        <Route path="/mainAdminRentCar/mainAdminRentServisi" render={(props) => <RentCarServiceManipulation otvoriProzorRentACarServisa={this.state.otvoriProzorRentACarServisa} prikaziCardZaDodavanjeRentACarServisa={this.prikaziCardZaDodavanjeRentACarServisa} iskljuciCardZaDodavanjeRentACarServica={this.iskljuciCardZaDodavanjeRentACarServica} rentACarServices={this.props.rentACarServices}></RentCarServiceManipulation>} />
-                        <Route path="/mainAdminRentCar/mainAdminTipoviVozila" render={(props) => <CarTypeManipulation carTypes={this.props.carTypes} />} />
+                        <Route path="/mainAdminRentCar/mainAdminRentServisi" render={(props) => <RentCarServiceManipulation otvoriProzorRentACarServisa={this.state.otvoriProzorZaDodavanje} prikaziCardZaDodavanjeRentACarServisa={this.prikaziCardZaDodavanje} iskljuciCardZaDodavanjeRentACarServica={this.iskljuciCardZaDodavanje} rentACarServices={this.props.rentACarServices}></RentCarServiceManipulation>} />
+                        <Route path="/mainAdminRentCar/mainAdminTipoviVozila" render={(props) => <CarTypeManipulation otvoriProzor={this.state.otvoriProzorZaDodavanje} prikaziCardZaDodavanje={this.prikaziCardZaDodavanje} iskljuciCardZaDodavanje={this.iskljuciCardZaDodavanje} carTypes={this.props.carTypes} />} />
 
 
                     </div>

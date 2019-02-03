@@ -51,6 +51,24 @@ const purchasesReducer = (state = initState, action) => {
                 ...state,
                 rentCarReservations: state.rentCarReservations.concat(action.rentCarReservations)
             }
+
+        case 'CREATE_BONUS_POINTS_DISCOUNT':
+            return {
+                ...state,
+                bonusPointsDiscounts: state.bonusPointsDiscounts.concat(action.bonusPointsDiscount)
+            }
+
+        case 'UPDATE_BONUS_POINTS_DISCOUNT':
+            return {
+                ...state,
+                bonusPointsDiscounts: (state.bonusPointsDiscounts.filter(item => item.id !== action.editedDiscount.id)).concat(action.editedDiscount)
+            }
+
+        case 'DELETE_BONUS_POINTS_DISCOUNT':
+            return {
+                ...state,
+                bonusPointsDiscounts: state.bonusPointsDiscounts.filter(item => item.id !== action.deletedDiscount.id)
+            }
     }
     return state
 }

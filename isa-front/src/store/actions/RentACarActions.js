@@ -89,8 +89,6 @@ export const createRentACarService = (rentService) => {
                 console.log(res);
                 dispatch({ type: 'CREATE_RENT_A_CAR_SERVICE', rentService: res.data });
             })
-
-
     }
 
 }
@@ -122,4 +120,83 @@ export const deleteRentACarService = (id) => {
 
     }
 
+}
+
+
+export const createCarType = (carType) => {
+
+    return (dispatch, getState) => {
+
+        axios.post('http://localhost:8090/api/rentacar/carType/', { id: carType.id, numberOfSeats: carType.numberOfSeats, modelYear: carType.modelYear, model: carType.model, brand: carType.brand, carType: carType.carType })
+            .then(res => {
+                console.log(res);
+                dispatch({ type: 'CREATE_CAR_TYPE', createdCarType: res.data });
+            })
+    }
+}
+
+
+export const editCarType = (id, carType) => {
+
+    return (dispatch, getState) => {
+
+        axios.put('http://localhost:8090/api/rentacar/carType/' + id, { id: carType.id, numberOfSeats: carType.numberOfSeats, modelYear: carType.modelYear, model: carType.model, brand: carType.brand, carType: carType.carType })
+            .then(res => {
+                console.log(res);
+                dispatch({ type: 'EDIT_CAR_TYPE', editedCarType: res.data });
+            })
+    }
+}
+
+
+export const deleteCarType = (id) => {
+
+    return (dispatch, getState) => {
+
+        axios.delete('http://localhost:8090/api/rentacar/carType/' + id)
+            .then(res => {
+                console.log(res);
+                dispatch({ type: 'DELETE_CAR_TYPE', deletedCarType: res.data });
+            })
+
+    }
+}
+
+
+export const createBranchOffice = (branchOffice) => {
+
+    return (dispatch, getState) => {
+
+        axios.post('http://localhost:8090/api/rentacar/branchOffice/', { id: branchOffice.id, name: branchOffice.name, adress: branchOffice.adress, city: branchOffice.city, rentServiceDTO: { id: branchOffice.rentServiceDTO.id, name: branchOffice.rentServiceDTO.name, adress: branchOffice.rentServiceDTO.adress, city: branchOffice.rentServiceDTO.city } })
+            .then(res => {
+                console.log(res);
+                dispatch({ type: 'CREATE_BRANCH_OFFICE', createtBranchOffice: res.data });
+            })
+    }
+}
+
+export const editBranchOffice = (id, branchOffice) => {
+
+    return (dispatch, getState) => {
+
+        axios.put('http://localhost:8090/api/rentacar/branchOffice/' + id, { id: branchOffice.id, name: branchOffice.name, adress: branchOffice.adress, city: branchOffice.city, rentServiceDTO: { id: branchOffice.rentServiceDTO.id, name: branchOffice.rentServiceDTO.name, adress: branchOffice.rentServiceDTO.adress, city: branchOffice.rentServiceDTO.city } })
+            .then(res => {
+                console.log(res);
+                dispatch({ type: 'UPDATE_BRANCH_OFFICE', editedBranchOffice: res.data });
+            })
+    }
+}
+
+
+export const deleteBranchOffice = (id) => {
+
+    return (dispatch, getState) => {
+
+        axios.delete('http://localhost:8090/api/rentacar/branchOffice/' + id)
+            .then(res => {
+                console.log(res);
+                dispatch({ type: 'DELETE_BRANCH_OFFICE', deleteBranchOffice: res.data });
+            })
+
+    }
 }
