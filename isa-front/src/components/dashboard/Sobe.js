@@ -1,20 +1,21 @@
 import React, { Component } from 'react'
 import UserLoggedTabs from '../layout/tabs/UserLoggedTabs';
 import axios from 'axios'
+import Axios from 'axios';
 
 
 class Sobe extends Component {
 
     state = {
-        sobe: []
+        sobe: [],
+        cenaMin:"-1",
+        cenaMax:"-1"
     }
 
     componentDidMount() {
         const id = this.props.match.params.hotelId;
         const datumOd = this.props.match.params.datumOd;
         const datumDo = this.props.match.params.datumDo;
-        const cenaMin = this.props.match.params.cenaMin;
-        const cenaMax = this.props.match.params.cenaMax
         if(datumOd == "-1" || datumDo == "-1"){
         axios.get('http://localhost:8092/api/hotel/hotelskaSoba/all/'+id)
             .then(res => {
@@ -24,7 +25,7 @@ class Sobe extends Component {
                 })
             })
         }else{
-            axios.get('http://localhost:8092/api/hotel/rezervacije/'+id+'/'+ datumOd +'/' + datumDo + '/')
+            axios.get('http://localhost:8092/api/hotel/rezervacije/'+id+'/'+ datumOd +'/' + datumDo)
             .then(res => {
                 console.log(res);
                 this.setState({
@@ -34,8 +35,37 @@ class Sobe extends Component {
         }
     }
 
+    handleChange = (e) => {
+        if(e.target.value!=""){
+            this.setState({
+                [e.target.id]: e.target.value
+            })
+        }else{
+            this.setState({
+                [e.target.id]: "-1"
+            })
+        }
+    }
+
+    handleSubmit = (e) => {
+        e.preventDefault();
+        const cenaMin = this.state.cenaMin;
+        const cenaMax = this.state.cenaMax;
+        const datumOd = this.props.match.params.datumOd;
+        const datumDo = this.props.match.params.datumDo;
+        const id = this.props.match.params.hotelId;
+        console.log(this.state);
+        Axios.get('http://localhost:8092/api/hotel/rezervacije/'+ id +'/'+ datumOd +'/'+ datumDo +'/'+ cenaMin +'/'+ cenaMax)
+        .then(res => {
+            console.log(res);
+            this.setState({
+                sobe: res.data
+            })
+        })
+    }
+
     render() {
-        const { sobe } = this.state;
+        const sobe = this.state.sobe;
         var imeHotela = "";
         const sobeList = sobe.length ? (sobe.map(soba => {
             imeHotela = soba.hotel_hotelskeSobe.name;
@@ -58,6 +88,17 @@ class Sobe extends Component {
                 <UserLoggedTabs></UserLoggedTabs>
                 <div className="container center">
                     <h2 className="red-text lighten-1 center">Lista soba hotela {imeHotela}</h2>
+                    <form onSubmit = {this.handleSubmit}>
+                        <div className="input-field">
+                            <label htmlFor="cenaMin">Cena od:</label>
+                            <input type="number" id='cenaMin' onChange = {this.handleChange}/>
+                        </div>
+                        <div className="input-field">
+                            <label htmlFor="cenaMax">Cena do:</label>
+                            <input type="number" id='cenaMax' onChange = {this.handleChange}/>
+                        </div>
+                        <button>Pretrazi</button>
+                    </form>
                     {sobeList}
                 </div>
             </div>
