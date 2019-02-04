@@ -1,6 +1,7 @@
 package com.ftn.isa.projekat.purchases.purchasesCore.shoppingCart.service;
 
 import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -100,10 +101,20 @@ public class ShoppingCartServiceImpl implements IShoppingCartService{
 		 * 
 		 *  */
 		
+		
 		UserDTO user = servicesProxy.getUserById(reservationToSave.getUserId());
 		
 		if(user.getId()!=null) {
-			
+			Optional<ShoppingCart> shoppingCart = cartRepository.findOneByUserId(reservationToSave.getUserId());
+
+			if(shoppingCart.isPresent()) {
+				
+				reservationToSave.setId(shoppingCart.get().getId());
+				
+				return reservationToSave;
+				
+			}
+			/*
 			if(reservationToSave.getCarReservationId()!=null) {
 		
 				CarReservationDTO carReservation = servicesProxy.getCarReservationById(reservationToSave.getCarReservationId());
@@ -123,8 +134,9 @@ public class ShoppingCartServiceImpl implements IShoppingCartService{
 				}
 				
 			}
-		
-		cartRepository.save(cartConverter.convertFromDTO(reservationToSave));
+			*/
+		ShoppingCart savedCart = cartRepository.save(cartConverter.convertFromDTO(reservationToSave));
+		reservationToSave.setId(savedCart.getId());
 		
 		return reservationToSave;
 
@@ -223,7 +235,7 @@ public class ShoppingCartServiceImpl implements IShoppingCartService{
 	@Override
 	public ShoppingCartDTO addCarReservation(Long id, CarReservationDTO carReservation) {
 
-		Optional<ShoppingCart> reservation = cartRepository.findById(id);
+		Optional<ShoppingCart> reservation = cartRepository.findByUserId(id);
 		
 		if(reservation.isPresent() && carReservation != null) {
 			/*
@@ -237,10 +249,11 @@ public class ShoppingCartServiceImpl implements IShoppingCartService{
 			if(reservation.get().getCarReservationId()!=null) {
 				servicesProxy.deleteCarReservation(reservation.get().getCarReservationId());
 			}
+						
 			
 			CarReservationDTO carReservationToSave = servicesProxy.addCarReservation(carReservation);
 			
-			//Calclulating price for carResercation
+			//Calclulating price for carResercation		
 			
 			long numberOfDaysOfReservation = Duration.between(carReservationToSave.getDateFrom(), carReservationToSave.getDateTo()).toDays();
 			

@@ -235,23 +235,25 @@ public class CarServiceImpl  implements ICarService{
 	}
 
 	@Override
-	public List<CarDTO> getReservedCarsFromTo(LocalDate dateFrom, LocalDate dateTo) {
+	public List<CarDTO> getReservedCarsFromTo(LocalDateTime dateFrom, LocalDateTime dateTo) {
 
-		Optional< List<Car> > reservedCars = carRepository.findReservedCars(dateFrom,dateTo);
-		
-		
-		ArrayList< CarDTO > CarsDTO = new ArrayList< CarDTO >();
-		
-		if ( reservedCars.isPresent() ) {
+		if(dateFrom.isAfter(dateTo)) {
+			Optional< List<Car> > reservedCars = carRepository.findReservedCars(dateFrom,dateTo);
 			
-			for ( Car car : reservedCars.get()) {
+			
+			ArrayList< CarDTO > CarsDTO = new ArrayList< CarDTO >();
+			
+			if ( reservedCars.isPresent() ) {
 				
-				CarsDTO.add(carConverter.convertToDTO(car));
+				for ( Car car : reservedCars.get()) {
+					
+					CarsDTO.add(carConverter.convertToDTO(car));
+					
+				}
+				
+				return CarsDTO;
 				
 			}
-			
-			return CarsDTO;
-			
 		}
 		
 		return Collections.emptyList();
@@ -261,23 +263,26 @@ public class CarServiceImpl  implements ICarService{
 	
 
 	@Override
-	public List<CarDTO> getFreeCarsFromTo(LocalDate dateFrom, LocalDate dateTo) {
+	public List<CarDTO> getFreeCarsFromTo(LocalDateTime dateFrom, LocalDateTime dateTo) {
 
-		Optional< List<Car> > freeCars = carRepository.findFreeCars(dateFrom,dateTo);
+		if(!dateFrom.isAfter(dateTo)) {
 		
-		
-		ArrayList< CarDTO > CarsDTO = new ArrayList< CarDTO >();
-		
-		if ( freeCars.isPresent() ) {
+			Optional< List<Car> > freeCars = carRepository.findFreeCars(dateFrom,dateTo);
 			
-			for ( Car car : freeCars.get()) {
+			
+			ArrayList< CarDTO > CarsDTO = new ArrayList< CarDTO >();
+			
+			if ( freeCars.isPresent() ) {
 				
-				CarsDTO.add(carConverter.convertToDTO(car));
+				for ( Car car : freeCars.get()) {
+					
+					CarsDTO.add(carConverter.convertToDTO(car));
+					
+				}
+				
+				return CarsDTO;
 				
 			}
-			
-			return CarsDTO;
-			
 		}
 		
 		return Collections.emptyList();

@@ -39,6 +39,31 @@ export const getCarReservation = (id) => {
 
 }
 
+export const createUserShoppingCart = (userId) => {
+
+    return (dispatch, getState) => {
+        axios.post('http://localhost:8095/api/purchases/shoppingCart/', { id: -1, bonusPoints: 0, userId: userId, carReservationId: null, roomReservationId: null, price: 0 })
+            .then(res => {
+                console.log(res.data)
+                dispatch({ type: 'CREATE_USER_SHOPPING_CART', userShoppingCart: res.data })
+            })
+    }
+
+}
+
+export const addRentACarReservationToShoppingCart = (idKorpe, dateFrom, dateTo, car) => {
+
+    return (dispatch, getState) => {
+        axios.put('http://localhost:8095/api/purchases/shoppingCart/addCarReservation/' + idKorpe, { id: -1, dateFrom: dateFrom, dateTo: dateTo, rating: 0, carRating: 0, reservedCar: { id: car.id, rentPrice: car.rentPrice, carType: { id: car.carType.id, numberOfSeats: '', modelYear: '', model: '', brand: '', carType: '' }, rentService: { id: car.rentService.id, name: '', adress: '', description: '' }, branchOffice: { id: car.branchOffice.id, name: '', adress: '', city: '', rentServiceDTO: { id: car.rentService.id, adress: '', name: '', description: '' } } }, branchOfficeFrom: { id: car.branchOffice.id, name: '', adress: '', city: '', rentServiceDTO: { id: car.rentService.id, adress: '', name: '', description: '' } }, branchOfficeTo: { id: car.branchOffice.id, name: '', adress: '', city: '', rentServiceDTO: { id: car.rentService.id, adress: '', name: '', description: '' } }, service: { id: car.rentService.id, adress: '', name: '', description: '' } })
+            .then(res => {
+                console.log(res.data)
+                dispatch({ type: 'ADD_CAR_RESERVATION_TO_SHOPPING_CART', userShoppingCart: res.data })
+            })
+    }
+}
+
+
+
 export const makeReservation = (id) => {
 
     return (dispatch, getState) => {

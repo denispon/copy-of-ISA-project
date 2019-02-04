@@ -2,6 +2,7 @@ package com.ftn.isa.projekat.rentACar.rentACarCore.car.repository;
 
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,19 +14,14 @@ import com.ftn.isa.projekat.rentACar.rentACarCore.car.model.Car;
 
 public interface CarRepository extends JpaRepository < Car, Long > {
 
-	@Query(value = "select c.id, c.registration_licence, c.rent_price,"
-			+ " c.rent_a_car_service_id, c.car_type_id from car c,"
-			+ "reserved_cars rs, reservation r  where c.id = rs.car_id and"
-			+ " rs.reservation_id= r.id "
+	@Query(value = "select * from car c,"
+			+ "car_reservation r  where c.id = r.reserved_car"
 			+ "and r.date_from > :dateFrom AND r.date_to < :dateTo ;", nativeQuery = true)
-	Optional< List<Car> > findReservedCars(@Param("dateFrom") LocalDate dateFrom, @Param("dateTo") LocalDate dateTo);
+	Optional< List<Car> > findReservedCars(@Param("dateFrom") LocalDateTime dateFrom, @Param("dateTo") LocalDateTime dateTo);
 
 	
-	@Query(value = "select * from car c where c.id not in "
-			+ "(select cc.id from car cc,reserved_cars rs, reservation r where cc.id = rs.car_id and "
-			+ "rs.reservation_id= r.id "
-			+ "and r.date_from > :dateFrom AND r.date_to < :dateTo );", nativeQuery = true)
-	Optional< List<Car> > findFreeCars(@Param("dateFrom") LocalDate dateFrom, @Param("dateTo") LocalDate dateTo);
+	@Query(value = "select * from car c where c.id not in (select cc.id from car cc, car_reservation r where cc.id = r.reserved_car and r.date_from > :dateFrom AND r.date_to < :dateTo );", nativeQuery = true)
+	Optional< List<Car> > findFreeCars(@Param("dateFrom") LocalDateTime dateFrom, @Param("dateTo") LocalDateTime dateTo);
 
 
 	Optional< List<Car> > findAllByCarRentServiceId(Long rentId);

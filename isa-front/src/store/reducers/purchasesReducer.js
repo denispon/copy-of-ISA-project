@@ -24,6 +24,18 @@ const purchasesReducer = (state = initState, action) => {
                 userShoppingCart: action.userShoppingCart
             }
 
+        case 'CREATE_USER_SHOPPING_CART':
+            return {
+                ...state,
+                userShoppingCart: action.userShoppingCart
+            }
+
+        case 'ADD_CAR_RESERVATION_TO_SHOPPING_CART':
+            return {
+                ...state,
+                userShoppingCart: action.userShoppingCart
+            }
+
         case 'GET_CAR_RESERVATION':
             return {
                 ...state,

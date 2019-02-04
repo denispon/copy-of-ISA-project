@@ -1,6 +1,7 @@
 package com.ftn.isa.projekat.rentACar.rentACarCore.car.controller;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -102,7 +103,7 @@ public class CarController {
 	@GetMapping("/getReservedCars/{dateFrom}/{dateTo}")
 	public ResponseEntity< List<CarDTO> > getReservedCarsFromTo(@PathVariable("dateFrom") String dateFrom , @PathVariable("dateTo") String dateTo){
 		
-		List<CarDTO> cars = carService.getReservedCarsFromTo(LocalDate.parse(dateFrom), LocalDate.parse(dateTo));
+		List<CarDTO> cars = carService.getReservedCarsFromTo(LocalDateTime.parse(dateFrom), LocalDateTime.parse(dateTo));
 		
 		return ( !cars.isEmpty() )? new ResponseEntity<List<CarDTO>>(cars,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);		
 		
@@ -111,7 +112,7 @@ public class CarController {
 	@GetMapping("/getFreeCars/{dateFrom}/{dateTo}")
 	public ResponseEntity< List<CarDTO> > getFreeCarsFromTo(@PathVariable("dateFrom") String dateFrom , @PathVariable("dateTo") String dateTo){
 		
-		List<CarDTO> cars = carService.getFreeCarsFromTo(LocalDate.parse(dateFrom), LocalDate.parse(dateTo));
+		List<CarDTO> cars = carService.getFreeCarsFromTo(LocalDateTime.parse(dateFrom), LocalDateTime.parse(dateTo));
 		
 		return ( !cars.isEmpty() )? new ResponseEntity<List<CarDTO>>(cars,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);		
 		

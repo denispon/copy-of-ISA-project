@@ -1,12 +1,16 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import { NavLink } from 'react-router-dom'
+import { connect } from "react-redux"
+import { createUserShoppingCart, addRentACarReservationToShoppingCart } from "../../../store/actions/PurchasesActions"
 
 
 class Cenovnici extends Component {
 
     state = {
         vozila: [],
+        tipoviVozila: [],
+        izabraniTipVozila: -1,
         sakriPretragu: true,
         ponistiPretragu: false,
         carType: '',
@@ -15,11 +19,44 @@ class Cenovnici extends Component {
         vremePocetka: undefined,
         vremeKraja: undefined,
         dateFrom: '',
-        dateTo: ''
+        dateTo: '',
+        aktivirajDugmeRezervacije: false
+    }
+
+    rezervisiVozilo = (e) => {
+        var id_vozila = e.target.id;
+
+        //ispitam da li korpa postoji...
+
+
+        if (!this.props.userShoppingCart) {
+
+            //ukoliko ne postoji pozivam dispatch da je kreira i prosledjujem user_id....
+            this.props.createUserShoppingCart(this.props.userId)
+
+        }
+
+        var vozilo = this.state.vozila.find(vozilo => vozilo.id == id_vozila)
+
+        this.props.addRentACarReservationToShoppingCart(this.props.userId, this.state.dateFrom, this.state.dateTo, vozilo)
+
+
+
     }
 
     componentDidMount() {
         this.getAllCars();
+        this.getAllCarTypes();
+    }
+
+    getAllCarTypes = () => {
+        axios.get('http://localhost:8090/api/rentacar/carType/all')
+            .then(res => {
+                console.log(res.data);
+                this.setState({
+                    tipoviVozila: res.data
+                })
+            })
     }
 
     getAllCars = () => {
@@ -47,7 +84,43 @@ class Cenovnici extends Component {
 
     handleSubmit = (e) => {
         e.preventDefault();
+        if (this.state.dateFrom != '' && this.state.dateTo != '') {
+            axios.get('http://localhost:8090/api/rentacar/car/getFreeCars/' + this.state.dateFrom + '/' + this.state.dateTo)//tvoj url za pronalazak vozila po id servisa
+                .then(res => {
+                    console.log(res);
+                    if (this.state.izabraniTipVozila == -1) {
+                        this.setState({
+                            vozila: res.data.filter(item => item.rentService.id == this.props.match.params.serviceId),
+                            aktivirajDugmeRezervacije: true
+                        })
+                    }
+                    else {
+                        this.setState({
+                            vozila: res.data.filter(item => item.carType.id == this.state.izabraniTipVozila && item.rentService.id == this.props.match.params.serviceId),
+                            aktivirajDugmeRezervacije: true
+                        })
+                    }
 
+                })
+        }
+
+        if (this.state.dateFrom == '' && this.state.dateTo == '' && this.state.izabraniTipVozila != -1) {
+
+            this.setState({
+                vozila: this.state.vozila.filter(item => item.carType.id == this.state.izabraniTipVozila)
+            })
+        }
+        else if (this.state.izabraniTipVozila == -1) {
+            this.getAllCars();
+        }
+
+
+    }
+
+    carTypeChange = (e) => {
+        this.setState({
+            izabraniTipVozila: e.target.value
+        })
     }
 
     handleDateTimeChange = (e) => {
@@ -110,6 +183,9 @@ class Cenovnici extends Component {
 
     }
 
+
+
+
     render() {
         const { vozila } = this.state;
         var imeServisa = "";
@@ -123,6 +199,16 @@ class Cenovnici extends Component {
                             <p>Cena: {vozilo.rentPrice}</p>
                             <p>Filijala: {vozilo.branchOffice.name} {vozilo.branchOffice.city} {vozilo.branchOffice.adress}</p>
                         </div>
+                        {
+                            this.state.aktivirajDugmeRezervacije ?
+                                <div>
+                                    <br />
+                                    <button onClick={this.rezervisiVozilo} id={vozilo.id} className="btn orange darken-3 z-depth-0">Rezervisi</button>
+
+                                </div>
+                                :
+                                ''
+                        }
                     </div>
                 </div>
             )
@@ -168,6 +254,19 @@ class Cenovnici extends Component {
                                                 <input type="time" id='vremeKraja' onChange={this.handleDateTimeChange} value={this.state.vremeKraja} />
                                             </div>
 
+                                            <div>
+                                                <label htmlFor="tipVozilaSelect" className="active">Tip vozila</label>
+
+                                                <select id="tipVozilaSelect" onChange={this.carTypeChange} className="browser-default">
+                                                    <option value={-1}>Bilo koji tip</option>
+                                                    {this.state.tipoviVozila.map(carType => {
+                                                        return (
+                                                            <option value={carType.id}>{carType.brand} {carType.model} {carType.modelYear}, {carType.carType}, broj sedista: {carType.numberOfSeats}</option>
+                                                        );
+                                                    })}
+                                                </select>
+                                            </div>
+
                                             <div className="input-field">
                                                 <button className="btn purple darken-3 z-depth-0">Pretraga</button>
                                             </div>
@@ -197,4 +296,17 @@ class Cenovnici extends Component {
     }
 }
 
-export default Cenovnici;
+const mapStateToProps = (state) => {
+    return {
+        userShoppingCart: state.purchases.userShoppingCart
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        createUserShoppingCart: (id) => dispatch(createUserShoppingCart(id)),
+        addRentACarReservationToShoppingCart: (idKorpe, dateFrom, dateTo, car) => dispatch(addRentACarReservationToShoppingCart(idKorpe, dateFrom, dateTo, car))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Cenovnici)
