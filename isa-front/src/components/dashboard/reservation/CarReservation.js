@@ -1,4 +1,4 @@
-import React from "react"
+import React, { Component } from "react"
 import StarRating from "./StarRating";
 import CancelReservation from "./CancelReservation"
 import DeleteFromShoppingCart from "./DeleteFromShoppingCart"
@@ -11,64 +11,91 @@ import { BrowserRouter, Switch, Route } from "react-router-dom";
 //zbog toga na svaki ispis je postavljen i uslov ukoliko je objekat jos undefined da se nista ne ispisuje
 //i tek kada dodje da mu dozvoli ispis
 
-const CarReservation = ({ carReservation, userShoppingCart, removeRentACarReservationFromShoppingCart }) => {
+class CarReservation extends Component {
 
-    return (
-        <div className="card">
+    state = {
 
-            <div className="card-content">
+        carRating: '',
+        rentACarRating: ''
 
-                <span className="card-title red-text lighten-1"><strong>Vozilo</strong></span>
-                <div className="container">
-                    <div className="row ">
-                        <div className="col s4">
-                            {carReservation.service
-                                && <p>{carReservation.service.name}</p>
-                            }
+    }
 
+    componentDidMount() {
+
+        if (this.props.carRatings && this.props.rentACarRatings && this.props.userId && this.props.carReservation) {
+
+            const carRating = (this.props.carRatings.find(item => { if (item.userId == this.props.userId && item.carId == this.props.carReservation.reservedCar.id) { return true; } }));
+
+            const rentServiceRating = (this.props.rentACarRatings.find(item => { if (item.userId == this.props.userId && item.rentACarId == this.props.carReservation.service.id) { return true; } }));
+
+            this.setState({
+                carRating: carRating,
+                rentACarRating: rentServiceRating
+            })
+
+        }
+
+
+    }
+
+    render() {
+        return (
+            <div className="card">
+
+                <div className="card-content">
+
+                    <span className="card-title red-text lighten-1"><strong>Vozilo</strong></span>
+                    <div className="container">
+                        <div className="row ">
+                            <div className="col s4">
+                                {this.props.carReservation.service
+                                    && <p>{this.props.carReservation.service.name}</p>
+                                }
+
+                            </div>
+                            <BrowserRouter>
+                                <div className="col s4">
+                                    <Route path="/userReservations" render={(props) => <StarRating rating={this.state.rentACarRating} rentService={this.props.carReservation ? this.props.carReservation.service : undefined}></StarRating>}></Route>
+                                </div>
+                            </BrowserRouter>
+                            <BrowserRouter>
+                                <div className="col s4">
+                                    <Switch>
+                                        <Route exact path="/korpa" render={(props) => <DeleteFromShoppingCart removeRentACarReservationFromShoppingCart={this.props.removeRentACarReservationFromShoppingCart} userShoppingCart={this.props.userShoppingCart} />} ></Route>
+                                        <Route exact path="/userReservations" component={CancelReservation}></Route>
+                                    </Switch>
+                                </div>
+                            </BrowserRouter>
                         </div>
-                        <BrowserRouter>
+                        <div className="row">
                             <div className="col s4">
-                                <Route path="/userReservations" render={(props) => <StarRating rentService={carReservation ? carReservation.service : undefined}></StarRating>}></Route>
+                                {this.props.carReservation.reservedCar && this.props.carReservation.reservedCar.carType
+                                    && <p>{this.props.carReservation.reservedCar.carType.brand} {this.props.carReservation.reservedCar.carType.model} {this.props.carReservation.reservedCar.carType.modelYear}. {this.props.carReservation.reservedCar.carType.carType} broj sedista: {this.props.carReservation.reservedCar.carType.numberOfSeats} </p>
+                                }
                             </div>
-                        </BrowserRouter>
-                        <BrowserRouter>
-                            <div className="col s4">
-                                <Switch>
-                                    <Route exact path="/korpa" render={(props) => <DeleteFromShoppingCart removeRentACarReservationFromShoppingCart={removeRentACarReservationFromShoppingCart} userShoppingCart={userShoppingCart} />} ></Route>
-                                    <Route exact path="/userReservations" component={CancelReservation}></Route>
-                                </Switch>
-                            </div>
-                        </BrowserRouter>
-                    </div>
-                    <div className="row">
-                        <div className="col s4">
-                            {carReservation.reservedCar && carReservation.reservedCar.carType
-                                && <p>{carReservation.reservedCar.carType.brand} {carReservation.reservedCar.carType.model} {carReservation.reservedCar.carType.modelYear}. {carReservation.reservedCar.carType.carType} broj sedista: {carReservation.reservedCar.carType.numberOfSeats} </p>
-                            }
+                            <BrowserRouter>
+                                <div className="col s4">
+                                    <Route path="/userReservations" render={(props) => <StarRating rating={this.state.carRating} reservedCar={this.props.carReservation ? this.props.carReservation.reservedCar : undefined}></StarRating>}></Route>
+                                </div>
+                            </BrowserRouter>
                         </div>
-                        <BrowserRouter>
-                            <div className="col s4">
-                                <Route path="/userReservations" render={(props) => <StarRating reservedCar={carReservation ? carReservation.reservedCar : undefined}></StarRating>}></Route>
-                            </div>
-                        </BrowserRouter>
+                        <div>
+                            <p className="indigo-text left"><strong>Datum od:</strong> {this.props.carReservation.dateFrom}</p>
+                            <br />
+                            <p className="indigo-text left"><strong>Datum do:</strong> {this.props.carReservation.dateTo}</p>
+                            <br />
+                            <br />
+                        </div>
+                        <p className="red-text lighten-3 left"> <strong>Cena po danu: {this.props.carReservation.reservedCar && this.props.carReservation.reservedCar.rentPrice} din</strong></p>
                     </div>
-                    <div>
-                        <p className="indigo-text left"><strong>Datum od:</strong> {carReservation.dateFrom}</p>
-                        <br />
-                        <p className="indigo-text left"><strong>Datum do:</strong> {carReservation.dateTo}</p>
-                        <br />
-                        <br />
-                    </div>
-                    <p className="red-text lighten-3 left"> <strong>Cena po danu: {carReservation.reservedCar && carReservation.reservedCar.rentPrice} din</strong></p>
+
+
+
                 </div>
 
-
-
             </div>
-
-        </div>
-    );
+        );
+    }
 
 };
 

@@ -107,6 +107,18 @@ const purchasesReducer = (state = initState, action) => {
                 ...state,
                 carRatings: (state.carRatings.filter(rating => rating.userId !== action.rating.userId || rating.carId !== action.rating.carId)).concat(action.rating)
             }
+
+        case "GET_ALL_RENT_A_CAR_RATINGS":
+            return {
+                ...state,
+                rentACarRatings: action.userRatings
+            }
+
+        case "GET_ALL_CAR_RATINGS":
+            return {
+                ...state,
+                carRatings: action.userRatings
+            }
     }
     return state
 }

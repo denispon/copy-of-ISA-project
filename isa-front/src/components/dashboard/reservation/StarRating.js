@@ -9,7 +9,8 @@ class StarRating extends Component {
     state = {
 
         rentService: undefined,
-        reservedCar: undefined
+        reservedCar: undefined,
+        rating: undefined
 
     }
 
@@ -47,14 +48,19 @@ class StarRating extends Component {
 
 
         return (
+            <div>
+                <fieldset class="rating">
+                    <input onClick={this.HandleRating} type="radio" id={idZvezdice + '5'} name={idZvezdice + 'rating'} value="5" /><label className="full" for={idZvezdice + '5'} title="Odlican! - 5 zvezdica"></label>
+                    <input onClick={this.HandleRating} type="radio" id={idZvezdice + '4'} name={idZvezdice + 'rating'} value="4" /><label className="full" for={idZvezdice + '4'} title="Vrlo dobar - 4 zvezdica"></label>
+                    <input onClick={this.HandleRating} type="radio" id={idZvezdice + '3'} name={idZvezdice + 'rating'} value="3" /><label className="full" for={idZvezdice + '3'} title="Ajde da kazem dobar - 3 zvezdice"></label>
+                    <input onClick={this.HandleRating} type="radio" id={idZvezdice + '2'} name={idZvezdice + 'rating'} value="2" /><label className="full" for={idZvezdice + '2'} title="Onakooooo - 2 zvezdice"></label>
+                    <input onClick={this.HandleRating} type="radio" id={idZvezdice + '1'} name={idZvezdice + 'rating'} value="1" /><label className="full" for={idZvezdice + '1'} title="Jako lose - 1 star"></label>
 
-            <fieldset class="rating">
-                <input onClick={this.HandleRating} type="radio" id={idZvezdice + '5'} name={idZvezdice + 'rating'} value="5" /><label className="full" for={idZvezdice + '5'} title="Odlican! - 5 zvezdica"></label>
-                <input onClick={this.HandleRating} type="radio" id={idZvezdice + '4'} name={idZvezdice + 'rating'} value="4" /><label className="full" for={idZvezdice + '4'} title="Vrlo dobar - 4 zvezdica"></label>
-                <input onClick={this.HandleRating} type="radio" id={idZvezdice + '3'} name={idZvezdice + 'rating'} value="3" /><label className="full" for={idZvezdice + '3'} title="Ajde da kazem dobar - 3 zvezdice"></label>
-                <input onClick={this.HandleRating} type="radio" id={idZvezdice + '2'} name={idZvezdice + 'rating'} value="2" /><label className="full" for={idZvezdice + '2'} title="Onakooooo - 2 zvezdice"></label>
-                <input onClick={this.HandleRating} type="radio" id={idZvezdice + '1'} name={idZvezdice + 'rating'} value="1" /><label className="full" for={idZvezdice + '1'} title="Jako lose - 1 star"></label>
-            </fieldset>
+                </fieldset>
+                <br />
+                <br />
+                <p className="orange-text lighten-1">Vasa trenutna ocena : {this.props.rating ? this.props.rating.rating : ''}</p>
+            </div>
 
         );
     }
