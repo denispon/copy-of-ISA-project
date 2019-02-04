@@ -184,3 +184,31 @@ export const rateCar = (userId, idCar, rating) => {
             })
     }
 }
+
+
+
+export const getAllRentACarRatings = (userId) => {
+
+    return (dispatch, getState) => {
+
+        axios.get('http://localhost:8095/api/purchases/rentACarRating/all')
+            .then(res => {
+                const userRatings = res.data.filter(item => item.userId == userId)
+                dispatch({ type: 'GET_ALL_RENT_A_CAR_RATINGS', userRatings: userRatings });
+            })
+    }
+}
+
+
+export const getAllCarRatings = (userId) => {
+
+    return (dispatch, getState) => {
+
+        axios.get('http://localhost:8095/api/purchases/carRating/all')
+            .then(res => {
+                console.log(res);
+                const userCarRatings = res.data.filter(item => item.userId == userId)
+                dispatch({ type: 'GET_ALL_CAR_RATINGS', userRatings: userCarRatings });
+            })
+    }
+}

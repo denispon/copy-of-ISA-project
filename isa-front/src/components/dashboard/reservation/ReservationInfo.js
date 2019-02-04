@@ -3,20 +3,26 @@ import FlightReservation from './FlightReservation'
 import HotelReservation from './HotelReservation'
 import CarReservation from './CarReservation';
 import { connect } from 'react-redux'
-import { addRentCarReservationToCollection } from "../../../store/actions/PurchasesActions"
+import { addRentCarReservationToCollection, getAllRentACarRatings, getAllCarRatings } from "../../../store/actions/PurchasesActions"
 
 class ReservationInfo extends Component {
 
 
     componentDidMount() {
 
-        addRentCarReservationToCollection(this.props.reservation.carReservationId);
+        this.props.addRentCarReservationToCollection(this.props.reservation.carReservationId);
+
+        this.props.getAllRentACarRatings(2);
+
+        this.props.getAllCarRatings(2);
 
     }
 
 
 
     render() {
+
+
         return (
 
             <div className="container">
@@ -42,7 +48,7 @@ class ReservationInfo extends Component {
 
                         {this.props.rentCarReservations && this.props.rentCarReservations.find(el => el.id == this.props.reservation.carReservationId) ?
 
-                            <CarReservation carReservation={this.props.rentCarReservations.find(el => el.id == this.props.reservation.carReservationId)} ></CarReservation>
+                            <CarReservation userId={2} carRatings={this.props.carRatings} rentACarRatings={this.props.rentACarRatings} carReservation={this.props.rentCarReservations.find(el => el.id == this.props.reservation.carReservationId)} ></CarReservation>
                             :
                             ''
                         }
@@ -63,12 +69,16 @@ class ReservationInfo extends Component {
 const mapStateToProps = (state) => {
     return {
         rentCarReservations: state.purchases.rentCarReservations,
+        rentACarRatings: state.purchases.rentACarRatings,
+        carRatings: state.purchases.carRatings
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        addRentCarReservationToCollection: (id) => dispatch(addRentCarReservationToCollection(id))
+        addRentCarReservationToCollection: (id) => dispatch(addRentCarReservationToCollection(id)),
+        getAllRentACarRatings: (id) => dispatch(getAllRentACarRatings(id)),
+        getAllCarRatings: (id) => dispatch(getAllCarRatings(id))
     }
 }
 
