@@ -11,6 +11,11 @@ class Sobe extends Component {
 
     componentDidMount() {
         const id = this.props.match.params.hotelId;
+        const datumOd = this.props.match.params.datumOd;
+        const datumDo = this.props.match.params.datumDo;
+        const cenaMin = this.props.match.params.cenaMin;
+        const cenaMax = this.props.match.params.cenaMax
+        if(datumOd == "-1" || datumDo == "-1"){
         axios.get('http://localhost:8092/api/hotel/hotelskaSoba/all/'+id)
             .then(res => {
                 console.log(res);
@@ -18,6 +23,15 @@ class Sobe extends Component {
                     sobe: res.data
                 })
             })
+        }else{
+            axios.get('http://localhost:8092/api/hotel/rezervacije/'+id+'/'+ datumOd +'/' + datumDo + '/')
+            .then(res => {
+                console.log(res);
+                this.setState({
+                    sobe: res.data
+                })
+            }) 
+        }
     }
 
     render() {

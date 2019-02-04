@@ -17,7 +17,7 @@ public interface IHotelService {
 	public HotelDTO save(HotelDTO hotelDTO);
 	public HotelDTO deleteById(Long id);
 	public HotelDTO change(Long id, HotelDTO hotelDTO);
-	public List<HotelDTO> filterHotel(String hotelIliAdresa, String datumDolaska, String datumOdlaska, String brojGostiju, String brojSoba) throws ParseException;
+	public List<HotelDTO> filterHotel(String hotelIliAdresa, /*String cenaMin, String cenaMax,*/ String datumDolaska, String datumOdlaska, String brojGostiju, String brojSoba) throws ParseException;
 	//public List<HotelskaSobaDTO> findSobeHotela(Long id);
 	
 }

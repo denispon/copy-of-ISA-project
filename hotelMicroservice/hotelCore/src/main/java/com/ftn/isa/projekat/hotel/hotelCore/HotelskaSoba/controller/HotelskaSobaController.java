@@ -97,6 +97,18 @@ public class HotelskaSobaController {
 		
 	}
 	
+	@GetMapping("/all/{id}/{cena}/{cena1}")
+	@ApiOperation( value = "", httpMethod = "GET")
+	@ApiResponses( value = { @ApiResponse( code = 200, message ="OK"),
+							 @ApiResponse( code = 404, message ="Not Found")})	
+	public ResponseEntity<List<HotelskaSobaDTO>> getAllHotelRoomsByHotelIdPrice(@PathVariable("id") Long id, @PathVariable("cena") String cena, @PathVariable("cena1") String cena1){
+		int cenaMin = Integer.parseInt(cena);
+		int cenaMax = Integer.parseInt(cena);
+		List<HotelskaSobaDTO> rooms = hotelskaSobaService.findAllByHotelAndPrice(id, cenaMin, cenaMax);
+		return(!rooms.isEmpty()) ? new ResponseEntity<List<HotelskaSobaDTO>>(rooms, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		
+	}
+	
 	@GetMapping("/discount/{id}")
 	@ApiOperation( value = "", httpMethod = "GET")
 	@ApiResponses( value = { @ApiResponse( code = 200, message ="OK"),

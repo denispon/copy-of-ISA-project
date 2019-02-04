@@ -115,10 +115,12 @@ public class HotelService implements IHotelService{
 		
 	}
 	
-	public List<HotelDTO> filterHotel(String hotelIliAdresa, String datumDolaska, String datumOdlaska, String brojGostiju, String brojSoba) throws ParseException{
+	public List<HotelDTO> filterHotel(String hotelIliAdresa, /*String cenaMin, String cenaMax,*/ String datumDolaska, String datumOdlaska, String brojGostiju, String brojSoba) throws ParseException{
 		
 		int guestNumber = Integer.parseInt(brojGostiju);
 		int roomNumber = Integer.parseInt(brojSoba);
+		/*int minPrice = Integer.parseInt(cenaMin);
+		int maxPrice = Integer.parseInt(cenaMax);*/
 		Optional<List<Hotel>> list = Optional.of(hotelRepository.findAll());
 		ArrayList<HotelDTO> hoteliDTO = new ArrayList<HotelDTO>();
 		List<Hotel> lista = new ArrayList<Hotel>();
@@ -126,7 +128,7 @@ public class HotelService implements IHotelService{
 		Optional<List<HotelskaSoba>> sobeListBezDatuma = Optional.of(hotelskaSobaRepository.findAll());
 		
 		if(list.isPresent()) {
-			if(!hotelIliAdresa.contains("-1")) {
+			if(!hotelIliAdresa.equals("-1")) {
 				for(Hotel hotel : list.get()) {
 					if(hotel.getName().contains(hotelIliAdresa) || hotel.getAdress().contains(hotelIliAdresa)) {
 						lista.add(hotel);
@@ -139,9 +141,47 @@ public class HotelService implements IHotelService{
 				lista.clear();
 			}
 			
-			if(!datumDolaska.contains("-1") && !datumOdlaska.contains("-1")) {
-				Date dateOd = new SimpleDateFormat("dd.MM.yyyy").parse(datumDolaska);
-				Date dateDo = new SimpleDateFormat("dd.MM.yyyy").parse(datumOdlaska);
+			/*if(minPrice != -1) {
+				
+				if(sobeListBezDatuma.isPresent()) {
+					for(Hotel hotel : list.get()) {
+						for(HotelskaSoba hs : sobeListBezDatuma.get()) {
+							if(hs.getHotel_hotelskeSobe().getId() == hotel.getId() && hs.getOriginalnaCena()>=minPrice) {
+								lista.add(hotel);
+								break;
+							}
+						}
+					}
+					list.get().clear();
+					for(Hotel hotel : lista) {
+						list.get().add(hotel);
+					}
+					lista.clear();
+				}
+			}
+			
+			if(maxPrice != -1) {
+				
+				if(sobeListBezDatuma.isPresent()) {
+					for(Hotel hotel : list.get()) {
+						for(HotelskaSoba hs : sobeListBezDatuma.get()) {
+							if(hs.getHotel_hotelskeSobe().getId() == hotel.getId() && hs.getOriginalnaCena()<=maxPrice) {
+								lista.add(hotel);
+								break;
+							}
+						}
+					}
+					list.get().clear();
+					for(Hotel hotel : lista) {
+						list.get().add(hotel);
+					}
+					lista.clear();
+				}
+			}*/
+			
+			if(!datumDolaska.equals("-1") && !datumOdlaska.equals("-1")) {
+				Date dateOd = new SimpleDateFormat("yyyy-MM-dd").parse(datumDolaska);
+				Date dateDo = new SimpleDateFormat("yyyy-MM-dd").parse(datumOdlaska);
 				for(Hotel hotel : list.get()) {
 					List<HotelskaSobaDTO> sobe = rezervacijaSobeService.getFreeRooms(hotel.getId(), dateOd, dateDo);
 					for(HotelskaSobaDTO soba : sobe) {
@@ -161,7 +201,7 @@ public class HotelService implements IHotelService{
 			
 			if(guestNumber != -1 && guestNumber > 0) {
 				
-				if(!datumDolaska.contains("-1") && !datumOdlaska.contains("-1")) {		
+				if(!datumDolaska.equals("-1") && !datumOdlaska.equals("-1")) {		
 					
 					for(Hotel hotel : list.get()) {
 						int kapacitet = 0;
@@ -203,7 +243,7 @@ public class HotelService implements IHotelService{
 			}
 			
 			if(roomNumber != -1 && roomNumber > 0) {
-				if(!datumDolaska.contains("-1") && !datumOdlaska.contains("-1")) {	
+				if(!datumDolaska.equals("-1") && !datumOdlaska.equals("-1")) {	
 					
 					for(Hotel hotel : list.get()) {
 						int broj = 0;
