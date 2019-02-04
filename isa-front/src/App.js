@@ -83,7 +83,7 @@ class App extends Component {
 
 
 
-            <Route path="/listaHotela" component={HoteliIzlistavanje}></Route>
+            <Route path="/listaHotela/:imeAdresa/:datumOd/:datumDo/:brojSoba/:brojGostiju" component={HoteliIzlistavanje}></Route>
             <Route path="/listaLetova" component={LetoviIzlistavanje}></Route>
 
 

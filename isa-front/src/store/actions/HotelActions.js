@@ -36,3 +36,14 @@ export const editHotel = (hotel) =>{
     }
 
 }
+
+export const filterHotel = (filter) =>{
+    return (dispatch, getState) =>{
+        const imeAdresa = filter.ime_adresa
+        const datumOd = filter.datum_dolaska
+        const datumDo = filter.datum_odlaska
+        const brojSoba = filter.sobe
+        const brojGostiju = filter.gosti
+        window.location = '/listaHotela/'+ imeAdresa +'/'+ datumOd +'/'+ datumDo +'/'+ brojSoba +'/'+ brojGostiju
+    }
+}
