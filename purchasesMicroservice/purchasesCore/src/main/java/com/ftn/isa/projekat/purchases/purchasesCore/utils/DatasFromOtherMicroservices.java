@@ -3,6 +3,18 @@ package com.ftn.isa.projekat.purchases.purchasesCore.utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.ftn.isa.projekat.avioCompany.avioCompanyApi.client.AvioCompanyClient;
+import com.ftn.isa.projekat.avioCompany.avioCompanyApi.client.FlightClient;
+import com.ftn.isa.projekat.avioCompany.avioCompanyApi.client.TicketClient;
+import com.ftn.isa.projekat.avioCompany.avioCompanyApi.dto.AvioCompanyDTO;
+import com.ftn.isa.projekat.avioCompany.avioCompanyApi.dto.FlightDTO;
+import com.ftn.isa.projekat.avioCompany.avioCompanyApi.dto.TicketDTO;
+import com.ftn.isa.projekat.hotel.hotelApi.client.HotelClient;
+import com.ftn.isa.projekat.hotel.hotelApi.client.HotelskaSobaClient;
+import com.ftn.isa.projekat.hotel.hotelApi.client.RezervacijeSobeClient;
+import com.ftn.isa.projekat.hotel.hotelApi.dto.HotelDTO;
+import com.ftn.isa.projekat.hotel.hotelApi.dto.HotelskaSobaDTO;
+import com.ftn.isa.projekat.hotel.hotelApi.dto.RezervacijeSobeDTO;
 import com.ftn.isa.projekat.rentACar.rentACarApi.client.CarClient;
 import com.ftn.isa.projekat.rentACar.rentACarApi.client.CarReservationClient;
 import com.ftn.isa.projekat.rentACar.rentACarApi.client.RentACarServiceClient;
@@ -11,12 +23,6 @@ import com.ftn.isa.projekat.rentACar.rentACarApi.dto.CarReservationDTO;
 import com.ftn.isa.projekat.rentACar.rentACarApi.dto.RentACarServiceDTO;
 import com.ftn.isa.projekat.user.userApi.client.UserClient;
 import com.ftn.isa.projekat.user.userApi.dto.UserDTO;
-import com.ftn.isa.projekat.hotel.hotelApi.client.HotelClient;
-import com.ftn.isa.projekat.hotel.hotelApi.client.HotelskaSobaClient;
-import com.ftn.isa.projekat.hotel.hotelApi.client.RezervacijeSobeClient;
-import com.ftn.isa.projekat.hotel.hotelApi.dto.HotelDTO;
-import com.ftn.isa.projekat.hotel.hotelApi.dto.HotelskaSobaDTO;
-import com.ftn.isa.projekat.hotel.hotelApi.dto.RezervacijeSobeDTO;
 
 import feign.FeignException;
 
@@ -28,6 +34,15 @@ public class DatasFromOtherMicroservices {
 	
 	@Autowired
 	RezervacijeSobeClient roomReservationClient;
+	
+	@Autowired
+	AvioCompanyClient avioClient;
+	
+	@Autowired
+	FlightClient flightClient;
+	
+	@Autowired
+	TicketClient ticketClient;
 	
 	@Autowired
 	CarClient carClient;
@@ -44,6 +59,17 @@ public class DatasFromOtherMicroservices {
 	@Autowired
 	UserClient userClient;
 	
+	public TicketDTO deleteTicketReservation(Long id)
+	{
+		TicketDTO ticketRes = null;
+		try {
+			ticketRes = ticketClient.deleteTicket(id);
+		}
+		catch(FeignException e) {
+			return new TicketDTO();
+		}
+		return ticketRes;
+	}
 	
 	public CarReservationDTO deleteCarReservation(Long id) {
 		CarReservationDTO carReservation = null;
@@ -65,6 +91,19 @@ public class DatasFromOtherMicroservices {
 			return new RezervacijeSobeDTO();
 		}
 		return roomReservation;
+	}
+	
+	public TicketDTO addTicketReservation(TicketDTO ticket)
+	{
+		
+		TicketDTO ticketRes = null;
+		try {
+			ticketRes = ticketClient.addTicket(ticket);
+		}
+		catch(FeignException e) {
+			return new TicketDTO();
+		}
+		return ticketRes;
 	}
 	
 	public CarReservationDTO addCarReservation(CarReservationDTO carResercation) {
@@ -90,6 +129,20 @@ public class DatasFromOtherMicroservices {
 			}
 			return roomReservation;
 		}
+	
+	public TicketDTO getTicketById(Long id) 
+	{
+		
+		TicketDTO ticketRes = null;
+		try {
+			ticketRes = ticketClient.getOneTicketById(id);
+		}
+		catch(FeignException e) {
+			return new TicketDTO();
+			
+		}		
+		return ticketRes;
+	}
 	
 	public CarReservationDTO getCarReservationById(Long id) {
 		
@@ -117,6 +170,17 @@ public class DatasFromOtherMicroservices {
 		return roomReservation;
 	}
 	
+	public FlightDTO getFlightById(Long id)
+	{
+		FlightDTO flight = null;
+		try {
+			flight = flightClient.getSingleFlight(id);
+		}
+		catch(FeignException e) {
+			new FlightDTO();
+		}
+		return flight;
+	}
 	
 	public CarDTO getCarById(Long id) {
 		
@@ -141,6 +205,18 @@ public class DatasFromOtherMicroservices {
 			}
 			return room;
 		}
+	
+	public AvioCompanyDTO getAvioCompanyServiceById(Long avioCompanyId) 
+	{
+		AvioCompanyDTO avioService = null;
+		try {
+			avioService = avioClient.getOneAvioCompanyById(avioCompanyId);
+		}
+		catch(FeignException e) {
+			new AvioCompanyDTO();
+		}
+		return avioService;
+	}
 	
 	public RentACarServiceDTO getRentACarServiceById(Long id) {
 		
@@ -185,5 +261,9 @@ public class DatasFromOtherMicroservices {
 		}
 		return user;
 	}
+
+	
+	
+	
 
 }

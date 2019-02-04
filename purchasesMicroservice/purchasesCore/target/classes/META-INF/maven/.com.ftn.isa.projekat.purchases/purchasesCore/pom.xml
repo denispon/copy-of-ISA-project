@@ -47,6 +47,11 @@
     		<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
+			<groupId>.com.ftn.isa.projekat.avioCompany</groupId>
+    		<artifactId>avioCompanyApi</artifactId>
+    		<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
 			<groupId>.com.ftn.isa.projekat.rentACar</groupId>
     		<artifactId>rentACarApi</artifactId>
     		<version>0.0.1-SNAPSHOT</version>
