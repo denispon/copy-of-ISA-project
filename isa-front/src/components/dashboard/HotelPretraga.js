@@ -6,22 +6,28 @@ import { filterHotel } from '../../store/actions/HotelActions';
 class HotelPretraga extends Component {
 
     state = {
-        ime_adresa:"",
-        datum_dolaska:"",
-        datum_odlaska:"",
-        sobe:"",
-        gosti:""
+        ime_adresa:"-1",
+        datum_dolaska:"-1",
+        datum_odlaska:"-1",
+        sobe:"-1",
+        gosti:"-1"
     }
 
     handleChange = (e) => {
-        this.setState({
-            [e.target.id]: e.target.value
-        })
+        if(e.target.value!=""){
+            this.setState({
+                [e.target.id]: e.target.value
+            })
+        }else{
+            this.setState({
+                [e.target.id]: "-1"
+            })
+        }
     }
 
     handleSubmit = (e) => {
         e.preventDefault();
-        //this.props.history.push('/listaHotela')
+        console.log(this.state);
         this.props.filterHotel(this.state)
     }
 

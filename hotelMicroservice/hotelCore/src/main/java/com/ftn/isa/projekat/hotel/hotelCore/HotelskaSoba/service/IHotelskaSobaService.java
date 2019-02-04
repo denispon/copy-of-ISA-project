@@ -17,5 +17,6 @@ public interface IHotelskaSobaService {
 	public HotelskaSobaDTO deleteById(Long id);
 	public HotelskaSobaDTO change(Long id, HotelskaSobaDTO hotelskaSobaDTO);
 	public List<HotelskaSobaDTO> getRoomsOnDiscount(Long id);
+	public List<HotelskaSobaDTO> findAllByHotelAndPrice(Long id, int cena, int cena1);
 
 }

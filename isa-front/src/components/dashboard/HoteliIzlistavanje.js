@@ -13,12 +13,12 @@ class HotelIzlistavanje extends Component {
     }
 
     componentDidMount() {
-        const imeAdresa = this.props.match.params.imeAdresa;
+        const imeAdresa = this.props.match.params.imeAdresa; 
         const datumOd = this.props.match.params.datumOd;
         const datumDo = this.props.match.params.datumDo;
         const brojSoba = this.props.match.params.brojSoba;
         const brojGostiju = this.props.match.params.brojGostiju;
-        axios.get('http://localhost:8092/api/hotel/hotel/filter/'+ imeAdresa +'/-1/-1/-1/-1')
+        axios.get('http://localhost:8092/api/hotel/hotel/filter/'+ imeAdresa +'/'+ datumOd +'/'+ datumDo +'/'+ brojSoba +'/'+ brojGostiju)
             .then(res => {
                 console.log(res);
                 this.setState({
@@ -28,7 +28,7 @@ class HotelIzlistavanje extends Component {
     }
 
     handleSobeClick = (hotelId) => {
-        this.props.history.push('/sobe/'+hotelId)
+        this.props.history.push('/sobe/'+hotelId+'/'+this.props.match.params.datumOd+'/'+this.props.match.params.datumDo)
     }
 
     handleCenovnikClick = (hotelId) => {

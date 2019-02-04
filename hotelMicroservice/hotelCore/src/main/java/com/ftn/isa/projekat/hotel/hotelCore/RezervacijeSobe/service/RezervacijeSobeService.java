@@ -177,6 +177,39 @@ public class RezervacijeSobeService implements IRezervacijeSobeService{
 		return Collections.emptyList();
 	}
 	
+	public List<HotelskaSobaDTO> getFreeRoomsPrice(Long id, Date datumOd, Date datumDo, int cena, int cena1){
+		
+		List<HotelskaSobaDTO> returnList = new ArrayList<HotelskaSobaDTO>();
+		List<HotelskaSobaDTO> list = getFreeRooms(id, datumOd, datumDo);
+		if(list != null) {
+			for(HotelskaSobaDTO hs : list) {
+					if(hs.getHotel_hotelskeSobe().getId() == id) {
+						if(cena!=-1 && cena1!=-1) {
+							if(hs.getOriginalnaCena()>=cena && hs.getOriginalnaCena()<=cena1) {
+								returnList.add(hs);
+							}
+						}else if(cena!=-1 && cena1==-1) {
+							if(hs.getOriginalnaCena()>=cena) {
+								returnList.add(hs);
+							}
+						}else if(cena==-1 && cena1!=-1) {
+							if(hs.getOriginalnaCena()<=cena1) {
+								returnList.add(hs);
+							}
+						}else {
+							returnList.add(hs);
+						}
+					}
+			}
+			
+			return returnList;
+		}else {
+			return Collections.emptyList();
+		}
+	}
+	
+	
+	
 	
 	public Integer getDnevnaPosecenost(Long id, Date datumOd) {
 		int posecenost=0;

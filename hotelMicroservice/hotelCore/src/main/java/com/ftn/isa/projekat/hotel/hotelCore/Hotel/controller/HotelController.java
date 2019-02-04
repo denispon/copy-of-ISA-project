@@ -97,10 +97,10 @@ public class HotelController {
 	@ApiResponses( value = { 
 			 @ApiResponse( code = 200, message ="OK"),
 			 @ApiResponse( code = 404, message ="Not Found")})
-	public ResponseEntity<List<HotelDTO>> getFilteredHotels(@PathVariable("hotelIliAdresa") String hotelIliAdresa, @PathVariable("datumDolaska") String datumDolaska,
+	public ResponseEntity<List<HotelDTO>> getFilteredHotels(@PathVariable("hotelIliAdresa") String hotelIliAdresa, /*@PathVariable("cenaMin") String cenaMin, @PathVariable("cenaMax") String cenaMax,*/  @PathVariable("datumDolaska") String datumDolaska,
 			@PathVariable("datumOdlaska") String datumOdlaska, @PathVariable("brojSoba") String brojSoba, @PathVariable("brojGostiju") String brojGostiju) throws ParseException{
 		
-		List<HotelDTO> hotels = hotelService.filterHotel(hotelIliAdresa, datumDolaska, datumOdlaska, brojGostiju, brojSoba);
+		List<HotelDTO> hotels = hotelService.filterHotel(hotelIliAdresa, /*cenaMin, cenaMax,*/ datumDolaska, datumOdlaska, brojGostiju, brojSoba);
 		return(!hotels.isEmpty()) ? new ResponseEntity<List<HotelDTO>>(hotels, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);		
 	}
 	

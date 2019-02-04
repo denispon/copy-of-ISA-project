@@ -98,9 +98,24 @@ public class RezervacijeSobeController {
 							 @ApiResponse( code = 404, message = "Not Found")})
 	public ResponseEntity<List<HotelskaSobaDTO>> getFreeRooms(@PathVariable("id") Long id, @PathVariable("datumOd") String datumOd, @PathVariable("datumDo") String datumDo) throws ParseException{
 		
-		Date dateOd = new SimpleDateFormat("dd.MM.yyyy").parse(datumOd);
-		Date dateDo = new SimpleDateFormat("dd.MM.yyyy").parse(datumDo);
+		Date dateOd = new SimpleDateFormat("yyyy-MM-dd").parse(datumOd);
+		Date dateDo = new SimpleDateFormat("yyyy-MM-dd").parse(datumDo);
 		List<HotelskaSobaDTO> lista = rezervacijeSobeService.getFreeRooms(id, dateOd, dateDo);
+		return(!lista.isEmpty()) ? new ResponseEntity<List<HotelskaSobaDTO>>(lista, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		
+	}
+	
+	@GetMapping("/{id}/{datumOd}/{datumDo}/{cenaMin}/{cenaMax}")
+	@ApiOperation( value = "", notes = "", httpMethod="GET")
+	@ApiResponses( value = { @ApiResponse( code = 200, message = "OK"),
+							 @ApiResponse( code = 404, message = "Not Found")})
+	public ResponseEntity<List<HotelskaSobaDTO>> getFreeRoomsPrice(@PathVariable("id") Long id, @PathVariable("datumOd") String datumOd, @PathVariable("datumDo") String datumDo, @PathVariable("cenaMin") String cenaMin, @PathVariable("cenaMax") String cenaMax) throws ParseException{
+		
+		Date dateOd = new SimpleDateFormat("yyyy-MM-dd").parse(datumOd);
+		Date dateDo = new SimpleDateFormat("yyyy-MM-dd").parse(datumDo);
+		int minPrice = Integer.parseInt(cenaMin);
+		int maxPrice = Integer.parseInt(cenaMax);
+		List<HotelskaSobaDTO> lista = rezervacijeSobeService.getFreeRoomsPrice(id, dateOd, dateDo, minPrice, maxPrice);
 		return(!lista.isEmpty()) ? new ResponseEntity<List<HotelskaSobaDTO>>(lista, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		
 	}

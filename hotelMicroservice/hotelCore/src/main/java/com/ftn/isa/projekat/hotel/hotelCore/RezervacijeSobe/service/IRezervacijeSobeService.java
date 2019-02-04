@@ -21,4 +21,6 @@ public interface IRezervacijeSobeService {
 	public Integer getDnevnaPosecenost(Long id, Date datumOd);
 	public Integer getNedeljnaPosecenost(Long id, String datumOd) throws ParseException;
 	public Integer getMesecnaPosecenost(Long id, String datumOd) throws ParseException;
+	public List<HotelskaSobaDTO> getFreeRoomsPrice(Long hotelId, Date datumOd, Date datumDo, int cena, int cena1);
+	
 }
