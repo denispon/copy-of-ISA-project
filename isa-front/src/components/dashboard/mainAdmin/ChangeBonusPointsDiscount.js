@@ -71,11 +71,11 @@ class ChangeBonusPointsDiscount extends Component {
                             <div className="container">
                                 <form className="white" onSubmit={this.handleSubmit} >
                                     <div className="input-field">
-                                        <label htmlFor="points">Broj bonus poena</label>
+                                        <label className="active" htmlFor="points">Broj bonus poena</label>
                                         <input type="number" onChange={this.handleChange} id='points' defaultValue={this.props.discount ? this.props.discount.points : ''} />
                                     </div>
                                     <div className="input-field">
-                                        <label htmlFor="discount">Popust</label>
+                                        <label className="active" htmlFor="discount">Popust</label>
                                         <input type="number" onChange={this.handleChange} id='discount' defaultValue={this.props.discount ? this.props.discount.discount : ''} />
                                     </div>
                                     {this.props.izmena ?

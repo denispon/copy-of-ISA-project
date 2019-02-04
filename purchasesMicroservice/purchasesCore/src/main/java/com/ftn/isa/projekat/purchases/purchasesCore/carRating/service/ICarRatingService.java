@@ -18,5 +18,7 @@ public interface ICarRatingService {
 	public CarRatingDTO deleteById ( Long id );
 	
 	public CarRatingDTO changeCarRating ( Long id, CarRatingDTO carRating );
+
+	public Float findAverageRatingByCar(Long id);
 	
 }

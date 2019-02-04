@@ -99,15 +99,15 @@ class ChangeBranchOffice extends Component {
                             <div className="container">
                                 <form className="white" onSubmit={this.handleSubmit} >
                                     <div className="input-field">
-                                        <label htmlFor="name">Ime</label>
+                                        <label className="active" htmlFor="name">Ime</label>
                                         <input type="text" onChange={this.handleChange} id='name' defaultValue={this.props.branchOffice ? this.props.branchOffice.name : ''} />
                                     </div>
                                     <div className="input-field">
-                                        <label htmlFor="adress">Adresa</label>
+                                        <label className="active" htmlFor="adress">Adresa</label>
                                         <input type="text" onChange={this.handleChange} id='adress' defaultValue={this.props.branchOffice ? this.props.branchOffice.adress : ''} />
                                     </div>
                                     <div className="input-field">
-                                        <label htmlFor="city">Grad</label>
+                                        <label className="active" htmlFor="city">Grad</label>
                                         <input type="text" id='city' onChange={this.handleChange} defaultValue={this.props.branchOffice ? this.props.branchOffice.city : ''} />
                                     </div>
                                     {this.props.izmena ?

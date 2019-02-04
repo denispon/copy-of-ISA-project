@@ -158,6 +158,19 @@ public class CarRatingServiceImpl implements ICarRatingService {
 		
 	}
 
+	@Override
+	public Float findAverageRatingByCar(Long id) {
+		
+		Optional<Float> averageRating = carRatingRepository.findAverageRatingById(id);
+		
+		if(averageRating.isPresent()) {
+			return averageRating.get();
+		}
+		
+		
+		return -1.0f;
+	}
+
 	
 	
 	

@@ -2,7 +2,7 @@ import React, { Component } from "react"
 import StarRating from "../reservation/StarRating";
 import { connect } from "react-redux"
 import { createRentACarService, editRentACarService, deleteRentACarService } from "../../../store/actions/RentACarActions"
-
+import axios from 'axios'
 
 class ChangeRentService extends Component {
 
@@ -10,7 +10,8 @@ class ChangeRentService extends Component {
         id: -1,
         name: '',
         adress: '',
-        description: ''
+        description: '',
+        prosecnaOcena: -1
     }
 
     componentDidMount() {
@@ -23,6 +24,19 @@ class ChangeRentService extends Component {
                 description: this.props.rentACarService.description
             })
         }
+
+        //uzimamo njegovu prosecnu ocenu...
+        if (this.props.izmena) {
+
+            axios.get('http://localhost:8095/api/purchases/rentACarRating/getAverageRating/' + this.props.rentACarService.id)
+                .then(res => {
+                    this.setState({
+                        prosecnaOcena: res.data
+                    })
+                })
+
+        }
+
 
     }
 
@@ -64,13 +78,21 @@ class ChangeRentService extends Component {
                         <div className="card-content">
                             {this.props.izmena ?
 
-                                <StarRating></StarRating>
+                                <div>
+                                    {
+                                        this.state.prosecnaOcena == -1 ?
+                                            <p>Nema jos ocena</p>
+                                            :
+                                            <h5 className="yellow-text darken-3 center">Prosecna ocena: {this.state.prosecnaOcena}</h5>
+                                    }
+                                </div>
 
                                 :
                                 ''
                             }
 
                             {this.props.brisanje ?
+
                                 <span className="card-title right" onClick={() => this.deleteRentACarService(this.props.rentACarService.id)}><a class="btn-floating btn-small waves-effect waves-light red"><i>x</i></a></span>
                                 :
                                 ''
@@ -78,16 +100,16 @@ class ChangeRentService extends Component {
                             <div className="container">
                                 <form className="white" onSubmit={this.handleSubmit} >
                                     <div className="input-field">
-                                        <label htmlFor="name">Ime</label>
+                                        <label className="active" htmlFor="name">Ime</label>
                                         <input type="text" id='name' onChange={this.handleChange} defaultValue={this.props.rentACarService ? this.props.rentACarService.name : ''} />
                                     </div>
                                     <div className="input-field">
-                                        <label htmlFor="adress">Adresa</label>
+                                        <label className="active" htmlFor="adress">Adresa</label>
                                         <input type="text" id='adress' onChange={this.handleChange} defaultValue={this.props.rentACarService ? this.props.rentACarService.adress : ''} />
                                     </div>
                                     <div className="input-field">
                                         <textarea id="description" onChange={this.handleChange} class="materialize-textarea" defaultValue={this.props.rentACarService ? this.props.rentACarService.description : ''}></textarea>
-                                        <label for="description">Textarea</label>
+                                        <label className="active" for="description">Textarea</label>
                                     </div>
                                     {this.props.izmena ?
                                         <div className="input-field">

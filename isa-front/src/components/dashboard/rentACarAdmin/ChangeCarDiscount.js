@@ -297,7 +297,7 @@ class ChangeCarDiscount extends Component {
                                         </select>
                                     </div>
                                     <div className="input-field">
-                                        <label htmlFor="carDiscountPrecentage">Popust</label>
+                                        <label className="active" htmlFor="carDiscountPrecentage">Popust</label>
                                         <input type="number" id='carDiscountPrecentage' onChange={this.handleChange} defaultValue={this.props.carDiscount ? this.props.carDiscount.carDiscountPrecentage : ''} />
                                     </div>
 

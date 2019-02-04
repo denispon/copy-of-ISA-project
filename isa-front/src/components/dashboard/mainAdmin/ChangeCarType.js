@@ -81,23 +81,23 @@ class ChangeCarType extends Component {
                             <div className="container">
                                 <form className="white" onSubmit={this.handleSubmit}>
                                     <div className="input-field">
-                                        <label htmlFor="brand">Brend</label>
+                                        <label className="active" htmlFor="brand">Brend</label>
                                         <input type="text" onChange={this.handleChange} id='brand' defaultValue={this.props.carType ? this.props.carType.brand : ''} />
                                     </div>
                                     <div className="input-field">
-                                        <label htmlFor="model">Model</label>
+                                        <label className="active" htmlFor="model">Model</label>
                                         <input type="text" onChange={this.handleChange} id='model' defaultValue={this.props.carType ? this.props.carType.model : ''} />
                                     </div>
                                     <div className="input-field">
-                                        <label htmlFor="modelYear">Godina proizvodnje</label>
+                                        <label className="active" htmlFor="modelYear">Godina proizvodnje</label>
                                         <input type="number" onChange={this.handleChange} id='modelYear' defaultValue={this.props.carType ? this.props.carType.modelYear : ''} />
                                     </div>
                                     <div className="input-field">
-                                        <label htmlFor="carType">Vrsta auta</label>
+                                        <label className="active" htmlFor="carType">Vrsta auta</label>
                                         <input type="text" onChange={this.handleChange} id='carType' defaultValue={this.props.carType ? this.props.carType.carType : ''} />
                                     </div>
                                     <div className="input-field">
-                                        <label htmlFor="numberOfSeats">Broj sedista</label>
+                                        <label className="active" htmlFor="numberOfSeats">Broj sedista</label>
                                         <input type="number" onChange={this.handleChange} id='numberOfSeats' defaultValue={this.props.carType ? this.props.carType.numberOfSeats : ''} />
                                     </div>
                                     {this.props.izmena ?

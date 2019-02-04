@@ -14,8 +14,8 @@ public interface RentACarRatingRepository extends JpaRepository < RentACarRating
 	Optional<RentACarRating> findByUserId(Long userId);
 
 	@Query(value="select avg(rating) from rent_a_car_rating "
-			+ "where date > :dateFrom and date < :dateTo and rent_a_car_id = :rentServiceId ;\r\n",nativeQuery=true)
-	Optional<Double> getAverageRating(Long rentServiceId, LocalDate dateFrom, LocalDate dateTo);
+			+ "where rent_a_car_id = :rentServiceId ;",nativeQuery=true)
+	Optional<Double> getAverageRating(Long rentServiceId);
 
 	Optional<RentACarRating> findByUserIdAndRentACarId(Long id, Long id2);
 

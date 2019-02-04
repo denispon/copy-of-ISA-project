@@ -165,9 +165,9 @@ public class RentACarRatingServiceImpl implements IRentACarRatingService {
 	
 
 	@Override
-	public Double getAverageRating(Long rentServiceId, LocalDate dateFrom, LocalDate dateTo) {
+	public Double getAverageRating(Long rentServiceId) {
 		
-		Optional<Double> averageRating = rentAcarRatingRepository.getAverageRating(rentServiceId,dateFrom,dateTo);
+		Optional<Double> averageRating = rentAcarRatingRepository.getAverageRating(rentServiceId);
 		
 		if( averageRating.isPresent() ) {
 			

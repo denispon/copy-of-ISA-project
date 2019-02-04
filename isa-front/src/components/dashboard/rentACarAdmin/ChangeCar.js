@@ -1,7 +1,7 @@
 import React, { Component } from "react"
-import StarRating from "../reservation/StarRating";
 import { connect } from "react-redux"
 import { createCar, editCar, deleteCar } from "../../../store/actions/RentACarActions"
+import axios from "axios"
 
 class ChangeCar extends Component {
 
@@ -34,6 +34,8 @@ class ChangeCar extends Component {
                 description: ''
             }
         }
+        ,
+        prosecnaOcena: -1
     }
 
     componentDidMount() {
@@ -57,6 +59,18 @@ class ChangeCar extends Component {
                     description: this.props.rentACarService.description
                 }
             })
+        }
+
+        //uzimamo njegovu prosecnu ocenu...
+        if (this.props.brisanje) {
+
+            axios.get('http://localhost:8095/api/purchases/carRating/getAverageRating/' + this.props.car.id)
+                .then(res => {
+                    this.setState({
+                        prosecnaOcena: res.data
+                    })
+                })
+
         }
 
     }
@@ -156,7 +170,12 @@ class ChangeCar extends Component {
                             <span className="card-title indigo-text lighten-1 left"><strong>{this.props.car ? this.props.car.id : ''}</strong></span>
                             {this.props.brisanje ?
                                 <div>
-                                    <StarRating></StarRating>
+                                    {
+                                        this.state.prosecnaOcena == -1 ?
+                                            <p>Nema jos ocena</p>
+                                            :
+                                            <h6 className="yellow-text darken-3">Prosecna ocena: {this.state.prosecnaOcena}</h6>
+                                    }
                                     <span className="card-title right" onClick={() => this.deleteCar(this.props.car.id)}><a class="btn-floating btn-small waves-effect waves-light red"><i>x</i></a></span>
 
                                 </div>
@@ -168,7 +187,7 @@ class ChangeCar extends Component {
 
                                 <form className="white" onSubmit={this.handleSubmit} >
                                     <div className="input-field">
-                                        <label htmlFor="rentPrice" >Cena</label>
+                                        <label className="active" htmlFor="rentPrice" >Cena</label>
                                         <input onChange={this.handleChange} type="text" id='rentPrice' defaultValue={this.props.car ? this.props.car.rentPrice : ''} />
                                     </div>
                                     <div class="input-field col s12">

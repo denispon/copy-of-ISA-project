@@ -91,7 +91,17 @@ public class CarRatingController {
 		CarRatingDTO carRatingToEdit = carRatingService.changeCarRating(id, carRatingDto);
 	
 	    return ( carRatingToEdit.getId() != null )? new ResponseEntity<CarRatingDTO>(carRatingToEdit,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-	}	
+	}
+	
+	
+	@GetMapping("/getAverageRating/{id}")
+	public ResponseEntity<Float> getAverageRatingOfCar (@PathVariable("id") Long id){
+		
+		Float carRatingDto = carRatingService.findAverageRatingByCar(id);
+		
+		return ( carRatingDto !=-1.0f)? new ResponseEntity<Float>(carRatingDto,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		
+	}
 	
 	
 }
