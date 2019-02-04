@@ -17,4 +17,6 @@ public interface RentACarRatingRepository extends JpaRepository < RentACarRating
 			+ "where date > :dateFrom and date < :dateTo and rent_a_car_id = :rentServiceId ;\r\n",nativeQuery=true)
 	Optional<Double> getAverageRating(Long rentServiceId, LocalDate dateFrom, LocalDate dateTo);
 
+	Optional<RentACarRating> findByUserIdAndRentACarId(Long id, Long id2);
+
 }

@@ -26,9 +26,19 @@ class ReservationInfo extends Component {
 
                         <span className="card-title flow-text white-text  "><strong>Id: {this.props.reservation.id}</strong></span>
 
-                        <FlightReservation></FlightReservation>
+                        {this.props.FlightReservation ?
+                            <FlightReservation></FlightReservation>
+                            :
+                            ''
+                        }
+                        {this.props.HotelReservation ?
+                            <HotelReservation></HotelReservation>
+                            :
+                            ''
+                        }
 
-                        <HotelReservation></HotelReservation>
+
+
 
                         {this.props.rentCarReservations && this.props.rentCarReservations.find(el => el.id == this.props.reservation.carReservationId) ?
 

@@ -11,4 +11,6 @@ public interface CarRatingRepository extends JpaRepository < CarRating , Long > 
 	
 	Optional<CarRating> findByUserId(Long id);
 
+	Optional<CarRating> findByUserIdAndCarId(Long id, Long id2);
+
 }

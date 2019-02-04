@@ -1,26 +1,79 @@
-import React from "react"
+import React, { Component } from "react"
 import "./StarRating.css"
+import { connect } from "react-redux"
+import { rateCar, rateRentACarService } from "../../../store/actions/PurchasesActions"
+
+class StarRating extends Component {
 
 
-const StarRating = () => {
+    state = {
 
-    return (
+        rentService: undefined,
+        reservedCar: undefined
 
-        <fieldset class="rating">
-            <input type="radio" id="star5" name="rating" value="5" /><label class="full" for="star5" title="Awesome - 5 stars"></label>
-            <input type="radio" id="star4half" name="rating" value="4 and a half" /><label class="half" for="star4half" title="Pretty good - 4.5 stars"></label>
-            <input type="radio" id="star4" name="rating" value="4" /><label class="full" for="star4" title="Pretty good - 4 stars"></label>
-            <input type="radio" id="star3half" name="rating" value="3 and a half" /><label class="half" for="star3half" title="Meh - 3.5 stars"></label>
-            <input type="radio" id="star3" name="rating" value="3" /><label class="full" for="star3" title="Meh - 3 stars"></label>
-            <input type="radio" id="star2half" name="rating" value="2 and a half" /><label class="half" for="star2half" title="Kinda bad - 2.5 stars"></label>
-            <input type="radio" id="star2" name="rating" value="2" /><label class="full" for="star2" title="Kinda bad - 2 stars"></label>
-            <input type="radio" id="star1half" name="rating" value="1 and a half" /><label class="half" for="star1half" title="Meh - 1.5 stars"></label>
-            <input type="radio" id="star1" name="rating" value="1" /><label class="full" for="star1" title="Sucks big time - 1 star"></label>
-            <input type="radio" id="starhalf" name="rating" value="half" /><label class="half" for="starhalf" title="Sucks big time - 0.5 stars"></label>
-        </fieldset>
+    }
 
-    );
+
+    componentDidMount() {
+
+
+    }
+
+    HandleRating = (e) => {
+
+        if (this.props.rentService) {
+            //ovde ide user
+            this.props.rateRentACarService(2, this.props.rentService.id, e.target.value);
+
+        }
+        else if (this.props.reservedCar) {
+
+            this.props.rateCar(2, this.props.reservedCar.id, e.target.value);
+        }
+
+    }
+
+
+    render() {
+
+        var idZvezdice = "";
+
+        if (this.props.rentService) {
+            idZvezdice = this.props.rentService.id + "servis";
+        }
+        else if (this.props.reservedCar) {
+            idZvezdice = this.props.reservedCar.id + "reservedCar";
+        }
+
+
+        return (
+
+            <fieldset class="rating">
+                <input onClick={this.HandleRating} type="radio" id={idZvezdice + '5'} name={idZvezdice + 'rating'} value="5" /><label className="full" for={idZvezdice + '5'} title="Odlican! - 5 zvezdica"></label>
+                <input onClick={this.HandleRating} type="radio" id={idZvezdice + '4'} name={idZvezdice + 'rating'} value="4" /><label className="full" for={idZvezdice + '4'} title="Vrlo dobar - 4 zvezdica"></label>
+                <input onClick={this.HandleRating} type="radio" id={idZvezdice + '3'} name={idZvezdice + 'rating'} value="3" /><label className="full" for={idZvezdice + '3'} title="Ajde da kazem dobar - 3 zvezdice"></label>
+                <input onClick={this.HandleRating} type="radio" id={idZvezdice + '2'} name={idZvezdice + 'rating'} value="2" /><label className="full" for={idZvezdice + '2'} title="Onakooooo - 2 zvezdice"></label>
+                <input onClick={this.HandleRating} type="radio" id={idZvezdice + '1'} name={idZvezdice + 'rating'} value="1" /><label className="full" for={idZvezdice + '1'} title="Jako lose - 1 star"></label>
+            </fieldset>
+
+        );
+    }
 
 };
 
-export default StarRating;
+const mapStateToProps = (state) => {
+    return {
+        rentACarRatings: state.purchases.rentACarRatings,
+        carRatings: state.purchases.carRatings,
+        user: state.user.user
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        rateRentACarService: (userId, idService, rating) => dispatch(rateRentACarService(userId, idService, rating)),
+        rateCar: (userId, idCar, rating) => dispatch(rateCar(userId, idCar, rating))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(StarRating);

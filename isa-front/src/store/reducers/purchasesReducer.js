@@ -7,7 +7,9 @@ const initState = {
     avioCompanyReservation: undefined,
     finalReservation: undefined,
     userReservations: undefined,
-    rentCarReservations: []
+    rentCarReservations: [],
+    rentACarRatings: [],
+    carRatings: []
 
 }
 
@@ -92,6 +94,18 @@ const purchasesReducer = (state = initState, action) => {
             return {
                 ...state,
                 bonusPointsDiscounts: state.bonusPointsDiscounts.filter(item => item.id !== action.deletedDiscount.id)
+            }
+
+        case "RATE_RENT_A_CAR":
+            return {
+                ...state,
+                rentACarRatings: (state.rentACarRatings.filter(rating => rating.userId !== action.rating.userId || rating.rentACarId !== action.rating.rentACarId)).concat(action.rating)
+            }
+
+        case "RATE_CAR":
+            return {
+                ...state,
+                carRatings: (state.carRatings.filter(rating => rating.userId !== action.rating.userId || rating.carId !== action.rating.carId)).concat(action.rating)
             }
     }
     return state

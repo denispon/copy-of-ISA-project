@@ -79,9 +79,28 @@ public class CarRatingServiceImpl implements ICarRatingService {
 		
 		if(carForRate.getId()!=null && userWhoRates.getId()!=null && carRatingToSave.getRating()>0 && carRatingToSave.getRating()<6) {
 			
+			//then we need to see if car rating already exits then we will override it 
+			Optional<CarRating> foundRating = carRatingRepository.findByUserIdAndCarId(userWhoRates.getId(),carForRate.getId());
+			
+			if(foundRating.isPresent()) {
+				
+				foundRating.get().setRating(carRatingToSave.getRating());
+				foundRating.get().setRatingDate(LocalDateTime.now());
+
+				carRatingRepository.save(foundRating.get());
+				
+				carRatingToSave.setId(foundRating.get().getId());
+			}
+			else {
+			
 			CarRating rating = carRatingConverter.convertFromDTO(carRatingToSave);
 			rating.setRatingDate(LocalDateTime.now());
-			carRatingRepository.save(rating);
+			CarRating savedCar = carRatingRepository.save(rating);
+			carRatingToSave.setId(savedCar.getId());
+
+			}
+			
+			
 			
 			return carRatingToSave;
 			

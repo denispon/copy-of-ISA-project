@@ -29,7 +29,7 @@ const CarReservation = ({ carReservation, userShoppingCart, removeRentACarReserv
                         </div>
                         <BrowserRouter>
                             <div className="col s4">
-                                <Route path="/userReservations" component={StarRating}></Route>
+                                <Route path="/userReservations" render={(props) => <StarRating rentService={carReservation ? carReservation.service : undefined}></StarRating>}></Route>
                             </div>
                         </BrowserRouter>
                         <BrowserRouter>
@@ -49,7 +49,7 @@ const CarReservation = ({ carReservation, userShoppingCart, removeRentACarReserv
                         </div>
                         <BrowserRouter>
                             <div className="col s4">
-                                <Route path="/userReservations" component={StarRating}></Route>
+                                <Route path="/userReservations" render={(props) => <StarRating reservedCar={carReservation ? carReservation.reservedCar : undefined}></StarRating>}></Route>
                             </div>
                         </BrowserRouter>
                     </div>

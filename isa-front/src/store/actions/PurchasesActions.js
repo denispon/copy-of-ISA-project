@@ -158,3 +158,29 @@ export const deleteBonusPointsDiscount = (id) => {
 
     }
 }
+
+
+export const rateRentACarService = (userId, idService, rating) => {
+
+    return (dispatch, getState) => {
+
+        axios.post('http://localhost:8095/api/purchases/rentACarRating/', { id: -1, userId: userId, rentACarId: idService, rating: rating })
+            .then(res => {
+                console.log(res);
+                dispatch({ type: 'RATE_RENT_A_CAR', rating: res.data });
+            })
+    }
+}
+
+
+export const rateCar = (userId, idCar, rating) => {
+
+    return (dispatch, getState) => {
+
+        axios.post('http://localhost:8095/api/purchases/carRating/', { id: -1, userId: userId, carId: idCar, rating: rating })
+            .then(res => {
+                console.log(res);
+                dispatch({ type: 'RATE_CAR', rating: res.data });
+            })
+    }
+}

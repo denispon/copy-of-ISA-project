@@ -82,11 +82,26 @@ public class RentACarRatingServiceImpl implements IRentACarRatingService {
 		
 		if(user.getId()!=null && rentService.getId()!=null && rentAcarRatingToSave.getRating()>0 && rentAcarRatingToSave.getRating()<6) {
 		
-			RentACarRating rating = rentAcarRatingConverter.convertFromDTO(rentAcarRatingToSave);
-			rating.setRatingDate(LocalDateTime.now());
+			//checking if there is already exits rating
+			Optional<RentACarRating> foundRating = rentAcarRatingRepository.findByUserIdAndRentACarId(user.getId(),rentService.getId());
 			
-			rentAcarRatingRepository.save(rating);
-			
+			if(foundRating.isPresent()) {
+				
+				foundRating.get().setRating(rentAcarRatingToSave.getRating());
+				foundRating.get().setRatingDate(LocalDateTime.now());
+				
+				rentAcarRatingRepository.save(foundRating.get());
+				
+				rentAcarRatingToSave.setId(foundRating.get().getId());
+				
+			}
+			else{
+				RentACarRating rating = rentAcarRatingConverter.convertFromDTO(rentAcarRatingToSave);
+				rating.setRatingDate(LocalDateTime.now());
+				
+				RentACarRating savedServiceRating =rentAcarRatingRepository.save(rating);
+				rentAcarRatingToSave.setId(savedServiceRating.getId());
+			}
 			return rentAcarRatingToSave;
 		
 		}
