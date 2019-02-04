@@ -19,7 +19,7 @@ public class DTOHotelskaSobaRatingConverter {
 		
 		HotelskaSobaRatingDTO dto = new HotelskaSobaRatingDTO();
 		dto.setId(soba.getId());
-		dto.setUserId(soba.getHotelId());
+		dto.setUserId(soba.getUserId());
 		dto.setHotelId(soba.getHotelId());
 		dto.setHotelskaSobaId(soba.getHotelskaSobaId());
 		dto.setRating(soba.getRating());
@@ -39,7 +39,7 @@ public class DTOHotelskaSobaRatingConverter {
 		bean.setId(hotelskaSobaRatingDTO.getId());
 		bean.setUserId(hotelskaSobaRatingDTO.getUserId());
 		bean.setHotelId(hotelskaSobaRatingDTO.getHotelId());
-		bean.setHotelId(hotelskaSobaRatingDTO.getHotelskaSobaId());
+		bean.setHotelskaSobaId(hotelskaSobaRatingDTO.getHotelskaSobaId());
 		bean.setRating(hotelskaSobaRatingDTO.getRating());
 		
 		return bean;

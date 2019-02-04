@@ -16,6 +16,8 @@ public class ShoppingCartDTO {
 	private Long userId;
 	
 	private Long carReservationId;
+	
+	private Long roomReservationId;
 
 	private Double price;
 	

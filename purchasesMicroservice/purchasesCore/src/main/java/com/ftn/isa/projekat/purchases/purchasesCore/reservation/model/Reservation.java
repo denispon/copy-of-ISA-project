@@ -35,6 +35,8 @@ public class Reservation {
 	@Column (name = "carReservation_id", nullable= true)
 	private Long carReservationId;
 	
+	@Column (name = "roomReservation_id", nullable= true)
+	private Long roomReservationId;	
 	
 	@Column (name = "price" , nullable = false)
 	private Double price;

@@ -13,8 +13,10 @@ import com.ftn.isa.projekat.user.userApi.client.UserClient;
 import com.ftn.isa.projekat.user.userApi.dto.UserDTO;
 import com.ftn.isa.projekat.hotel.hotelApi.client.HotelClient;
 import com.ftn.isa.projekat.hotel.hotelApi.client.HotelskaSobaClient;
+import com.ftn.isa.projekat.hotel.hotelApi.client.RezervacijeSobeClient;
 import com.ftn.isa.projekat.hotel.hotelApi.dto.HotelDTO;
 import com.ftn.isa.projekat.hotel.hotelApi.dto.HotelskaSobaDTO;
+import com.ftn.isa.projekat.hotel.hotelApi.dto.RezervacijeSobeDTO;
 
 import feign.FeignException;
 
@@ -23,6 +25,9 @@ public class DatasFromOtherMicroservices {
 	
 	@Autowired
 	CarReservationClient carReservationClient;
+	
+	@Autowired
+	RezervacijeSobeClient roomReservationClient;
 	
 	@Autowired
 	CarClient carClient;
@@ -51,13 +56,13 @@ public class DatasFromOtherMicroservices {
 		return carReservation;
 	}
 	
-	public HotelskaSobaDTO deleteRoomReservation(Long id) {
-		HotelskaSobaDTO roomReservation = null;
+	public RezervacijeSobeDTO deleteRoomReservation(Long id) {
+		RezervacijeSobeDTO roomReservation = null;
 		try {
-			roomReservation = hotelskaSobaClient.deleteHotelRoom(id);
+			roomReservation = roomReservationClient.deleteRezervaciju(id);
 		}
 		catch(FeignException e) {
-			return new HotelskaSobaDTO();
+			return new RezervacijeSobeDTO();
 		}
 		return roomReservation;
 	}
@@ -74,17 +79,17 @@ public class DatasFromOtherMicroservices {
 		return carReservation;
 	}
 	
-public HotelskaSobaDTO addRoomReservation(HotelskaSobaDTO roomReservationParam) {
+	public RezervacijeSobeDTO addRoomReservation(RezervacijeSobeDTO roomReservationParam) {
 		
-	HotelskaSobaDTO roomReservation = null;
-		try {
-			roomReservation = hotelskaSobaClient.addHotelRoom(roomReservationParam);
+		RezervacijeSobeDTO roomReservation = null;
+			try {
+				roomReservation = roomReservationClient.addRezervaciju(roomReservationParam);
+			}
+			catch(FeignException e) {
+				return new RezervacijeSobeDTO();
+			}
+			return roomReservation;
 		}
-		catch(FeignException e) {
-			return new HotelskaSobaDTO();
-		}
-		return roomReservation;
-	}
 	
 	public CarReservationDTO getCarReservationById(Long id) {
 		
@@ -99,14 +104,14 @@ public HotelskaSobaDTO addRoomReservation(HotelskaSobaDTO roomReservationParam) 
 		return carReservation;
 	}
 	
-	public HotelskaSobaDTO getRoomReservationById(Long id) {
+	public RezervacijeSobeDTO getRoomReservationById(Long id) {
 		
-		HotelskaSobaDTO roomReservation = null;
+		RezervacijeSobeDTO roomReservation = null;
 		try {
-			roomReservation = hotelskaSobaClient.getHotelskaSoba(id);
+			roomReservation = roomReservationClient.getRezervaciju(id);
 		}
 		catch(FeignException e) {
-			return new HotelskaSobaDTO();
+			return new RezervacijeSobeDTO();
 			
 		}		
 		return roomReservation;
@@ -124,6 +129,18 @@ public HotelskaSobaDTO addRoomReservation(HotelskaSobaDTO roomReservationParam) 
 		}
 		return car;
 	}
+	
+	public HotelskaSobaDTO getRoomById(Long id) {
+			
+		HotelskaSobaDTO room = null;
+			try {
+				room = hotelskaSobaClient.getHotelskaSoba(id);
+			}
+			catch(FeignException e) {
+				new HotelskaSobaDTO();
+			}
+			return room;
+		}
 	
 	public RentACarServiceDTO getRentACarServiceById(Long id) {
 		

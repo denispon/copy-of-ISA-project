@@ -19,7 +19,7 @@ public class DTOHotelRatingConverter {
 		
 		HotelRatingDTO dto = new HotelRatingDTO();
 		dto.setId(hotel.getId());
-		dto.setUserId(hotel.getHotelId());
+		dto.setUserId(hotel.getUserId());
 		dto.setHotelId(hotel.getHotelId());
 		dto.setRating(hotel.getRating());
 		

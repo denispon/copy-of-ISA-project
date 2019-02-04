@@ -8,6 +8,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.ftn.isa.projekat.hotel.hotelApi.dto.RezervacijeSobeDTO;
 import com.ftn.isa.projekat.purchases.purchasesApi.dto.ReservationDTO;
 import com.ftn.isa.projekat.purchases.purchasesCore.converter.DTOReservationConverter;
 import com.ftn.isa.projekat.purchases.purchasesCore.reservation.model.Reservation;
@@ -92,6 +93,16 @@ public class ReservationServiceImpl implements IReservationService {
 				
 			}
 			
+			if(reservationToSave.getRoomReservationId()!=null) {
+				
+				RezervacijeSobeDTO roomReservation = servicesProxy.getRoomReservationById(reservationToSave.getRoomReservationId());
+				
+				if(roomReservation.getId()==null) {
+					return new ReservationDTO();
+				}
+				
+			}
+			
 			reservationRepository.save(reservationConverter.convertFromDTO(reservationToSave));
 			
 			return reservationToSave;
@@ -113,6 +124,12 @@ public class ReservationServiceImpl implements IReservationService {
 				servicesProxy.deleteCarReservation(reservationToDelete.get().getCarReservationId());
 				
 			}
+			
+			if(reservationToDelete.get().getRoomReservationId() !=null) {
+				
+				servicesProxy.deleteRoomReservation(reservationToDelete.get().getRoomReservationId());
+				
+			}			
 			
 			reservationRepository.deleteById(id);
 			return reservationConverter.convertToDTO(reservationToDelete.get());
@@ -149,6 +166,17 @@ public class ReservationServiceImpl implements IReservationService {
 					
 				}
 				
+				if(reservation.getRoomReservationId()!=null) {
+					
+					RezervacijeSobeDTO roomReservation = servicesProxy.getRoomReservationById(reservation.getRoomReservationId());
+					
+					if(roomReservation.getId()==null) {
+						return new ReservationDTO();
+					}
+					
+				}
+				
+				
 				//if car reservation changed then we need to delete old one
 				if(reservationForChange.get().getCarReservationId() != reservation.getCarReservationId()) {
 					
@@ -156,7 +184,14 @@ public class ReservationServiceImpl implements IReservationService {
 					
 				}
 				
+				if(reservationForChange.get().getRoomReservationId() != reservation.getRoomReservationId()) {
+					
+					servicesProxy.deleteRoomReservation(reservation.getRoomReservationId());
+					
+				}
+				
 				reservationForChange.get().setCarReservationId(reservation.getCarReservationId());
+				reservationForChange.get().setRoomReservationId(reservation.getRoomReservationId());
 				reservationForChange.get().setUserId(reservation.getUserId());
 				reservationForChange.get().setPrice(reservation.getPrice());
 				

@@ -15,6 +15,8 @@ public class ReservationDTO {
 	
 	private Long carReservationId;
 	
+	private Long roomReservationId;
+	
 	private Double price;
 	
 	private InvitationCardDTO invitationCard;

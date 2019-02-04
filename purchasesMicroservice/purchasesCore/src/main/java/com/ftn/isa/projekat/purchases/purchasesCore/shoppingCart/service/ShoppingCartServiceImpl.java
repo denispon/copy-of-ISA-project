@@ -5,10 +5,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.ftn.isa.projekat.hotel.hotelApi.dto.RezervacijeSobeDTO;
 import com.ftn.isa.projekat.purchases.purchasesApi.dto.ReservationDTO;
 import com.ftn.isa.projekat.purchases.purchasesApi.dto.ShoppingCartDTO;
 import com.ftn.isa.projekat.purchases.purchasesCore.bonusPoints.model.BonusPoints;
@@ -111,6 +113,16 @@ public class ShoppingCartServiceImpl implements IShoppingCartService{
 				}
 				
 			}
+			
+			if(reservationToSave.getRoomReservationId()!=null) {
+				
+				RezervacijeSobeDTO roomReservation = servicesProxy.getRoomReservationById(reservationToSave.getRoomReservationId());
+				
+				if(roomReservation.getId()==null) {
+					return new ShoppingCartDTO();
+				}
+				
+			}
 		
 		cartRepository.save(cartConverter.convertFromDTO(reservationToSave));
 		
@@ -180,7 +192,18 @@ public class ShoppingCartServiceImpl implements IShoppingCartService{
 					
 				}
 				
+				if(reservation.getRoomReservationId()!=null) {
+					
+					RezervacijeSobeDTO roomReservation = servicesProxy.getRoomReservationById(reservation.getRoomReservationId());
+					
+					if(roomReservation.getId()==null) {
+						return new ShoppingCartDTO();
+					}
+					
+				}
+				
 			reservationForChange.get().setCarReservationId(reservation.getCarReservationId());
+			reservationForChange.get().setRoomReservationId(reservation.getRoomReservationId());
 			reservationForChange.get().setUserId(reservation.getUserId());
 			reservationForChange.get().setPrice(reservation.getPrice());
 			reservationForChange.get().setBonusPoints(reservation.getBonusPoints());
@@ -236,6 +259,40 @@ public class ShoppingCartServiceImpl implements IShoppingCartService{
 		
 		return new ShoppingCartDTO();
 	}
+	
+	@Override
+	public ShoppingCartDTO addRoomReservation(Long id, RezervacijeSobeDTO roomReservation) {
+
+		Optional<ShoppingCart> reservation = cartRepository.findById(id);
+		
+		if(reservation.isPresent() && roomReservation != null) {
+
+			if(reservation.get().getRoomReservationId()!=null) {
+				servicesProxy.deleteRoomReservation(reservation.get().getRoomReservationId());
+			}
+			
+			RezervacijeSobeDTO roomReservationToSave = servicesProxy.addRoomReservation(roomReservation);
+			
+			long diff = roomReservationToSave.getDateUntil().getTime() - roomReservationToSave.getDateFrom().getTime();
+		    System.out.println ("Days: " + TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS));
+		    float days = (diff / (1000*60*60*24));
+		    int dani = Math.round(days);
+			
+			Double price = (double) (dani * roomReservationToSave.getSobaId().getOriginalnaCena()); //cena
+			
+			
+			
+			reservation.get().setRoomReservationId(roomReservationToSave.getId());
+			reservation.get().setPrice(reservation.get().getPrice() + price);
+			
+			cartRepository.save(reservation.get());
+			
+			return cartConverter.convertToDTO(reservation.get());
+			
+		}
+		
+		return new ShoppingCartDTO();
+	}
 
 	@Override
 	public ShoppingCartDTO deleteCarReservation(Long id) {
@@ -281,6 +338,47 @@ public class ShoppingCartServiceImpl implements IShoppingCartService{
 		return new ShoppingCartDTO();
 		
 	}
+	
+	@Override
+	public ShoppingCartDTO deleteRoomReservation(Long id) {
+
+		Optional<ShoppingCart> reservation = cartRepository.findById(id);
+
+		if(reservation.isPresent()) {
+			
+			/*
+			 * Now we need to delete car reservation from rent a car database
+			 *  */
+			
+			RezervacijeSobeDTO deletedReservation = servicesProxy.deleteRoomReservation(reservation.get().getRoomReservationId());
+					
+			
+			if(deletedReservation !=null) {
+				
+				long diff = deletedReservation.getDateUntil().getTime() - deletedReservation.getDateFrom().getTime();
+			    System.out.println ("Days: " + TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS));
+			    float days = (diff / (1000*60*60*24));
+			    int dani = Math.round(days);
+				
+			    Double price = (double) (dani * deletedReservation.getSobaId().getOriginalnaCena());
+				
+				price = price * 0.95;
+				
+				
+				reservation.get().setRoomReservationId(null);
+				reservation.get().setPrice(reservation.get().getPrice() - price);
+				
+				cartRepository.save(reservation.get());
+				
+				return cartConverter.convertToDTO(reservation.get());
+			}
+			
+			
+		}
+		
+		return new ShoppingCartDTO();
+		
+	}
 
 	@Override
 	public ShoppingCartDTO confirmReservation(Long id) {
@@ -311,6 +409,7 @@ public class ShoppingCartServiceImpl implements IShoppingCartService{
 			}
 			
 			reservation.setCarReservationId(tempReservation.get().getCarReservationId());
+			reservation.setRoomReservationId(tempReservation.get().getRoomReservationId());
 			reservation.setUserId(tempReservation.get().getUserId());
 			reservation.setPrice(tempReservation.get().getPrice());
 			reservation.setId(-1l);
