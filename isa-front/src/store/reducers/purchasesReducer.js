@@ -36,6 +36,18 @@ const purchasesReducer = (state = initState, action) => {
                 userShoppingCart: action.userShoppingCart
             }
 
+        case 'REMOVE_CAR_RESERVATION_FROM_SHOPPING_CART':
+            var vrednost = action.userShoppingCart
+            if (state.hotelReservation == null) {
+                vrednost = undefined
+            }
+            return {
+                ...state,
+                userShoppingCart: vrednost,
+                carReservation: vrednost
+
+            }
+
         case 'GET_CAR_RESERVATION':
             return {
                 ...state,

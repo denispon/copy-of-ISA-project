@@ -5,7 +5,7 @@ import CarReservation from "./CarReservation";
 
 
 
-const ShoppingCartReservation = ({ carReservation, hotelReservation, avioCompanyReservation }) => {
+const ShoppingCartReservation = ({ removeRentACarReservationFromShoppingCart, userShoppingCart, carReservation, hotelReservation, avioCompanyReservation }) => {
 
     return (
 
@@ -14,7 +14,7 @@ const ShoppingCartReservation = ({ carReservation, hotelReservation, avioCompany
         <div className=" contrainer">
             {avioCompanyReservation != undefined ? <FlightReservation></FlightReservation> : ''}
             {hotelReservation != undefined ? <HotelReservation></HotelReservation> : ''}
-            {carReservation != undefined ? <CarReservation carReservation={carReservation}></CarReservation> : ''}
+            {carReservation != undefined ? <CarReservation removeRentACarReservationFromShoppingCart={removeRentACarReservationFromShoppingCart} userShoppingCart={userShoppingCart} carReservation={carReservation}></CarReservation> : ''}
 
         </div>
     );

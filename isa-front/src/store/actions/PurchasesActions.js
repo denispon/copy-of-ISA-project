@@ -62,6 +62,19 @@ export const addRentACarReservationToShoppingCart = (idKorpe, dateFrom, dateTo, 
     }
 }
 
+export const removeRentACarReservationFromShoppingCart = (idKorpe) => {
+
+    return (dispatch, getState) => {
+        axios.delete('http://localhost:8095/api/purchases/shoppingCart/deleteCarReservation/' + idKorpe)
+            .then(res => {
+                console.log(res.data)
+                dispatch({ type: 'REMOVE_CAR_RESERVATION_FROM_SHOPPING_CART', userShoppingCart: res.data })
+            })
+
+    }
+
+}
+
 
 
 export const makeReservation = (id) => {

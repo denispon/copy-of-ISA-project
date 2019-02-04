@@ -141,12 +141,7 @@ public class CarReservationServiceImpl implements ICarReservationService {
 	
 		if( reservationToDelete.isPresent() ) {
 			
-			//Preventing user to delete reservation if reservation starts in less than 2 days
-			if(LocalDateTime.now().isAfter(reservationToDelete.get().getDateFrom().minusDays(2))) {
-				
-				return new CarReservationDTO();
-				
-			}
+			
 		
 			reservationRepository.deleteById(id);
 			return reservationConverter.convertToDTO(reservationToDelete.get());

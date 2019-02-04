@@ -1,7 +1,7 @@
 import React, { Component } from "react"
 import ShoppingCartReservation from "./ShoppingCartReservation";
 import { connect } from "react-redux";
-import { getUserShoppingCart, makeReservation } from "../../../store/actions/PurchasesActions";
+import { getUserShoppingCart, makeReservation, removeRentACarReservationFromShoppingCart } from "../../../store/actions/PurchasesActions";
 
 
 class ShoppingCart extends Component {
@@ -31,7 +31,7 @@ class ShoppingCart extends Component {
 
                 {this.props.userShoppingCart != undefined ?
                     <div className="container">
-                        <ShoppingCartReservation carReservation={this.props.carReservation} avioCompanyReservation={this.props.avioCompanyReservation} hotelReservation={this.props.hotelReservation}></ShoppingCartReservation>
+                        <ShoppingCartReservation removeRentACarReservationFromShoppingCart={this.props.removeRentACarReservationFromShoppingCart} userShoppingCart={this.props.userShoppingCart} carReservation={this.props.carReservation} avioCompanyReservation={this.props.avioCompanyReservation} hotelReservation={this.props.hotelReservation}></ShoppingCartReservation>
                         <h5 className="red-text lighten-1" ><strong>Ukupna cena: {this.props.userShoppingCart.price} din</strong></h5>
                         <p>Bonus poeni</p>
                         <a class="btn-floating btn-small waves-effect waves-light red"><i class="material-icons">-</i></a>
@@ -75,7 +75,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         getUserShoppingCart: (id) => dispatch(getUserShoppingCart(id)),
-        makeReservation: (id) => dispatch(makeReservation(id))
+        makeReservation: (id) => dispatch(makeReservation(id)),
+        removeRentACarReservationFromShoppingCart: (id) => dispatch(removeRentACarReservationFromShoppingCart(id))
     }
 }
 

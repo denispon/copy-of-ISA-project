@@ -1,5 +1,6 @@
 package com.ftn.isa.projekat.purchases.purchasesCore.reservation.service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -229,5 +230,36 @@ public class ReservationServiceImpl implements IReservationService {
 		
 		return Collections.emptyList();
 
+	}
+
+	@Override
+	public ReservationDTO deleteCarReservation(Long id) {
+		
+		Optional <Reservation> reservation = reservationRepository.findById(id);
+		
+		
+		if (reservation.isPresent()) {
+			
+			CarReservationDTO carReservation = servicesProxy.getCarReservationById(reservation.get().getCarReservationId());
+			
+			//Preventing user to delete reservation if reservation starts in less than 2 days
+			if(LocalDateTime.now().isAfter(carReservation.getDateFrom().minusDays(2))) {
+				
+				return new ReservationDTO();
+				
+			}
+			
+			reservation.get().setCarReservationId(null);
+			
+			reservationRepository.save(reservation.get());
+			
+			return reservationConverter.convertToDTO(reservation.get());
+		
+		}
+		else {
+			
+			return new ReservationDTO();
+			
+		}	
 	}
 }

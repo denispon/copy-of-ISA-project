@@ -21,4 +21,6 @@ public interface IReservationService {
 
 	public List<ReservationDTO> findAllByUserId(Long id);
 
+	public ReservationDTO deleteCarReservation(Long id);
+
 }

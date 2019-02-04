@@ -11,7 +11,7 @@ import { BrowserRouter, Switch, Route } from "react-router-dom";
 //zbog toga na svaki ispis je postavljen i uslov ukoliko je objekat jos undefined da se nista ne ispisuje
 //i tek kada dodje da mu dozvoli ispis
 
-const CarReservation = ({ carReservation }) => {
+const CarReservation = ({ carReservation, userShoppingCart, removeRentACarReservationFromShoppingCart }) => {
 
     return (
         <div className="card">
@@ -35,7 +35,7 @@ const CarReservation = ({ carReservation }) => {
                         <BrowserRouter>
                             <div className="col s4">
                                 <Switch>
-                                    <Route exact path="/korpa" component={DeleteFromShoppingCart}></Route>
+                                    <Route exact path="/korpa" render={(props) => <DeleteFromShoppingCart removeRentACarReservationFromShoppingCart={removeRentACarReservationFromShoppingCart} userShoppingCart={userShoppingCart} />} ></Route>
                                     <Route exact path="/userReservations" component={CancelReservation}></Route>
                                 </Switch>
                             </div>

@@ -1,5 +1,6 @@
 package com.ftn.isa.projekat.purchases.purchasesCore.reservation.controller;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ftn.isa.projekat.purchases.purchasesApi.dto.ReservationDTO;
 import com.ftn.isa.projekat.purchases.purchasesCore.reservation.service.IReservationService;
+import com.ftn.isa.projekat.rentACar.rentACarApi.dto.CarReservationDTO;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -103,6 +105,15 @@ public class ReservationController {
 	
 	    return ( reservationToEdit.getId() != null )? new ResponseEntity<ReservationDTO>(reservationToEdit,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
+	
+	
+	@DeleteMapping("/deleteCarReservation/{id}")
+	public ResponseEntity<ReservationDTO> deleteCarReservation(@PathVariable("id") Long id){
+		
+		ReservationDTO reservationToEdit = reservationService.deleteCarReservation(id);
+	
+	    return ( reservationToEdit.getId() != null )? new ResponseEntity<ReservationDTO>(reservationToEdit,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	}	
 		
 
 }

@@ -1,11 +1,11 @@
 import React from "react"
 import { NavLink } from "react-router-dom"
 
-const DeleteFromShoppingCart = () => {
+const DeleteFromShoppingCart = ({ removeRentACarReservationFromShoppingCart, userShoppingCart }) => {
 
     return (
         <div>
-            <NavLink to="/#"><strong className="red-text">Izbaci</strong></NavLink>
+            <NavLink to="/#" onClick={() => { removeRentACarReservationFromShoppingCart(userShoppingCart.id) }}><strong className="red-text">Izbaci</strong></NavLink>
         </div>
     );
 
