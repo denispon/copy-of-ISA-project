@@ -90,13 +90,19 @@ public class HotelskaSobaRatingService implements IHotelskaSobaRatingService {
 	
 	public Double getRoomAverageRating(Long id) {
 		
-		Optional<Double> rating = hotelskaSobaRatingRepository.getRoomAverageRating(id);
-		
-		if(rating != null) {
-			return rating.get();
-		}else {
-			return null;
+		List<HotelskaSobaRating> lista = hotelskaSobaRatingRepository.findAll();
+		int count = lista.size();
+		int suma = 0;
+		Double prosek = 0.0;
+		for(HotelskaSobaRating hr : lista) {
+			suma+=hr.getRating();
 		}
+		Double a = (double) suma;
+		Double b = (double) count;
+		prosek = (double) (a/b);
+		Double roundOff = Math.round(prosek * 100.0) / 100.0;
+		
+		return roundOff;
 	}
 	
 }

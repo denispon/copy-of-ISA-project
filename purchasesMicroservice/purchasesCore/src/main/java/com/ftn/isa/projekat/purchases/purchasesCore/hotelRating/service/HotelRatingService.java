@@ -87,13 +87,19 @@ public class HotelRatingService implements IHotelRatingService{
 	
 	public Double getHotelAverageRating(Long id) {
 		
-		Optional<Double> rating = hotelRatingRepository.getHotelAverageRating(id);
-		
-		if(rating != null) {
-			return rating.get();
-		}else {
-			return null;
+		List<HotelRating> lista = hotelRatingRepository.findAll();
+		int count = lista.size();
+		int suma = 0;
+		Double prosek = 0.0;
+		for(HotelRating hr : lista) {
+			suma+=hr.getRating();
 		}
+		Double a = (double) suma;
+		Double b = (double) count;
+		prosek = (double) (a/b);
+		Double roundOff = Math.round(prosek * 100.0) / 100.0;
+		
+		return roundOff;
 	}
 	
 

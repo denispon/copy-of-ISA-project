@@ -1,5 +1,6 @@
 package com.ftn.isa.projekat.hotel.hotelCore.HotelskaSoba.controller;
 
+import java.text.ParseException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -109,13 +110,12 @@ public class HotelskaSobaController {
 		
 	}
 	
-	@GetMapping("/discount/{id}")
+	@GetMapping("/discount/{id}/{datumOd}/{datumDo}")
 	@ApiOperation( value = "", httpMethod = "GET")
 	@ApiResponses( value = { @ApiResponse( code = 200, message ="OK"),
 							 @ApiResponse( code = 404, message ="Not Found")})	
-	public ResponseEntity<List<HotelskaSobaDTO>> getAllDiscountedHotelRooms(@PathVariable("id") Long id){
-		
-		List<HotelskaSobaDTO> rooms = hotelskaSobaService.getRoomsOnDiscount(id);
+	public ResponseEntity<List<HotelskaSobaDTO>> getAllDiscountedHotelRooms(@PathVariable("id") Long id, @PathVariable("datumOd") String datumOd, @PathVariable("datumDo") String datumDo) throws ParseException{
+		List<HotelskaSobaDTO> rooms = hotelskaSobaService.getRoomsOnDiscount(id, datumOd, datumDo);
 		return(!rooms.isEmpty()) ? new ResponseEntity<List<HotelskaSobaDTO>>(rooms, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		
 	}

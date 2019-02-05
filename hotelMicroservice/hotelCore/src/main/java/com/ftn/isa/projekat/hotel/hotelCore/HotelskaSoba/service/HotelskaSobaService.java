@@ -1,7 +1,10 @@
 package com.ftn.isa.projekat.hotel.hotelCore.HotelskaSoba.service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,6 +20,7 @@ import com.ftn.isa.projekat.hotel.hotelCore.Hotel.model.Hotel;
 import com.ftn.isa.projekat.hotel.hotelCore.Hotel.repository.HotelRepository;
 import com.ftn.isa.projekat.hotel.hotelCore.HotelskaSoba.model.HotelskaSoba;
 import com.ftn.isa.projekat.hotel.hotelCore.HotelskaSoba.repository.HotelskaSobaRepository;
+import com.ftn.isa.projekat.hotel.hotelCore.RezervacijeSobe.service.RezervacijeSobeService;
 import com.ftn.isa.projekat.hotel.hotelCore.TipSobe.repository.TipSobeRepository;
 import com.ftn.isa.projekat.hotel.hotelCore.dtoConverter.DTOHotelConverter;
 import com.ftn.isa.projekat.hotel.hotelCore.dtoConverter.DTOHotelskaSobaConverter;
@@ -30,6 +34,9 @@ public class HotelskaSobaService implements IHotelskaSobaService{
 	
 	@Autowired
 	HotelskaSobaRepository hotelskaSobaRepository;
+	
+	@Autowired
+	RezervacijeSobeService rezervacijaService;
 	
 	@Autowired
 	HotelRepository hotelRepository;
@@ -127,16 +134,19 @@ public class HotelskaSobaService implements IHotelskaSobaService{
 		return Collections.emptyList();
 	}
 	
-	public List<HotelskaSobaDTO> getRoomsOnDiscount(Long id){
+	public List<HotelskaSobaDTO> getRoomsOnDiscount(Long id, String datumOd, String datumDo) throws ParseException{
 		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd");
+		Date dateOd = sdf.parse(datumOd);
+		Date dateDo = sdf.parse(datumDo);
 		List<HotelskaSobaDTO> naPopustu = new ArrayList<HotelskaSobaDTO>();		
-		List<HotelskaSobaDTO> sobeDTO = findAllByHotelId(id);
+		List<HotelskaSobaDTO> sobeDTO = rezervacijaService.getFreeRooms(id, dateOd, dateDo);
 		List<CeneSoba> list = ceneSobaRepository.findAll();
 		
 		if(list != null && sobeDTO != null) {			
 			for(HotelskaSobaDTO soba : sobeDTO) {
-				for(CeneSoba cena : list) {
-					if(soba.getId() == cena.getHotelskaSoba_cena().getId() && soba.getOriginalnaCena()>cena.getCena()) {
+				for(CeneSoba cena : list) {					
+					if(soba.getId() == cena.getHotelskaSoba_cena().getId() && soba.getOriginalnaCena()>cena.getCena() && ((cena.getDatumOd().after(dateOd) || cena.getDatumOd().equals(dateOd)) && (cena.getDatumDo().before(dateOd) || (cena.getDatumDo().equals(dateOd))))) {
 						naPopustu.add(soba);
 					}
 				}			
