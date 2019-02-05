@@ -63,11 +63,12 @@ class App extends Component {
         <div className="App">
           <Navbar />
           <Switch>
+            <Route exact path="/" component={DashboardClassicUser} />
             <Route exact path="/" component={DashboardRentACarAdminLogged}></Route>
             <Route exact path="/" component={DashboardUserLogged}></Route>
 
 
-            <Route exact path="/" component={DashboardClassicUser} />
+
 
             <Route exact path="/" component={DashboardMainAdminLogged}></Route>
 
@@ -118,7 +119,7 @@ class App extends Component {
             <Route path="/izmenaCenovnikaAdmin/:cenovnikId" component={IzmenaCenovnikaAdmin}></Route>
             <Route path="/sobe/:hotelId/:datumOd/:datumDo" component={Sobe}></Route> /sobeLogged/'+hotelId
             <Route path="/sobe/:hotelId/:datumOd/:datumDo" component={Sobe}></Route>
-            <Route path="/sobeLogged/:hotelId" component={LoggedUserSobeList}></Route> 
+            <Route path="/sobeLogged/:hotelId" component={LoggedUserSobeList}></Route>
             <Route path="/usluge/:hotelId" component={DodatneUsluge}></Route>
             <Route path="/cenovniciLogged/:hotelId" component={LoggedUserCenovnikList}></Route>
             <Route path="/uslugeLogged/:hotelId" component={LoggedUserUslugeList}></Route>

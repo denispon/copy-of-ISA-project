@@ -58,6 +58,42 @@ class RentACarIzlistavanje extends Component {
         })
     }
 
+    sortirajNizovePo = (e) => {
+
+        const sortirajPo = e.target.value
+        var noviNiz = []
+
+        if (sortirajPo === "grad" && this.state.servisi) {
+            noviNiz = this.state.servisi.sort(function (a, b) {
+                var cityA = a.adress.toLowerCase(), cityB = b.adress.toLowerCase()
+                if (cityA < cityB)
+                    return -1
+                if (cityA > cityB)
+                    return 1
+                return 0
+            })
+            this.setState({
+                servisi: noviNiz
+            })
+        }
+        else if (sortirajPo === "naziv" && this.state.servisi) {
+            noviNiz = this.state.servisi.sort(function (a, b) {
+                var nameA = a.name.toLowerCase(), nameB = b.name.toLowerCase()
+                if (nameA < nameB)
+                    return -1
+                if (nameA > nameB)
+                    return 1
+                return 0
+            })
+            this.setState({
+                servisi: noviNiz
+            })
+        }
+
+
+
+    }
+
     handleSubmit = (e) => {
         e.preventDefault();
         axios.get('http://localhost:8090/api/rentacar/rentACarService/getAllServices/' + this.state.naziv + '/' + this.state.gradOd + '/' + this.state.gradDo)
@@ -121,6 +157,8 @@ class RentACarIzlistavanje extends Component {
                                         </div>
                                     </div>
                                 </div>
+
+
                             </div>
                     }
 
@@ -130,6 +168,24 @@ class RentACarIzlistavanje extends Component {
                             :
                             ''
                     }
+
+                    <div>
+                        <div className="card">
+                            <div className="card-content">
+                                <div className="container">
+                                    <form className="white">
+                                        <div className="input-field">
+                                            <label className="active" htmlFor="naziv">Sortiraj po</label>
+                                            <select onChange={this.sortirajNizovePo} className="browser-default">
+                                                <option value='naziv'>Nazivu</option>
+                                                <option value='grad'>Adresi</option>
+                                            </select>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     {servisiList}
                 </div>
             </div>

@@ -27,7 +27,7 @@ class DashboardClassicUser extends Component {
 
                         </div>
                         <div>
-                            <Route exact path="/vozila" component={RentACarPretraga}></Route>
+                            <Route exact path="/vozila" component={RentACarIzlistavanje}></Route>
                             <Route path="/listaVozila" component={RentACarIzlistavanje}></Route>
                             <Route path="/vozila/:serviceId" component={Vozila}></Route>
                             <Route path="/filijale/:serviceId" component={Filijale}></Route>
