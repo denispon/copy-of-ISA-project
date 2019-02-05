@@ -18,6 +18,10 @@ public class ShoppingCartDTO {
 	private Long carReservationId;
 	
 	private Long roomReservationId;
+	
+	private Long uslugaReservationId;
+	
+	private Long cenovnikReservationId;
 
 	private Double price;
 	

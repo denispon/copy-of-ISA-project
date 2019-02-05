@@ -35,6 +35,12 @@ public class ShoppingCart {
 	@Column (name = "roomReservation_id", nullable= true)
 	private Long roomReservationId;
 	
+	@Column (name = "uslugaReservation_id", nullable= true)
+	private Long uslugaReservationId;
+	
+	@Column (name = "cenovnikReservation_id", nullable= true)
+	private Long cenovnikReservationId;
+	
 	@Column (name = "price" , nullable = false)
 	private Double price;
 	

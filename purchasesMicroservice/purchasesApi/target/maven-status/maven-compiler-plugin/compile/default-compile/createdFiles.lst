@@ -1,4 +1,6 @@
+com\ftn\isa\projekat\purchases\purchasesApi\dto\AvioCompanyRatingDTO.class
 com\ftn\isa\projekat\purchases\purchasesApi\dto\RentACarRatingDTO.class
+com\ftn\isa\projekat\purchases\purchasesApi\dto\TicketRatingDTO.class
 com\ftn\isa\projekat\purchases\purchasesApi\dto\ReservationDTO.class
 com\ftn\isa\projekat\purchases\purchasesApi\dto\CarRatingDTO.class
 com\ftn\isa\projekat\purchases\purchasesApi\ApiApplication.class

@@ -17,6 +17,10 @@ public class ReservationDTO {
 	
 	private Long roomReservationId;
 	
+	private Long uslugaReservationId;
+	
+	private Long cenovnikReservationId;
+	
 	private Double price;
 	
 	private InvitationCardDTO invitationCard;

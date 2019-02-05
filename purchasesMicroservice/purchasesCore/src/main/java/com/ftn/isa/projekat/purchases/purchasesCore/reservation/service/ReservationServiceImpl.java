@@ -9,6 +9,8 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.ftn.isa.projekat.hotel.hotelApi.dto.CenovnikUslugaDTO;
+import com.ftn.isa.projekat.hotel.hotelApi.dto.DodatneUslugeDTO;
 import com.ftn.isa.projekat.hotel.hotelApi.dto.RezervacijeSobeDTO;
 import com.ftn.isa.projekat.purchases.purchasesApi.dto.ReservationDTO;
 import com.ftn.isa.projekat.purchases.purchasesCore.converter.DTOReservationConverter;
@@ -99,6 +101,26 @@ public class ReservationServiceImpl implements IReservationService {
 				RezervacijeSobeDTO roomReservation = servicesProxy.getRoomReservationById(reservationToSave.getRoomReservationId());
 				
 				if(roomReservation.getId()==null) {
+					return new ReservationDTO();
+				}
+				
+			}
+			
+			if(reservationToSave.getUslugaReservationId()!=null) {
+				
+				DodatneUslugeDTO uslugaReservation = servicesProxy.getUslugaReservationById(reservationToSave.getUslugaReservationId());
+				
+				if(uslugaReservation.getId()==null) {
+					return new ReservationDTO();
+				}
+				
+			}
+			
+			if(reservationToSave.getCenovnikReservationId()!=null) {
+				
+				CenovnikUslugaDTO uslugaReservation = servicesProxy.getCenovnikReservationById(reservationToSave.getCenovnikReservationId());
+				
+				if(uslugaReservation.getId()==null) {
 					return new ReservationDTO();
 				}
 				
@@ -250,6 +272,29 @@ public class ReservationServiceImpl implements IReservationService {
 			}
 			
 			reservation.get().setCarReservationId(null);
+			
+			reservationRepository.save(reservation.get());
+			
+			return reservationConverter.convertToDTO(reservation.get());
+		
+		}
+		else {
+			
+			return new ReservationDTO();
+			
+		}	
+	}
+	
+	public ReservationDTO deleteRoomReservation(Long id) {
+		
+		Optional <Reservation> reservation = reservationRepository.findById(id);
+		
+		
+		if (reservation.isPresent()) {
+			
+			RezervacijeSobeDTO roomReservation = servicesProxy.getRoomReservationById(reservation.get().getRoomReservationId());
+			
+			reservation.get().setRoomReservationId(null);
 			
 			reservationRepository.save(reservation.get());
 			

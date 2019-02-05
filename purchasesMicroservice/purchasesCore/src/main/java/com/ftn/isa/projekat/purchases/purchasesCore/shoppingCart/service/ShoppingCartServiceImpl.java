@@ -11,6 +11,8 @@ import java.util.concurrent.TimeUnit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.ftn.isa.projekat.hotel.hotelApi.dto.CenovnikUslugaDTO;
+import com.ftn.isa.projekat.hotel.hotelApi.dto.DodatneUslugeDTO;
 import com.ftn.isa.projekat.hotel.hotelApi.dto.RezervacijeSobeDTO;
 import com.ftn.isa.projekat.purchases.purchasesApi.dto.ReservationDTO;
 import com.ftn.isa.projekat.purchases.purchasesApi.dto.ShoppingCartDTO;
@@ -43,6 +45,7 @@ public class ShoppingCartServiceImpl implements IShoppingCartService{
 	
 	@Autowired
 	DTOShoppingCartConverter  cartConverter;
+	
 	@Autowired
 	DTOReservationConverter reservationConverter;
 	
@@ -134,7 +137,28 @@ public class ShoppingCartServiceImpl implements IShoppingCartService{
 				}
 				
 			}
-			*/
+			if(reservationToSave.getUslugaReservationId()!=null) {
+				
+				DodatneUslugeDTO uslugaReservation = servicesProxy.getUslugaReservationById(reservationToSave.getUslugaReservationId());
+				
+				if(uslugaReservation.getId()==null) {
+					return new ShoppingCartDTO();
+				}
+				
+			}
+			
+			if(reservationToSave.getCenovnikReservationId()!=null) {
+				
+				CenovnikUslugaDTO uslugaReservation = servicesProxy.getCenovnikReservationById(reservationToSave.getCenovnikReservationId());
+				
+				if(uslugaReservation.getId()==null) {
+					return new ShoppingCartDTO();
+				}
+				
+			}
+			
+			*/	
+			
 		ShoppingCart savedCart = cartRepository.save(cartConverter.convertFromDTO(reservationToSave));
 		reservationToSave.setId(savedCart.getId());
 		
@@ -214,8 +238,30 @@ public class ShoppingCartServiceImpl implements IShoppingCartService{
 					
 				}
 				
+				if(reservation.getUslugaReservationId()!=null) {
+					
+					DodatneUslugeDTO uslugaReservation = servicesProxy.getUslugaReservationById(reservation.getUslugaReservationId());
+					
+					if(uslugaReservation.getId()==null) {
+						return new ShoppingCartDTO();
+					}
+					
+				}
+				
+				if(reservation.getCenovnikReservationId()!=null) {
+					
+					CenovnikUslugaDTO uslugaReservation = servicesProxy.getCenovnikReservationById(reservation.getCenovnikReservationId());
+					
+					if(uslugaReservation.getId()==null) {
+						return new ShoppingCartDTO();
+					}
+					
+				}
+				
 			reservationForChange.get().setCarReservationId(reservation.getCarReservationId());
 			reservationForChange.get().setRoomReservationId(reservation.getRoomReservationId());
+			reservationForChange.get().setCenovnikReservationId(reservation.getCenovnikReservationId());
+			reservationForChange.get().setUslugaReservationId(reservation.getUslugaReservationId());
 			reservationForChange.get().setUserId(reservation.getUserId());
 			reservationForChange.get().setPrice(reservation.getPrice());
 			reservationForChange.get().setBonusPoints(reservation.getBonusPoints());
@@ -306,6 +352,64 @@ public class ShoppingCartServiceImpl implements IShoppingCartService{
 		
 		return new ShoppingCartDTO();
 	}
+	
+	@Override
+	public ShoppingCartDTO addUslugaReservation(Long id, DodatneUslugeDTO uslugaReservation) {
+
+		Optional<ShoppingCart> reservation = cartRepository.findById(id);
+		
+		if(reservation.isPresent() && uslugaReservation != null) {
+
+			/*if(reservation.get().getUslugaReservationId()!=null) {
+				servicesProxy.deleteUslugaReservation(reservation.get().getUslugaReservationId());
+			}*/
+			
+			//RezervacijeSobeDTO roomReservationToSave = servicesProxy.addRoomReservation(roomReservation);
+			
+			int price = uslugaReservation.getAdditionalServicePrice();
+			
+			
+			
+			reservation.get().setUslugaReservationId(uslugaReservation.getId());
+			reservation.get().setPrice(reservation.get().getPrice() + price);
+			
+			cartRepository.save(reservation.get());
+			
+			return cartConverter.convertToDTO(reservation.get());
+			
+		}
+		
+		return new ShoppingCartDTO();
+	}
+	
+	@Override
+	public ShoppingCartDTO addCenovnikReservation(Long id, CenovnikUslugaDTO uslugaReservation) {
+
+		Optional<ShoppingCart> reservation = cartRepository.findById(id);
+		
+		if(reservation.isPresent() && uslugaReservation != null) {
+
+			/*if(reservation.get().getCenovnikReservationId()!=null) {
+				servicesProxy.deleteUslugaReservation(reservation.get().getCenovnikReservationId());
+			}*/
+			
+			//RezervacijeSobeDTO roomReservationToSave = servicesProxy.addRoomReservation(roomReservation);
+			
+			int price = uslugaReservation.getCenaUsluge();
+			
+			
+			
+			reservation.get().setCenovnikReservationId(uslugaReservation.getId());
+			reservation.get().setPrice(reservation.get().getPrice() + price);
+			
+			cartRepository.save(reservation.get());
+			
+			return cartConverter.convertToDTO(reservation.get());
+			
+		}
+		
+		return new ShoppingCartDTO();
+	}
 
 	@Override
 	public ShoppingCartDTO deleteCarReservation(Long id) {
@@ -375,10 +479,76 @@ public class ShoppingCartServiceImpl implements IShoppingCartService{
 				
 			    Double price = (double) (dani * deletedReservation.getSobaId().getOriginalnaCena());
 				
-				price = price * 0.95;
-				
 				
 				reservation.get().setRoomReservationId(null);
+				reservation.get().setPrice(reservation.get().getPrice() - price);
+				
+				cartRepository.save(reservation.get());
+				
+				return cartConverter.convertToDTO(reservation.get());
+			}
+			
+			
+		}
+		
+		return new ShoppingCartDTO();
+		
+	}
+	
+	@Override
+	public ShoppingCartDTO deleteUslugaReservation(Long id) {
+
+		Optional<ShoppingCart> reservation = cartRepository.findById(id);
+
+		if(reservation.isPresent()) {
+			
+			/*
+			 * Now we need to delete car reservation from rent a car database
+			 *  */
+			
+			DodatneUslugeDTO deletedReservation = servicesProxy.getUslugaReservationById(reservation.get().getUslugaReservationId());
+					
+			
+			if(deletedReservation !=null) {
+				
+			    int price = deletedReservation.getAdditionalServicePrice();
+				
+				
+				reservation.get().setUslugaReservationId(null);
+				reservation.get().setPrice(reservation.get().getPrice() - price);
+				
+				cartRepository.save(reservation.get());
+				
+				return cartConverter.convertToDTO(reservation.get());
+			}
+			
+			
+		}
+		
+		return new ShoppingCartDTO();
+		
+	}
+	
+	@Override
+	public ShoppingCartDTO deleteCenovnikReservation(Long id) {
+
+		Optional<ShoppingCart> reservation = cartRepository.findById(id);
+
+		if(reservation.isPresent()) {
+			
+			/*
+			 * Now we need to delete car reservation from rent a car database
+			 *  */
+			
+			CenovnikUslugaDTO deletedReservation = servicesProxy.getCenovnikReservationById(reservation.get().getCenovnikReservationId());
+					
+			
+			if(deletedReservation !=null) {
+				
+			    int price = deletedReservation.getCenaUsluge();
+				
+				
+				reservation.get().setCenovnikReservationId(null);
 				reservation.get().setPrice(reservation.get().getPrice() - price);
 				
 				cartRepository.save(reservation.get());
@@ -423,6 +593,8 @@ public class ShoppingCartServiceImpl implements IShoppingCartService{
 			
 			reservation.setCarReservationId(tempReservation.get().getCarReservationId());
 			reservation.setRoomReservationId(tempReservation.get().getRoomReservationId());
+			reservation.setUslugaReservationId(tempReservation.get().getUslugaReservationId());
+			reservation.setCenovnikReservationId(tempReservation.get().getCenovnikReservationId());
 			reservation.setUserId(tempReservation.get().getUserId());
 			reservation.setPrice(tempReservation.get().getPrice());
 			reservation.setId(-1l);
@@ -430,6 +602,12 @@ public class ShoppingCartServiceImpl implements IShoppingCartService{
 			if(reservation.getCarReservationId() != null) {
 				//On that price we give 5% off if user reserved car 
 				reservation.setPrice(reservation.getPrice() * 0.95);
+			}
+			
+			if(reservation.getUslugaReservationId() != null) {
+				Double jedanPosto = reservation.getPrice()/100;
+				DodatneUslugeDTO uslugaReservation = servicesProxy.getUslugaReservationById(reservation.getUslugaReservationId());
+				reservation.setPrice(reservation.getPrice() - (jedanPosto * uslugaReservation.getPopust()));
 			}
 			
 			//saving temporary reservation into final reservations
