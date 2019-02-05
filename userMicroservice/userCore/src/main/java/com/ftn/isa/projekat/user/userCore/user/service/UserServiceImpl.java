@@ -185,7 +185,6 @@ public class UserServiceImpl implements IUserService {
 			return foundUser;
 		}
 		
-		UserRole userRole = roleRepository.getOne(2l);
 		
 		//if there is not user with same email, we are saving this one
 		User userForSave = new User();
@@ -196,7 +195,6 @@ public class UserServiceImpl implements IUserService {
 		userForSave.setName(dto.getName());
 		userForSave.setPassport(dto.getPassport());
 		userForSave.setPassword(dto.getPassword());
-		userForSave.getRoles().add(userRole);
 		userForSave.setSurname(dto.getSurname());
 		userForSave.setTelephoneNumber(dto.getTelephoneNumber());
 		

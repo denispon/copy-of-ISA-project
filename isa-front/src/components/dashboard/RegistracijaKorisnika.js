@@ -6,39 +6,97 @@ import { NavLink } from "react-router-dom";
 import "../layout/navbarLinks/navBarLinks.css";
 
 class RegistracijaKorisnika extends Component {
+
+   state = {
+      id: -1,
+      name: '',
+      surname: '',
+      city: '',
+      email: '',
+      telephoneNumber: '',
+      passport: '',
+      pass: undefined,
+      pass2: undefined
+   }
+
+   handleChange = (e) => {
+      this.setState({
+         [e.target.id]: e.target.value
+      })
+   }
+
+   handleSubmit = (e) => {
+      e.preventDefault();
+
+      if (/.+@.+\.[A-Za-z]+$/.test(this.state.email)) {
+
+         if (this.state.pass && this.state.pass2 && this.state.pass == this.state.pass2) {
+            axios.post('http://localhost:8096/api/user/user/register', {
+               id: this.state.id,
+               name: this.state.name,
+               surname: this.state.surname,
+               city: this.state.city,
+               email: this.state.email,
+               telephoneNumber: this.state.telephoneNumber,
+               passport: this.state.passport,
+               password: this.state.pass
+            })
+               .then(res => {
+                  if (res.data.email === "Email exits") {
+                     console.log("Korisnik sa datim mejlom vec postoji!")
+                  }
+                  else {
+                     console.log('Uspesno rezervisan!')
+                  }
+
+               })
+         }
+      }
+      else {
+         console.log("Email adresa ne valja !!")
+      }
+
+
+
+   }
+
    render() {
       return (
          <div className="container">
-            <h4>Registrujte se..    Vec imate nalog?</h4>
-            <h5></h5>
-            <h5><NavLink to="/prijavaKorisnika">Prijavite se</NavLink></h5>
-            <form className="white">
-               <div className="input-field">
-                  <label htmlFor="username">Korisnicko ime:</label>
-                  <input type="text" id='username' />
-               </div>
-               <div className="input-field">
-                  <label htmlFor="pass">Lozinka:</label>
-                  <input type="password" id='pass' />
-               </div>
-               <div className="input-field">
-                  <label htmlFor="pass2">Ponovite lozinku:</label>
-                  <input type="password" id='pass2' />
-               </div>
-               <div className="input-field">
-                  <label htmlFor="name">Ime:</label>
-                  <input type="text" id='name' />
-               </div>
-               <div className="input-field">
-                  <label htmlFor="surname">Prezime:</label>
-                  <input type="text" id='surname' />
-               </div>
-               <div className="input-field">
-                  <label htmlFor="email">E-mail adresa:</label>
-                  <input type="text" id='email' />
-               </div>
-               <input type="submit" className="btn blue lighten-1 z-depth-0" value="Registracija" />
-            </form>
+            <h2 className="red-text lighten-1 center">Registrujte se</h2>
+            <div className="container center">
+               <form className="white" onSubmit={this.handleSubmit}>
+                  <div className="input-field">
+                     <label htmlFor="email">E-mail adresa</label>
+                     <input type="text" onChange={this.handleChange} id='email' />
+                  </div>
+                  <div className="input-field">
+                     <label htmlFor="pass">Lozinka</label>
+                     <input type="password" onChange={this.handleChange} id='pass' />
+                  </div>
+                  <div className="input-field">
+                     <label htmlFor="pass2">Ponovite lozinku</label>
+                     <input type="password" onChange={this.handleChange} id='pass2' />
+                  </div>
+                  <div className="input-field">
+                     <label htmlFor="name">Ime</label>
+                     <input type="text" onChange={this.handleChange} id='name' />
+                  </div>
+                  <div className="input-field">
+                     <label htmlFor="surname">Prezime</label>
+                     <input type="text" onChange={this.handleChange} id='surname' />
+                  </div>
+                  <div className="input-field">
+                     <label htmlFor="passport">Broj pasosa</label>
+                     <input type="text" onChange={this.handleChange} id='passport' />
+                  </div>
+                  <div className="input-field">
+                     <label htmlFor="telephoneNumber" onChange={this.handleChange}>Broj telefona</label>
+                     <input type="text" id='telephoneNumber' />
+                  </div>
+                  <input type="submit" className="btn red darken-2 z-depth-0" value="Registracija" />
+               </form>
+            </div>
          </div>
       );
    }

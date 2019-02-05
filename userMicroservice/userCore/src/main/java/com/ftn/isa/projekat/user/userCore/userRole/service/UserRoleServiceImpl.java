@@ -103,20 +103,8 @@ public class UserRoleServiceImpl implements IUserRoleService{
 		Optional<UserRole> roleForChange= roleRepository.findById(id);
 		
 		if(roleForChange.isPresent() && userRole != null) {
+						
 			
-			//now checking if all users are validate
-			
-			ArrayList<User> users = new ArrayList<User>();
-			
-			for(UserDTO user : userRole.getUsers()) {
-				
-				Optional<User> foundUser = userRepository.findById(user.getId());
-				if(!foundUser.isPresent()) {
-					return null;
-				}
-				
-				users.add(foundUser.get());
-			}
 			
 			roleForChange.get().setRole(userRole.getRole());
 			

@@ -22,8 +22,6 @@ private Long id;
 	private String telephoneNumber;
 	
 	private String passport;
-	
-	private UserRoleDTO role;
-	
+		
 	private String password;
 }
