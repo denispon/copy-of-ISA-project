@@ -277,3 +277,17 @@ export const deleteCarDiscount = (id) => {
 
     }
 }
+
+export const getSumOfIncomes = (rentId, dateFrom, dateTo) => {
+
+    return (dispatch, getState) => {
+
+        axios.get('http://localhost:8090/api/rentacar/rentACarService/getSumOfIncomes/' + rentId + '/' + dateFrom + '/' + dateTo)
+            .then(res => {
+                console.log(res)
+                dispatch({ type: 'GET_SUM_OF_INCOMES', sumOfIncome: res.data })
+            })
+
+    }
+
+}

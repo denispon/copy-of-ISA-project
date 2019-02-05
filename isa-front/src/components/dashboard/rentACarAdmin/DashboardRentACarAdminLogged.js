@@ -7,6 +7,7 @@ import CarDiscountManipulation from "./CarDiscountsManipulation";
 import { getOneRentService, getAllBranchOfficesByRentId, getAllCarsByRentId, getAllCarTypes, getAllCarDiscountsByRentId } from "../../../store/actions/RentACarActions"
 
 import { connect } from "react-redux"
+import RentACarStatistic from "./RentACarStatistic";
 
 class DashboardRentACarAdminLogged extends Component {
 
@@ -54,7 +55,7 @@ class DashboardRentACarAdminLogged extends Component {
                             <Route path="/rentAdminRentService" render={(props) => <AdminRentServiceInfo otvoriProzor={this.state.otvoriProzorZaDodavanje} prikaziCardZaDodavanje={this.prikaziCardZaDodavanje} iskljuciCardZaDodavanje={this.iskljuciCardZaDodavanje} rentACarService={this.props.rentACarService} branchOffices={this.props.branchOffices} />} />
                             <Route path="/rentAdminCars" render={(props) => <CarManipulation rentACarService={this.props.rentACarService} otvoriProzor={this.state.otvoriProzorZaDodavanje} prikaziCardZaDodavanje={this.prikaziCardZaDodavanje} iskljuciCardZaDodavanje={this.iskljuciCardZaDodavanje} cars={this.props.cars} carTypes={this.props.carTypes} branchOffices={this.props.branchOffices} />} ></Route>
                             <Route path="/rentAdminDiscounts" render={(props) => <CarDiscountManipulation otvoriProzor={this.state.otvoriProzorZaDodavanje} prikaziCardZaDodavanje={this.prikaziCardZaDodavanje} iskljuciCardZaDodavanje={this.iskljuciCardZaDodavanje} carDiscounts={this.props.carDiscounts} cars={this.props.cars} />}></Route>
-
+                            <Route path="/rentACarStatistic" render={(props) => <RentACarStatistic rentServiceId={this.props.rentACarService.id} />} />
                         </div>
                     </div>
                 </BrowserRouter>
