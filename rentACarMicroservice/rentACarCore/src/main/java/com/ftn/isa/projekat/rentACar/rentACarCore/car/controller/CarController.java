@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ftn.isa.projekat.rentACar.rentACarApi.dto.CarDTO;
+import com.ftn.isa.projekat.rentACar.rentACarApi.dto.RentACarOnDiscountDTO;
 import com.ftn.isa.projekat.rentACar.rentACarCore.car.service.ICarService;
 
 import io.swagger.annotations.Api;
@@ -130,15 +131,15 @@ public class CarController {
 		
 	}
 
-	@GetMapping("/currentlyDiscount/{date}")
+	@GetMapping("/currentlyDiscount/{dateFrom}/{dateTo}")
 	@ApiOperation( value = "Returns all cars that are on discount on that date", httpMethod = "GET")
 	@ApiResponses( value = { @ApiResponse( code = 200, message ="OK"),
 							 @ApiResponse( code = 404, message ="Not Found")})	
-	public ResponseEntity< List<CarDTO> > findAllCurrentlyOnDiscount(@PathVariable("date") String date){
+	public ResponseEntity< List<RentACarOnDiscountDTO> > findAllCurrentlyOnDiscount(@PathVariable("dateFrom") String dateFrom, @PathVariable("dateTo") String dateTo){
 		
-		List<CarDTO> cars = carService.getAllCurrentlyDiscount(LocalDate.parse(date));
+		List<RentACarOnDiscountDTO> cars = carService.getAllCurrentlyDiscount(LocalDateTime.parse(dateFrom), LocalDateTime.parse(dateTo));
 		
-		return ( !cars.isEmpty() )? new ResponseEntity<List<CarDTO>>(cars,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);		
+		return ( !cars.isEmpty() )? new ResponseEntity<List<RentACarOnDiscountDTO>>(cars,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);		
 		
 	}
 	

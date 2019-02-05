@@ -18,5 +18,8 @@ public interface CarDiscountsRepository extends JpaRepository<CarDiscounts, Long
 
 	@Query(value="select * from car_discounts where car_on_discount_id in (select id from car where rent_a_car_service_id = :rentId)",nativeQuery=true)
 	Optional<List<CarDiscounts>> findAllByCarCarRentServiceId(Long rentId);
+
+	@Query(value="select * from car_discounts where car_on_discount_id=:id and (date_from >= :dateFrom and date_from <= :dateTo) or (date_to>=:dateFrom and date_to <= :dateTo);", nativeQuery =true)
+	Optional<List<CarDiscounts>> findAllForCarOnDiscount(Long id, LocalDateTime dateFrom, LocalDateTime dateTo);
 	
 }

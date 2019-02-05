@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import com.ftn.isa.projekat.rentACar.rentACarApi.dto.RentACarOnDiscountDTO;
 import com.ftn.isa.projekat.rentACar.rentACarCore.car.model.Car;
 
 public interface CarRepository extends JpaRepository < Car, Long > {
@@ -26,11 +27,13 @@ public interface CarRepository extends JpaRepository < Car, Long > {
 
 	Optional< List<Car> > findAllByCarRentServiceId(Long rentId);
 
-	@Query(value="select * from car where id in"
-			+ " (select car_on_discount_id from car_discounts "
-			+ "where date_from <= :date and date_to >= :date);" 
+	@Query(value="select car.id,rent_price,branch_office_id,rent_a_car_service_id,car_type_id"
+			+ " from car inner join car_discounts on car.id=car_discounts.car_on_discount_id "
+			+ "where (date_from >= :dateFrom and date_from <= :dateTo) "
+			+ "or (date_to>=:dateFrom and date_to <= :dateTo);\r\n" + 
+			"" 
 			,nativeQuery=true)
-	Optional< List<Car> > findAllCurrentlyOnDiscount(LocalDate date);
+	Optional<List<Car>> findAllCurrentlyOnDiscount(LocalDateTime dateFrom, LocalDateTime dateTo);
 	
 	
 	@Query(value="select * from car where id not in"

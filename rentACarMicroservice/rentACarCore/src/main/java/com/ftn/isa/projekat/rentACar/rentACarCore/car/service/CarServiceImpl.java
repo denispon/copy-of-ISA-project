@@ -11,10 +11,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ftn.isa.projekat.rentACar.rentACarApi.dto.CarDTO;
+import com.ftn.isa.projekat.rentACar.rentACarApi.dto.RentACarOnDiscountDTO;
 import com.ftn.isa.projekat.rentACar.rentACarCore.branchOffice.model.BranchOffice;
 import com.ftn.isa.projekat.rentACar.rentACarCore.branchOffice.repository.BranchOfficeRepository;
 import com.ftn.isa.projekat.rentACar.rentACarCore.car.model.Car;
 import com.ftn.isa.projekat.rentACar.rentACarCore.car.repository.CarRepository;
+import com.ftn.isa.projekat.rentACar.rentACarCore.carDiscounts.model.CarDiscounts;
+import com.ftn.isa.projekat.rentACar.rentACarCore.carDiscounts.repository.CarDiscountsRepository;
 import com.ftn.isa.projekat.rentACar.rentACarCore.carType.model.CarType;
 import com.ftn.isa.projekat.rentACar.rentACarCore.carType.repository.CarTypeRepository;
 import com.ftn.isa.projekat.rentACar.rentACarCore.dtoConverter.DTOBranchOfficeConverter;
@@ -39,6 +42,8 @@ public class CarServiceImpl  implements ICarService{
 	BranchOfficeRepository branchOfficeRepository;
 	@Autowired
 	CarReservationRepository carReservationRepository;
+	@Autowired
+	CarDiscountsRepository discountRepository;
 	
 	@Autowired
 	DTOCarConverter carConverter;
@@ -312,20 +317,36 @@ public class CarServiceImpl  implements ICarService{
 	}
 
 	@Override
-	public List<CarDTO> getAllCurrentlyDiscount(LocalDate date) {
+	public List<RentACarOnDiscountDTO> getAllCurrentlyDiscount(LocalDateTime dateFrom , LocalDateTime dateTo) {
 
-		Optional< List<Car> > list = carRepository.findAllCurrentlyOnDiscount(date);
-		ArrayList< CarDTO > CarsDTO = new ArrayList< CarDTO >();
+		Optional< List<Car> > list = carRepository.findAllCurrentlyOnDiscount(dateFrom ,dateTo);
+		
+		ArrayList<RentACarOnDiscountDTO> cars = new ArrayList<RentACarOnDiscountDTO>();
 		
 		if ( list.isPresent() ) {
 			
-			for ( Car car : list.get()) {
+			for(Car item : list.get()) {
 				
-				CarsDTO.add(carConverter.convertToDTO(car));
+				Optional<List<CarDiscounts>> discount = discountRepository.findAllForCarOnDiscount(item.getId(),dateFrom,dateTo);
+				
+				RentACarOnDiscountDTO dto = new RentACarOnDiscountDTO();
+				
+				CarDTO itemDto = carConverter.convertToDTO(item);
+				
+				dto.setId(itemDto.getId());
+				dto.setRentPrice(itemDto.getRentPrice());
+				dto.setCarType(itemDto.getCarType());
+				dto.setBranchOffice(itemDto.getBranchOffice());
+				dto.setRentService(itemDto.getRentService());
+				dto.setDateFrom(discount.get().get(0).getDateFrom());
+				dto.setDateTo(discount.get().get(0).getDateTo());
+				dto.setCarDiscountPrecentage(discount.get().get(0).getDiscountPrecentage());
+				
+				cars.add(dto);
 				
 			}
 			
-			return CarsDTO;
+			return cars;
 			
 		}
 		

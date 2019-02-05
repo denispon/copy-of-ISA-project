@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import com.ftn.isa.projekat.rentACar.rentACarApi.dto.CarDTO;
+import com.ftn.isa.projekat.rentACar.rentACarApi.dto.RentACarOnDiscountDTO;
 
 
 public interface ICarService {
@@ -19,7 +20,7 @@ public interface ICarService {
 	
 	public List<CarDTO> getAllOnDiscount();
 	
-	public List<CarDTO> getAllCurrentlyDiscount(LocalDate date);
+	public List<RentACarOnDiscountDTO> getAllCurrentlyDiscount(LocalDateTime localDateTime, LocalDateTime localDateTime2);
 	
 	public CarDTO save (CarDTO carToSave);
 	
