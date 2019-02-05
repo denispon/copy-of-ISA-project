@@ -46,6 +46,10 @@ import IzmenaCenovnikaAdmin from "./components/dashboard/izlistavanjeHotelAdmin/
 import PosecenostHotelaAdmin from "./components/dashboard/izlistavanjeHotelAdmin/PosecenostHotelaAdmin";
 import DashboardClassicUser from "./components/dashboard/classicUser/DashboardClassicUser";
 import DashboardUserLogged from "./components/dashboard/loggedUser/DashboardUserLogged";
+import LoggedUserHotelList from "./components/dashboard/loggedUserHotel/LoggedUserHotelList";
+import LoggedUserSobeList from "./components/dashboard/loggedUserHotel/LoggedUserSobeList";
+import LoggedUserCenovnikList from "./components/dashboard/loggedUserHotel/LoggedUserCenovnikList";
+import LoggedUserUslugeList from "./components/dashboard/loggedUserHotel/LoggedUserUslugeList";
 
 
 
@@ -86,7 +90,7 @@ class App extends Component {
 
             <Route path="/listaHotela/:imeAdresa/:datumOd/:datumDo/:brojSoba/:brojGostiju" component={HoteliIzlistavanje}></Route>
             <Route path="/listaLetova" component={LetoviIzlistavanje}></Route>
-
+            <Route path="/listaHotelaLogged" component={LoggedUserHotelList}></Route>
 
 
 
@@ -112,10 +116,12 @@ class App extends Component {
             <Route path="/izmenaTipovaAdmin/:tipId" component={IzmenaTipaAdmin}></Route>
             <Route path="/izmenaHotelskihSobaAdmin/:sobaId" component={IzmenaHotelskihSobaAdmin}></Route>
             <Route path="/izmenaCenovnikaAdmin/:cenovnikId" component={IzmenaCenovnikaAdmin}></Route>
+            <Route path="/sobe/:hotelId/:datumOd/:datumDo" component={Sobe}></Route> /sobeLogged/'+hotelId
             <Route path="/sobe/:hotelId/:datumOd/:datumDo" component={Sobe}></Route>
-            <Route path="/cenovnici/:hotelId" component={Cenovnici}></Route>
+            <Route path="/sobeLogged/:hotelId" component={LoggedUserSobeList}></Route> 
             <Route path="/usluge/:hotelId" component={DodatneUsluge}></Route>
-
+            <Route path="/cenovniciLogged/:hotelId" component={LoggedUserCenovnikList}></Route>
+            <Route path="/uslugeLogged/:hotelId" component={LoggedUserUslugeList}></Route>
             <Route path="/izlistavanjeCenaSobeAdmin/:sobaId" component={CenaSobeIzlistavanjeAdmin}></Route>
             <Route path="/posecenostPregled" component={PosecenostHotelaAdmin}></Route>
 
