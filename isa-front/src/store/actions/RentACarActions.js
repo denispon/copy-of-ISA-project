@@ -291,3 +291,40 @@ export const getSumOfIncomes = (rentId, dateFrom, dateTo) => {
     }
 
 }
+
+export const getNumberOfFreeCars = (rentId, dateFrom, dateTo) => {
+
+    return (dispatch, getState) => {
+
+        axios.get('http://localhost:8090/api/rentacar/car/getFreeCars/' + dateFrom + '/' + dateTo)
+            .then(res => {
+
+                var freeCarsByRentService = res.data.filter(item => item.rentService.id == rentId)
+                var freeCars = 0
+                if (freeCarsByRentService) {
+                    freeCars = freeCarsByRentService.length
+                }
+                dispatch({ type: 'GET_NUMBER_OF_FREE_CARS_ON_PERIOD', freeCars: freeCars })
+            })
+
+    }
+
+}
+
+export const getNumberOfTakenCars = (rentId, dateFrom, dateTo) => {
+
+    return (dispatch, getState) => {
+
+        axios.get('http://localhost:8090/api/rentacar/car/getReservedCars/' + dateFrom + '/' + dateTo)
+            .then(res => {
+                var takenCarsByRentService = res.data.filter(item => item.rentService.id == rentId)
+                var takenCars = 0
+                if (takenCarsByRentService) {
+                    takenCars = takenCarsByRentService.length
+                }
+                dispatch({ type: 'GET_NUMBER_OF_TAKEN_CARS_ON_PERIOD', takenCars: takenCars })
+            })
+
+    }
+
+}

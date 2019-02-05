@@ -14,13 +14,13 @@ import com.ftn.isa.projekat.rentACar.rentACarCore.car.model.Car;
 
 public interface CarRepository extends JpaRepository < Car, Long > {
 
-	@Query(value = "select * from car c,"
-			+ "car_reservation r  where c.id = r.reserved_car"
-			+ "and r.date_from > :dateFrom AND r.date_to < :dateTo ;", nativeQuery = true)
+	@Query(value =
+			"select * from car c,car_reservation r  where c.id = r.reserved_car and r.date_from > :dateFrom AND r.date_to < :dateTo ;",
+			nativeQuery = true)
 	Optional< List<Car> > findReservedCars(@Param("dateFrom") LocalDateTime dateFrom, @Param("dateTo") LocalDateTime dateTo);
 
 	
-	@Query(value = "select * from car c where c.id not in (select cc.id from car cc, car_reservation r where cc.id = r.reserved_car and r.date_from > :dateFrom AND r.date_to < :dateTo );", nativeQuery = true)
+	@Query(value = "select * from car c where c.id not in (select c.id from car c,car_reservation r  where c.id = r.reserved_car and r.date_from > :dateFrom AND r.date_to < :dateTo);", nativeQuery = true)
 	Optional< List<Car> > findFreeCars(@Param("dateFrom") LocalDateTime dateFrom, @Param("dateTo") LocalDateTime dateTo);
 
 

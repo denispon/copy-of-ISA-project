@@ -237,7 +237,7 @@ public class CarServiceImpl  implements ICarService{
 	@Override
 	public List<CarDTO> getReservedCarsFromTo(LocalDateTime dateFrom, LocalDateTime dateTo) {
 
-		if(dateFrom.isAfter(dateTo)) {
+		if(!dateFrom.isAfter(dateTo)) {
 			Optional< List<Car> > reservedCars = carRepository.findReservedCars(dateFrom,dateTo);
 			
 			

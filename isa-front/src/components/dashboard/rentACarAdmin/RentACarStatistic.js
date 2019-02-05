@@ -2,6 +2,7 @@ import React, { Component } from "react"
 import { NavLink } from "react-router-dom"
 import { connect } from "react-redux"
 import { getSumOfIncomes } from "../../../store/actions/RentACarActions"
+import RentACarFreeTakenCarsStatistic from "./RentACarFreeTakenCarsStatistic";
 
 
 class RentACarStatistic extends Component {
@@ -122,23 +123,23 @@ class RentACarStatistic extends Component {
                                         <form className="white" onSubmit={this.handleSubmit} >
 
                                             <div>
-                                                <label htmlFor="datumPocetka" className="active">Datum pocetka</label>
+                                                <label htmlFor="datumPocetka" className="active">Datum od</label>
                                                 <input type="date" id='datumPocetka' onChange={this.handleDateTimeChange} value={this.state.datumPocetka} />
                                             </div>
 
                                             <div>
-                                                <label htmlFor="vremePocetka" className="active">Vreme pocetka</label>
+                                                <label htmlFor="vremePocetka" className="active">Vreme od</label>
                                                 <input type="time" id='vremePocetka' onChange={this.handleDateTimeChange} value={this.state.vremePocetka} />
                                             </div>
 
 
                                             <div>
-                                                <label htmlFor="datumKraja" className="active">Datum kraja</label>
+                                                <label htmlFor="datumKraja" className="active">Datum do</label>
                                                 <input type="date" id='datumKraja' onChange={this.handleDateTimeChange} value={this.state.datumKraja} />
                                             </div>
 
                                             <div>
-                                                <label htmlFor="vremeKraja" className="active">Vreme kraja</label>
+                                                <label htmlFor="vremeKraja" className="active">Vreme do</label>
                                                 <input type="time" id='vremeKraja' onChange={this.handleDateTimeChange} value={this.state.vremeKraja} />
                                             </div>
 
@@ -161,6 +162,8 @@ class RentACarStatistic extends Component {
                 }
 
 
+
+                <RentACarFreeTakenCarsStatistic rentServiceId={this.props.rentServiceId} />
 
             </div>
         );
