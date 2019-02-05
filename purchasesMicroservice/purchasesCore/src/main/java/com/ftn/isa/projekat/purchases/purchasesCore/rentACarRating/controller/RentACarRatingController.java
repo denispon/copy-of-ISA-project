@@ -1,7 +1,9 @@
 package com.ftn.isa.projekat.purchases.purchasesCore.rentACarRating.controller;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
+
+import javax.websocket.server.PathParam;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -57,15 +59,15 @@ public class RentACarRatingController {
 		
 	}
 	
-	@PostMapping("/")
+	@PostMapping("/{date}")
 	@ApiOperation( value = "Create a rent a car rating.", notes = "Returns the rent a car rating being saved.", httpMethod="POST", produces = "application/json", consumes = "application/json" )
 	@ApiResponses( value = {
 					@ApiResponse( code = 201 , message = "Created"),
 					@ApiResponse( code = 400, message= "Bad request")
 	})
-	public ResponseEntity<RentACarRatingDTO> addRentACarRating(@RequestBody RentACarRatingDTO dto){
+	public ResponseEntity<RentACarRatingDTO> addRentACarRating(@PathVariable("date") String date, @RequestBody RentACarRatingDTO dto){
 		
-		RentACarRatingDTO savedRating = rentACarRatingService.save(dto);
+		RentACarRatingDTO savedRating = rentACarRatingService.save(dto,LocalDateTime.parse(date));
 		
 		return ( savedRating!=null )? new ResponseEntity<RentACarRatingDTO>(savedRating,HttpStatus.CREATED): new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}

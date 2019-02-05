@@ -22,14 +22,14 @@ class StarRating extends Component {
 
     HandleRating = (e) => {
 
-        if (this.props.rentService) {
+        if (this.props.rentService && this.props.date) {
             //ovde ide user
-            this.props.rateRentACarService(2, this.props.rentService.id, e.target.value);
+            this.props.rateRentACarService(this.props.date, 2, this.props.rentService.id, e.target.value);
 
         }
-        else if (this.props.reservedCar) {
+        else if (this.props.reservedCar && this.props.date) {
 
-            this.props.rateCar(2, this.props.reservedCar.id, e.target.value);
+            this.props.rateCar(this.props.date, 2, this.props.reservedCar.id, e.target.value);
         }
 
     }
@@ -77,8 +77,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        rateRentACarService: (userId, idService, rating) => dispatch(rateRentACarService(userId, idService, rating)),
-        rateCar: (userId, idCar, rating) => dispatch(rateCar(userId, idCar, rating))
+        rateRentACarService: (date, userId, idService, rating) => dispatch(rateRentACarService(date, userId, idService, rating)),
+        rateCar: (date, userId, idCar, rating) => dispatch(rateCar(date, userId, idCar, rating))
     }
 }
 

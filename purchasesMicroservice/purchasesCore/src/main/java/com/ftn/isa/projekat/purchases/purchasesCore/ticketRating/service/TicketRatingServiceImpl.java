@@ -7,18 +7,16 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
-import com.ftn.isa.projekat.avioCompany.avioCompanyApi.dto.TicketDTO;
-import com.ftn.isa.projekat.purchases.purchasesApi.dto.CarRatingDTO;
 import com.ftn.isa.projekat.purchases.purchasesApi.dto.TicketRatingDTO;
-import com.ftn.isa.projekat.purchases.purchasesCore.carRating.model.CarRating;
 import com.ftn.isa.projekat.purchases.purchasesCore.converter.DTOTicketRatingConverter;
 import com.ftn.isa.projekat.purchases.purchasesCore.ticketRating.model.TicketRating;
 import com.ftn.isa.projekat.purchases.purchasesCore.ticketRating.repository.TicketRatingRepository;
 import com.ftn.isa.projekat.purchases.purchasesCore.utils.DatasFromOtherMicroservices;
 import com.ftn.isa.projekat.rentACar.rentACarApi.dto.CarDTO;
 import com.ftn.isa.projekat.user.userApi.dto.UserDTO;
-
+@Component
 public class TicketRatingServiceImpl implements ITicketRatingService
 {
 	@Autowired
@@ -72,20 +70,20 @@ public class TicketRatingServiceImpl implements ITicketRatingService
 	@Override
 	public TicketRatingDTO save(TicketRatingDTO dto) 
 	{
-		TicketDTO ticketForRate = servicesProxy.getTicketById(dto.getTicketId());
+		//TicketDTO ticketForRate = servicesProxy.getTicketById(dto.getTicketId());
 		UserDTO userWhoRates = servicesProxy.getUserById(dto.getUserId());
 		
-		if(ticketForRate.getId()!=null && userWhoRates.getId()!=null && dto.getRating()>0 && dto.getRating()<6) {
+		//if(ticketForRate.getId()!=null && userWhoRates.getId()!=null && dto.getRating()>0 && dto.getRating()<6) {
 			
 			TicketRating rating = ticketConv.convertFromDTO(dto);
 			rating.setRatingDate(LocalDateTime.now());
 			ticketRepo.save(rating);
 			
-			return dto;
+			//return dto;
 			
-		}
+		//}
 		
-		return new TicketRatingDTO();
+		return dto;
 	}
 
 	@Override

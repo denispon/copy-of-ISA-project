@@ -1,5 +1,6 @@
 package com.ftn.isa.projekat.purchases.purchasesCore.carRating.service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -13,7 +14,7 @@ public interface ICarRatingService {
 	
 	public List<CarRatingDTO> findAll();
 	
-	public CarRatingDTO save (CarRatingDTO carRatingToSave);
+	public CarRatingDTO save (CarRatingDTO carRatingToSave, LocalDateTime date);
 	
 	public CarRatingDTO deleteById ( Long id );
 	

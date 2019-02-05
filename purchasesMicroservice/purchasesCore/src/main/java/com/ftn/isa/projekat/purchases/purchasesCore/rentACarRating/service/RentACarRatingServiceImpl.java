@@ -68,42 +68,47 @@ public class RentACarRatingServiceImpl implements IRentACarRatingService {
 	}
 
 	@Override
-	public RentACarRatingDTO save(RentACarRatingDTO rentAcarRatingToSave) {
-		
-		/* 
-		 * 
-		 * First we need to check if user and rent a car service exits...
-		 * 
-		 * */
-		
-		UserDTO user = servicesProxy.getUserById(rentAcarRatingToSave.getUserId());
-		RentACarServiceDTO rentService = servicesProxy.getRentACarServiceById(rentAcarRatingToSave.getRentACarId());
+	public RentACarRatingDTO save(RentACarRatingDTO rentAcarRatingToSave, LocalDateTime date) {
 		
 		
-		if(user.getId()!=null && rentService.getId()!=null && rentAcarRatingToSave.getRating()>0 && rentAcarRatingToSave.getRating()<6) {
+		//User can rate only at the end of reservation!!
+		if(LocalDateTime.now().isAfter(date)) {
 		
-			//checking if there is already exits rating
-			Optional<RentACarRating> foundRating = rentAcarRatingRepository.findByUserIdAndRentACarId(user.getId(),rentService.getId());
+			/* 
+			 * 
+			 * First we need to check if user and rent a car service exits...
+			 * 
+			 * */
 			
-			if(foundRating.isPresent()) {
+			UserDTO user = servicesProxy.getUserById(rentAcarRatingToSave.getUserId());
+			RentACarServiceDTO rentService = servicesProxy.getRentACarServiceById(rentAcarRatingToSave.getRentACarId());
+			
+			
+			if(user.getId()!=null && rentService.getId()!=null && rentAcarRatingToSave.getRating()>0 && rentAcarRatingToSave.getRating()<6) {
+			
+				//checking if there is already exits rating
+				Optional<RentACarRating> foundRating = rentAcarRatingRepository.findByUserIdAndRentACarId(user.getId(),rentService.getId());
 				
-				foundRating.get().setRating(rentAcarRatingToSave.getRating());
-				foundRating.get().setRatingDate(LocalDateTime.now());
-				
-				rentAcarRatingRepository.save(foundRating.get());
-				
-				rentAcarRatingToSave.setId(foundRating.get().getId());
-				
+				if(foundRating.isPresent()) {
+					
+					foundRating.get().setRating(rentAcarRatingToSave.getRating());
+					foundRating.get().setRatingDate(LocalDateTime.now());
+					
+					rentAcarRatingRepository.save(foundRating.get());
+					
+					rentAcarRatingToSave.setId(foundRating.get().getId());
+					
+				}
+				else{
+					RentACarRating rating = rentAcarRatingConverter.convertFromDTO(rentAcarRatingToSave);
+					rating.setRatingDate(LocalDateTime.now());
+					
+					RentACarRating savedServiceRating =rentAcarRatingRepository.save(rating);
+					rentAcarRatingToSave.setId(savedServiceRating.getId());
+				}
+				return rentAcarRatingToSave;
+			
 			}
-			else{
-				RentACarRating rating = rentAcarRatingConverter.convertFromDTO(rentAcarRatingToSave);
-				rating.setRatingDate(LocalDateTime.now());
-				
-				RentACarRating savedServiceRating =rentAcarRatingRepository.save(rating);
-				rentAcarRatingToSave.setId(savedServiceRating.getId());
-			}
-			return rentAcarRatingToSave;
-		
 		}
 		
 		return new RentACarRatingDTO();

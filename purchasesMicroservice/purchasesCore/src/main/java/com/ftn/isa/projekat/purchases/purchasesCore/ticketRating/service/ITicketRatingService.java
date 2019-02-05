@@ -2,8 +2,10 @@ package com.ftn.isa.projekat.purchases.purchasesCore.ticketRating.service;
 
 import java.util.List;
 
-import com.ftn.isa.projekat.purchases.purchasesApi.dto.TicketRatingDTO;
+import org.springframework.stereotype.Service;
 
+import com.ftn.isa.projekat.purchases.purchasesApi.dto.TicketRatingDTO;
+@Service
 public interface ITicketRatingService {
 
 	TicketRatingDTO findOneById(Long id);

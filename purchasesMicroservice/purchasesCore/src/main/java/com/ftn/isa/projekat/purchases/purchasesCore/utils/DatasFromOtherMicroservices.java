@@ -3,12 +3,6 @@ package com.ftn.isa.projekat.purchases.purchasesCore.utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.ftn.isa.projekat.avioCompany.avioCompanyApi.client.AvioCompanyClient;
-import com.ftn.isa.projekat.avioCompany.avioCompanyApi.client.FlightClient;
-import com.ftn.isa.projekat.avioCompany.avioCompanyApi.client.TicketClient;
-import com.ftn.isa.projekat.avioCompany.avioCompanyApi.dto.AvioCompanyDTO;
-import com.ftn.isa.projekat.avioCompany.avioCompanyApi.dto.FlightDTO;
-import com.ftn.isa.projekat.avioCompany.avioCompanyApi.dto.TicketDTO;
 import com.ftn.isa.projekat.hotel.hotelApi.client.CenovnikUslugaClient;
 import com.ftn.isa.projekat.hotel.hotelApi.client.DodatneUslugeClient;
 import com.ftn.isa.projekat.hotel.hotelApi.client.HotelClient;
@@ -21,9 +15,11 @@ import com.ftn.isa.projekat.hotel.hotelApi.dto.HotelskaSobaDTO;
 import com.ftn.isa.projekat.hotel.hotelApi.dto.RezervacijeSobeDTO;
 import com.ftn.isa.projekat.rentACar.rentACarApi.client.CarClient;
 import com.ftn.isa.projekat.rentACar.rentACarApi.client.CarReservationClient;
+import com.ftn.isa.projekat.rentACar.rentACarApi.client.IncomeClient;
 import com.ftn.isa.projekat.rentACar.rentACarApi.client.RentACarServiceClient;
 import com.ftn.isa.projekat.rentACar.rentACarApi.dto.CarDTO;
 import com.ftn.isa.projekat.rentACar.rentACarApi.dto.CarReservationDTO;
+import com.ftn.isa.projekat.rentACar.rentACarApi.dto.IncomeDTO;
 import com.ftn.isa.projekat.rentACar.rentACarApi.dto.RentACarServiceDTO;
 import com.ftn.isa.projekat.user.userApi.client.UserClient;
 import com.ftn.isa.projekat.user.userApi.dto.UserDTO;
@@ -45,6 +41,7 @@ public class DatasFromOtherMicroservices {
 	@Autowired
 	CenovnikUslugaClient cenovnikReservationClient;
 	
+	/*
 	@Autowired
 	AvioCompanyClient avioClient;
 	
@@ -53,12 +50,16 @@ public class DatasFromOtherMicroservices {
 	
 	@Autowired
 	TicketClient ticketClient;
+	*/
 	
 	@Autowired
 	CarClient carClient;
 	
 	@Autowired
 	RentACarServiceClient rentClient;
+	
+	@Autowired
+	IncomeClient incomeClient;
 	
 	@Autowired
 	HotelClient hotelClient;
@@ -69,6 +70,7 @@ public class DatasFromOtherMicroservices {
 	@Autowired
 	UserClient userClient;
 	
+	/*
 	public TicketDTO deleteTicketReservation(Long id)
 	{
 		TicketDTO ticketRes = null;
@@ -80,6 +82,7 @@ public class DatasFromOtherMicroservices {
 		}
 		return ticketRes;
 	}
+	*/
 	
 	public CarReservationDTO deleteCarReservation(Long id) {
 		CarReservationDTO carReservation = null;
@@ -114,6 +117,7 @@ public class DatasFromOtherMicroservices {
 		return uslugaReservation;
 	}
 	
+	/*
 	public TicketDTO addTicketReservation(TicketDTO ticket)
 	{
 		
@@ -125,7 +129,7 @@ public class DatasFromOtherMicroservices {
 			return new TicketDTO();
 		}
 		return ticketRes;
-	}
+	}*/
 	
 	public CarReservationDTO addCarReservation(CarReservationDTO carResercation) {
 		
@@ -137,6 +141,19 @@ public class DatasFromOtherMicroservices {
 			return new CarReservationDTO();
 		}
 		return carReservation;
+	}
+	
+	public IncomeDTO addRentIncome(IncomeDTO income) {
+		
+		IncomeDTO income1 = null;
+		try {
+			income1 = incomeClient.addIncome(income);
+		}
+		catch(FeignException e) {
+			return new IncomeDTO();
+		}
+		return income1;
+		
 	}
 	
 	public DodatneUslugeDTO addUslugaReservation(DodatneUslugeDTO uslugaReservationParam) {
@@ -163,6 +180,7 @@ public class DatasFromOtherMicroservices {
 			return roomReservation;
 		}
 	
+	/*
 	public TicketDTO getTicketById(Long id) 
 	{
 		
@@ -176,6 +194,7 @@ public class DatasFromOtherMicroservices {
 		}		
 		return ticketRes;
 	}
+	*/
 	
 	public CarReservationDTO getCarReservationById(Long id) {
 		
@@ -229,6 +248,7 @@ public class DatasFromOtherMicroservices {
 		return roomReservation;
 	}
 	
+	/*
 	public FlightDTO getFlightById(Long id)
 	{
 		FlightDTO flight = null;
@@ -240,6 +260,7 @@ public class DatasFromOtherMicroservices {
 		}
 		return flight;
 	}
+	*/
 	
 	public CarDTO getCarById(Long id) {
 		
@@ -265,6 +286,7 @@ public class DatasFromOtherMicroservices {
 			return room;
 		}
 	
+	/*
 	public AvioCompanyDTO getAvioCompanyServiceById(Long avioCompanyId) 
 	{
 		AvioCompanyDTO avioService = null;
@@ -276,6 +298,7 @@ public class DatasFromOtherMicroservices {
 		}
 		return avioService;
 	}
+	*/
 	
 	public RentACarServiceDTO getRentACarServiceById(Long id) {
 		

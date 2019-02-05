@@ -42,7 +42,7 @@ export const getCarReservation = (id) => {
 export const createUserShoppingCart = (userId) => {
 
     return (dispatch, getState) => {
-        axios.post('http://localhost:8095/api/purchases/shoppingCart/', { id: -1, bonusPoints: 0, userId: userId, carReservationId: null, roomReservationId: null, price: 0 })
+        axios.post('http://localhost:8095/api/purchases/shoppingCart/', { id: -1, bonusPoints: 0, userId: userId, carReservationId: null, roomReservationId: null, uslugaReservationId: null, cenovnikReservationId: null, price: 0 })
             .then(res => {
                 console.log(res.data)
                 dispatch({ type: 'CREATE_USER_SHOPPING_CART', userShoppingCart: res.data })
@@ -160,11 +160,11 @@ export const deleteBonusPointsDiscount = (id) => {
 }
 
 
-export const rateRentACarService = (userId, idService, rating) => {
+export const rateRentACarService = (date, userId, idService, rating) => {
 
     return (dispatch, getState) => {
 
-        axios.post('http://localhost:8095/api/purchases/rentACarRating/', { id: -1, userId: userId, rentACarId: idService, rating: rating })
+        axios.post('http://localhost:8095/api/purchases/rentACarRating/' + date, { id: -1, userId: userId, rentACarId: idService, rating: rating })
             .then(res => {
                 console.log(res);
                 dispatch({ type: 'RATE_RENT_A_CAR', rating: res.data });
@@ -173,11 +173,11 @@ export const rateRentACarService = (userId, idService, rating) => {
 }
 
 
-export const rateCar = (userId, idCar, rating) => {
+export const rateCar = (date, userId, idCar, rating) => {
 
     return (dispatch, getState) => {
 
-        axios.post('http://localhost:8095/api/purchases/carRating/', { id: -1, userId: userId, carId: idCar, rating: rating })
+        axios.post('http://localhost:8095/api/purchases/carRating/' + date, { id: -1, userId: userId, carId: idCar, rating: rating })
             .then(res => {
                 console.log(res);
                 dispatch({ type: 'RATE_CAR', rating: res.data });

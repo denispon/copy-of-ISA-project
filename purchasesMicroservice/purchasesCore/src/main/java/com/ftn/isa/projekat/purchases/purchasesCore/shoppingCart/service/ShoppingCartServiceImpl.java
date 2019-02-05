@@ -28,6 +28,7 @@ import com.ftn.isa.projekat.purchases.purchasesCore.shoppingCart.model.ShoppingC
 import com.ftn.isa.projekat.purchases.purchasesCore.shoppingCart.repository.ShoppingCartRepository;
 import com.ftn.isa.projekat.purchases.purchasesCore.utils.DatasFromOtherMicroservices;
 import com.ftn.isa.projekat.rentACar.rentACarApi.dto.CarReservationDTO;
+import com.ftn.isa.projekat.rentACar.rentACarApi.dto.IncomeDTO;
 import com.ftn.isa.projekat.user.userApi.dto.UserDTO;
 
 @Component
@@ -608,6 +609,26 @@ public class ShoppingCartServiceImpl implements IShoppingCartService{
 				Double jedanPosto = reservation.getPrice()/100;
 				DodatneUslugeDTO uslugaReservation = servicesProxy.getUslugaReservationById(reservation.getUslugaReservationId());
 				reservation.setPrice(reservation.getPrice() - (jedanPosto * uslugaReservation.getPopust()));
+			}
+			
+			
+			//NOW WE NEED TO ADD RENT A CAR SERVICE INCOME HERE
+			if(reservation.getCarReservationId()!=null) {
+				CarReservationDTO carReservation = servicesProxy.getCarReservationById(reservation.getCarReservationId());
+				
+				//Calclulating price for carResercation		
+				
+				long numberOfDaysOfReservation = Duration.between(carReservation.getDateFrom(), carReservation.getDateTo()).toDays();
+				
+				Double price = (double) (numberOfDaysOfReservation * carReservation.getReservedCar().getRentPrice());
+				
+				IncomeDTO income = new IncomeDTO();
+				income.setId(-1l);
+				income.setNumberOfCars(1);
+				income.setDate(LocalDateTime.now());
+				income.setRentIncome((int) Math.round(price));
+				income.setRentService(carReservation.getService());
+				IncomeDTO income11= servicesProxy.addRentIncome(income);
 			}
 			
 			//saving temporary reservation into final reservations

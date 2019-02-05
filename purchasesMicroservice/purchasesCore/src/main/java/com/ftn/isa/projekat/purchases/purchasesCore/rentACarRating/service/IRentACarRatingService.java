@@ -1,6 +1,7 @@
 package com.ftn.isa.projekat.purchases.purchasesCore.rentACarRating.service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -14,7 +15,7 @@ public interface IRentACarRatingService {
 	
 	public List<RentACarRatingDTO> findAll();
 	
-	public RentACarRatingDTO save (RentACarRatingDTO rentCarRatingToSave);
+	public RentACarRatingDTO save (RentACarRatingDTO rentCarRatingToSave, LocalDateTime date);
 	
 	public RentACarRatingDTO deleteById ( Long id );
 	

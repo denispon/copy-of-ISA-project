@@ -69,41 +69,44 @@ public class CarRatingServiceImpl implements ICarRatingService {
 	}
 
 	@Override
-	public CarRatingDTO save(CarRatingDTO carRatingToSave) {
+	public CarRatingDTO save(CarRatingDTO carRatingToSave, LocalDateTime date) {
 		
-		/*
-		 * First we need to see if car and user exits.If not, then we will return empty object..
-		 *  */
-		CarDTO carForRate = servicesProxy.getCarById(carRatingToSave.getCarId());
-		UserDTO userWhoRates = servicesProxy.getUserById(carRatingToSave.getUserId());
-		
-		if(carForRate.getId()!=null && userWhoRates.getId()!=null && carRatingToSave.getRating()>0 && carRatingToSave.getRating()<6) {
+		//User can rate only at the end of reservation!!
+		if(LocalDateTime.now().isAfter(date)) {
+			/*
+			 * First we need to see if car and user exits.If not, then we will return empty object..
+			 *  */
+			CarDTO carForRate = servicesProxy.getCarById(carRatingToSave.getCarId());
+			UserDTO userWhoRates = servicesProxy.getUserById(carRatingToSave.getUserId());
 			
-			//then we need to see if car rating already exits then we will override it 
-			Optional<CarRating> foundRating = carRatingRepository.findByUserIdAndCarId(userWhoRates.getId(),carForRate.getId());
-			
-			if(foundRating.isPresent()) {
+			if(carForRate.getId()!=null && userWhoRates.getId()!=null && carRatingToSave.getRating()>0 && carRatingToSave.getRating()<6) {
 				
-				foundRating.get().setRating(carRatingToSave.getRating());
-				foundRating.get().setRatingDate(LocalDateTime.now());
-
-				carRatingRepository.save(foundRating.get());
+				//then we need to see if car rating already exits then we will override it 
+				Optional<CarRating> foundRating = carRatingRepository.findByUserIdAndCarId(userWhoRates.getId(),carForRate.getId());
 				
-				carRatingToSave.setId(foundRating.get().getId());
+				if(foundRating.isPresent()) {
+					
+					foundRating.get().setRating(carRatingToSave.getRating());
+					foundRating.get().setRatingDate(LocalDateTime.now());
+	
+					carRatingRepository.save(foundRating.get());
+					
+					carRatingToSave.setId(foundRating.get().getId());
+				}
+				else {
+				
+				CarRating rating = carRatingConverter.convertFromDTO(carRatingToSave);
+				rating.setRatingDate(LocalDateTime.now());
+				CarRating savedCar = carRatingRepository.save(rating);
+				carRatingToSave.setId(savedCar.getId());
+	
+				}
+				
+				
+				
+				return carRatingToSave;
+				
 			}
-			else {
-			
-			CarRating rating = carRatingConverter.convertFromDTO(carRatingToSave);
-			rating.setRatingDate(LocalDateTime.now());
-			CarRating savedCar = carRatingRepository.save(rating);
-			carRatingToSave.setId(savedCar.getId());
-
-			}
-			
-			
-			
-			return carRatingToSave;
-			
 		}
 		
 		return new CarRatingDTO();

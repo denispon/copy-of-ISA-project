@@ -8,18 +8,17 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
-import com.ftn.isa.projekat.avioCompany.avioCompanyApi.dto.AvioCompanyDTO;
 import com.ftn.isa.projekat.purchases.purchasesApi.dto.AvioCompanyRatingDTO;
-import com.ftn.isa.projekat.purchases.purchasesApi.dto.RentACarRatingDTO;
 import com.ftn.isa.projekat.purchases.purchasesCore.avioCompanyRating.model.AvioCompanyRating;
 import com.ftn.isa.projekat.purchases.purchasesCore.avioCompanyRating.repository.AvioCompanyRatingRepository;
 import com.ftn.isa.projekat.purchases.purchasesCore.converter.DTOAvioCompanyRatingConverter;
-import com.ftn.isa.projekat.purchases.purchasesCore.rentACarRating.model.RentACarRating;
 import com.ftn.isa.projekat.purchases.purchasesCore.utils.DatasFromOtherMicroservices;
 import com.ftn.isa.projekat.rentACar.rentACarApi.dto.RentACarServiceDTO;
 import com.ftn.isa.projekat.user.userApi.dto.UserDTO;
 
+@Component
 public class AvioCompanyRatingServiceImpl implements IAvioCompanyRatingService
 {
 	@Autowired
@@ -114,10 +113,10 @@ public class AvioCompanyRatingServiceImpl implements IAvioCompanyRatingService
 		if(avioToChange.isPresent() && ratingDto != null) 
 		{
 			UserDTO user = servicesProxy.getUserById(ratingDto.getUserId());
-			AvioCompanyDTO avioService = servicesProxy.getAvioCompanyServiceById(ratingDto.getAvioCompanyId());
+		//	AvioCompanyDTO avioService = servicesProxy.getAvioCompanyServiceById(ratingDto.getAvioCompanyId());
 			
 			
-			if(user.getId()!=null && avioService.getId()!=null && ratingDto.getRating()>0 && ratingDto.getRating()<6) {
+		//	if(user.getId()!=null && avioService.getId()!=null && ratingDto.getRating()>0 && ratingDto.getRating()<6) {
 				
 				avioToChange.get().setAvioCompanyId(ratingDto.getAvioCompanyId());
 				avioToChange.get().setRating(ratingDto.getRating());
@@ -130,7 +129,7 @@ public class AvioCompanyRatingServiceImpl implements IAvioCompanyRatingService
 					
 				return ratingDto;
 			
-			}
+			//}
 			
 		}
 		return new AvioCompanyRatingDTO();

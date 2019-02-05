@@ -3,11 +3,13 @@ package com.ftn.isa.projekat.purchases.purchasesCore.converter;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.ftn.isa.projekat.purchases.purchasesApi.dto.AvioCompanyRatingDTO;
 import com.ftn.isa.projekat.purchases.purchasesCore.avioCompanyRating.model.AvioCompanyRating;
 import com.ftn.isa.projekat.purchases.purchasesCore.avioCompanyRating.repository.AvioCompanyRatingRepository;
 
+@Component
 public class DTOAvioCompanyRatingConverter
 {
 	@Autowired
