@@ -5,10 +5,11 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 
-import com.ftn.isa.projekat.user.userApi.dto.UserDTO;
 import com.ftn.isa.projekat.user.userCore.user.model.User;
 
+@Repository
 public interface UserRepository extends JpaRepository<User,Long>{
 
 	@Query(value="select * from user where id in (select invited_user from friend_request where source_user=:id and status='active')" + 
@@ -19,9 +20,11 @@ public interface UserRepository extends JpaRepository<User,Long>{
 
 	Optional<User> findOneByEmail(String email);
 
-	Optional<List<User>> findAllByRolesId(Long id);
+	Optional<List<User>> findAllByRoleId(Long id);
 
 	@Query(value="select * from user where id in(select source_user from friend_request where invited_user =:id and status='pending');",nativeQuery=true)	
 	Optional<List<User>> getAllFriendRequests(Long id);
+
+	Optional<User> findByEmailAndPassword(String email, String password);
 
 }

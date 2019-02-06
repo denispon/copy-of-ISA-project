@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.ftn.isa.projekat.user.userApi.dto.UserCredentialsDTO;
 import com.ftn.isa.projekat.user.userApi.dto.UserDTO;
 import com.ftn.isa.projekat.user.userApi.dto.UserForRegistrationDTO;
 
@@ -32,6 +33,8 @@ public interface IUserService {
 	public List<UserDTO> findUsersByRole(Long id);
 
 	public UserDTO changeRoleOfUser(Long userId, Long roleId);
+
+	public UserDTO loginUser(UserCredentialsDTO userCredentials);
 
 	
 	

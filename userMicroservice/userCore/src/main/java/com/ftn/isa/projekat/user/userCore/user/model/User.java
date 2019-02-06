@@ -55,10 +55,9 @@ public class User {
 	private boolean active;
 	
 	
-	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinTable(name = "role",
-            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
-    private List<UserRole> roles;
+	@JsonIgnore
+	@ManyToOne ()
+	@JoinColumn (name="role",nullable = true)
+    private UserRole role;
 	
 }

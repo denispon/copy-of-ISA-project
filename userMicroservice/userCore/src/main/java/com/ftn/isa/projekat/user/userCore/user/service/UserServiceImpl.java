@@ -12,6 +12,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
+import com.ftn.isa.projekat.user.userApi.dto.UserCredentialsDTO;
 import com.ftn.isa.projekat.user.userApi.dto.UserDTO;
 import com.ftn.isa.projekat.user.userApi.dto.UserForRegistrationDTO;
 import com.ftn.isa.projekat.user.userCore.converter.DTOUserConverter;
@@ -198,6 +199,11 @@ public class UserServiceImpl implements IUserService {
 		userForSave.setSurname(dto.getSurname());
 		userForSave.setTelephoneNumber(dto.getTelephoneNumber());
 		
+		Optional<UserRole> role = roleRepository.findById((long) 1);
+		
+		if(role.isPresent())
+			userForSave.setRole(role.get());
+		
 		User savedUser= userRepository.save(userForSave);
 		
 		sendEmail(savedUser);
@@ -246,7 +252,7 @@ public class UserServiceImpl implements IUserService {
 	@Override
 	public List<UserDTO> findUsersByRole(Long id) {
 		
-		Optional<List<User>> users = userRepository.findAllByRolesId(id);
+		Optional<List<User>> users = userRepository.findAllByRoleId(id);
 		
 		if(users.isPresent()) {
 			
@@ -275,11 +281,8 @@ public class UserServiceImpl implements IUserService {
 			Optional<UserRole> userRole = roleRepository.findById(roleId);
 			
 			if(userRole.isPresent()) {
-				
-				ArrayList<UserRole> userRoles = new ArrayList<UserRole>();
-				userRoles.add(userRole.get());
-				
-				foundUser.get().setRoles(userRoles);
+							
+				foundUser.get().setRole(userRole.get());
 
 				userRepository.save(foundUser.get());
 				return userConverter.convertToDTO(foundUser.get());
@@ -318,6 +321,21 @@ public class UserServiceImpl implements IUserService {
 		
 		
 		return Collections.emptyList();
+	}
+
+	@Override
+	public UserDTO loginUser(UserCredentialsDTO userCredentials) {
+		
+		Optional<User> user = userRepository.findByEmailAndPassword(userCredentials.getEmail(),userCredentials.getPassword());
+		
+		if(user.isPresent()) {
+			
+			return userConverter.convertToDTO(user.get());
+			
+		}
+		
+		return new UserDTO();
+		
 	}
 
 }

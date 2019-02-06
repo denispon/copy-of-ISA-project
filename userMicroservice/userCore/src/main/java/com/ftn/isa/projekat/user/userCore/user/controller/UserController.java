@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ftn.isa.projekat.user.userApi.dto.UserCredentialsDTO;
 import com.ftn.isa.projekat.user.userApi.dto.UserDTO;
 import com.ftn.isa.projekat.user.userApi.dto.UserForRegistrationDTO;
 import com.ftn.isa.projekat.user.userCore.user.service.IUserService;
@@ -172,6 +173,14 @@ public class UserController {
 		UserDTO user = userService.changeRoleOfUser(userId,roleId);
 		
 		
+	    return ( user.getId() != null )? new ResponseEntity<UserDTO>(user,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	}
+	
+	@PostMapping("/login")
+	public ResponseEntity<UserDTO> loginUser(@RequestBody UserCredentialsDTO userCredentials){
+		
+		UserDTO user = userService.loginUser(userCredentials);
+			
 	    return ( user.getId() != null )? new ResponseEntity<UserDTO>(user,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
 	

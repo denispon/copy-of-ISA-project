@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ftn.isa.projekat.user.userCore.user.model.User;
 
 import lombok.Data;
@@ -27,5 +28,9 @@ public class UserRole {
 	
 	@Column (name= "role", nullable= false)
 	private String role;
+	
+	@JsonIgnore
+	@OneToMany (mappedBy="role")
+	private List<User> users;
 	
 }
