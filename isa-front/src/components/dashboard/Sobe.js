@@ -9,7 +9,8 @@ class Sobe extends Component {
     state = {
         sobe: [],
         cenaMin:"-1",
-        cenaMax:"-1"
+        cenaMax:"-1",
+        ocene:[]
     }
 
     componentDidMount() {
@@ -33,6 +34,13 @@ class Sobe extends Component {
                 })
             }) 
         }
+
+        axios.get('http://localhost:8095/api/hotel/hotelskaSobaRating/all')
+                .then(res => {
+                    this.setState({
+                        ocene: res.data
+                    })
+                })
     }
 
     handleChange = (e) => {
@@ -67,8 +75,21 @@ class Sobe extends Component {
     render() {
         const sobe = this.state.sobe;
         var imeHotela = "";
+        var suma = 0;
+        var count = 0;
         const sobeList = sobe.length ? (sobe.map(soba => {
             imeHotela = soba.hotel_hotelskeSobe.name;
+            suma = 0;
+            count = 0;
+            this.state.ocene.map(ocena =>{
+                if(ocena.hotelskaSobaId == soba.id){
+                    suma += ocena.rating;
+                    count++;
+                }
+            })
+
+            var prosecnaOcena = suma / count;
+           
             return (
                 <div className="post card grey lighten-2">
                     <div className="card-content container">
@@ -77,6 +98,7 @@ class Sobe extends Component {
                             <p>Sprat: {soba.floor}</p>
                             <p>Cena: {soba.originalnaCena}</p>
                             <p>Tip sobe: {soba.tipSobe_hotelskeSobe.roomType}</p>
+                            <p>Procecna ocena: {prosecnaOcena}/5</p>
                         </div>
                     </div>
                 </div>

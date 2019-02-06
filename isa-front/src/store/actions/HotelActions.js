@@ -37,6 +37,7 @@ export const editHotel = (hotel) =>{
 
 }
 
+
 export const filterHotel = (filter) =>{
     return (dispatch, getState) =>{
         const imeAdresa = filter.ime_adresa

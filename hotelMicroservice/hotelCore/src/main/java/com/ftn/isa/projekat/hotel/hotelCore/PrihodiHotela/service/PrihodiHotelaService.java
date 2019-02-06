@@ -15,6 +15,8 @@ import com.ftn.isa.projekat.hotel.hotelCore.CenovnikUsluga.model.CenovnikUsluga;
 import com.ftn.isa.projekat.hotel.hotelCore.Hotel.repository.HotelRepository;
 import com.ftn.isa.projekat.hotel.hotelCore.PrihodiHotela.model.PrihodiHotela;
 import com.ftn.isa.projekat.hotel.hotelCore.PrihodiHotela.repository.PrihodiHotelaRepository;
+import com.ftn.isa.projekat.hotel.hotelCore.RezervacijeSobe.model.RezervacijeSobe;
+import com.ftn.isa.projekat.hotel.hotelCore.RezervacijeSobe.repository.RezervacijeSobeRepository;
 import com.ftn.isa.projekat.hotel.hotelCore.dtoConverter.DTOHotelConverter;
 import com.ftn.isa.projekat.hotel.hotelCore.dtoConverter.DTOPrihodiHotelaConverter;
 
@@ -29,6 +31,9 @@ public class PrihodiHotelaService implements IPrihodiHotelaService{
 	
 	@Autowired
 	PrihodiHotelaRepository prihodiHotelaRepository;
+	
+	@Autowired
+	RezervacijeSobeRepository rezervacijeRepository;
 	
 	@Autowired
 	DTOPrihodiHotelaConverter prihodiHotelaConverter;
@@ -99,11 +104,11 @@ public class PrihodiHotelaService implements IPrihodiHotelaService{
 	
 	public int getPrihodiHotela(Long id, Date datumOd, Date datumDo) {
 		int suma = 0;
-		Optional<List<PrihodiHotela>> list = Optional.of(prihodiHotelaRepository.findAll());
-		for(PrihodiHotela ph : list.get()) {
-			if(ph.getHotel_prihodiHotela().getId() == id) {
-				if((ph.getIncomeDate().after(datumOd) || ph.getIncomeDate().equals(datumOd)) && (ph.getIncomeDate().before(datumDo) || ph.getIncomeDate().equals(datumDo))) {
-					suma = suma + ph.getIncome(); 
+		Optional<List<RezervacijeSobe>> list = Optional.of(rezervacijeRepository.findAll());
+		for(RezervacijeSobe ph : list.get()) {
+			if(ph.getHotel_rezervacijeSobe().getId() == id) {
+				if((ph.getDateFrom().after(datumOd) || ph.getDateFrom().equals(datumOd)) && (ph.getDateFrom().before(datumDo) || ph.getDateFrom().equals(datumDo))) {
+					suma = suma + ph.getTotalPrice(); 
 				}
 			}
 		}

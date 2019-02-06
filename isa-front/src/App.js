@@ -50,6 +50,8 @@ import LoggedUserHotelList from "./components/dashboard/loggedUserHotel/LoggedUs
 import LoggedUserSobeList from "./components/dashboard/loggedUserHotel/LoggedUserSobeList";
 import LoggedUserCenovnikList from "./components/dashboard/loggedUserHotel/LoggedUserCenovnikList";
 import LoggedUserUslugeList from "./components/dashboard/loggedUserHotel/LoggedUserUslugeList";
+import ProsecneOceneAdmin from "./components/dashboard/izlistavanjeHotelAdmin/ProsecneOceneAdmin";
+import LoggedUserReservationForm from "./components/dashboard/loggedUserHotel/LoggedUserReservationForm";
 
 
 
@@ -126,6 +128,8 @@ class App extends Component {
             <Route path="/uslugeLogged/:hotelId" component={LoggedUserUslugeList}></Route>
             <Route path="/izlistavanjeCenaSobeAdmin/:sobaId" component={CenaSobeIzlistavanjeAdmin}></Route>
             <Route path="/posecenostPregled" component={PosecenostHotelaAdmin}></Route>
+            <Route path="/prosecneOceneAdmin/:hotelId" component={ProsecneOceneAdmin}></Route> 
+            <Route path="/rezervacijaLogged/:hotelId" component={LoggedUserReservationForm}></Route>
 
           </Switch>
         </div>

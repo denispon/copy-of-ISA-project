@@ -9,7 +9,8 @@ import axios from 'axios'
 class HotelIzlistavanje extends Component {
 
     state = {
-        hoteli: []
+        hoteli: [],
+        ocene: []
     }
 
     componentDidMount() {
@@ -23,6 +24,13 @@ class HotelIzlistavanje extends Component {
                 console.log(res);
                 this.setState({
                     hoteli: res.data
+                })
+
+                axios.get('http://localhost:8095/api/hotel/hotelRating/all')
+                .then(res => {
+                    this.setState({
+                        ocene: res.data
+                    })
                 })
             })
     }
@@ -41,7 +49,20 @@ class HotelIzlistavanje extends Component {
 
     render() {
         const { hoteli } = this.state;
+        var suma = 0;
+        var count = 0;
         const hoteliList = hoteli.length ? (hoteli.map(hotel => {
+            suma = 0;
+            count = 0;
+            this.state.ocene.map(ocena =>{
+                if(ocena.hotelId == hotel.id){
+                    suma += ocena.rating;
+                    count++;
+                }
+            })
+
+            var prosecnaOcena = suma / count;
+
             return (
                 <div className="post card grey lighten-2">
                     <div className="card-content container">
@@ -49,15 +70,17 @@ class HotelIzlistavanje extends Component {
                         <div className="left-align">
                             <p>Adresa: {hotel.adress}</p>
                             <p>Opis: {hotel.promotionalDescription}</p>
+                            <p>Procecna ocena: {prosecnaOcena}/5</p>
                             <button className="buttons btn-small waves-effect waves-light indigo right" onClick = {() => this.handleUslugeClick(hotel.id)}>Dodatne usluge</button>
                             <button className="buttons btn-small waves-effect waves-light indigo right" onClick = {() => this.handleCenovnikClick(hotel.id)}>Cenovnik usluga</button>
                             <button className="buttons btn-small waves-effect waves-light indigo right" onClick = {() => this.handleSobeClick(hotel.id)}>Sobe</button>
-                            <Link to="/#">Prikaz na mapi</Link>
                         </div>
                     </div>
-                </div>
-            )
+                </div> 
+            )   
+
         })) : (<div className="center">Nije pronadjen nijedan hotel.</div>)
+        
 
         return (
             <div>
@@ -67,9 +90,10 @@ class HotelIzlistavanje extends Component {
                     {hoteliList}
                 </div>
             </div>
-        )
+        ) 
     }
 }
+
 
 export default HotelIzlistavanje;
 

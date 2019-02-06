@@ -91,15 +91,20 @@ public class HotelRatingService implements IHotelRatingService{
 		int count = lista.size();
 		int suma = 0;
 		Double prosek = 0.0;
-		for(HotelRating hr : lista) {
-			suma+=hr.getRating();
+		if(count != 0) {
+			for(HotelRating hr : lista) {
+				suma+=hr.getRating();
+			}
+			
+			Double a = (double) suma;
+			Double b = (double) count;
+			prosek = (double) (a/b);
+			Double roundOff = Math.round(prosek * 100.0) / 100.0;
+			
+			return roundOff;
+		}else {
+			return 0.0;
 		}
-		Double a = (double) suma;
-		Double b = (double) count;
-		prosek = (double) (a/b);
-		Double roundOff = Math.round(prosek * 100.0) / 100.0;
-		
-		return roundOff;
 	}
 	
 

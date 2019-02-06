@@ -9,6 +9,7 @@ class HotelIzlistavanjeAdmin extends Component {
 
     state = {
         hoteli: [],
+        ocene: []
     }
 
     componentDidMount() {
@@ -17,6 +18,13 @@ class HotelIzlistavanjeAdmin extends Component {
                 console.log(res);
                 this.setState({
                     hoteli: res.data
+                })
+            })
+
+            axios.get('http://localhost:8095/api/hotel/hotelRating/all')
+            .then(res => {
+                this.setState({
+                    ocene: res.data
                 })
             })
     }
@@ -41,7 +49,20 @@ class HotelIzlistavanjeAdmin extends Component {
 
     render() {
         const { hoteli } = this.state;
+        var suma = 0;
+        var count = 0;
         const hoteliList = hoteli.length ? (hoteli.map(hotel => {
+            suma = 0;
+            count = 0;
+            this.state.ocene.map(ocena =>{
+                if(ocena.hotelId == hotel.id){
+                    suma += ocena.rating;
+                    count++;
+                }
+            })
+
+            var prosecnaOcena = suma / count;
+
             return (
                 <div className="post card grey lighten-2">
                     <div className="card-content container">
@@ -51,11 +72,9 @@ class HotelIzlistavanjeAdmin extends Component {
                         <div className="left-align">
                             <p>Adresa: {hotel.adress}</p>
                             <p>Opis: {hotel.promotionalDescription}</p>
-                            <Link to="/#">Prikaz na mapi</Link>
+                            <p>Procecna ocena: {prosecnaOcena}/5</p>
                             <button className="btn-floating btn-large waves-effect waves-light red right" onClick = {() => this.handleDeleteClick(hotel.id)}><i>x</i></button>
                             <button className="btn-floating btn-large waves-effect waves-light green right" onClick = {() => this.handleIzmeniClick(hotel.id)}>Izmeni</button>
-                            <p className="w hide">Adresa: {hotel.adress}</p>
-                            <p className="w hide">Opis: {hotel.promotionalDescription}</p>
                         </div>
                     </div>
                 </div>

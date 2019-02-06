@@ -10,6 +10,7 @@ class HotelskaSobaIzlistavanjeAdmin extends Component {
 
     state = {
         sobe: [],
+        ocene:[]
     }
 
     componentDidMount() {
@@ -20,6 +21,13 @@ class HotelskaSobaIzlistavanjeAdmin extends Component {
                     sobe: res.data
                 })
             })
+
+            axios.get('http://localhost:8095/api/hotel/hotelskaSobaRating/all')
+                .then(res => {
+                    this.setState({
+                        ocene: res.data
+                    })
+                })
     }
 
     handleDeleteClick = (sobaId) => {
@@ -37,12 +45,26 @@ class HotelskaSobaIzlistavanjeAdmin extends Component {
     render() {
         const { sobe } = this.state;
         var rezervisano = "";
+        var suma = 0;
+        var count = 0;
         const sobeList = sobe.length ? (sobe.map(soba => {
             if(soba.reserved){
                 rezervisano = "DA";
             }else{
                 rezervisano = "NE";
             }
+
+            suma = 0;
+            count = 0;
+            this.state.ocene.map(ocena =>{
+                if(ocena.hotelskaSobaId == soba.id){
+                    suma += ocena.rating;
+                    count++;
+                }
+            })
+
+            var prosecnaOcena = suma / count;
+
             return (
                 <div className="post card grey lighten-2">
                     <div className="card-content container">
@@ -55,6 +77,7 @@ class HotelskaSobaIzlistavanjeAdmin extends Component {
                             <p>Rezervisana: {rezervisano}</p>
                             <p>Tip sobe: {soba.tipSobe_hotelskeSobe.roomType}</p>
                             <p>Hotel: {soba.hotel_hotelskeSobe.name} {soba.hotel_hotelskeSobe.adress}</p>
+                            <p>Procecna ocena: {prosecnaOcena}/5</p>
                             <button className="dugmici1 btn-floating btn-large waves-effect waves-light red right" onClick = {() => this.handleDeleteClick(soba.id)}><i>x</i></button>
                             <button className="dugmici2 btn-floating btn-large waves-effect waves-light green right" onClick = {() => this.handleIzmeniClick(soba.id)}>Izmeni</button>
                             <button className="dugmici2 btn-floating btn-large waves-effect waves-light green right" onClick = {() => this.handleCeneClick(soba.id)}>Cene</button>

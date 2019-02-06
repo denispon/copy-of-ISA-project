@@ -6,7 +6,8 @@ import Axios from 'axios';
 class LoggedUserSobeList extends Component {
 
     state = {
-        sobe: []
+        sobe: [],
+        ocene:[]
         /*cenaMin:"-1",
         cenaMax:"-1"*/
     }
@@ -23,6 +24,13 @@ class LoggedUserSobeList extends Component {
                     sobe: res.data
                 })
             })
+
+            axios.get('http://localhost:8095/api/hotel/hotelskaSobaRating/all')
+                .then(res => {
+                    this.setState({
+                        ocene: res.data
+                    })
+                })
         /*}else{
             axios.get('http://localhost:8092/api/hotel/rezervacije/'+id+'/'+ datumOd +'/' + datumDo)
             .then(res => {
@@ -76,14 +84,28 @@ class LoggedUserSobeList extends Component {
     }*/
 
     handleClick = (e) => {
-        this.props.history.push('/cenovniciLogged/'+this.props.match.params.hotelId)
+        this.props.history.push('/rezervacijaLogged/'+this.props.match.params.hotelId)
     }
 
     render() {
         const sobe = this.state.sobe;
         var imeHotela = "";
+        var suma = 0;
+        var count = 0;
         const sobeList = sobe.length ? (sobe.map(soba => {
             imeHotela = soba.hotel_hotelskeSobe.name;
+
+            suma = 0;
+            count = 0;
+            this.state.ocene.map(ocena =>{
+                if(ocena.hotelskaSobaId == soba.id){
+                    suma += ocena.rating;
+                    count++;
+                }
+            })
+
+            var prosecnaOcena = suma / count;
+
             return (
                 <div className="post card grey lighten-2">
                     <div className="card-content container">
@@ -92,6 +114,7 @@ class LoggedUserSobeList extends Component {
                             <p>Sprat: {soba.floor}</p>
                             <p>Cena: {soba.originalnaCena}</p>
                             <p>Tip sobe: {soba.tipSobe_hotelskeSobe.roomType}</p>
+                            <p>Procecna ocena: {prosecnaOcena}/5</p>
                             <button className = "right" onClick = {this.handleClick}>Rezervisi</button>
                         </div>
                     </div>
