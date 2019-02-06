@@ -330,7 +330,12 @@ public class UserServiceImpl implements IUserService {
 		
 		if(user.isPresent()) {
 			
-			return userConverter.convertToDTO(user.get());
+			if(user.get().isActive()) {
+				
+				return userConverter.convertToDTO(user.get());
+				
+			}
+			
 			
 		}
 		
