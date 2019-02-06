@@ -119,6 +119,7 @@ const purchasesReducer = (state = initState, action) => {
                 ...state,
                 carRatings: action.userRatings
             }
+
     }
     return state
 }

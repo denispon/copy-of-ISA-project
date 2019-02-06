@@ -212,3 +212,18 @@ export const getAllCarRatings = (userId) => {
             })
     }
 }
+
+
+export const cancelCarReservation = (reservationId) => {
+
+    return (dispatch, getState) => {
+
+        axios.post('http://localhost:8095/api/purchases/deleteCarReservation/' + reservationId)
+            .then(res => {
+                console.log(res);
+            })
+
+
+    }
+
+}

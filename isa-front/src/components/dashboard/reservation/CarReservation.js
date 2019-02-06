@@ -3,6 +3,8 @@ import StarRating from "./StarRating";
 import CancelReservation from "./CancelReservation"
 import DeleteFromShoppingCart from "./DeleteFromShoppingCart"
 import { BrowserRouter, Switch, Route } from "react-router-dom";
+import { connect } from "react-redux"
+import { cancelCarReservation } from "../../../store/actions/PurchasesActions"
 
 //Ovde imamo situaciju kada je objekat slozen iz vise objekata
 //pri prvom renderovanju ne ucitaju se svi objekti unutar njega
@@ -62,7 +64,12 @@ class CarReservation extends Component {
                                 <div className="col s4">
                                     <Switch>
                                         <Route exact path="/korpa" render={(props) => <DeleteFromShoppingCart removeRentACarReservationFromShoppingCart={this.props.removeRentACarReservationFromShoppingCart} userShoppingCart={this.props.userShoppingCart} />} ></Route>
-                                        <Route exact path="/userReservations" component={CancelReservation}></Route>
+                                        {this.props.reservationId ?
+                                            <Route exact path="/userReservations" render={(props) => <CancelReservation cancelCarReservation={this.props.cancelCarReservation} reservationId={this.props.reservationId}></CancelReservation>}></Route>
+                                            :
+                                            ''
+                                        }
+
                                     </Switch>
                                 </div>
                             </BrowserRouter>
@@ -99,4 +106,12 @@ class CarReservation extends Component {
 
 };
 
-export default CarReservation;
+const mapDispatchToProps = (dispatch) => {
+    return {
+        cancelCarReservation: (id) => dispatch(cancelCarReservation(id)),
+    }
+}
+
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(CarReservation);

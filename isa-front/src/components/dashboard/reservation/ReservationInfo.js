@@ -48,7 +48,7 @@ class ReservationInfo extends Component {
 
                         {this.props.rentCarReservations && this.props.rentCarReservations.find(el => el.id == this.props.reservation.carReservationId) ?
 
-                            <CarReservation userId={2} carRatings={this.props.carRatings} rentACarRatings={this.props.rentACarRatings} carReservation={this.props.rentCarReservations.find(el => el.id == this.props.reservation.carReservationId)} ></CarReservation>
+                            <CarReservation userId={2} carRatings={this.props.carRatings} rentACarRatings={this.props.rentACarRatings} reservationId={this.props.reservation.id} carReservation={this.props.rentCarReservations.find(el => el.id == this.props.reservation.carReservationId)} ></CarReservation>
                             :
                             ''
                         }
