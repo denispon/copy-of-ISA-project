@@ -1,6 +1,6 @@
 const initState = {
 
-    user: {},
+    user: undefined,
     useri: [],
     friends: [],
     friendRequests: []
@@ -38,6 +38,25 @@ const userReducer = (state = initState, action) => {
                 ...state,
                 user: action.user
             }
+
+        case 'LOG_IN_USER':
+            return {
+                ...state,
+                user: action.user
+            }
+
+        case 'LOAD_USER_AFTER_REFRESH':
+            return {
+                ...state,
+                user: action.user
+            }
+
+        case 'LOG_OUT_USER':
+            return {
+                ...state,
+                user: undefined
+            }
+
         default:
             break;
     }

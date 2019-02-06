@@ -10,7 +10,11 @@ class UserReservations extends Component {
 
     componentDidMount() {
 
-        this.props.getAllUserReservations(2);
+        var user = JSON.parse(localStorage.getItem('user'))
+        if (user) {
+            this.props.getAllUserReservations(user.id);
+        }
+
 
     }
 

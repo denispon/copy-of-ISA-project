@@ -4,8 +4,8 @@ import RentACarAdminTabs from "../../layout/tabs/RentACarAdminTabs";
 import AdminRentServiceInfo from "./AdminRentServiceInfo";
 import CarManipulation from "./CarManipulation";
 import CarDiscountManipulation from "./CarDiscountsManipulation";
-import { getOneRentService, getAllBranchOfficesByRentId, getAllCarsByRentId, getAllCarTypes, getAllCarDiscountsByRentId } from "../../../store/actions/RentACarActions"
-
+import { getOneRentService, getRentACarServiceId, getAllBranchOfficesByRentId, getAllCarsByRentId, getAllCarTypes, getAllCarDiscountsByRentId } from "../../../store/actions/RentACarActions"
+import { loadUserAfterRefresh } from "../../../store/actions/UserActions"
 import { connect } from "react-redux"
 import RentACarStatistic from "./RentACarStatistic";
 
@@ -16,11 +16,16 @@ class DashboardRentACarAdminLogged extends Component {
     }
 
     componentDidMount = () => {
-        this.props.getOneRentService(2);
-        this.props.getAllBranchOfficesByRentId(2);
-        this.props.getAllCarsByRentId(2);
-        this.props.getAllCarTypes();
-        this.props.getAllCarDiscountsByRentId(2);
+        var user = JSON.parse(localStorage.getItem('user'))
+        if (user) {
+            this.props.loadUserAfterRefresh(user);
+            this.props.getRentACarServiceId(user.id);
+
+            this.props.getAllCarTypes();
+
+
+        }
+
     }
 
     prikaziCardZaDodavanje = (e) => {
@@ -72,7 +77,8 @@ const mapStateToProps = (state) => {
         branchOffices: state.rentACar.branchOffices,
         cars: state.rentACar.cars,
         carTypes: state.rentACar.carTypes,
-        carDiscounts: state.rentACar.carDiscounts
+        carDiscounts: state.rentACar.carDiscounts,
+        rentServiceId: state.rentACar.rentACarServiceId
 
     }
 }
@@ -83,7 +89,9 @@ const mapDispatchToProps = (dispatch) => {
         getAllBranchOfficesByRentId: (id) => dispatch(getAllBranchOfficesByRentId(id)),
         getAllCarsByRentId: (id) => dispatch(getAllCarsByRentId(id)),
         getAllCarTypes: () => dispatch(getAllCarTypes()),
-        getAllCarDiscountsByRentId: (id) => dispatch(getAllCarDiscountsByRentId(id))
+        getAllCarDiscountsByRentId: (id) => dispatch(getAllCarDiscountsByRentId(id)),
+        getRentACarServiceId: (userId) => dispatch(getRentACarServiceId(userId)),
+        loadUserAfterRefresh: (user) => dispatch(loadUserAfterRefresh(user))
 
     }
 }

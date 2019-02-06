@@ -52,7 +52,8 @@ import LoggedUserCenovnikList from "./components/dashboard/loggedUserHotel/Logge
 import LoggedUserUslugeList from "./components/dashboard/loggedUserHotel/LoggedUserUslugeList";
 import ProsecneOceneAdmin from "./components/dashboard/izlistavanjeHotelAdmin/ProsecneOceneAdmin";
 import LoggedUserReservationForm from "./components/dashboard/loggedUserHotel/LoggedUserReservationForm";
-
+import { connect } from "react-redux"
+import { loadUserAfterRefresh } from "./store/actions/UserActions"
 
 
 
@@ -60,30 +61,80 @@ import LoggedUserReservationForm from "./components/dashboard/loggedUserHotel/Lo
 class App extends Component {
 
   render() {
+    if (localStorage.getItem('user') !== "undefined") {
+      var user = JSON.parse(localStorage.getItem('user'));
+    }
+    else {
+      var user = undefined;
+    }
+
     return (
       <BrowserRouter>
         <div className="App">
-          <Navbar />
+          <Navbar user={user} />
           <Switch>
-            <Route exact path="/" component={DashboardUserLogged}></Route>
-            <Route exact path="/" component={DashboardClassicUser} />
-            <Route exact path="/" component={DashboardRentACarAdminLogged}></Route>
+            {
+              user ?
+                ''
+                :
+                <Route exact path="/" component={DashboardClassicUser} />
+            }
 
-            <Route path="/userReservations" component={UserReservations}></Route>
-            <Route exact path="/invitations" component={InvitationPage} />
-            <Route path="/friends" component={Friends}></Route>
-            <Route path="/korpa" component={ShoppingCart}></Route>
-            <Route path="/userProfile" component={UserProfile}></Route>
+            {
+              user && user.role && user.role.role === "USER" ?
+                <div>
+                  <Route exact path="/" component={DashboardUserLogged}></Route>
+                  <Route path="/userReservations" component={UserReservations}></Route>
+                  <Route exact path="/invitations" component={InvitationPage} />
+                  <Route path="/friends" component={Friends}></Route>
+                  <Route path="/korpa" component={ShoppingCart}></Route>
+                  <Route path="/userProfile" component={UserProfile}></Route>
+                </div>
+                :
+                ''
+            }
+
+            {
+              user && user.role.role == "CARADMIN" ?
+                <div>
+                  <Route exact path="/" component={DashboardRentACarAdminLogged}></Route>
+                  <Route path="/userProfile" component={UserProfile}></Route>
+                </div>
+                :
+                ''
+            }
 
 
+            {
+              user && user.role.role == "ADMIN" ?
+                <div>
+                  <Route exact path="/" component={DashboardMainAdminLogged}></Route>
+                  <Route path="/userProfile" component={UserProfile}></Route>
 
-            <Route exact path="/" component={DashboardMainAdminLogged}></Route>
+                </div>
+                :
+                ''
+            }
+
+            {
+
+              user && user.role.role == "HOTELADMIN" ?
+                <div>
+
+                </div>
+                :
+                ''
+            }
 
 
+            {
+              user && user.role.role == "AVIOADMIN" ?
+                <div>
 
-
-
-
+                </div>
+                :
+                ''
+            }
 
             <Route path="/smestaj" component={HotelPretraga}></Route>
             <Route path="/letovi" component={LetoviPretraga}></Route>
@@ -138,4 +189,17 @@ class App extends Component {
   }
 }
 
-export default App;
+const mapStateToProps = (state) => {
+
+  return {
+    user: state.user.user
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    loadUserAfterRefresh: (user) => dispatch(loadUserAfterRefresh(user))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

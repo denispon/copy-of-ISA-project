@@ -342,3 +342,21 @@ export const getCarsOnDiscount = (dateFrom, dateTo) => {
     }
 
 }
+
+
+export const getRentACarServiceId = (userId) => {
+
+    return (dispatch, getState) => {
+
+        axios.get('http://localhost:8095/api/purchases/adminLink/user/' + userId)
+            .then(res => {
+                dispatch(getOneRentService(res.data.serviceId));
+                dispatch(getAllBranchOfficesByRentId(res.data.serviceId));
+                dispatch(getAllCarDiscountsByRentId(res.data.serviceId));
+                dispatch(getAllCarsByRentId(res.data.serviceId));
+
+                dispatch({ type: 'GET_RENT_SERVICE_ID_BY_RENT_ADMIN_ID', rentACarServiceId: res.data.serviceId })
+            })
+
+    }
+}

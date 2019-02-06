@@ -9,6 +9,7 @@ import { connect } from "react-redux";
 import { getAllCarTypes, getAllRentACarServices } from "../../../store/actions/RentACarActions"
 import { getAllBonusPointsDiscounts } from "../../../store/actions/PurchasesActions"
 import RentCarServiceManipulation from "./RentCarServiceManipulation"
+import { loadUserAfterRefresh } from "./../../../store/actions/UserActions"
 
 import AvioCompanyManipulation from "./avioCompany/AvioCompanyManipulation"
 
@@ -19,9 +20,15 @@ class DashboardMainAdminLogged extends Component {
     }
 
     componentDidMount() {
-        this.props.getAllCarTypes();
-        this.props.getAllBonusPointsDiscounts();
-        this.props.getAllRentACarServices();
+        var user = JSON.parse(localStorage.getItem('user'))
+        if (user) {
+            this.props.loadUserAfterRefresh(user);
+            this.props.getAllCarTypes();
+            this.props.getAllBonusPointsDiscounts();
+            this.props.getAllRentACarServices();
+        }
+
+
     }
 
     prikaziCardZaDodavanje = (e) => {
@@ -80,7 +87,8 @@ const mapDispatchToProps = (dispatch) => {
     return {
         getAllCarTypes: () => dispatch(getAllCarTypes()),
         getAllBonusPointsDiscounts: () => dispatch(getAllBonusPointsDiscounts()),
-        getAllRentACarServices: () => dispatch(getAllRentACarServices())
+        getAllRentACarServices: () => dispatch(getAllRentACarServices()),
+        loadUserAfterRefresh: (user) => dispatch(loadUserAfterRefresh(user))
     }
 }
 

@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { bindActionCreators } from '../../../../../../../AppData/Local/Microsoft/TypeScript/3.2/node_modules/redux';
 
 export const getUser = (id) => {
 
@@ -46,6 +47,46 @@ export const updateUser = (id, user) => {
                 console.log(res);
                 dispatch({ type: 'USER_CHANGES_HIS_ATRIBUTES', user: res.data });
             })
+
+    }
+
+}
+
+
+export const logInUser = (email, password) => {
+
+    return (dispatch, getState) => {
+
+        axios.post('http://localhost:8096/api/user/user/login', { email: email, password: password })
+            .then(res => {
+                console.log(res);
+                localStorage.setItem('user', JSON.stringify(res.data))
+                window.location = '/'
+                dispatch({ type: 'LOG_IN_USER', user: res.data });
+            })
+
+    }
+
+}
+
+export const loadUserAfterRefresh = (user) => {
+
+    return (dispatch, getState) => {
+        dispatch({ type: 'LOAD_USER_AFTER_REFRESH', user: user });
+    }
+
+}
+
+
+export const logOutUser = () => {
+
+    return (dispatch, getState) => {
+
+
+        localStorage.setItem('user', undefined)
+        window.location = '/'
+        dispatch({ type: 'LOG_OUT_USER', user: undefined });
+
 
     }
 

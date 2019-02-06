@@ -12,9 +12,13 @@ class ReservationInfo extends Component {
 
         this.props.addRentCarReservationToCollection(this.props.reservation.carReservationId);
 
-        this.props.getAllRentACarRatings(2);
+        var user = JSON.parse(localStorage.getItem('user'))
+        if (user) {
+            this.props.getAllRentACarRatings(user.id);
 
-        this.props.getAllCarRatings(2);
+            this.props.getAllCarRatings(user.id);
+        }
+
 
     }
 

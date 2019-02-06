@@ -6,7 +6,7 @@ import "./friends.css"
 import SendFriendRequest from "./SendFriendRequest";
 import FindFriend from "./FindFriend";
 import { connect } from "react-redux";
-import { getUserFriendRequests, getUserFriends } from "../../../store/actions/UserActions"
+import { getUserFriendRequests, getUserFriends, loadUserAfterRefresh } from "../../../store/actions/UserActions"
 
 
 class FriendsComponent extends Component {
@@ -16,9 +16,13 @@ class FriendsComponent extends Component {
     }
 
     componentDidMount() {
+        var user = JSON.parse(localStorage.getItem('user'))
+        if (user) {
+            this.props.loadUserAfterRefresh(user);
+            this.props.getUserFriendRequests(user.id);
+            this.props.getUserFriends(user.id);
+        }
 
-        this.props.getUserFriendRequests(2);
-        this.props.getUserFriends(2);
 
     }
 
@@ -89,7 +93,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         getUserFriendRequests: (id) => dispatch(getUserFriendRequests(id)),
-        getUserFriends: (id) => dispatch(getUserFriends(id))
+        getUserFriends: (id) => dispatch(getUserFriends(id)),
+        loadUserAfterRefresh: (user) => dispatch(loadUserAfterRefresh(user))
     }
 }
 

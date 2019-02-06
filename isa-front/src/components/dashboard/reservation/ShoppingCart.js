@@ -13,7 +13,12 @@ class ShoppingCart extends Component {
 
     componentDidMount() {
 
-        this.props.getUserShoppingCart(2);
+        var user = JSON.parse(localStorage.getItem('user'))
+        if (user) {
+            this.props.getUserShoppingCart(user.id);
+        }
+
+
 
     }
 

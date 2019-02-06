@@ -114,4 +114,4 @@ const mapDispatchToProps = (dispatch) => {
 
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(CarReservation);
+export default connect(null, mapDispatchToProps)(CarReservation);

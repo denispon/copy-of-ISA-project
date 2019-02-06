@@ -10,7 +10,8 @@ const initState = {
     sumOfIncome: undefined,
     takenCars: undefined,
     freeCars: undefined,
-    carOnDiscounts: undefined
+    carOnDiscounts: undefined,
+    rentACarServiceId: undefined
 
 }
 
@@ -152,6 +153,12 @@ const rentACarReducer = (state = initState, action) => {
                 ...state,
                 carsOnDiscount: action.carsOnDiscount
 
+            }
+
+        case 'GET_RENT_SERVICE_ID_BY_RENT_ADMIN_ID':
+            return {
+                ...state,
+                rentACarServiceId: action.rentACarServiceId
             }
     }
     return state
