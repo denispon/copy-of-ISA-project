@@ -22,6 +22,10 @@ class FriendsComponent extends Component {
 
     }
 
+    sortirajNizovePo = (e) => {
+
+    }
+
     render() {
         return (
 
@@ -43,6 +47,24 @@ class FriendsComponent extends Component {
                         <FriendRequest friendRequest={friendRequest} />
                     );
                 })}
+
+                <div>
+                    <div className="card">
+                        <div className="card-content">
+                            <div className="container">
+                                <form className="white">
+                                    <div className="input-field">
+                                        <label className="active" htmlFor="naziv">Sortiraj po</label>
+                                        <select onChange={this.sortirajNizovePo} className="browser-default">
+                                            <option value='naziv'>Imenu</option>
+                                            <option value='grad'>Prezimenu</option>
+                                        </select>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
                 {this.props.friends.map(friend => {
                     return (

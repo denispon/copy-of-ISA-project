@@ -328,3 +328,17 @@ export const getNumberOfTakenCars = (rentId, dateFrom, dateTo) => {
     }
 
 }
+
+
+
+export const getCarsOnDiscount = (dateFrom, dateTo) => {
+
+    return (dispatch, getState) => {
+
+        axios.get('http://localhost:8090/api/rentacar/car/currentlyDiscount/' + dateFrom + '/' + dateTo)
+            .then(res => {
+                dispatch({ type: 'GET_ALL_CARS_ON_DISCOUNT', carsOnDiscount: res.data })
+            })
+    }
+
+}

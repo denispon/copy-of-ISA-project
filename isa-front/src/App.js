@@ -69,7 +69,11 @@ class App extends Component {
             <Route exact path="/" component={DashboardClassicUser} />
             <Route exact path="/" component={DashboardRentACarAdminLogged}></Route>
 
-
+            <Route path="/userReservations" component={UserReservations}></Route>
+            <Route exact path="/invitations" component={InvitationPage} />
+            <Route path="/friends" component={Friends}></Route>
+            <Route path="/korpa" component={ShoppingCart}></Route>
+            <Route path="/userProfile" component={UserProfile}></Route>
 
 
 
@@ -78,11 +82,7 @@ class App extends Component {
 
 
 
-            <Route path="/userReservations" component={UserReservations}></Route>
-            <Route exact path="/invitations" component={InvitationPage} />
-            <Route path="/friends" component={Friends}></Route>
-            <Route path="/korpa" component={ShoppingCart}></Route>
-            <Route path="/userProfile" component={UserProfile}></Route>
+
 
 
             <Route path="/smestaj" component={HotelPretraga}></Route>
@@ -128,7 +128,7 @@ class App extends Component {
             <Route path="/uslugeLogged/:hotelId" component={LoggedUserUslugeList}></Route>
             <Route path="/izlistavanjeCenaSobeAdmin/:sobaId" component={CenaSobeIzlistavanjeAdmin}></Route>
             <Route path="/posecenostPregled" component={PosecenostHotelaAdmin}></Route>
-            <Route path="/prosecneOceneAdmin/:hotelId" component={ProsecneOceneAdmin}></Route> 
+            <Route path="/prosecneOceneAdmin/:hotelId" component={ProsecneOceneAdmin}></Route>
             <Route path="/rezervacijaLogged/:hotelId" component={LoggedUserReservationForm}></Route>
 
           </Switch>
