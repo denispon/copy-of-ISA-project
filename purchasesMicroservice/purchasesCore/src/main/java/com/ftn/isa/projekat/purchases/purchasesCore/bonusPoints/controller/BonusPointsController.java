@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -62,11 +63,16 @@ public class BonusPointsController {
 					@ApiResponse( code = 201 , message = "Created"),
 					@ApiResponse( code = 400, message= "Bad request")
 	})
-	public ResponseEntity<BonusPointsDTO> addBonusPoints(@RequestBody BonusPointsDTO dto){
-		
-		BonusPointsDTO savedBonusPoints = bonusPointsService.save(dto);
-		
-		return ( savedBonusPoints!=null )? new ResponseEntity<BonusPointsDTO>(savedBonusPoints,HttpStatus.CREATED): new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	public ResponseEntity<BonusPointsDTO> addBonusPoints(
+			@RequestHeader("Role") String role, @RequestBody BonusPointsDTO dto){
+
+		if(role.equals("ADMIN")) {
+			BonusPointsDTO savedBonusPoints = bonusPointsService.save(dto);
+			
+			return ( savedBonusPoints!=null )? new ResponseEntity<BonusPointsDTO>(savedBonusPoints,HttpStatus.CREATED): new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+				
+		}
+		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 	}
 	
 	@DeleteMapping("/{id}")
@@ -74,10 +80,16 @@ public class BonusPointsController {
 	@ApiResponses( value = { 
 			 @ApiResponse( code = 200, message ="OK"),
 			 @ApiResponse( code = 404, message ="Not Found")})	
-	public ResponseEntity<BonusPointsDTO> deleteBonusPoints(@PathVariable("id") Long id){
-		BonusPointsDTO deletedBonusPointsDTO = bonusPointsService.deleteById(id);
+	public ResponseEntity<BonusPointsDTO> deleteBonusPoints(
+			@RequestHeader("Role") String role, @PathVariable("id") Long id){
 		
-		return (deletedBonusPointsDTO.getId() != null ) ? new ResponseEntity<BonusPointsDTO>(deletedBonusPointsDTO,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		if(role.equals("ADMIN")) {
+			BonusPointsDTO deletedBonusPointsDTO = bonusPointsService.deleteById(id);
+			
+			return (deletedBonusPointsDTO.getId() != null ) ? new ResponseEntity<BonusPointsDTO>(deletedBonusPointsDTO,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			
+		}
+		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 	}
 	
 	@PutMapping("/{id}")
@@ -85,11 +97,15 @@ public class BonusPointsController {
 	@ApiResponses( value = { 
 			 @ApiResponse( code = 200, message ="OK"),
 			 @ApiResponse( code = 400, message ="Bad Request")})
-	public ResponseEntity<BonusPointsDTO> changeBonusPoints (@PathVariable("id") Long id, @RequestBody BonusPointsDTO BonusPointsDto ){
-		
-		BonusPointsDTO bonusPointsToEdit = bonusPointsService.changeBonusPoints(id, BonusPointsDto);
-	
-	    return ( bonusPointsToEdit.getId() != null )? new ResponseEntity<BonusPointsDTO>(bonusPointsToEdit,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	public ResponseEntity<BonusPointsDTO> changeBonusPoints (
+			@RequestHeader("Role") String role, @PathVariable("id") Long id, @RequestBody BonusPointsDTO BonusPointsDto ){
+		if(role.equals("ADMIN")) {
+			BonusPointsDTO bonusPointsToEdit = bonusPointsService.changeBonusPoints(id, BonusPointsDto);
+			
+		    return ( bonusPointsToEdit.getId() != null )? new ResponseEntity<BonusPointsDTO>(bonusPointsToEdit,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			
+		}
+		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 	}	
 	
 }

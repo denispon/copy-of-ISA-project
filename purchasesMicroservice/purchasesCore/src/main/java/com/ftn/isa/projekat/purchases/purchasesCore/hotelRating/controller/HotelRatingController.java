@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -59,9 +60,15 @@ public class HotelRatingController {
 	@ApiResponses( value = {
 					@ApiResponse( code = 201 , message = "Created"),
 					@ApiResponse( code = 400, message= "Bad request")})
-	public ResponseEntity<HotelRatingDTO> addRating(@RequestBody HotelRatingDTO dto){
-		HotelRatingDTO zaSnimanje = hotelRatingService.save(dto);
-		return(zaSnimanje!=null) ? new ResponseEntity<HotelRatingDTO>(zaSnimanje, HttpStatus.CREATED) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	public ResponseEntity<HotelRatingDTO> addRating(
+			@RequestHeader("Role") String role, @RequestBody HotelRatingDTO dto){
+
+		if(role.equals("HOTELADMIN") || role.equals("USER")) {
+			HotelRatingDTO zaSnimanje = hotelRatingService.save(dto);
+			return(zaSnimanje!=null) ? new ResponseEntity<HotelRatingDTO>(zaSnimanje, HttpStatus.CREATED) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+				
+		}
+		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 	}
 	
 	@DeleteMapping("/{id}")
@@ -69,10 +76,14 @@ public class HotelRatingController {
 	@ApiResponses( value = { 
 			 @ApiResponse( code = 200, message ="OK"),
 			 @ApiResponse( code = 404, message ="Not Found")})	
-	public ResponseEntity<HotelRatingDTO> deleteRating(@PathVariable("id") Long id){
-		
-		HotelRatingDTO zaBrisanje = hotelRatingService.deleteById(id);
-		return (zaBrisanje.getId()!=null) ? new ResponseEntity<HotelRatingDTO>(zaBrisanje, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+	public ResponseEntity<HotelRatingDTO> deleteRating(
+			@RequestHeader("Role") String role, @PathVariable("id") Long id){
+		if(role.equals("HOTELADMIN") || role.equals("USER")) {
+			HotelRatingDTO zaBrisanje = hotelRatingService.deleteById(id);
+			return (zaBrisanje.getId()!=null) ? new ResponseEntity<HotelRatingDTO>(zaBrisanje, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			
+		}
+		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		
 	}
 	
@@ -81,9 +92,14 @@ public class HotelRatingController {
 	@ApiResponses( value = { 
 			 @ApiResponse( code = 200, message ="OK"),
 			 @ApiResponse( code = 400, message ="Bad Request")})
-	public ResponseEntity<HotelRatingDTO> changeRating(@PathVariable("id") Long id, @RequestBody HotelRatingDTO dto ){
-		HotelRatingDTO zaIzmenu = hotelRatingService.change(id, dto);
-		return (zaIzmenu.getId()!=null) ? new ResponseEntity<HotelRatingDTO>(zaIzmenu, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	public ResponseEntity<HotelRatingDTO> changeRating(
+			@RequestHeader("Role") String role, @PathVariable("id") Long id, @RequestBody HotelRatingDTO dto ){
+		if(role.equals("HOTELADMIN") || role.equals("USER")) {
+			HotelRatingDTO zaIzmenu = hotelRatingService.change(id, dto);
+			return (zaIzmenu.getId()!=null) ? new ResponseEntity<HotelRatingDTO>(zaIzmenu, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			
+		}
+		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 	}
 	
 	@GetMapping("average/{id}")

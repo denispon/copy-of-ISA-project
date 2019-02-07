@@ -12,12 +12,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ftn.isa.projekat.purchases.purchasesApi.dto.HotelRatingDTO;
 import com.ftn.isa.projekat.purchases.purchasesApi.dto.HotelskaSobaRatingDTO;
-import com.ftn.isa.projekat.purchases.purchasesCore.hotelRating.service.IHotelRatingService;
 import com.ftn.isa.projekat.purchases.purchasesCore.hotelskaSobaRating.service.IHotelskaSobaRatingService;
 
 import io.swagger.annotations.Api;
@@ -61,9 +60,14 @@ public class HotelskaSobaRatingController {
 	@ApiResponses( value = {
 					@ApiResponse( code = 201 , message = "Created"),
 					@ApiResponse( code = 400, message= "Bad request")})
-	public ResponseEntity<HotelskaSobaRatingDTO> addRating(@RequestBody HotelskaSobaRatingDTO dto){
-		HotelskaSobaRatingDTO zaSnimanje = hotelskaSobaRatingService.save(dto);
-		return(zaSnimanje!=null) ? new ResponseEntity<HotelskaSobaRatingDTO>(zaSnimanje, HttpStatus.CREATED) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	public ResponseEntity<HotelskaSobaRatingDTO> addRating(@RequestHeader("Role") String role,@RequestBody HotelskaSobaRatingDTO dto){
+
+		if(role.equals("HOTELADMIN") || role.equals("USER")) {
+			HotelskaSobaRatingDTO zaSnimanje = hotelskaSobaRatingService.save(dto);
+			return(zaSnimanje!=null) ? new ResponseEntity<HotelskaSobaRatingDTO>(zaSnimanje, HttpStatus.CREATED) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+				
+		}
+		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 	}
 	
 	@DeleteMapping("/{id}")
@@ -71,10 +75,13 @@ public class HotelskaSobaRatingController {
 	@ApiResponses( value = { 
 			 @ApiResponse( code = 200, message ="OK"),
 			 @ApiResponse( code = 404, message ="Not Found")})	
-	public ResponseEntity<HotelskaSobaRatingDTO> deleteRating(@PathVariable("id") Long id){
-		
-		HotelskaSobaRatingDTO zaBrisanje = hotelskaSobaRatingService.deleteById(id);
-		return (zaBrisanje.getId()!=null) ? new ResponseEntity<HotelskaSobaRatingDTO>(zaBrisanje, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+	public ResponseEntity<HotelskaSobaRatingDTO> deleteRating(@RequestHeader("Role") String role,@PathVariable("id") Long id){
+		if(role.equals("HOTELADMIN") || role.equals("USER")) {
+			HotelskaSobaRatingDTO zaBrisanje = hotelskaSobaRatingService.deleteById(id);
+			return (zaBrisanje.getId()!=null) ? new ResponseEntity<HotelskaSobaRatingDTO>(zaBrisanje, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			
+		}
+		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		
 	}
 	
@@ -83,9 +90,13 @@ public class HotelskaSobaRatingController {
 	@ApiResponses( value = { 
 			 @ApiResponse( code = 200, message ="OK"),
 			 @ApiResponse( code = 400, message ="Bad Request")})
-	public ResponseEntity<HotelskaSobaRatingDTO> changeRating(@PathVariable("id") Long id, @RequestBody HotelskaSobaRatingDTO dto ){
-		HotelskaSobaRatingDTO zaIzmenu = hotelskaSobaRatingService.change(id, dto);
-		return (zaIzmenu.getId()!=null) ? new ResponseEntity<HotelskaSobaRatingDTO>(zaIzmenu, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	public ResponseEntity<HotelskaSobaRatingDTO> changeRating(@RequestHeader("Role") String role,@PathVariable("id") Long id, @RequestBody HotelskaSobaRatingDTO dto ){
+		if(role.equals("HOTELADMIN") || role.equals("USER")) {
+			HotelskaSobaRatingDTO zaIzmenu = hotelskaSobaRatingService.change(id, dto);
+			return (zaIzmenu.getId()!=null) ? new ResponseEntity<HotelskaSobaRatingDTO>(zaIzmenu, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			
+		}
+		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 	}
 	
 	@GetMapping("average/{id}")

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -63,11 +64,13 @@ public class BranchOfficeController {
 					@ApiResponse( code = 201 , message = "Created"),
 					@ApiResponse( code = 400, message= "Bad request")
 	})
-	public ResponseEntity<BranchOfficeDTO> addBranchOffice(@RequestBody BranchOfficeDTO dto){
-		
+	public ResponseEntity<BranchOfficeDTO> addBranchOffice(@RequestHeader("Role") String role,@RequestBody BranchOfficeDTO dto){
+		if(role.equals("CARADMIN")) {
 		BranchOfficeDTO savedBranch = branchOfficeService.save(dto);
 		
 		return ( savedBranch!=null )? new ResponseEntity<BranchOfficeDTO>(savedBranch,HttpStatus.CREATED): new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 	}
 	
 	@DeleteMapping("/{id}")
@@ -75,10 +78,14 @@ public class BranchOfficeController {
 	@ApiResponses( value = { 
 			 @ApiResponse( code = 200, message ="OK"),
 			 @ApiResponse( code = 404, message ="Not Found")})	
-	public ResponseEntity<BranchOfficeDTO> deleteBranchOffice(@PathVariable("id") Long id){
-		BranchOfficeDTO deletedBranchDTO = branchOfficeService.deleteById(id);
-		
-		return (deletedBranchDTO.getId() != null ) ? new ResponseEntity<BranchOfficeDTO>(deletedBranchDTO,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+	public ResponseEntity<BranchOfficeDTO> deleteBranchOffice(@RequestHeader("Role") String role,@PathVariable("id") Long id){
+		if(role.equals("CARADMIN")) {
+			BranchOfficeDTO deletedBranchDTO = branchOfficeService.deleteById(id);
+			
+			return (deletedBranchDTO.getId() != null ) ? new ResponseEntity<BranchOfficeDTO>(deletedBranchDTO,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+	
+		}
+		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 	}
 	
 	@PutMapping("/{id}")
@@ -86,11 +93,14 @@ public class BranchOfficeController {
 	@ApiResponses( value = { 
 			 @ApiResponse( code = 200, message ="OK"),
 			 @ApiResponse( code = 400, message ="Bad Request")})
-	public ResponseEntity<BranchOfficeDTO> changeBranch (@PathVariable("id") Long id, @RequestBody BranchOfficeDTO branchDto ){
-		
-		BranchOfficeDTO branchToEdit = branchOfficeService.changeBranchOffice(id, branchDto);
-	
-	    return ( branchToEdit.getId() != null )? new ResponseEntity<BranchOfficeDTO>(branchToEdit,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	public ResponseEntity<BranchOfficeDTO> changeBranch (@RequestHeader("Role") String role, @PathVariable("id") Long id, @RequestBody BranchOfficeDTO branchDto ){
+		if(role.equals("CARADMIN")) {
+			BranchOfficeDTO branchToEdit = branchOfficeService.changeBranchOffice(id, branchDto);
+			
+		    return ( branchToEdit.getId() != null )? new ResponseEntity<BranchOfficeDTO>(branchToEdit,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+		}
+		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 	}
 	
 	@GetMapping("/getAllByRentService/{id}")

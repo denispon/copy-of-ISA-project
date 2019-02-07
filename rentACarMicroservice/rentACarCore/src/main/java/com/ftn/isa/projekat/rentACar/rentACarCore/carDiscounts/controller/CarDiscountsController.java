@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -65,11 +66,16 @@ public class CarDiscountsController {
 					@ApiResponse( code = 201 , message = "Created"),
 					@ApiResponse( code = 400, message= "Bad request")
 	})
-	public ResponseEntity<CarDiscountsDTO> addDiscount(@RequestBody CarDiscountsDTO dto){
+	public ResponseEntity<CarDiscountsDTO> addDiscount(@RequestHeader("Role") String role, @RequestBody CarDiscountsDTO dto){
 		
-		CarDiscountsDTO savedDiscount = discountService.save(dto);
+		if(role.equals("CARADMIN")) {
+			CarDiscountsDTO savedDiscount = discountService.save(dto);
+			
+			return ( savedDiscount.getId() != null )? new ResponseEntity<CarDiscountsDTO>(savedDiscount,HttpStatus.CREATED): new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+		}
+		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		
-		return ( savedDiscount.getId() != null )? new ResponseEntity<CarDiscountsDTO>(savedDiscount,HttpStatus.CREATED): new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
 	
 	@DeleteMapping("/{id}")
@@ -77,10 +83,16 @@ public class CarDiscountsController {
 	@ApiResponses( value = { 
 			 @ApiResponse( code = 200, message ="OK"),
 			 @ApiResponse( code = 404, message ="Not Found")})	
-	public ResponseEntity<CarDiscountsDTO> deleteDiscount(@PathVariable("id") Long id){
-		CarDiscountsDTO deletedDiscountDTO = discountService.deleteById(id);
-		
-		return (deletedDiscountDTO.getId() != null ) ? new ResponseEntity<CarDiscountsDTO>(deletedDiscountDTO,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+	public ResponseEntity<CarDiscountsDTO> deleteDiscount(
+			@RequestHeader("Role") String role, @PathVariable("id") Long id){
+
+			if(role.equals("CARADMIN")) {
+				CarDiscountsDTO deletedDiscountDTO = discountService.deleteById(id);
+				
+				return (deletedDiscountDTO.getId() != null ) ? new ResponseEntity<CarDiscountsDTO>(deletedDiscountDTO,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+	
+			}
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 	}
 		
 	
@@ -89,11 +101,17 @@ public class CarDiscountsController {
 	@ApiResponses( value = { 
 			 @ApiResponse( code = 200, message ="OK"),
 			 @ApiResponse( code = 400, message ="Bad Request")})
-	public ResponseEntity<CarDiscountsDTO> changeDiscount (@PathVariable("id") Long id, @RequestBody CarDiscountsDTO discountDTO ){
-		
-		CarDiscountsDTO discountToEdit = discountService.changeDiscount(id, discountDTO);
+	public ResponseEntity<CarDiscountsDTO> changeDiscount (
+		@RequestHeader("Role") String role, @PathVariable("id") Long id, @RequestBody CarDiscountsDTO discountDTO ){
 	
-	    return ( discountToEdit.getId() != null )? new ResponseEntity<CarDiscountsDTO>(discountToEdit,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+		if(role.equals("CARADMIN")) {
+			CarDiscountsDTO discountToEdit = discountService.changeDiscount(id, discountDTO);
+			
+		    return ( discountToEdit.getId() != null )? new ResponseEntity<CarDiscountsDTO>(discountToEdit,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+		}
+		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 	}
 	
 

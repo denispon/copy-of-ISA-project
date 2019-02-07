@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -37,11 +38,14 @@ public class InvitationCardController {
 	@ApiOperation( value = "Finds one invitation card.", notes = "Returns found invitation card.", httpMethod="GET")
 	@ApiResponses( value = { @ApiResponse( code = 200, message = "OK"),
 							 @ApiResponse( code = 404, message = "Not Found")})
-	public ResponseEntity<InvitationCardDTO> getOneInvitationCardById (@PathVariable("id") Long id){
-		
-		InvitationCardDTO invitationCardDTO = invitationService.findOneById(id);
-		
-		return ( invitationCardDTO.getId()!=null)? new ResponseEntity<InvitationCardDTO>(invitationCardDTO,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+	public ResponseEntity<InvitationCardDTO> getOneInvitationCardById (@RequestHeader("Role") String role, @PathVariable("id") Long id){
+		if(role.equals("USER")) {
+			InvitationCardDTO invitationCardDTO = invitationService.findOneById(id);
+			
+			return ( invitationCardDTO.getId()!=null)? new ResponseEntity<InvitationCardDTO>(invitationCardDTO,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			
+		}
+		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		
 	}
 	
@@ -49,11 +53,14 @@ public class InvitationCardController {
 	@ApiOperation( value = "Returns all invitation cards", httpMethod = "GET")
 	@ApiResponses( value = { @ApiResponse( code = 200, message ="OK"),
 							 @ApiResponse( code = 404, message ="Not Found")})	
-	public ResponseEntity<List<InvitationCardDTO>> getAllInvitations(){
-		
-		List<InvitationCardDTO> invitations = invitationService.findAll();
-		
-		return ( !invitations.isEmpty() )? new ResponseEntity<List<InvitationCardDTO>>(invitations,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+	public ResponseEntity<List<InvitationCardDTO>> getAllInvitations(@RequestHeader("Role") String role){
+		if(role.equals("ADMIN")) {
+			List<InvitationCardDTO> invitations = invitationService.findAll();
+			
+			return ( !invitations.isEmpty() )? new ResponseEntity<List<InvitationCardDTO>>(invitations,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			
+		}
+		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		
 	}
 	
@@ -63,11 +70,14 @@ public class InvitationCardController {
 					@ApiResponse( code = 201 , message = "Created"),
 					@ApiResponse( code = 400, message= "Bad request")
 	})
-	public ResponseEntity<InvitationCardDTO> addInvitation(@RequestBody InvitationCardDTO dto){
-		
-		InvitationCardDTO savedInvitation = invitationService.save(dto);
-		
-		return ( savedInvitation!=null )? new ResponseEntity<InvitationCardDTO>(savedInvitation,HttpStatus.CREATED): new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	public ResponseEntity<InvitationCardDTO> addInvitation(@RequestHeader("Role") String role,@RequestBody InvitationCardDTO dto){
+		if(role.equals("USER")) {
+			InvitationCardDTO savedInvitation = invitationService.save(dto);
+			
+			return ( savedInvitation!=null )? new ResponseEntity<InvitationCardDTO>(savedInvitation,HttpStatus.CREATED): new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			
+		}
+		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 	}
 	
 	@DeleteMapping("/{id}")
@@ -75,10 +85,14 @@ public class InvitationCardController {
 	@ApiResponses( value = { 
 			 @ApiResponse( code = 200, message ="OK"),
 			 @ApiResponse( code = 404, message ="Not Found")})	
-	public ResponseEntity<InvitationCardDTO> deleteInvitation(@PathVariable("id") Long id){
-		InvitationCardDTO deletedInvitationCardDTO = invitationService.deleteById(id);
-		
-		return (deletedInvitationCardDTO.getId() != null ) ? new ResponseEntity<InvitationCardDTO>(deletedInvitationCardDTO,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+	public ResponseEntity<InvitationCardDTO> deleteInvitation(@RequestHeader("Role") String role,@PathVariable("id") Long id){
+		if(role.equals("USER")) {
+			InvitationCardDTO deletedInvitationCardDTO = invitationService.deleteById(id);
+			
+			return (deletedInvitationCardDTO.getId() != null ) ? new ResponseEntity<InvitationCardDTO>(deletedInvitationCardDTO,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			
+		}
+		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 	}
 	
 	@PutMapping("/{id}")
@@ -86,11 +100,14 @@ public class InvitationCardController {
 	@ApiResponses( value = { 
 			 @ApiResponse( code = 200, message ="OK"),
 			 @ApiResponse( code = 400, message ="Bad Request")})
-	public ResponseEntity<InvitationCardDTO> changeInvitation (@PathVariable("id") Long id, @RequestBody InvitationCardDTO invitationCardDTO ){
-		
-		InvitationCardDTO invitationToEdit = invitationService.changeInvitation(id, invitationCardDTO);
-	
-	    return ( invitationToEdit.getId() != null )? new ResponseEntity<InvitationCardDTO>(invitationToEdit,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	public ResponseEntity<InvitationCardDTO> changeInvitation (@RequestHeader("Role") String role,@PathVariable("id") Long id, @RequestBody InvitationCardDTO invitationCardDTO ){
+		if(role.equals("USER")) {
+			InvitationCardDTO invitationToEdit = invitationService.changeInvitation(id, invitationCardDTO);
+			
+		    return ( invitationToEdit.getId() != null )? new ResponseEntity<InvitationCardDTO>(invitationToEdit,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			
+		}
+		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 	}
 	
 	
@@ -99,11 +116,14 @@ public class InvitationCardController {
 	@ApiResponses( value = { 
 			 @ApiResponse( code = 200, message ="OK"),
 			 @ApiResponse( code = 400, message ="Bad Request")})
-	public ResponseEntity<InvitationCardDTO> acceptInvitation (@PathVariable("id") Long id){
-		
-		InvitationCardDTO invitationToAccept = invitationService.acceptInvitation(id);
-		
-		return ( invitationToAccept.getId() != null) ? new ResponseEntity<InvitationCardDTO>(invitationToAccept,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);		
+	public ResponseEntity<InvitationCardDTO> acceptInvitation (@RequestHeader("Role") String role,@PathVariable("id") Long id){
+		if(role.equals("USER")) {
+			InvitationCardDTO invitationToAccept = invitationService.acceptInvitation(id);
+			
+			return ( invitationToAccept.getId() != null) ? new ResponseEntity<InvitationCardDTO>(invitationToAccept,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);		
+			
+		}
+		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 	}
 	
 	
@@ -113,11 +133,14 @@ public class InvitationCardController {
 	@ApiResponses( value = { 
 			 @ApiResponse( code = 200, message ="OK"),
 			 @ApiResponse( code = 400, message ="Bad Request")})
-	public ResponseEntity<InvitationCardDTO> declineInvitation (@PathVariable("id") Long id){
-		
-		InvitationCardDTO invitationToDecline = invitationService.declineInvitation(id);
-		
-		return ( invitationToDecline.getId() != null) ? new ResponseEntity<InvitationCardDTO>(invitationToDecline,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);		
+	public ResponseEntity<InvitationCardDTO> declineInvitation (@RequestHeader("Role") String role,@PathVariable("id") Long id){
+		if(role.equals("USER")) {
+			InvitationCardDTO invitationToDecline = invitationService.declineInvitation(id);
+			
+			return ( invitationToDecline.getId() != null) ? new ResponseEntity<InvitationCardDTO>(invitationToDecline,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);		
+			
+		}
+		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 	}
 	
 	

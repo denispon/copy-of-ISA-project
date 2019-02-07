@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -63,11 +64,15 @@ public class AvioCompanyRatingController {
 					@ApiResponse( code = 201 , message = "Created"),
 					@ApiResponse( code = 400, message= "Bad request")
 	})
-	public ResponseEntity<AvioCompanyRatingDTO> addAvioCompanyRating(@RequestBody AvioCompanyRatingDTO dto){
-		
-		AvioCompanyRatingDTO saved = service.save(dto);
-		
-		return ( saved!=null )? new ResponseEntity<AvioCompanyRatingDTO>(saved,HttpStatus.CREATED): new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	public ResponseEntity<AvioCompanyRatingDTO> addAvioCompanyRating(
+			@RequestHeader("Role") String role, @RequestBody AvioCompanyRatingDTO dto){
+		if(role.equals("AVIOADMIN") || role.equals("USER")) {
+			AvioCompanyRatingDTO saved = service.save(dto);
+			
+			return ( saved!=null )? new ResponseEntity<AvioCompanyRatingDTO>(saved,HttpStatus.CREATED): new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			
+		}
+		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 	}
 	
 	@DeleteMapping("/{id}")
@@ -75,10 +80,15 @@ public class AvioCompanyRatingController {
 	@ApiResponses( value = { 
 			 @ApiResponse( code = 200, message ="OK"),
 			 @ApiResponse( code = 404, message ="Not Found")})	
-	public ResponseEntity<AvioCompanyRatingDTO> deleteAvioCompanyRating(@PathVariable("id") Long id){
-		AvioCompanyRatingDTO dto = service.deleteById(id);
-		
-		return (dto.getId() != null ) ? new ResponseEntity<AvioCompanyRatingDTO>(dto,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+	public ResponseEntity<AvioCompanyRatingDTO> deleteAvioCompanyRating(
+			@RequestHeader("Role") String role,@PathVariable("id") Long id){
+		if(role.equals("AVIOADMIN") || role.equals("USER")) {
+			AvioCompanyRatingDTO dto = service.deleteById(id);
+			
+			return (dto.getId() != null ) ? new ResponseEntity<AvioCompanyRatingDTO>(dto,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			
+		}
+		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 	}
 	
 	@PutMapping("/{id}")
@@ -86,11 +96,15 @@ public class AvioCompanyRatingController {
 	@ApiResponses( value = { 
 			 @ApiResponse( code = 200, message ="OK"),
 			 @ApiResponse( code = 400, message ="Bad Request")})
-	public ResponseEntity<AvioCompanyRatingDTO> changeAvioCompanyRating(@PathVariable("id") Long id, @RequestBody AvioCompanyRatingDTO ratingDto ){
-		
-		AvioCompanyRatingDTO dto = service.changeAvioCompanyRating(id, ratingDto);
-	
-	    return ( dto.getId() != null )? new ResponseEntity<AvioCompanyRatingDTO>(dto,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	public ResponseEntity<AvioCompanyRatingDTO> changeAvioCompanyRating(
+			@RequestHeader("Role") String role,@PathVariable("id") Long id, @RequestBody AvioCompanyRatingDTO ratingDto ){
+		if(role.equals("AVIOADMIN") || role.equals("USER")) {
+			AvioCompanyRatingDTO dto = service.changeAvioCompanyRating(id, ratingDto);
+			
+		    return ( dto.getId() != null )? new ResponseEntity<AvioCompanyRatingDTO>(dto,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			
+		}
+		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 	}
 
 	

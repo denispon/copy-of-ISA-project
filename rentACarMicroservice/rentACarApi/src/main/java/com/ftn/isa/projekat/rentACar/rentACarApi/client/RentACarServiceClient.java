@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 
 import com.ftn.isa.projekat.rentACar.rentACarApi.dto.RentACarServiceDTO;
 
@@ -25,16 +26,16 @@ public interface RentACarServiceClient {
 	public List<RentACarServiceDTO> getAllRentACarServices();
 	
 	@PostMapping("/")
-	public RentACarServiceDTO addBranchOffice(@RequestBody RentACarServiceDTO dto);
+	public RentACarServiceDTO addBranchOffice(@RequestHeader("Role") String role,@RequestBody RentACarServiceDTO dto);
 	
 	@DeleteMapping("/{id}")
-	public RentACarServiceDTO deleteRentACarService(@PathVariable("id") Long id);
+	public RentACarServiceDTO deleteRentACarService(@RequestHeader("Role") String role,@PathVariable("id") Long id);
 	
 	@PutMapping("/{id}")
-	public RentACarServiceDTO changeRentACarService (@PathVariable("id") Long id, @RequestBody RentACarServiceDTO rentACarDto );
+	public RentACarServiceDTO changeRentACarService (@RequestHeader("Role") String role,@PathVariable("id") Long id, @RequestBody RentACarServiceDTO rentACarDto );
 	
 	@GetMapping("/getSumOfIncomes/{id}/{dateFrom}/{dateTo}")
-	public Integer getSumOfIncomes(@PathVariable("id") Long rentService,@PathVariable("dateFrom") String dateFrom , @PathVariable("dateTo") String dateTo);
+	public Integer getSumOfIncomes(@RequestHeader("Role") String role,@PathVariable("id") Long rentService,@PathVariable("dateFrom") String dateFrom , @PathVariable("dateTo") String dateTo);
 	
 	@GetMapping("/getAverageRating/{id}/{dateFrom}/{dateTo}")
 	public Double getAverageRating (@PathVariable("id")Long rentService, @PathVariable("dateFrom") String dateFrom, @PathVariable("dateTo") String dateTo);

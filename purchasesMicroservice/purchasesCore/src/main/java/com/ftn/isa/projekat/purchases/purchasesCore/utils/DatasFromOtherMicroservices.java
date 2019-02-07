@@ -87,7 +87,7 @@ public class DatasFromOtherMicroservices {
 	public CarReservationDTO deleteCarReservation(Long id) {
 		CarReservationDTO carReservation = null;
 		try {
-			carReservation = carReservationClient.deleteReservation(id);
+			carReservation = carReservationClient.deleteReservation("USER",id);
 		}
 		catch(FeignException e) {
 			return new CarReservationDTO();
@@ -135,7 +135,7 @@ public class DatasFromOtherMicroservices {
 		
 		CarReservationDTO carReservation = null;
 		try {
-			carReservation = carReservationClient.addReservation(carResercation);
+			carReservation = carReservationClient.addReservation("USER",carResercation);
 		}
 		catch(FeignException e) {
 			return new CarReservationDTO();
@@ -147,7 +147,7 @@ public class DatasFromOtherMicroservices {
 		
 		IncomeDTO income1 = null;
 		try {
-			income1 = incomeClient.addIncome(income);
+			income1 = incomeClient.addIncome("CARADMIN",income);
 		}
 		catch(FeignException e) {
 			return new IncomeDTO();
@@ -200,7 +200,7 @@ public class DatasFromOtherMicroservices {
 		
 		CarReservationDTO carReservation = null;
 		try {
-			carReservation = carReservationClient.getOneReservationById(id);
+			carReservation = carReservationClient.getOneReservationById("USER",id);
 		}
 		catch(FeignException e) {
 			return new CarReservationDTO();
@@ -336,7 +336,7 @@ public class DatasFromOtherMicroservices {
 	public UserDTO getUserById(Long id) {
 		UserDTO user= null;
 		try {
-		user = userClient.getOneUserById(id);
+		user = userClient.getOneUserById("USER",id);
 		}
 		catch(FeignException e) {
 			return new UserDTO();

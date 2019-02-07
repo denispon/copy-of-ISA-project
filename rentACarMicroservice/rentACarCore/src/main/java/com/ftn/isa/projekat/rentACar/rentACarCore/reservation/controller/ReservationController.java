@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -36,11 +37,15 @@ public class ReservationController {
 	@ApiOperation( value = "Finds one reservation.", notes = "Returns found reservation.", httpMethod="GET")
 	@ApiResponses( value = { @ApiResponse( code = 200, message = "OK"),
 							 @ApiResponse( code = 404, message = "Not Found")})
-	public ResponseEntity<CarReservationDTO> getOneReservationById (@PathVariable("id") Long id){
-		
-		CarReservationDTO reservationDto = reservationService.findOneById(id);
-		
-		return ( reservationDto.getId()!=null)? new ResponseEntity<CarReservationDTO>(reservationDto,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+	public ResponseEntity<CarReservationDTO> getOneReservationById (@RequestHeader("Role") String role, @PathVariable("id") Long id){
+
+		if(role.equals("USER")) {
+			CarReservationDTO reservationDto = reservationService.findOneById(id);
+			
+			return ( reservationDto.getId()!=null)? new ResponseEntity<CarReservationDTO>(reservationDto,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+				
+		}
+		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		
 	}
 	
@@ -48,11 +53,14 @@ public class ReservationController {
 	@ApiOperation( value = "Returns all reservations", httpMethod = "GET")
 	@ApiResponses( value = { @ApiResponse( code = 200, message ="OK"),
 							 @ApiResponse( code = 404, message ="Not Found")})	
-	public ResponseEntity<List<CarReservationDTO>> getAllReservations(){
-		
-		List<CarReservationDTO> reservations = reservationService.findAll();
-		
-		return ( !reservations.isEmpty() )? new ResponseEntity<List<CarReservationDTO>>(reservations,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+	public ResponseEntity<List<CarReservationDTO>> getAllReservations(@RequestHeader("Role") String role){
+		if(role.equals("USER")) {
+			List<CarReservationDTO> reservations = reservationService.findAll();
+			
+			return ( !reservations.isEmpty() )? new ResponseEntity<List<CarReservationDTO>>(reservations,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			
+		}
+		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		
 	}
 	
@@ -62,11 +70,14 @@ public class ReservationController {
 					@ApiResponse( code = 201 , message = "Created"),
 					@ApiResponse( code = 400, message= "Bad request")
 	})
-	public ResponseEntity<CarReservationDTO> addReservation(@RequestBody CarReservationDTO dto){
-		
-		CarReservationDTO savedReservation = reservationService.save(dto);
-		
-		return ( savedReservation!=null )? new ResponseEntity<CarReservationDTO>(savedReservation,HttpStatus.CREATED): new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	public ResponseEntity<CarReservationDTO> addReservation(@RequestHeader("Role") String role,@RequestBody CarReservationDTO dto){
+		if(role.equals("USER")) {
+			CarReservationDTO savedReservation = reservationService.save(dto);
+			
+			return ( savedReservation!=null )? new ResponseEntity<CarReservationDTO>(savedReservation,HttpStatus.CREATED): new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			
+		}
+		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 	}
 	
 	@DeleteMapping("/{id}")
@@ -74,10 +85,14 @@ public class ReservationController {
 	@ApiResponses( value = { 
 			 @ApiResponse( code = 200, message ="OK"),
 			 @ApiResponse( code = 404, message ="Not Found")})	
-	public ResponseEntity<CarReservationDTO> deleteReservation(@PathVariable("id") Long id){
-		CarReservationDTO deletedReservationDTO = reservationService.deleteById(id);
-		
-		return (deletedReservationDTO.getId() != null ) ? new ResponseEntity<CarReservationDTO>(deletedReservationDTO,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+	public ResponseEntity<CarReservationDTO> deleteReservation(@RequestHeader("Role") String role, @PathVariable("id") Long id){
+		if(role.equals("USER")) {
+			CarReservationDTO deletedReservationDTO = reservationService.deleteById(id);
+			
+			return (deletedReservationDTO.getId() != null ) ? new ResponseEntity<CarReservationDTO>(deletedReservationDTO,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			
+		}
+		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 	}
 	
 	@DeleteMapping("/fullDelete/{id}")
@@ -85,10 +100,14 @@ public class ReservationController {
 	@ApiResponses( value = { 
 			 @ApiResponse( code = 200, message ="OK"),
 			 @ApiResponse( code = 404, message ="Not Found")})
-	public ResponseEntity<CarReservationDTO> deleteReservationNoConditions(@PathVariable("id") Long id){
-		CarReservationDTO deletedReservationDTO = reservationService.deleteByIdNoConditions(id);
-		
-		return (deletedReservationDTO.getId() != null ) ? new ResponseEntity<CarReservationDTO>(deletedReservationDTO,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+	public ResponseEntity<CarReservationDTO> deleteReservationNoConditions(@RequestHeader("Role") String role, @PathVariable("id") Long id){
+		if(role.equals("USER")) {
+			CarReservationDTO deletedReservationDTO = reservationService.deleteByIdNoConditions(id);
+			
+			return (deletedReservationDTO.getId() != null ) ? new ResponseEntity<CarReservationDTO>(deletedReservationDTO,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			
+		}
+		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 	}
 	
 	
@@ -97,11 +116,14 @@ public class ReservationController {
 	@ApiResponses( value = { 
 			 @ApiResponse( code = 200, message ="OK"),
 			 @ApiResponse( code = 400, message ="Bad Request")})
-	public ResponseEntity<CarReservationDTO> changeReservation (@PathVariable("id") Long id, @RequestBody CarReservationDTO reservationDTO ){
-		
-		CarReservationDTO reservationToEdit = reservationService.changeReservation(id, reservationDTO);
-	
-	    return ( reservationToEdit.getId() != null )? new ResponseEntity<CarReservationDTO>(reservationToEdit,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	public ResponseEntity<CarReservationDTO> changeReservation (@RequestHeader("Role") String role,@PathVariable("id") Long id, @RequestBody CarReservationDTO reservationDTO ){
+		if(role.equals("USER")) {
+			CarReservationDTO reservationToEdit = reservationService.changeReservation(id, reservationDTO);
+			
+		    return ( reservationToEdit.getId() != null )? new ResponseEntity<CarReservationDTO>(reservationToEdit,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			
+		}
+		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 	}
 	
 

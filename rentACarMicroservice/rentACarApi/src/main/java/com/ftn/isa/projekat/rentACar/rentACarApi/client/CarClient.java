@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 
 import com.ftn.isa.projekat.rentACar.rentACarApi.dto.CarDTO;
 
@@ -24,16 +25,16 @@ public interface CarClient {
 	public List<CarDTO> getAllCars();
 	
 	@PostMapping("/")
-	public CarDTO addCar(@RequestBody CarDTO dto);
+	public CarDTO addCar(@RequestHeader("Role") String role,@RequestBody CarDTO dto);
 	
 	@DeleteMapping("/{id}")
-	public CarDTO deleteCar(@PathVariable("id") Long id);
+	public CarDTO deleteCar(@RequestHeader("Role") String role,@PathVariable("id") Long id);
 	
 	@PutMapping("/{id}")
-	public CarDTO changeCar (@PathVariable("id") Long id, @RequestBody CarDTO carDto );	
+	public CarDTO changeCar (@RequestHeader("Role") String role,@PathVariable("id") Long id, @RequestBody CarDTO carDto );	
 	
 	@GetMapping("/getReservedCars/{dateFrom}/{dateTo}")
-	public List<CarDTO>  getReservedCarsFromTo(@PathVariable("dateFrom") String dateFrom , @PathVariable("dateTo") String dateTo);
+	public List<CarDTO>  getReservedCarsFromTo(@RequestHeader("Role") String role,@PathVariable("dateFrom") String dateFrom , @PathVariable("dateTo") String dateTo);
 	
 	@GetMapping("/getFreeCars/{dateFrom}/{dateTo}")
 	public List<CarDTO>  getFreeCarsFromTo(@PathVariable("dateFrom") String dateFrom , @PathVariable("dateTo") String dateTo);

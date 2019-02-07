@@ -3,8 +3,6 @@ package com.ftn.isa.projekat.purchases.purchasesCore.rentACarRating.controller;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import javax.websocket.server.PathParam;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -65,11 +64,15 @@ public class RentACarRatingController {
 					@ApiResponse( code = 201 , message = "Created"),
 					@ApiResponse( code = 400, message= "Bad request")
 	})
-	public ResponseEntity<RentACarRatingDTO> addRentACarRating(@PathVariable("date") String date, @RequestBody RentACarRatingDTO dto){
-		
-		RentACarRatingDTO savedRating = rentACarRatingService.save(dto,LocalDateTime.parse(date));
-		
-		return ( savedRating!=null )? new ResponseEntity<RentACarRatingDTO>(savedRating,HttpStatus.CREATED): new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	public ResponseEntity<RentACarRatingDTO> addRentACarRating(@RequestHeader("Role") String role, @PathVariable("date") String date, @RequestBody RentACarRatingDTO dto){
+
+		if(role.equals("CARADMIN")|| role.equals("USER")) {
+			RentACarRatingDTO savedRating = rentACarRatingService.save(dto,LocalDateTime.parse(date));
+			
+			return ( savedRating!=null )? new ResponseEntity<RentACarRatingDTO>(savedRating,HttpStatus.CREATED): new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+				
+		}
+		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 	}
 	
 	@DeleteMapping("/{id}")
@@ -77,10 +80,14 @@ public class RentACarRatingController {
 	@ApiResponses( value = { 
 			 @ApiResponse( code = 200, message ="OK"),
 			 @ApiResponse( code = 404, message ="Not Found")})	
-	public ResponseEntity<RentACarRatingDTO> deleteRentACarRating(@PathVariable("id") Long id){
-		RentACarRatingDTO deletedRentACarRatingDTO = rentACarRatingService.deleteById(id);
-		
-		return (deletedRentACarRatingDTO.getId() != null ) ? new ResponseEntity<RentACarRatingDTO>(deletedRentACarRatingDTO,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+	public ResponseEntity<RentACarRatingDTO> deleteRentACarRating(@RequestHeader("Role") String role, @PathVariable("id") Long id){
+		if(role.equals("CARADMIN") ||  role.equals("USER")) {
+			RentACarRatingDTO deletedRentACarRatingDTO = rentACarRatingService.deleteById(id);
+			
+			return (deletedRentACarRatingDTO.getId() != null ) ? new ResponseEntity<RentACarRatingDTO>(deletedRentACarRatingDTO,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			
+		}
+		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 	}
 	
 	@PutMapping("/{id}")
@@ -88,11 +95,14 @@ public class RentACarRatingController {
 	@ApiResponses( value = { 
 			 @ApiResponse( code = 200, message ="OK"),
 			 @ApiResponse( code = 400, message ="Bad Request")})
-	public ResponseEntity<RentACarRatingDTO> changeRentACarRating (@PathVariable("id") Long id, @RequestBody RentACarRatingDTO ratingDto ){
-		
-		RentACarRatingDTO ratingToEdit = rentACarRatingService.changeRentACarRating(id, ratingDto);
-	
-	    return ( ratingToEdit.getId() != null )? new ResponseEntity<RentACarRatingDTO>(ratingToEdit,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	public ResponseEntity<RentACarRatingDTO> changeRentACarRating (@RequestHeader("Role") String role, @PathVariable("id") Long id, @RequestBody RentACarRatingDTO ratingDto ){
+		if(role.equals("CARADMIN") || role.equals("USER")) {
+			RentACarRatingDTO ratingToEdit = rentACarRatingService.changeRentACarRating(id, ratingDto);
+			
+		    return ( ratingToEdit.getId() != null )? new ResponseEntity<RentACarRatingDTO>(ratingToEdit,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			
+		}
+		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 	}
 
 	

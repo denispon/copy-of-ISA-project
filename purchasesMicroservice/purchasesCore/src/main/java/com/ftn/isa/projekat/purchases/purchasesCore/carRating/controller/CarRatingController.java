@@ -3,8 +3,6 @@ package com.ftn.isa.projekat.purchases.purchasesCore.carRating.controller;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import javax.websocket.server.PathParam;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -66,11 +65,15 @@ public class CarRatingController {
 					@ApiResponse( code = 201 , message = "Created"),
 					@ApiResponse( code = 400, message= "Bad request")
 	})
-	public ResponseEntity<CarRatingDTO> addCarRating(@PathVariable("date") String date,@RequestBody CarRatingDTO dto){
-		
-		CarRatingDTO savedCarRating = carRatingService.save(dto, LocalDateTime.parse(date));
-		
-		return ( savedCarRating!=null )? new ResponseEntity<CarRatingDTO>(savedCarRating,HttpStatus.CREATED): new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	public ResponseEntity<CarRatingDTO> addCarRating(
+			@RequestHeader("Role") String role,@PathVariable("date") String date,@RequestBody CarRatingDTO dto){
+		if(role.equals("CARADMIN") || role.equals("USER")) {
+			CarRatingDTO savedCarRating = carRatingService.save(dto, LocalDateTime.parse(date));
+			
+			return ( savedCarRating!=null )? new ResponseEntity<CarRatingDTO>(savedCarRating,HttpStatus.CREATED): new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			
+		}
+		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 	}
 	
 	@DeleteMapping("/{id}")
@@ -78,10 +81,15 @@ public class CarRatingController {
 	@ApiResponses( value = { 
 			 @ApiResponse( code = 200, message ="OK"),
 			 @ApiResponse( code = 404, message ="Not Found")})	
-	public ResponseEntity<CarRatingDTO> deleteCarRating(@PathVariable("id") Long id){
-		CarRatingDTO deletedCarRatingDTO = carRatingService.deleteById(id);
+	public ResponseEntity<CarRatingDTO> deleteCarRating(
+			@RequestHeader("Role") String role,@PathVariable("id") Long id){
+		if(role.equals("CARADMIN") || role.equals("USER")) {
+			CarRatingDTO deletedCarRatingDTO = carRatingService.deleteById(id);
+			
+			return (deletedCarRatingDTO.getId() != null ) ? new ResponseEntity<CarRatingDTO>(deletedCarRatingDTO,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		
-		return (deletedCarRatingDTO.getId() != null ) ? new ResponseEntity<CarRatingDTO>(deletedCarRatingDTO,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 	}
 	
 	@PutMapping("/{id}")
@@ -89,11 +97,15 @@ public class CarRatingController {
 	@ApiResponses( value = { 
 			 @ApiResponse( code = 200, message ="OK"),
 			 @ApiResponse( code = 400, message ="Bad Request")})
-	public ResponseEntity<CarRatingDTO> changeCarRating (@PathVariable("id") Long id, @RequestBody CarRatingDTO carRatingDto ){
-		
-		CarRatingDTO carRatingToEdit = carRatingService.changeCarRating(id, carRatingDto);
-	
-	    return ( carRatingToEdit.getId() != null )? new ResponseEntity<CarRatingDTO>(carRatingToEdit,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	public ResponseEntity<CarRatingDTO> changeCarRating (
+			@RequestHeader("Role") String role,@PathVariable("id") Long id, @RequestBody CarRatingDTO carRatingDto ){
+		if(role.equals("CARADMIN") || role.equals("USER")) {
+			CarRatingDTO carRatingToEdit = carRatingService.changeCarRating(id, carRatingDto);
+			
+		    return ( carRatingToEdit.getId() != null )? new ResponseEntity<CarRatingDTO>(carRatingToEdit,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			
+		}
+		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 	}
 	
 	

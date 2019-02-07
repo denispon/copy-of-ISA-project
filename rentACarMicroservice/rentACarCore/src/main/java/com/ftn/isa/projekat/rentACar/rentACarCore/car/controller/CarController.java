@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -67,11 +68,14 @@ public class CarController {
 					@ApiResponse( code = 201 , message = "Created"),
 					@ApiResponse( code = 400, message= "Bad request")
 	})
-	public ResponseEntity<CarDTO> addCar(@RequestBody CarDTO dto){
-		
-		CarDTO savedCar = carService.save(dto);
-		
-		return ( savedCar!=null )? new ResponseEntity<CarDTO>(savedCar,HttpStatus.CREATED): new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	public ResponseEntity<CarDTO> addCar(@RequestHeader("Role") String role, @RequestBody CarDTO dto){
+		if(role.equals("CARADMIN")) {
+			CarDTO savedCar = carService.save(dto);
+			
+			return ( savedCar!=null )? new ResponseEntity<CarDTO>(savedCar,HttpStatus.CREATED): new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+		}
+		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 	}
 	
 	@DeleteMapping("/{id}")
@@ -79,10 +83,15 @@ public class CarController {
 	@ApiResponses( value = { 
 			 @ApiResponse( code = 200, message ="OK"),
 			 @ApiResponse( code = 404, message ="Not Found")})	
-	public ResponseEntity<CarDTO> deleteCar(@PathVariable("id") Long id){
-		CarDTO deletedCarDTO = carService.deleteById(id);
+	public ResponseEntity<CarDTO> deleteCar(@RequestHeader("Role") String role, @PathVariable("id") Long id){
 		
-		return (deletedCarDTO.getId() != null ) ? new ResponseEntity<CarDTO>(deletedCarDTO,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		if(role.equals("CARADMIN")) {
+			CarDTO deletedCarDTO = carService.deleteById(id);
+			
+			return (deletedCarDTO.getId() != null ) ? new ResponseEntity<CarDTO>(deletedCarDTO,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+		}
+		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 	}
 	
 	
@@ -92,21 +101,28 @@ public class CarController {
 	@ApiResponses( value = { 
 			 @ApiResponse( code = 200, message ="OK"),
 			 @ApiResponse( code = 400, message ="Bad Request")})
-	public ResponseEntity<CarDTO> changeCar (@PathVariable("id") Long id, @RequestBody CarDTO carDto ){
-		
-		CarDTO carToEdit = carService.changeCar(id, carDto);
-	
-	    return ( carToEdit.getId() != null )? new ResponseEntity<CarDTO>(carToEdit,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	public ResponseEntity<CarDTO> changeCar (@RequestHeader("Role") String role, @PathVariable("id") Long id, @RequestBody CarDTO carDto ){
+		if(role.equals("CARADMIN")) {
+			CarDTO carToEdit = carService.changeCar(id, carDto);
+			
+		    return ( carToEdit.getId() != null )? new ResponseEntity<CarDTO>(carToEdit,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+		}
+		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 	}
 
 	
 	
 	@GetMapping("/getReservedCars/{dateFrom}/{dateTo}")
-	public ResponseEntity< List<CarDTO> > getReservedCarsFromTo(@PathVariable("dateFrom") String dateFrom , @PathVariable("dateTo") String dateTo){
-		
-		List<CarDTO> cars = carService.getReservedCarsFromTo(LocalDateTime.parse(dateFrom), LocalDateTime.parse(dateTo));
-		
-		return ( !cars.isEmpty() )? new ResponseEntity<List<CarDTO>>(cars,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);		
+	public ResponseEntity< List<CarDTO> > getReservedCarsFromTo(@RequestHeader("Role") String role, @PathVariable("dateFrom") String dateFrom , @PathVariable("dateTo") String dateTo){
+
+		if(role.equals("CARADMIN")) {
+			List<CarDTO> cars = carService.getReservedCarsFromTo(LocalDateTime.parse(dateFrom), LocalDateTime.parse(dateTo));
+			
+			return ( !cars.isEmpty() )? new ResponseEntity<List<CarDTO>>(cars,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);		
+					
+		}
+		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		
 	}
 	

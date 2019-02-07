@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 
 import com.ftn.isa.projekat.rentACar.rentACarApi.dto.IncomeDTO;
 
@@ -17,19 +18,19 @@ import com.ftn.isa.projekat.rentACar.rentACarApi.dto.IncomeDTO;
 public interface IncomeClient {
 	
 	@GetMapping("/{id}")
-	public IncomeDTO getOneIncomeById (@PathVariable("id") Long id);
+	public IncomeDTO getOneIncomeById (@RequestHeader("Role") String role,@PathVariable("id") Long id);
 	
 	@GetMapping("/all")
-	public List<IncomeDTO> getAllIncomes();
+	public List<IncomeDTO> getAllIncomes(@RequestHeader("Role") String role);
 	
 	@PostMapping("/")
-	public IncomeDTO addIncome(@RequestBody IncomeDTO dto);
+	public IncomeDTO addIncome(@RequestHeader("Role") String role,@RequestBody IncomeDTO dto);
 	
 	@DeleteMapping("/{id}")
-	public IncomeDTO deleteIncome(@PathVariable("id") Long id);
+	public IncomeDTO deleteIncome(@RequestHeader("Role") String role,@PathVariable("id") Long id);
 	
 	@PutMapping("/{id}")
-	public IncomeDTO changeBranch (@PathVariable("id") Long id, @RequestBody IncomeDTO incomeDto );
+	public IncomeDTO changeBranch (@RequestHeader("Role") String role,@PathVariable("id") Long id, @RequestBody IncomeDTO incomeDto );
 	
 
 }

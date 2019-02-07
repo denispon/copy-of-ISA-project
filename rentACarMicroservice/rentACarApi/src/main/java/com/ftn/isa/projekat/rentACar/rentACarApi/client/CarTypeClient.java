@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 
 import com.ftn.isa.projekat.rentACar.rentACarApi.dto.CarTypeDTO;
 
@@ -23,12 +24,12 @@ public interface CarTypeClient {
 	public List<CarTypeDTO> getAllCarTypes();
 	
 	@PostMapping("/")
-	public CarTypeDTO addCarType(@RequestBody CarTypeDTO dto);
+	public CarTypeDTO addCarType(@RequestHeader("Role") String role,@RequestBody CarTypeDTO dto);
 	
 	@DeleteMapping("/{id}")
-	public CarTypeDTO deleteCarType(@PathVariable("id") Long id);
+	public CarTypeDTO deleteCarType(@RequestHeader("Role") String role,@PathVariable("id") Long id);
 	
 	@PutMapping("/{id}")
-	public CarTypeDTO changeCarType (@PathVariable("id") Long id, @RequestBody CarTypeDTO carTypeDto );
+	public CarTypeDTO changeCarType (@RequestHeader("Role") String role,@PathVariable("id") Long id, @RequestBody CarTypeDTO carTypeDto );
 
 }

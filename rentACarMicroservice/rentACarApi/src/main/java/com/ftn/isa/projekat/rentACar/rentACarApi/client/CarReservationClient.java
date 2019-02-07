@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 
 import com.ftn.isa.projekat.rentACar.rentACarApi.dto.CarReservationDTO;
 
@@ -19,24 +20,19 @@ public interface CarReservationClient {
 
 	
 	@GetMapping("/{id}")
-	public CarReservationDTO getOneReservationById (@PathVariable("id") Long id);
+	public CarReservationDTO getOneReservationById (@RequestHeader("Role") String role,@PathVariable("id") Long id);
 	
 	@GetMapping("/all")
-	public List<CarReservationDTO> getAllReservations();
+	public List<CarReservationDTO> getAllReservations(@RequestHeader("Role") String role);
 	
 	@PostMapping("/")
-	public CarReservationDTO addReservation(@RequestBody CarReservationDTO dto);
+	public CarReservationDTO addReservation(@RequestHeader("Role") String role,@RequestBody CarReservationDTO dto);
 	
 	@DeleteMapping("/{id}")
-	public CarReservationDTO deleteReservation(@PathVariable("id") Long id);
+	public CarReservationDTO deleteReservation(@RequestHeader("Role") String role,@PathVariable("id") Long id);
 	
 	@PutMapping("/{id}")
-	public CarReservationDTO changeReservation (@PathVariable("id") Long id, @RequestBody CarReservationDTO reservationDTO );
+	public CarReservationDTO changeReservation (@RequestHeader("Role") String role,@PathVariable("id") Long id, @RequestBody CarReservationDTO reservationDTO );
 	
-	@PutMapping("/rate/{id}/{rating}")
-	public CarReservationDTO rateReservation (@PathVariable("id") Long id, @PathVariable("rating") int rating);
-	
-	@PutMapping("/rateCar/{id}/{rating}")
-	public CarReservationDTO rateCar (@PathVariable("id") Long id, @PathVariable("rating") int rating);
 	
 }

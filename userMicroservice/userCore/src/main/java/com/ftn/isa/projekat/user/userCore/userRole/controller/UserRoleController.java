@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -37,11 +38,15 @@ public class UserRoleController {
 	@ApiOperation( value = "Finds one user role.", notes = "Returns found user role.", httpMethod="GET")
 	@ApiResponses( value = { @ApiResponse( code = 200, message = "OK"),
 							 @ApiResponse( code = 404, message = "Not Found")})
-	public ResponseEntity<UserRoleDTO> getOneUserRoleById (@PathVariable("id") Long id){
-		
-		UserRoleDTO userDto = roleService.findOneById(id);
-		
-		return ( userDto.getId()!=null)? new ResponseEntity<UserRoleDTO>(userDto,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+	public ResponseEntity<UserRoleDTO> getOneUserRoleById (
+			@RequestHeader("Role") String role, @PathVariable("id") Long id){
+		if(role.equals("CARADMIN")) {
+			UserRoleDTO userDto = roleService.findOneById(id);
+			
+			return ( userDto.getId()!=null)? new ResponseEntity<UserRoleDTO>(userDto,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			
+		}
+		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		
 	}
 	
@@ -49,11 +54,15 @@ public class UserRoleController {
 	@ApiOperation( value = "Returns all user roles", httpMethod = "GET")
 	@ApiResponses( value = { @ApiResponse( code = 200, message ="OK"),
 							 @ApiResponse( code = 404, message ="Not Found")})	
-	public ResponseEntity<List<UserRoleDTO>> getAllUserRoles(){
-		
-		List<UserRoleDTO> roles = roleService.findAll();
-		
-		return ( !roles.isEmpty() )? new ResponseEntity<List<UserRoleDTO>>(roles,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+	public ResponseEntity<List<UserRoleDTO>> getAllUserRoles(
+			@RequestHeader("Role") String role){
+		if(role.equals("CARADMIN")) {
+			List<UserRoleDTO> roles = roleService.findAll();
+			
+			return ( !roles.isEmpty() )? new ResponseEntity<List<UserRoleDTO>>(roles,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			
+		}
+		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		
 	}
 	
@@ -63,11 +72,15 @@ public class UserRoleController {
 					@ApiResponse( code = 201 , message = "Created"),
 					@ApiResponse( code = 400, message= "Bad request")
 	})
-	public ResponseEntity<UserRoleDTO> addUserRole(@RequestBody UserRoleDTO dto){
-		
-		UserRoleDTO savedRole = roleService.save(dto);
-		
-		return ( savedRole!=null )? new ResponseEntity<UserRoleDTO>(savedRole,HttpStatus.CREATED): new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	public ResponseEntity<UserRoleDTO> addUserRole(
+			@RequestHeader("Role") String role,@RequestBody UserRoleDTO dto){
+		if(role.equals("CARADMIN")) {
+			UserRoleDTO savedRole = roleService.save(dto);
+			
+			return ( savedRole!=null )? new ResponseEntity<UserRoleDTO>(savedRole,HttpStatus.CREATED): new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			
+		}
+		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 	}
 	
 	@DeleteMapping("/{id}")
@@ -75,11 +88,15 @@ public class UserRoleController {
 	@ApiResponses( value = { 
 			 @ApiResponse( code = 200, message ="OK"),
 			 @ApiResponse( code = 404, message ="Not Found")})	
-	public ResponseEntity<UserRoleDTO> deleteUserRole(@PathVariable("id") Long id){
-		
-		UserRoleDTO deletedRoleDTO = roleService.deleteById(id);
-		
-		return (deletedRoleDTO.getId() != null ) ? new ResponseEntity<UserRoleDTO>(deletedRoleDTO,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+	public ResponseEntity<UserRoleDTO> deleteUserRole(
+			@RequestHeader("Role") String role,@PathVariable("id") Long id){
+		if(role.equals("CARADMIN")) {
+			UserRoleDTO deletedRoleDTO = roleService.deleteById(id);
+			
+			return (deletedRoleDTO.getId() != null ) ? new ResponseEntity<UserRoleDTO>(deletedRoleDTO,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			
+		}
+		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 	}
 	
 	@PutMapping("/{id}")
@@ -87,11 +104,15 @@ public class UserRoleController {
 	@ApiResponses( value = { 
 			 @ApiResponse( code = 200, message ="OK"),
 			 @ApiResponse( code = 400, message ="Bad Request")})
-	public ResponseEntity<UserRoleDTO> changeUserRole (@PathVariable("id") Long id, @RequestBody UserRoleDTO roleDto ){
-		
-		UserRoleDTO roleToEdit = roleService.changeUserRole(id, roleDto);
-	
-	    return ( roleToEdit.getId() != null )? new ResponseEntity<UserRoleDTO>(roleToEdit,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	public ResponseEntity<UserRoleDTO> changeUserRole (
+			@RequestHeader("Role") String role,@PathVariable("id") Long id, @RequestBody UserRoleDTO roleDto ){
+		if(role.equals("CARADMIN")) {
+			UserRoleDTO roleToEdit = roleService.changeUserRole(id, roleDto);
+			
+		    return ( roleToEdit.getId() != null )? new ResponseEntity<UserRoleDTO>(roleToEdit,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			
+		}
+		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 	}
 
 

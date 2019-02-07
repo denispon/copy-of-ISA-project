@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -63,11 +64,16 @@ public class CarTypeController {
 					@ApiResponse( code = 201 , message = "Created"),
 					@ApiResponse( code = 400, message= "Bad request")
 	})
-	public ResponseEntity<CarTypeDTO> addCarType(@RequestBody CarTypeDTO dto){
+	public ResponseEntity<CarTypeDTO> addCarType(@RequestHeader("Role") String role, @RequestBody CarTypeDTO dto){
 		
-		CarTypeDTO savedCarType = carTypeService.save(dto);
-		
-		return ( savedCarType!=null )? new ResponseEntity<CarTypeDTO>(savedCarType,HttpStatus.CREATED): new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+		if(role.equals("ADMIN")) {
+			CarTypeDTO savedCarType = carTypeService.save(dto);
+			
+			return ( savedCarType!=null )? new ResponseEntity<CarTypeDTO>(savedCarType,HttpStatus.CREATED): new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+				
+		}
+		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 	}
 	
 	@DeleteMapping("/{id}")
@@ -75,10 +81,14 @@ public class CarTypeController {
 	@ApiResponses( value = { 
 			 @ApiResponse( code = 200, message ="OK"),
 			 @ApiResponse( code = 404, message ="Not Found")})	
-	public ResponseEntity<CarTypeDTO> deleteCarType(@PathVariable("id") Long id){
-		CarTypeDTO deletedcarTypeDTO = carTypeService.deleteById(id);
-		
-		return (deletedcarTypeDTO.getId() != null ) ? new ResponseEntity<CarTypeDTO>(deletedcarTypeDTO,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+	public ResponseEntity<CarTypeDTO> deleteCarType(@RequestHeader("Role") String role, @PathVariable("id") Long id){
+		if(role.equals("ADMIN")) {
+			CarTypeDTO deletedcarTypeDTO = carTypeService.deleteById(id);
+			
+			return (deletedcarTypeDTO.getId() != null ) ? new ResponseEntity<CarTypeDTO>(deletedcarTypeDTO,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+		}
+		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 	}
 	
 	@PutMapping("/{id}")
@@ -86,11 +96,15 @@ public class CarTypeController {
 	@ApiResponses( value = { 
 			 @ApiResponse( code = 200, message ="OK"),
 			 @ApiResponse( code = 400, message ="Bad Request")})
-	public ResponseEntity<CarTypeDTO> changeCarType (@PathVariable("id") Long id, @RequestBody CarTypeDTO carTypeDto ){
+	public ResponseEntity<CarTypeDTO> changeCarType (@RequestHeader("Role") String role, @PathVariable("id") Long id, @RequestBody CarTypeDTO carTypeDto ){
 		
-		CarTypeDTO carTypeToEdit = carTypeService.changeCarType(id, carTypeDto);
+		if(role.equals("CARADMIN")) {
+			CarTypeDTO carTypeToEdit = carTypeService.changeCarType(id, carTypeDto);
+			
+		    return ( carTypeToEdit.getId() != null )? new ResponseEntity<CarTypeDTO>(carTypeToEdit,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	
-	    return ( carTypeToEdit.getId() != null )? new ResponseEntity<CarTypeDTO>(carTypeToEdit,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 	}
 	
 }

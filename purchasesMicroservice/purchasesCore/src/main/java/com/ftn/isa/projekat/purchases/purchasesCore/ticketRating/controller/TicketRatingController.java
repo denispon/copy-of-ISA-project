@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ftn.isa.projekat.purchases.purchasesApi.dto.CarRatingDTO;
 import com.ftn.isa.projekat.purchases.purchasesApi.dto.TicketRatingDTO;
 import com.ftn.isa.projekat.purchases.purchasesCore.ticketRating.service.ITicketRatingService;
 
@@ -64,11 +64,17 @@ public class TicketRatingController {
 					@ApiResponse( code = 201 , message = "Created"),
 					@ApiResponse( code = 400, message= "Bad request")
 	})
-	public ResponseEntity<TicketRatingDTO> addTicketRating(@RequestBody TicketRatingDTO dto){
+	public ResponseEntity<TicketRatingDTO> addTicketRating(
+			@RequestHeader("Role") String role, @RequestBody TicketRatingDTO dto){
 		
-		TicketRatingDTO savedTicketRating = ticketService.save(dto);
-		
-		return ( savedTicketRating!=null )? new ResponseEntity<TicketRatingDTO>(savedTicketRating,HttpStatus.CREATED): new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+		if(role.equals("AVIOADMIN") || role.equals("USER")) {
+			TicketRatingDTO savedTicketRating = ticketService.save(dto);
+			
+			return ( savedTicketRating!=null )? new ResponseEntity<TicketRatingDTO>(savedTicketRating,HttpStatus.CREATED): new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+				
+		}
+		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 	}
 	
 	@DeleteMapping("/{id}")
@@ -76,10 +82,16 @@ public class TicketRatingController {
 	@ApiResponses( value = { 
 			 @ApiResponse( code = 200, message ="OK"),
 			 @ApiResponse( code = 404, message ="Not Found")})	
-	public ResponseEntity<TicketRatingDTO> deleteTicketRating(@PathVariable("id") Long id){
-		TicketRatingDTO deletedCarRatingDTO = ticketService.deleteById(id);
+	public ResponseEntity<TicketRatingDTO> deleteTicketRating(
+			@RequestHeader("Role") String role, @PathVariable("id") Long id){
 		
-		return (deletedCarRatingDTO.getId() != null ) ? new ResponseEntity<TicketRatingDTO>(deletedCarRatingDTO,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		if(role.equals("AVIOADMIN") || role.equals("USER")) {
+			TicketRatingDTO deletedCarRatingDTO = ticketService.deleteById(id);
+			
+			return (deletedCarRatingDTO.getId() != null ) ? new ResponseEntity<TicketRatingDTO>(deletedCarRatingDTO,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			
+		}
+		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 	}
 	
 	@PutMapping("/{id}")
@@ -87,11 +99,15 @@ public class TicketRatingController {
 	@ApiResponses( value = { 
 			 @ApiResponse( code = 200, message ="OK"),
 			 @ApiResponse( code = 400, message ="Bad Request")})
-	public ResponseEntity<TicketRatingDTO> changeTicketRating (@PathVariable("id") Long id, @RequestBody TicketRatingDTO ticketRatingDto ){
-		
-		TicketRatingDTO ticketRatingToEdit = ticketService.changeTicketRating(id, ticketRatingDto);
-	
-	    return ( ticketRatingToEdit.getId() != null )? new ResponseEntity<TicketRatingDTO>(ticketRatingToEdit,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	public ResponseEntity<TicketRatingDTO> changeTicketRating (
+			@RequestHeader("Role") String role, @PathVariable("id") Long id, @RequestBody TicketRatingDTO ticketRatingDto ){
+		if(role.equals("AVIOADMIN") || role.equals("USER")) {
+			TicketRatingDTO ticketRatingToEdit = ticketService.changeTicketRating(id, ticketRatingDto);
+			
+		    return ( ticketRatingToEdit.getId() != null )? new ResponseEntity<TicketRatingDTO>(ticketRatingToEdit,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			
+		}
+		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 	}	
 	
 	

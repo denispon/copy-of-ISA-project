@@ -2,16 +2,14 @@ package com.ftn.isa.projekat.user.userApi.client;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 
 import com.ftn.isa.projekat.user.userApi.dto.UserDTO;
 import com.ftn.isa.projekat.user.userApi.dto.UserForRegistrationDTO;
@@ -21,22 +19,22 @@ import com.ftn.isa.projekat.user.userApi.dto.UserForRegistrationDTO;
 public interface UserClient {
 
 	@GetMapping("/{id}")
-	public UserDTO getOneUserById (@PathVariable("id") Long id);
+	public UserDTO getOneUserById (@RequestHeader("Role") String role,@PathVariable("id") Long id);
 	
 	@GetMapping("/all")	
-	public List<UserDTO> getAllUsers();
+	public List<UserDTO> getAllUsers(@RequestHeader("Role") String role);
 	
 	@PostMapping("/")
-	public UserDTO addUser(@RequestBody UserDTO dto);
+	public UserDTO addUser(@RequestHeader("Role") String role,@RequestBody UserDTO dto);
 	
 	@DeleteMapping("/{id}")
-	public UserDTO deleteUser(@PathVariable("id") Long id);
+	public UserDTO deleteUser(@RequestHeader("Role") String role,@PathVariable("id") Long id);
 	
 	@PutMapping("/{id}")
-	public UserDTO changeUser (@PathVariable("id") Long id, @RequestBody UserDTO userDto );
+	public UserDTO changeUser (@RequestHeader("Role") String role,@PathVariable("id") Long id, @RequestBody UserDTO userDto );
 	
 	@GetMapping("/friends/{id}")
-	public List<UserDTO> getAllFriends(@PathVariable("id") Long id);
+	public List<UserDTO> getAllFriends(@RequestHeader("Role") String role,@PathVariable("id") Long id);
 	
 	
 	@PostMapping("/register")
@@ -47,6 +45,6 @@ public interface UserClient {
 	
 	
 	@GetMapping("/role/{id}")
-	public List<UserDTO> getAllUsersByRole(@PathVariable("id") Long id);
+	public List<UserDTO> getAllUsersByRole(@RequestHeader("Role") String role,@PathVariable("id") Long id);
 	
 }

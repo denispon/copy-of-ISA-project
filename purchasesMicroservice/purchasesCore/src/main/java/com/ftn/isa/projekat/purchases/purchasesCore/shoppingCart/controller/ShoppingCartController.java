@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -40,11 +41,14 @@ public class ShoppingCartController {
 	@ApiOperation( value = "Finds one reservation from shopping cart.", notes = "Returns found reservation from shopping cart.", httpMethod="GET")
 	@ApiResponses( value = { @ApiResponse( code = 200, message = "OK"),
 							 @ApiResponse( code = 404, message = "Not Found")})
-	public ResponseEntity<ShoppingCartDTO> getOneReservationById (@PathVariable("id") Long id){
-		
-		ShoppingCartDTO ShoppingCartDTO = cartService.findOneById(id);
-		
-		return ( ShoppingCartDTO.getId()!=null)? new ResponseEntity<ShoppingCartDTO>(ShoppingCartDTO,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+	public ResponseEntity<ShoppingCartDTO> getOneReservationById (@RequestHeader("Role") String role, @PathVariable("id") Long id){
+		if(role.equals("USER")) {
+			ShoppingCartDTO ShoppingCartDTO = cartService.findOneById(id);
+			
+			return ( ShoppingCartDTO.getId()!=null)? new ResponseEntity<ShoppingCartDTO>(ShoppingCartDTO,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			
+		}
+		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		
 	}
 	
@@ -53,11 +57,14 @@ public class ShoppingCartController {
 	@ApiOperation( value = "Returns shopping cart of user.", notes = "Returns found reservations from shopping cart.", httpMethod="GET")
 	@ApiResponses( value = { @ApiResponse( code = 200, message = "OK"),
 							 @ApiResponse( code = 404, message = "Not Found")})
-	public ResponseEntity<ShoppingCartDTO> getOneReservationByUserId (@PathVariable("id") Long id){
-		
-		ShoppingCartDTO ShoppingCartDTO = cartService.findOneByUserId(id);
-		
-		return ( ShoppingCartDTO.getId()!=null)? new ResponseEntity<ShoppingCartDTO>(ShoppingCartDTO,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+	public ResponseEntity<ShoppingCartDTO> getOneReservationByUserId (@RequestHeader("Role") String role, @PathVariable("id") Long id){
+		if(role.equals("USER")) {
+			ShoppingCartDTO ShoppingCartDTO = cartService.findOneByUserId(id);
+			
+			return ( ShoppingCartDTO.getId()!=null)? new ResponseEntity<ShoppingCartDTO>(ShoppingCartDTO,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			
+		}
+		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		
 	}
 	
@@ -65,11 +72,14 @@ public class ShoppingCartController {
 	@ApiOperation( value = "Returns all reservations from shopping cart", httpMethod = "GET")
 	@ApiResponses( value = { @ApiResponse( code = 200, message ="OK"),
 							 @ApiResponse( code = 404, message ="Not Found")})	
-	public ResponseEntity<List<ShoppingCartDTO>> getAllReservations(){
-		
-		List<ShoppingCartDTO> reservations = cartService.findAll();
-		
-		return ( !reservations.isEmpty() )? new ResponseEntity<List<ShoppingCartDTO>>(reservations,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+	public ResponseEntity<List<ShoppingCartDTO>> getAllReservations(@RequestHeader("Role") String role){
+		if(role.equals("ADMIN")) {
+			List<ShoppingCartDTO> reservations = cartService.findAll();
+			
+			return ( !reservations.isEmpty() )? new ResponseEntity<List<ShoppingCartDTO>>(reservations,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			
+		}
+		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		
 	}
 	
@@ -79,11 +89,14 @@ public class ShoppingCartController {
 					@ApiResponse( code = 201 , message = "Created"),
 					@ApiResponse( code = 400, message= "Bad request")
 	})
-	public ResponseEntity<ShoppingCartDTO> addReservation(@RequestBody ShoppingCartDTO dto){
-		
-		ShoppingCartDTO savedReservation = cartService.save(dto);
-		
-		return ( savedReservation!=null )? new ResponseEntity<ShoppingCartDTO>(savedReservation,HttpStatus.CREATED): new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	public ResponseEntity<ShoppingCartDTO> addReservation(@RequestHeader("Role") String role, @RequestBody ShoppingCartDTO dto){
+		if(role.equals("USER")) {
+			ShoppingCartDTO savedReservation = cartService.save(dto);
+			
+			return ( savedReservation!=null )? new ResponseEntity<ShoppingCartDTO>(savedReservation,HttpStatus.CREATED): new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			
+		}
+		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 	}
 	
 	@DeleteMapping("/{id}")
@@ -91,10 +104,14 @@ public class ShoppingCartController {
 	@ApiResponses( value = { 
 			 @ApiResponse( code = 200, message ="OK"),
 			 @ApiResponse( code = 404, message ="Not Found")})	
-	public ResponseEntity<ShoppingCartDTO> deleteReservation(@PathVariable("id") Long id){
-		ShoppingCartDTO deletedShoppingCartDTO = cartService.deleteById(id);
-		
-		return (deletedShoppingCartDTO.getId() != null ) ? new ResponseEntity<ShoppingCartDTO>(deletedShoppingCartDTO,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+	public ResponseEntity<ShoppingCartDTO> deleteReservation(@RequestHeader("Role") String role, @PathVariable("id") Long id){
+		if(role.equals("USER")) {
+			ShoppingCartDTO deletedShoppingCartDTO = cartService.deleteById(id);
+			
+			return (deletedShoppingCartDTO.getId() != null ) ? new ResponseEntity<ShoppingCartDTO>(deletedShoppingCartDTO,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			
+		}
+		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 	}
 	
 	@PutMapping("/{id}")
@@ -102,11 +119,14 @@ public class ShoppingCartController {
 	@ApiResponses( value = { 
 			 @ApiResponse( code = 200, message ="OK"),
 			 @ApiResponse( code = 400, message ="Bad Request")})
-	public ResponseEntity<ShoppingCartDTO> changeReservation (@PathVariable("id") Long id, @RequestBody ShoppingCartDTO ShoppingCartDTO ){
+	public ResponseEntity<ShoppingCartDTO> changeReservation (@RequestHeader("Role") String role, @PathVariable("id") Long id, @RequestBody ShoppingCartDTO ShoppingCartDTO ){
+		if(role.equals("USER")) {
+			ShoppingCartDTO reservationToEdit = cartService.changeReservation(id, ShoppingCartDTO);
+			
+		    return ( reservationToEdit.getId() != null )? new ResponseEntity<ShoppingCartDTO>(reservationToEdit,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		
-		ShoppingCartDTO reservationToEdit = cartService.changeReservation(id, ShoppingCartDTO);
-	
-	    return ( reservationToEdit.getId() != null )? new ResponseEntity<ShoppingCartDTO>(reservationToEdit,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 	}
 
 	
@@ -116,11 +136,14 @@ public class ShoppingCartController {
 	@ApiResponses( value = { 
 			 @ApiResponse( code = 200, message ="OK"),
 			 @ApiResponse( code = 400, message ="Bad Request")})
-	public ResponseEntity<ShoppingCartDTO> addCarReservation(@PathVariable("id") Long id, @RequestBody CarReservationDTO carReservation){
-		
-		ShoppingCartDTO reservation = cartService.addCarReservation(id, carReservation);
-		
-	    return ( reservation.getId() != null )? new ResponseEntity<ShoppingCartDTO>(reservation,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	public ResponseEntity<ShoppingCartDTO> addCarReservation(@RequestHeader("Role") String role, @PathVariable("id") Long id, @RequestBody CarReservationDTO carReservation){
+		if(role.equals("USER")) {
+			ShoppingCartDTO reservation = cartService.addCarReservation(id, carReservation);
+			
+		    return ( reservation.getId() != null )? new ResponseEntity<ShoppingCartDTO>(reservation,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			
+		}
+		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 	}	
 	
 	@PutMapping("/addRoomReservation/{id}")
@@ -128,11 +151,14 @@ public class ShoppingCartController {
 	@ApiResponses( value = { 
 			 @ApiResponse( code = 200, message ="OK"),
 			 @ApiResponse( code = 400, message ="Bad Request")})
-	public ResponseEntity<ShoppingCartDTO> addRoomReservation(@PathVariable("id") Long id, @RequestBody RezervacijeSobeDTO roomReservation){
-		
-		ShoppingCartDTO reservation = cartService.addRoomReservation(id, roomReservation);
-		
-	    return ( reservation.getId() != null )? new ResponseEntity<ShoppingCartDTO>(reservation,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	public ResponseEntity<ShoppingCartDTO> addRoomReservation(@RequestHeader("Role") String role, @PathVariable("id") Long id, @RequestBody RezervacijeSobeDTO roomReservation){
+		if(role.equals("USER")) {
+			ShoppingCartDTO reservation = cartService.addRoomReservation(id, roomReservation);
+			
+		    return ( reservation.getId() != null )? new ResponseEntity<ShoppingCartDTO>(reservation,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			
+		}
+		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 	}
 	
 	@PutMapping("/addUslugaReservation/{id}")
@@ -140,11 +166,14 @@ public class ShoppingCartController {
 	@ApiResponses( value = { 
 			 @ApiResponse( code = 200, message ="OK"),
 			 @ApiResponse( code = 400, message ="Bad Request")})
-	public ResponseEntity<ShoppingCartDTO> addUslugaReservation(@PathVariable("id") Long id, @RequestBody DodatneUslugeDTO uslugaReservation){
-		
-		ShoppingCartDTO reservation = cartService.addUslugaReservation(id, uslugaReservation);
-		
-	    return ( reservation.getId() != null )? new ResponseEntity<ShoppingCartDTO>(reservation,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	public ResponseEntity<ShoppingCartDTO> addUslugaReservation(@RequestHeader("Role") String role, @PathVariable("id") Long id, @RequestBody DodatneUslugeDTO uslugaReservation){
+		if(role.equals("USER")) {
+			ShoppingCartDTO reservation = cartService.addUslugaReservation(id, uslugaReservation);
+			
+		    return ( reservation.getId() != null )? new ResponseEntity<ShoppingCartDTO>(reservation,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			
+		}
+		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 	}
 	
 	@PutMapping("/addCenovnikReservation/{id}")
@@ -152,11 +181,14 @@ public class ShoppingCartController {
 	@ApiResponses( value = { 
 			 @ApiResponse( code = 200, message ="OK"),
 			 @ApiResponse( code = 400, message ="Bad Request")})
-	public ResponseEntity<ShoppingCartDTO> addCenovnikReservation(@PathVariable("id") Long id, @RequestBody CenovnikUslugaDTO uslugaReservation){
-		
-		ShoppingCartDTO reservation = cartService.addCenovnikReservation(id, uslugaReservation);
-		
-	    return ( reservation.getId() != null )? new ResponseEntity<ShoppingCartDTO>(reservation,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	public ResponseEntity<ShoppingCartDTO> addCenovnikReservation(@RequestHeader("Role") String role, @PathVariable("id") Long id, @RequestBody CenovnikUslugaDTO uslugaReservation){
+		if(role.equals("USER")) {
+			ShoppingCartDTO reservation = cartService.addCenovnikReservation(id, uslugaReservation);
+			
+		    return ( reservation.getId() != null )? new ResponseEntity<ShoppingCartDTO>(reservation,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			
+		}
+		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 	}
 	
 	@DeleteMapping("/deleteCarReservation/{id}")
@@ -164,11 +196,14 @@ public class ShoppingCartController {
 	@ApiResponses( value = { 
 			 @ApiResponse( code = 200, message ="OK"),
 			 @ApiResponse( code = 404, message ="Not Found")})	
-	public ResponseEntity<ShoppingCartDTO> deleteCarReservation(@PathVariable("id") Long id){
+	public ResponseEntity<ShoppingCartDTO> deleteCarReservation(@RequestHeader("Role") String role, @PathVariable("id") Long id){
+		if(role.equals("USER")) {
+			ShoppingCartDTO reservation = cartService.deleteCarReservation(id);
+			
+		    return ( reservation.getId() != null )? new ResponseEntity<ShoppingCartDTO>(reservation,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		
-		ShoppingCartDTO reservation = cartService.deleteCarReservation(id);
-		
-	    return ( reservation.getId() != null )? new ResponseEntity<ShoppingCartDTO>(reservation,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 
 	}
 	
@@ -177,11 +212,14 @@ public class ShoppingCartController {
 	@ApiResponses( value = { 
 			 @ApiResponse( code = 200, message ="OK"),
 			 @ApiResponse( code = 404, message ="Not Found")})	
-	public ResponseEntity<ShoppingCartDTO> deleteRoomReservation(@PathVariable("id") Long id){
-		
-		ShoppingCartDTO reservation = cartService.deleteRoomReservation(id);
-		
-	    return ( reservation.getId() != null )? new ResponseEntity<ShoppingCartDTO>(reservation,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	public ResponseEntity<ShoppingCartDTO> deleteRoomReservation(@RequestHeader("Role") String role, @PathVariable("id") Long id){
+		if(role.equals("USER")) {
+			ShoppingCartDTO reservation = cartService.deleteRoomReservation(id);
+			
+		    return ( reservation.getId() != null )? new ResponseEntity<ShoppingCartDTO>(reservation,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			
+		}
+		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 
 	}
 	
@@ -190,11 +228,14 @@ public class ShoppingCartController {
 	@ApiResponses( value = { 
 			 @ApiResponse( code = 200, message ="OK"),
 			 @ApiResponse( code = 404, message ="Not Found")})	
-	public ResponseEntity<ShoppingCartDTO> deleteUslugaReservation(@PathVariable("id") Long id){
-		
-		ShoppingCartDTO reservation = cartService.deleteUslugaReservation(id);
-		
-	    return ( reservation.getId() != null )? new ResponseEntity<ShoppingCartDTO>(reservation,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	public ResponseEntity<ShoppingCartDTO> deleteUslugaReservation(@RequestHeader("Role") String role, @PathVariable("id") Long id){
+		if(role.equals("USER")) {
+			ShoppingCartDTO reservation = cartService.deleteUslugaReservation(id);
+			
+		    return ( reservation.getId() != null )? new ResponseEntity<ShoppingCartDTO>(reservation,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			
+		}
+		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 
 	}	
 	
@@ -203,11 +244,14 @@ public class ShoppingCartController {
 	@ApiResponses( value = { 
 			 @ApiResponse( code = 200, message ="OK"),
 			 @ApiResponse( code = 404, message ="Not Found")})	
-	public ResponseEntity<ShoppingCartDTO> deleteCenovnikReservation(@PathVariable("id") Long id){
-		
-		ShoppingCartDTO reservation = cartService.deleteCenovnikReservation(id);
-		
-	    return ( reservation.getId() != null )? new ResponseEntity<ShoppingCartDTO>(reservation,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	public ResponseEntity<ShoppingCartDTO> deleteCenovnikReservation(@RequestHeader("Role") String role, @PathVariable("id") Long id){
+		if(role.equals("USER")) {
+			ShoppingCartDTO reservation = cartService.deleteCenovnikReservation(id);
+			
+		    return ( reservation.getId() != null )? new ResponseEntity<ShoppingCartDTO>(reservation,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			
+		}
+		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 
 	}
 	
@@ -217,11 +261,14 @@ public class ShoppingCartController {
 					@ApiResponse( code = 201 , message = "Created"),
 					@ApiResponse( code = 400, message= "Bad request")
 	})
-	public ResponseEntity<ShoppingCartDTO> confirmReservation(@PathVariable("id") Long id){
-		
-		ShoppingCartDTO movedReservation = cartService.confirmReservation(id);
+	public ResponseEntity<ShoppingCartDTO> confirmReservation(@RequestHeader("Role") String role, @PathVariable("id") Long id){
+		if(role.equals("USER")) {
+			ShoppingCartDTO movedReservation = cartService.confirmReservation(id);
 
-	    return ( movedReservation.getId() != null )? new ResponseEntity<ShoppingCartDTO>(movedReservation,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		    return ( movedReservation.getId() != null )? new ResponseEntity<ShoppingCartDTO>(movedReservation,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			
+		}
+		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 
 	}
 	
@@ -231,11 +278,15 @@ public class ShoppingCartController {
 	@ApiResponses( value = { 
 			 @ApiResponse( code = 200, message ="OK"),
 			 @ApiResponse( code = 400, message ="Bad Request")})
-	public ResponseEntity<ShoppingCartDTO> addBonusPointsToReservation(@PathVariable("id") Long id, @PathVariable("bonusPoints") int bonusPoints){
+	public ResponseEntity<ShoppingCartDTO> addBonusPointsToReservation(@RequestHeader("Role") String role, @PathVariable("id") Long id, @PathVariable("bonusPoints") int bonusPoints){
 		
-		ShoppingCartDTO changedReservation = cartService.addBonusPointsToReservation(id, bonusPoints);
-		
-	    return ( changedReservation.getId() != null )? new ResponseEntity<ShoppingCartDTO>(changedReservation,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		if(role.equals("USER")) {
+			ShoppingCartDTO changedReservation = cartService.addBonusPointsToReservation(id, bonusPoints);
+			
+		    return ( changedReservation.getId() != null )? new ResponseEntity<ShoppingCartDTO>(changedReservation,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			
+		}
+		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 			
 	}
 	

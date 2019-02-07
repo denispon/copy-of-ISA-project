@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -36,11 +37,15 @@ public class IncomeController {
 	@ApiOperation( value = "Finds one income.", notes = "Returns found income.", httpMethod="GET")
 	@ApiResponses( value = { @ApiResponse( code = 200, message = "OK"),
 							 @ApiResponse( code = 404, message = "Not Found")})
-	public ResponseEntity<IncomeDTO> getOneIncomeById (@PathVariable("id") Long id){
-		
-		IncomeDTO incomeDto = incomeService.findOneById(id);
-		
-		return ( incomeDto.getId()!=null)? new ResponseEntity<IncomeDTO>(incomeDto,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+	public ResponseEntity<IncomeDTO> getOneIncomeById (@RequestHeader("Role") String role, @PathVariable("id") Long id){
+
+		if(role.equals("CARADMIN")) {
+			IncomeDTO incomeDto = incomeService.findOneById(id);
+			
+			return ( incomeDto.getId()!=null)? new ResponseEntity<IncomeDTO>(incomeDto,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+				
+		}
+		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		
 	}
 	
@@ -48,11 +53,15 @@ public class IncomeController {
 	@ApiOperation( value = "Returns all incomes.", httpMethod = "GET")
 	@ApiResponses( value = { @ApiResponse( code = 200, message ="OK"),
 							 @ApiResponse( code = 404, message ="Not Found")})	
-	public ResponseEntity<List<IncomeDTO>> getAllIncomes(){
-		
-		List<IncomeDTO> incomes = incomeService.findAll();
-		
-		return ( !incomes.isEmpty() )? new ResponseEntity<List<IncomeDTO>>(incomes,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+	public ResponseEntity<List<IncomeDTO>> getAllIncomes(@RequestHeader("Role") String role){
+
+		if(role.equals("CARADMIN")) {
+			List<IncomeDTO> incomes = incomeService.findAll();
+			
+			return ( !incomes.isEmpty() )? new ResponseEntity<List<IncomeDTO>>(incomes,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+				
+		}
+		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		
 	}
 	
@@ -62,11 +71,14 @@ public class IncomeController {
 					@ApiResponse( code = 201 , message = "Created"),
 					@ApiResponse( code = 400, message= "Bad request")
 	})
-	public ResponseEntity<IncomeDTO> addIncome(@RequestBody IncomeDTO dto){
-		
-		IncomeDTO savedIncome = incomeService.save(dto);
-		
-		return ( savedIncome!=null )? new ResponseEntity<IncomeDTO>(savedIncome,HttpStatus.CREATED): new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	public ResponseEntity<IncomeDTO> addIncome(@RequestHeader("Role") String role,@RequestBody IncomeDTO dto){
+		if(role.equals("CARADMIN")) {
+			IncomeDTO savedIncome = incomeService.save(dto);
+			
+			return ( savedIncome!=null )? new ResponseEntity<IncomeDTO>(savedIncome,HttpStatus.CREATED): new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			
+		}
+		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 	}
 	
 	@DeleteMapping("/{id}")
@@ -74,10 +86,14 @@ public class IncomeController {
 	@ApiResponses( value = { 
 			 @ApiResponse( code = 200, message ="OK"),
 			 @ApiResponse( code = 404, message ="Not Found")})	
-	public ResponseEntity<IncomeDTO> deleteIncome(@PathVariable("id") Long id){
-		IncomeDTO deletedIncomeDTO = incomeService.deleteById(id);
-		
-		return (deletedIncomeDTO.getId() != null ) ? new ResponseEntity<IncomeDTO>(deletedIncomeDTO,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+	public ResponseEntity<IncomeDTO> deleteIncome(@RequestHeader("Role") String role,@PathVariable("id") Long id){
+		if(role.equals("CARADMIN")) {
+			IncomeDTO deletedIncomeDTO = incomeService.deleteById(id);
+			
+			return (deletedIncomeDTO.getId() != null ) ? new ResponseEntity<IncomeDTO>(deletedIncomeDTO,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			
+		}
+		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 	}
 	
 	@PutMapping("/{id}")
@@ -85,11 +101,14 @@ public class IncomeController {
 	@ApiResponses( value = { 
 			 @ApiResponse( code = 200, message ="OK"),
 			 @ApiResponse( code = 400, message ="Bad Request")})
-	public ResponseEntity<IncomeDTO> changeBranch (@PathVariable("id") Long id, @RequestBody IncomeDTO incomeDto ){
-		
-		IncomeDTO incomeToEdit = incomeService.changeIncome(id, incomeDto);
-	
-	    return ( incomeToEdit.getId() != null )? new ResponseEntity<IncomeDTO>(incomeToEdit,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	public ResponseEntity<IncomeDTO> changeBranch (@RequestHeader("Role") String role,@PathVariable("id") Long id, @RequestBody IncomeDTO incomeDto ){
+		if(role.equals("CARADMIN")) {
+			IncomeDTO incomeToEdit = incomeService.changeIncome(id, incomeDto);
+			
+		    return ( incomeToEdit.getId() != null )? new ResponseEntity<IncomeDTO>(incomeToEdit,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			
+		}
+		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);		
 	}
 	
 	

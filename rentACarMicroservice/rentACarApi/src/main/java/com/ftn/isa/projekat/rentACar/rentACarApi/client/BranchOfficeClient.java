@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 
 import com.ftn.isa.projekat.rentACar.rentACarApi.dto.BranchOfficeDTO;
 
@@ -24,12 +25,12 @@ public interface BranchOfficeClient {
 	public List<BranchOfficeDTO> getAllBranches();
 	
 	@PostMapping("/")
-	public BranchOfficeDTO addBranchOffice(@RequestBody BranchOfficeDTO dto);
+	public BranchOfficeDTO addBranchOffice(@RequestHeader("Role") String role,@RequestBody BranchOfficeDTO dto);
 	
 	@DeleteMapping("/{id}")
-	public BranchOfficeDTO deleteBranchOffice(@PathVariable("id") Long id);
+	public BranchOfficeDTO deleteBranchOffice(@RequestHeader("Role") String role,@PathVariable("id") Long id);
 	
 	@PutMapping("/{id}")
-	public BranchOfficeDTO changeBranch (@PathVariable("id") Long id, @RequestBody BranchOfficeDTO branchDto );
+	public BranchOfficeDTO changeBranch (@RequestHeader("Role") String role,@PathVariable("id") Long id, @RequestBody BranchOfficeDTO branchDto );
 	
 }
