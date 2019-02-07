@@ -14,6 +14,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Version;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ftn.isa.projekat.user.userCore.userRole.model.UserRole;
@@ -60,4 +61,7 @@ public class User {
 	@JoinColumn (name="role",nullable = true)
     private UserRole role;
 	
+	
+	@Version
+	private Long version;
 }

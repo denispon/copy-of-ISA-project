@@ -8,6 +8,8 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.ftn.isa.projekat.purchases.purchasesApi.dto.TicketRatingDTO;
 import com.ftn.isa.projekat.purchases.purchasesCore.converter.DTOTicketRatingConverter;
@@ -29,6 +31,7 @@ public class TicketRatingServiceImpl implements ITicketRatingService
 	DatasFromOtherMicroservices servicesProxy;
 
 	@Override
+	@Transactional(readOnly = true, isolation=Isolation.READ_COMMITTED)
 	public TicketRatingDTO findOneById(Long id)
 	{
 		Optional <TicketRating> ticketRating = ticketRepo.findById(id);
@@ -47,6 +50,7 @@ public class TicketRatingServiceImpl implements ITicketRatingService
 	}
 
 	@Override
+	@Transactional(readOnly= true, isolation=Isolation.READ_COMMITTED)
 	public List<TicketRatingDTO> findAll() 
 	{
 		Optional< List<TicketRating> > list = Optional.of(ticketRepo.findAll());
@@ -68,6 +72,7 @@ public class TicketRatingServiceImpl implements ITicketRatingService
 	}
 
 	@Override
+	@Transactional(readOnly = false, isolation=Isolation.READ_COMMITTED)
 	public TicketRatingDTO save(TicketRatingDTO dto) 
 	{
 		//TicketDTO ticketForRate = servicesProxy.getTicketById(dto.getTicketId());
@@ -87,6 +92,7 @@ public class TicketRatingServiceImpl implements ITicketRatingService
 	}
 
 	@Override
+	@Transactional(readOnly = false, isolation=Isolation.REPEATABLE_READ)	
 	public TicketRatingDTO deleteById(Long id)
 	{
 		Optional<TicketRating> ticketRatingToDelete = ticketRepo.findById(id);
@@ -102,6 +108,7 @@ public class TicketRatingServiceImpl implements ITicketRatingService
 	}
 
 	@Override
+	@Transactional(readOnly = false, isolation=Isolation.REPEATABLE_READ)	
 	public TicketRatingDTO changeTicketRating(Long id, TicketRatingDTO ticketRatingDto)
 	{
 		Optional<TicketRating> carRatingForChange = ticketRepo.findById(id);

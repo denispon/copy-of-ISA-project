@@ -8,6 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Version;
 
 import com.ftn.isa.projekat.purchases.purchasesCore.invitationCard.model.InvitationCard;
 
@@ -50,6 +51,10 @@ public class Reservation {
 	@OneToOne( cascade = CascadeType.ALL,
 			   mappedBy = "reservation")
     private InvitationCard invitation;
+	
+	
+	@Version
+	private Long version;
 	
 	
 }

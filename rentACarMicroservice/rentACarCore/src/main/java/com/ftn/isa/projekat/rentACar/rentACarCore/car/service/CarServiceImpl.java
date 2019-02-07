@@ -9,6 +9,8 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.ftn.isa.projekat.rentACar.rentACarApi.dto.CarDTO;
 import com.ftn.isa.projekat.rentACar.rentACarApi.dto.RentACarOnDiscountDTO;
@@ -55,6 +57,7 @@ public class CarServiceImpl  implements ICarService{
 	DTOBranchOfficeConverter branchOfficeConverter;
 
 	@Override
+	@Transactional(readOnly = true, isolation=Isolation.READ_COMMITTED)
 	public CarDTO findOneById(Long id) {
 		
 		Optional <Car> car = carRepository.findById(id);
@@ -73,6 +76,7 @@ public class CarServiceImpl  implements ICarService{
 		
 	}
 
+	@Transactional(readOnly= true, isolation=Isolation.READ_COMMITTED)
 	@Override
 	public List<CarDTO> findAll() {
 
@@ -95,6 +99,7 @@ public class CarServiceImpl  implements ICarService{
 		
 	}
 
+	@Transactional(readOnly = false, isolation=Isolation.READ_COMMITTED)
 	@Override
 	public CarDTO save(CarDTO carToSave) {
 		
@@ -113,6 +118,8 @@ public class CarServiceImpl  implements ICarService{
 			//if they are not, we will return also empty object with info and car will not be saved
 			if(branch.get().getBranchRentService().getId() == rentService.get().getId()) {
 			
+				carToSave.setId(-1l);
+				
 				Car savedCar = carRepository.save(carConverter.convertFromDTO(carToSave));
 				
 				carToSave.setId(savedCar.getId());
@@ -131,6 +138,7 @@ public class CarServiceImpl  implements ICarService{
 		return new CarDTO();
 	}
 
+	@Transactional(readOnly = false, isolation=Isolation.REPEATABLE_READ)	
 	@Override
 	public CarDTO deleteById(Long id) {
 
@@ -172,6 +180,7 @@ public class CarServiceImpl  implements ICarService{
 		
 	}
 
+	@Transactional(readOnly = false, isolation=Isolation.REPEATABLE_READ)	
 	@Override
 	public CarDTO changeCar(Long id, CarDTO car) {
 
@@ -239,6 +248,7 @@ public class CarServiceImpl  implements ICarService{
 		
 	}
 
+	@Transactional(readOnly = true, isolation=Isolation.READ_COMMITTED)
 	@Override
 	public List<CarDTO> getReservedCarsFromTo(LocalDateTime dateFrom, LocalDateTime dateTo) {
 
@@ -266,7 +276,7 @@ public class CarServiceImpl  implements ICarService{
 	}
 	
 	
-
+	@Transactional(readOnly = true, isolation=Isolation.READ_COMMITTED)
 	@Override
 	public List<CarDTO> getFreeCarsFromTo(LocalDateTime dateFrom, LocalDateTime dateTo) {
 
@@ -294,6 +304,7 @@ public class CarServiceImpl  implements ICarService{
 		
 	}
 
+	@Transactional(readOnly = true, isolation=Isolation.READ_COMMITTED)
 	@Override
 	public List<CarDTO> findAllByRentACarService(Long rentId) {
 
@@ -316,6 +327,7 @@ public class CarServiceImpl  implements ICarService{
 		
 	}
 
+	@Transactional(readOnly = true, isolation=Isolation.READ_COMMITTED)
 	@Override
 	public List<RentACarOnDiscountDTO> getAllCurrentlyDiscount(LocalDateTime dateFrom , LocalDateTime dateTo) {
 
@@ -354,6 +366,7 @@ public class CarServiceImpl  implements ICarService{
 		
 	}
 
+	@Transactional(readOnly = true, isolation=Isolation.READ_COMMITTED)
 	@Override
 	public List<CarDTO> getAllNotOnDiscount(LocalDate date) {
 
@@ -376,6 +389,7 @@ public class CarServiceImpl  implements ICarService{
 		
 	}
 
+	@Transactional(readOnly = true, isolation=Isolation.READ_COMMITTED)
 	@Override
 	public List<CarDTO> getAllOnDiscount() {
 

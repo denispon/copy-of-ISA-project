@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Version;
 
 import lombok.Data;
 
@@ -27,5 +28,8 @@ public class FriendRequest {
 	
 	@Column (name = "status", nullable= false)
 	private String status;
+	
+	@Version
+	private Long version;
 
 }

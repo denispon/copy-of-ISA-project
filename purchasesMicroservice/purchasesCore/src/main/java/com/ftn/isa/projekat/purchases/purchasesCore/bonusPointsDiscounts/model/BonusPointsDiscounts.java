@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Version;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -28,5 +29,8 @@ public class BonusPointsDiscounts {
 	
 	@Column (name = "discount", nullable= false)
 	private int discount;
+	
+	@Version
+	private Long version;
 
 }

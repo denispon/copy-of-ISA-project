@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Version;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ftn.isa.projekat.user.userCore.user.model.User;
@@ -32,5 +33,8 @@ public class UserRole {
 	@JsonIgnore
 	@OneToMany (mappedBy="role")
 	private List<User> users;
+	
+	@Version
+	private Long version;
 	
 }

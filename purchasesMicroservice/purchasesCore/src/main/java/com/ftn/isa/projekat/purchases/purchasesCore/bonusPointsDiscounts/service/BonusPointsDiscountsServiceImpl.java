@@ -7,6 +7,8 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.ftn.isa.projekat.purchases.purchasesApi.dto.BonusPointsDiscountsDTO;
 import com.ftn.isa.projekat.purchases.purchasesCore.bonusPointsDiscounts.model.BonusPointsDiscounts;
@@ -24,6 +26,7 @@ public class BonusPointsDiscountsServiceImpl implements IBonusPointsDiscountsSer
 	
 	
 	@Override
+	@Transactional(readOnly = true, isolation=Isolation.READ_COMMITTED)
 	public BonusPointsDiscountsDTO findOneById(Long id) {
 		
 		Optional <BonusPointsDiscounts> bonusPoint = discountRepository.findById(id);
@@ -43,6 +46,7 @@ public class BonusPointsDiscountsServiceImpl implements IBonusPointsDiscountsSer
 	}
 
 	@Override
+	@Transactional(readOnly= true, isolation=Isolation.READ_COMMITTED)
 	public List<BonusPointsDiscountsDTO> findAll() {
 		Optional< List<BonusPointsDiscounts> > list = Optional.of(discountRepository.findAll());
 		ArrayList< BonusPointsDiscountsDTO > bonusPointsDiscountsDTO = new ArrayList< BonusPointsDiscountsDTO >();
@@ -63,6 +67,7 @@ public class BonusPointsDiscountsServiceImpl implements IBonusPointsDiscountsSer
 	}
 
 	@Override
+	@Transactional(readOnly = false, isolation=Isolation.READ_COMMITTED)
 	public BonusPointsDiscountsDTO save(BonusPointsDiscountsDTO discountsToSave) {
 		
 		/*
@@ -78,13 +83,18 @@ public class BonusPointsDiscountsServiceImpl implements IBonusPointsDiscountsSer
 			
 			presentBonusPoints.get().setDiscount(discountsToSave.getDiscount());
 			
-			discountRepository.save(presentBonusPoints.get());
+			BonusPointsDiscounts bonusPoints = discountRepository.save(presentBonusPoints.get());
 			
+			discountsToSave.setId(bonusPoints.getId());
 			
 		}else {
 			if(discountsToSave.getDiscount()<=100 && discountsToSave.getDiscount()>0) {
+			discountsToSave.setId(-1l);
 			BonusPointsDiscounts bonusPoint = discountConverter.convertFromDTO(discountsToSave);
-			discountRepository.save(bonusPoint);
+			BonusPointsDiscounts bonusPoints =discountRepository.save(bonusPoint);
+			
+			discountsToSave.setId(bonusPoints.getId());
+
 			}
 			
 			return discountsToSave;			
@@ -94,6 +104,7 @@ public class BonusPointsDiscountsServiceImpl implements IBonusPointsDiscountsSer
 	}
 
 	@Override
+	@Transactional(readOnly = false, isolation=Isolation.REPEATABLE_READ)	
 	public BonusPointsDiscountsDTO deleteById(Long id) {
 		
 		Optional<BonusPointsDiscounts> bonusPointsToDelete = discountRepository.findById(id);
@@ -111,6 +122,7 @@ public class BonusPointsDiscountsServiceImpl implements IBonusPointsDiscountsSer
 	}
 
 	@Override
+	@Transactional(readOnly = false, isolation=Isolation.REPEATABLE_READ)	
 	public BonusPointsDiscountsDTO changeBonusPoints(Long id, BonusPointsDiscountsDTO discount) {
 	
 		Optional<BonusPointsDiscounts> discountToChange = discountRepository.findById(id);

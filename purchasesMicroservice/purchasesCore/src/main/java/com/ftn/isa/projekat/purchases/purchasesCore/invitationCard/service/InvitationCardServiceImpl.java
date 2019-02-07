@@ -7,6 +7,8 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.ftn.isa.projekat.purchases.purchasesApi.dto.InvitationCardDTO;
 import com.ftn.isa.projekat.purchases.purchasesCore.converter.DTOInvitationCardConverter;
@@ -40,6 +42,7 @@ public class InvitationCardServiceImpl implements IInvitationCardService{
 	DatasFromOtherMicroservices servicesProxy;
 	
 	@Override
+	@Transactional(readOnly = true, isolation=Isolation.READ_COMMITTED)
 	public InvitationCardDTO findOneById(Long id) {
 		
 		Optional <InvitationCard> invitation = invitationRepository.findById(id);
@@ -58,6 +61,7 @@ public class InvitationCardServiceImpl implements IInvitationCardService{
 	}
 
 	@Override
+	@Transactional(readOnly = true, isolation=Isolation.READ_COMMITTED)
 	public List<InvitationCardDTO> findAll() {
 		
 		Optional< List<InvitationCard> > list = Optional.of(invitationRepository.findAll());
@@ -80,6 +84,7 @@ public class InvitationCardServiceImpl implements IInvitationCardService{
 	}
 
 	@Override
+	@Transactional(readOnly = false, isolation=Isolation.READ_COMMITTED)
 	public InvitationCardDTO save(InvitationCardDTO invitationToSave) {
 		
 		/* 
@@ -93,7 +98,11 @@ public class InvitationCardServiceImpl implements IInvitationCardService{
 			
 			invitationToSave.setStatus("pending");
 			
-			invitationRepository.save(invitationConverter.convertFromDTO(invitationToSave));
+			invitationToSave.setId(-1l);
+			
+			InvitationCard card = invitationRepository.save(invitationConverter.convertFromDTO(invitationToSave));
+			
+			invitationToSave.setId(card.getId());
 			
 			return invitationToSave;
 			
@@ -104,6 +113,7 @@ public class InvitationCardServiceImpl implements IInvitationCardService{
 	}
 
 	@Override
+	@Transactional(readOnly = false, isolation=Isolation.REPEATABLE_READ)	
 	public InvitationCardDTO deleteById(Long id) {
 		
 		Optional<InvitationCard> invitationToDelete = invitationRepository.findById(id);
@@ -119,6 +129,7 @@ public class InvitationCardServiceImpl implements IInvitationCardService{
 	}
 
 	@Override
+	@Transactional(readOnly = false, isolation=Isolation.REPEATABLE_READ)	
 	public InvitationCardDTO changeInvitation(Long id, InvitationCardDTO invitation) {
 		
 		Optional<InvitationCard> invitationForChange = invitationRepository.findById(id);
@@ -204,6 +215,7 @@ public class InvitationCardServiceImpl implements IInvitationCardService{
 	}
 
 	@Override
+	@Transactional(readOnly = false, isolation=Isolation.REPEATABLE_READ)	
 	public InvitationCardDTO acceptInvitation(Long id) {
 		
 		Optional<InvitationCard> invitationForAccept = invitationRepository.findById(id);
@@ -225,6 +237,7 @@ public class InvitationCardServiceImpl implements IInvitationCardService{
 	}
 
 	@Override
+	@Transactional(readOnly = false, isolation=Isolation.REPEATABLE_READ)	
 	public InvitationCardDTO declineInvitation(Long id) {
 		
 		Optional<InvitationCard> invitationForDecline = invitationRepository.findById(id);

@@ -7,6 +7,8 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.ftn.isa.projekat.user.userApi.dto.FriendRequestDTO;
 import com.ftn.isa.projekat.user.userCore.converter.DTOFriendRequestConverter;
@@ -31,6 +33,7 @@ public class FriendRequestServiceImpl implements IFriendRequestService {
 	
 	
 	@Override
+	@Transactional(readOnly = true, isolation=Isolation.READ_COMMITTED)
 	public FriendRequestDTO findOneById(Long id) {
 		
 		Optional <FriendRequest> friendRequest = requestRepository.findById(id);
@@ -50,6 +53,7 @@ public class FriendRequestServiceImpl implements IFriendRequestService {
 	}
 
 	@Override
+	@Transactional(readOnly= true, isolation=Isolation.READ_COMMITTED)
 	public List<FriendRequestDTO> findAll() {
 
 		Optional< List<FriendRequest> > list = Optional.of(requestRepository.findAll());
@@ -72,6 +76,8 @@ public class FriendRequestServiceImpl implements IFriendRequestService {
 	}
 
 	@Override
+	@Transactional(readOnly = false, isolation=Isolation.READ_COMMITTED)
+
 	public FriendRequestDTO save(FriendRequestDTO friendRequestToSave) {
 		
 		/*
@@ -90,6 +96,8 @@ public class FriendRequestServiceImpl implements IFriendRequestService {
 			
 			requestToSaveBean.setStatus("pending");
 			
+			friendRequestToSave.setId(-1l);
+			
 			requestRepository.save(requestToSaveBean);
 			
 			friendRequestToSave.setId(requestToSaveBean.getId());
@@ -103,6 +111,8 @@ public class FriendRequestServiceImpl implements IFriendRequestService {
 	}
 
 	@Override
+	@Transactional(readOnly = false, isolation=Isolation.REPEATABLE_READ)	
+
 	public FriendRequestDTO deleteById(Long id) {
 		
 		Optional<FriendRequest> friendRequestToDelete = requestRepository.findById(id);
@@ -121,6 +131,7 @@ public class FriendRequestServiceImpl implements IFriendRequestService {
 	}
 
 	@Override
+	@Transactional(readOnly = false, isolation=Isolation.REPEATABLE_READ)	
 	public FriendRequestDTO changeFriendRequest(Long id, FriendRequestDTO friendRequest) {
 		
 		Optional<FriendRequest> requestForChange = requestRepository.findById(id);
@@ -145,6 +156,7 @@ public class FriendRequestServiceImpl implements IFriendRequestService {
 	}
 
 	@Override
+	@Transactional(readOnly = false, isolation=Isolation.REPEATABLE_READ)	
 	public FriendRequestDTO acceptRequest(Long id) {
 		
 		Optional<FriendRequest> request = requestRepository.findById(id);

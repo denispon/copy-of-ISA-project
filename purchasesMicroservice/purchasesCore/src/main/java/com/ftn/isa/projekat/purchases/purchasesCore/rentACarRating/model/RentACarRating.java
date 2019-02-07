@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Version;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -36,4 +37,7 @@ public class RentACarRating {
 	
 	@Column (name = "date",nullable = false)
 	private LocalDateTime ratingDate;
+	
+	@Version
+	private Long version;
 }

@@ -7,6 +7,8 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.ftn.isa.projekat.rentACar.rentACarApi.dto.CarTypeDTO;
 import com.ftn.isa.projekat.rentACar.rentACarCore.carType.model.CarType;
@@ -22,6 +24,7 @@ public class CarTypeServiceImpl implements ICarTypeService {
 	@Autowired
 	DTOCarTypeConverter carTypeConverter;
 
+	@Transactional(readOnly = true, isolation=Isolation.READ_COMMITTED)
 	@Override
 	public CarTypeDTO findOneById(Long id) {
 		Optional <CarType> carType = carTypeRepository.findById(id);
@@ -39,6 +42,7 @@ public class CarTypeServiceImpl implements ICarTypeService {
 		}
 	}
 
+	@Transactional(readOnly= true, isolation=Isolation.READ_COMMITTED)
 	@Override
 	public List<CarTypeDTO> findAll() {
 		Optional< List<CarType> > list = Optional.of(carTypeRepository.findAll());
@@ -59,13 +63,20 @@ public class CarTypeServiceImpl implements ICarTypeService {
 		return Collections.emptyList();
 	}
 
+	@Transactional(readOnly = false, isolation=Isolation.READ_COMMITTED)
 	@Override
 	public CarTypeDTO save(CarTypeDTO carTypeToSave) {
-		carTypeRepository.save(carTypeConverter.convertFromDTO(carTypeToSave));
+		
+		carTypeToSave.setId(-1l);
+		
+		CarType carType =carTypeRepository.save(carTypeConverter.convertFromDTO(carTypeToSave));
+		
+		carTypeToSave.setId(carType.getId());
 		
 		return carTypeToSave;
 	}
 
+	@Transactional(readOnly = false, isolation=Isolation.REPEATABLE_READ)	
 	@Override
 	public CarTypeDTO deleteById(Long id) {
 		
@@ -82,6 +93,7 @@ public class CarTypeServiceImpl implements ICarTypeService {
 		
 	}
 
+	@Transactional(readOnly = false, isolation=Isolation.REPEATABLE_READ)	
 	@Override
 	public CarTypeDTO changeCarType(Long id, CarTypeDTO carType) {
 		

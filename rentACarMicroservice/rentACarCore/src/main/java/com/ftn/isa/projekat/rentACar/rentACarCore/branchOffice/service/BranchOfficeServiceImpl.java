@@ -59,7 +59,7 @@ public class BranchOfficeServiceImpl implements IBranchOfficeService {
 		
 	}
 
-	
+	@Transactional(readOnly= true, isolation=Isolation.READ_COMMITTED)
 	public List<BranchOfficeDTO> findAll() {
 
 		Optional< List<BranchOffice> > list = Optional.of(branchOfficeRepository.findAll());
@@ -92,8 +92,12 @@ public class BranchOfficeServiceImpl implements IBranchOfficeService {
 		Optional<RentACarService> rentService = rentACarServiceRepository.findById(branchOfficeToSave.getRentServiceDTO().getId());
 		
 		if(rentService.isPresent()) {
+			
+			branchOfficeToSave.setId(-1l);
 		
-			branchOfficeRepository.save(branchOfficeConverter.convertFromDTO(branchOfficeToSave));
+			BranchOffice branch = branchOfficeRepository.save(branchOfficeConverter.convertFromDTO(branchOfficeToSave));
+			
+			branchOfficeToSave.setId(branch.getId());
 			
 			return branchOfficeToSave;
 		}

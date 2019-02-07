@@ -9,6 +9,8 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.ftn.isa.projekat.hotel.hotelApi.dto.CenovnikUslugaDTO;
 import com.ftn.isa.projekat.hotel.hotelApi.dto.DodatneUslugeDTO;
@@ -35,6 +37,7 @@ public class ReservationServiceImpl implements IReservationService {
 	DatasFromOtherMicroservices servicesProxy;
 
 	@Override
+	@Transactional(readOnly = true, isolation=Isolation.READ_COMMITTED)
 	public ReservationDTO findOneById(Long id) {
 		
 		Optional <Reservation> reservation = reservationRepository.findById(id);
@@ -53,6 +56,7 @@ public class ReservationServiceImpl implements IReservationService {
 	}
 
 	@Override
+	@Transactional(readOnly = true, isolation=Isolation.READ_COMMITTED)
 	public List<ReservationDTO> findAll() {
 		
 		Optional< List<Reservation> > list = Optional.of(reservationRepository.findAll());
@@ -75,6 +79,7 @@ public class ReservationServiceImpl implements IReservationService {
 	}
 
 	@Override
+	@Transactional(readOnly = false, isolation=Isolation.READ_COMMITTED)
 	public ReservationDTO save(ReservationDTO reservationToSave) {
 	
 		/*
@@ -127,7 +132,11 @@ public class ReservationServiceImpl implements IReservationService {
 				
 			}
 			
-			reservationRepository.save(reservationConverter.convertFromDTO(reservationToSave));
+			reservationToSave.setId(-1l);
+			
+			Reservation reservation =reservationRepository.save(reservationConverter.convertFromDTO(reservationToSave));
+			
+			reservationToSave.setId(reservation.getId());
 			
 			return reservationToSave;
 		}
@@ -136,6 +145,7 @@ public class ReservationServiceImpl implements IReservationService {
 	}
 
 	@Override
+	@Transactional(readOnly = false, isolation=Isolation.REPEATABLE_READ)	
 	public ReservationDTO deleteById(Long id) {
 		
 		Optional<Reservation> reservationToDelete = reservationRepository.findById(id);
@@ -164,6 +174,7 @@ public class ReservationServiceImpl implements IReservationService {
 	}
 
 	@Override
+	@Transactional(readOnly = false, isolation=Isolation.REPEATABLE_READ)	
 	public ReservationDTO changeReservation(Long id, ReservationDTO reservation) {
 		
 		Optional<Reservation> reservationForChange = reservationRepository.findById(id);
@@ -234,6 +245,7 @@ public class ReservationServiceImpl implements IReservationService {
 	}
 
 	@Override
+	@Transactional(readOnly = true, isolation=Isolation.READ_COMMITTED)
 	public List<ReservationDTO> findAllByUserId(Long id) {
 		
 		Optional< List<Reservation> > list = reservationRepository.findAllByUserId(id);
@@ -256,6 +268,7 @@ public class ReservationServiceImpl implements IReservationService {
 	}
 
 	@Override
+	@Transactional(readOnly = false, isolation=Isolation.REPEATABLE_READ)	
 	public ReservationDTO deleteCarReservation(Long id) {
 		
 		Optional <Reservation> reservation = reservationRepository.findById(id);
@@ -301,6 +314,7 @@ public class ReservationServiceImpl implements IReservationService {
 		}	
 	}
 	
+	@Transactional(readOnly = false, isolation=Isolation.REPEATABLE_READ)	
 	public ReservationDTO deleteRoomReservation(Long id) {
 		
 		Optional <Reservation> reservation = reservationRepository.findById(id);

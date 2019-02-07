@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Version;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -31,5 +32,8 @@ public class HotelRating {
 	
 	@Column (name = "hotel_rating", nullable = false)
 	private int rating;
+	
+	@Version
+	private Long version;
 	
 }

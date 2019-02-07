@@ -7,6 +7,8 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.ftn.isa.projekat.rentACar.rentACarApi.dto.CarDiscountsDTO;
 import com.ftn.isa.projekat.rentACar.rentACarCore.car.model.Car;
@@ -32,7 +34,7 @@ public class CarDiscountsServiceImpl  implements ICarDiscountsService{
 	@Autowired
 	DTOCarConverter carConverter;
 	
-	
+	@Transactional(readOnly = true, isolation=Isolation.READ_COMMITTED)	
 	@Override
 	public CarDiscountsDTO findOneById(Long id) {
 		
@@ -51,6 +53,7 @@ public class CarDiscountsServiceImpl  implements ICarDiscountsService{
 		}	
 	}
 
+	@Transactional(readOnly= true, isolation=Isolation.READ_COMMITTED)
 	@Override
 	public List<CarDiscountsDTO> findAll() {
 		
@@ -73,6 +76,7 @@ public class CarDiscountsServiceImpl  implements ICarDiscountsService{
 
 	}
 
+	@Transactional(readOnly = false, isolation=Isolation.READ_COMMITTED)
 	@Override
 	public CarDiscountsDTO save(CarDiscountsDTO discountToSave) {
 		
@@ -98,6 +102,8 @@ public class CarDiscountsServiceImpl  implements ICarDiscountsService{
 			
 			if(car.isPresent()) {
 				
+				discountToSave.setId(-1l);
+				
 				CarDiscounts discount = discountRepository.save(discountConverter.convertFromDTO(discountToSave));
 				
 				discountToSave.setId(discount.getId());
@@ -112,6 +118,7 @@ public class CarDiscountsServiceImpl  implements ICarDiscountsService{
 
 	}
 
+	@Transactional(readOnly = false, isolation=Isolation.REPEATABLE_READ)	
 	@Override
 	public CarDiscountsDTO deleteById(Long id) {
 		
@@ -127,6 +134,7 @@ public class CarDiscountsServiceImpl  implements ICarDiscountsService{
 		return new CarDiscountsDTO();
 	}
 
+	@Transactional(readOnly = false, isolation=Isolation.REPEATABLE_READ)	
 	@Override
 	public CarDiscountsDTO changeDiscount(Long id, CarDiscountsDTO discount) {
 		
@@ -184,6 +192,7 @@ public class CarDiscountsServiceImpl  implements ICarDiscountsService{
 		return new CarDiscountsDTO();
 	}
 
+	@Transactional(readOnly = true, isolation=Isolation.READ_COMMITTED)
 	@Override
 	public List<CarDiscountsDTO> findAllByRentService(Long rentId) {
 		

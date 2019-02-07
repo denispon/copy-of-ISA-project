@@ -7,6 +7,8 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.ftn.isa.projekat.purchases.purchasesApi.dto.AdminLinkDTO;
 import com.ftn.isa.projekat.purchases.purchasesCore.adminLink.model.AdminLink;
@@ -30,6 +32,7 @@ public class AdminLinkServiceImpl implements IAdminLinkService {
 	
 	
 	@Override
+	@Transactional(readOnly = true, isolation=Isolation.READ_COMMITTED)
 	public AdminLinkDTO findOneById(Long id) {
 		
 		Optional <AdminLink> adminLink = adminLinkRepository.findById(id);
@@ -49,6 +52,7 @@ public class AdminLinkServiceImpl implements IAdminLinkService {
 	}
 
 	@Override
+	@Transactional(readOnly= true, isolation=Isolation.READ_COMMITTED)
 	public List<AdminLinkDTO> findAll() {
 		
 		Optional< List<AdminLink> > list = Optional.of(adminLinkRepository.findAll());
@@ -70,6 +74,7 @@ public class AdminLinkServiceImpl implements IAdminLinkService {
 	}
 
 	@Override
+	@Transactional(readOnly = false, isolation=Isolation.READ_COMMITTED)
 	public AdminLinkDTO save(AdminLinkDTO adminLinkToSave) {
 		
 		/*
@@ -109,19 +114,23 @@ public class AdminLinkServiceImpl implements IAdminLinkService {
 				
 				foundAdminLink.get().setServiceId(adminLinkToSave.getServiceId());
 				
+				
+				
 				adminLinkRepository.save(foundAdminLink.get());
 
 			}
 			
 			
+			adminLinkToSave.setId(-1l);
 			
-			adminLinkRepository.save(adminLinkConverter.convertFromDTO(adminLinkToSave));					
+			return adminLinkConverter.convertToDTO(adminLinkRepository.save(adminLinkConverter.convertFromDTO(adminLinkToSave)));					
 		}
 		
 		return new AdminLinkDTO();
 	}
 
 	@Override
+	@Transactional(readOnly = false, isolation=Isolation.REPEATABLE_READ)	
 	public AdminLinkDTO deleteById(Long id) {
 		
 		Optional<AdminLink> AdminLinkToDelete = adminLinkRepository.findById(id);
@@ -139,6 +148,7 @@ public class AdminLinkServiceImpl implements IAdminLinkService {
 	}
 
 	@Override
+	@Transactional(readOnly= true, isolation=Isolation.READ_COMMITTED)
 	public AdminLinkDTO findOneByUserId(Long id) {
 		
 		Optional <AdminLink> adminLink = adminLinkRepository.findOneByUserId(id);

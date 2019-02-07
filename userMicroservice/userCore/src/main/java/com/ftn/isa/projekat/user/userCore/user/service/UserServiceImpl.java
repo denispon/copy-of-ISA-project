@@ -11,6 +11,8 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.ftn.isa.projekat.user.userApi.dto.UserCredentialsDTO;
 import com.ftn.isa.projekat.user.userApi.dto.UserDTO;
@@ -49,6 +51,7 @@ public class UserServiceImpl implements IUserService {
 	
 	
 	@Override
+	@Transactional(readOnly = true, isolation=Isolation.READ_COMMITTED)
 	public UserDTO findOneById(Long id) {
 		
 		Optional <User> user = userRepository.findById(id);
@@ -68,6 +71,7 @@ public class UserServiceImpl implements IUserService {
 	}
 
 	@Override
+	@Transactional(readOnly= true, isolation=Isolation.READ_COMMITTED)
 	public List<UserDTO> findAll() {
 
 		Optional< List<User> > list = Optional.of(userRepository.findAll());
@@ -90,14 +94,20 @@ public class UserServiceImpl implements IUserService {
 	}
 
 	@Override
+	@Transactional(readOnly = false, isolation=Isolation.READ_COMMITTED)
 	public UserDTO save(UserDTO userToSave) {
 		
-		userRepository.save(userConverter.convertFromDTO(userToSave));
+		userToSave.setId(-1l);
+		
+		User user = userRepository.save(userConverter.convertFromDTO(userToSave));
+		
+		userToSave.setId(user.getId());
 		
 		return userToSave;
 	}
 
 	@Override
+	@Transactional(readOnly = false, isolation=Isolation.REPEATABLE_READ)	
 	public UserDTO deleteById(Long id) {
 		
 		Optional<User> userToDelete = userRepository.findById(id);
@@ -116,12 +126,12 @@ public class UserServiceImpl implements IUserService {
 	}
 
 	@Override
+	@Transactional(readOnly = false, isolation=Isolation.REPEATABLE_READ)	
 	public UserDTO changeUser(Long id, UserDTO user) {
 		
 		Optional<User> userForChange = userRepository.findById(id);
 		
 		if( userForChange.isPresent() && user!=null) {
-			
 			
 				
 			userForChange.get().setCity(user.getCity());
@@ -145,6 +155,7 @@ public class UserServiceImpl implements IUserService {
 	}
 
 	@Override
+	@Transactional(readOnly = true, isolation=Isolation.READ_COMMITTED)
 	public List<UserDTO> getallFriends(Long id) {
 		
 		Optional<List<User>> friends = userRepository.getAllFriends(id);
@@ -169,6 +180,7 @@ public class UserServiceImpl implements IUserService {
 	}
 
 	@Override
+	@Transactional(readOnly = false, isolation=Isolation.REPEATABLE_READ)	
 	public UserForRegistrationDTO registerUser(UserForRegistrationDTO dto) {
 		
 		/*
@@ -190,6 +202,7 @@ public class UserServiceImpl implements IUserService {
 		//if there is not user with same email, we are saving this one
 		User userForSave = new User();
 		
+		userForSave.setId(-1l);
 		userForSave.setActive(false);
 		userForSave.setCity(dto.getCity());
 		userForSave.setEmail(dto.getEmail());
@@ -199,6 +212,7 @@ public class UserServiceImpl implements IUserService {
 		userForSave.setSurname(dto.getSurname());
 		userForSave.setTelephoneNumber(dto.getTelephoneNumber());
 		
+		//1 because 1 is USER in roles
 		Optional<UserRole> role = roleRepository.findById((long) 1);
 		
 		if(role.isPresent())
@@ -231,6 +245,7 @@ public class UserServiceImpl implements IUserService {
 	}
 
 	@Override
+	@Transactional(readOnly = false, isolation=Isolation.REPEATABLE_READ)	
 	public UserDTO activateUser(Long id) {
 		
 		Optional<User> foundUser = userRepository.findById(id);
@@ -250,6 +265,7 @@ public class UserServiceImpl implements IUserService {
 	}
 
 	@Override
+	@Transactional(readOnly = true, isolation=Isolation.READ_COMMITTED)
 	public List<UserDTO> findUsersByRole(Long id) {
 		
 		Optional<List<User>> users = userRepository.findAllByRoleId(id);
@@ -272,6 +288,7 @@ public class UserServiceImpl implements IUserService {
 	}
 
 	@Override
+	@Transactional(readOnly = false, isolation=Isolation.REPEATABLE_READ)	
 	public UserDTO changeRoleOfUser(Long userId, Long roleId) {
 		
 		Optional<User> foundUser = userRepository.findById(userId);
@@ -300,6 +317,7 @@ public class UserServiceImpl implements IUserService {
 	}
 
 	@Override
+	@Transactional(readOnly = true, isolation=Isolation.READ_COMMITTED)
 	public List<UserDTO> getAllFriendRequests(Long id) {
 		
 		Optional<List<User>> friendRequests = userRepository.getAllFriendRequests(id);
@@ -324,6 +342,7 @@ public class UserServiceImpl implements IUserService {
 	}
 
 	@Override
+	@Transactional(readOnly = true, isolation=Isolation.READ_COMMITTED)
 	public UserDTO loginUser(UserCredentialsDTO userCredentials) {
 		
 		Optional<User> user = userRepository.findByEmailAndPassword(userCredentials.getEmail(),userCredentials.getPassword());

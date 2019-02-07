@@ -7,6 +7,8 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.ftn.isa.projekat.purchases.purchasesApi.dto.BonusPointsDTO;
 import com.ftn.isa.projekat.purchases.purchasesCore.bonusPoints.model.BonusPoints;
@@ -30,6 +32,7 @@ public class BonusPointsServiceImpl implements IBonusPointsService {
 	
 	
 	@Override
+	@Transactional(readOnly = true, isolation=Isolation.READ_COMMITTED)
 	public BonusPointsDTO findOneById(Long id) {
 		
 		Optional <BonusPoints> bonusPoint = bonusPointsRepository.findByUserId(id);
@@ -49,6 +52,7 @@ public class BonusPointsServiceImpl implements IBonusPointsService {
 	}
 
 	@Override
+	@Transactional(readOnly= true, isolation=Isolation.READ_COMMITTED)
 	public List<BonusPointsDTO> findAll() {
 		Optional< List<BonusPoints> > list = Optional.of(bonusPointsRepository.findAll());
 		ArrayList< BonusPointsDTO > bonusPointsDTO = new ArrayList< BonusPointsDTO >();
@@ -69,6 +73,7 @@ public class BonusPointsServiceImpl implements IBonusPointsService {
 	}
 
 	@Override
+	@Transactional(readOnly = false, isolation=Isolation.READ_COMMITTED)
 	public BonusPointsDTO save(BonusPointsDTO bonusPointsToSave) {
 		
 		/*
@@ -92,9 +97,14 @@ public class BonusPointsServiceImpl implements IBonusPointsService {
 				
 				bonusPointsRepository.save(presentBonusPoints.get());
 			}else {
+				
+				bonusPointsToSave.setId(-1l);
+				
 				BonusPoints bonusPoint = bonusPointsConverter.convertFromDTO(bonusPointsToSave);
 				
-				bonusPointsRepository.save(bonusPoint);
+				BonusPoints bonusPoints = bonusPointsRepository.save(bonusPoint);
+				
+				bonusPointsToSave.setId(bonusPoints.getId());
 				
 				return bonusPointsToSave;	
 				
@@ -106,6 +116,7 @@ public class BonusPointsServiceImpl implements IBonusPointsService {
 	}
 
 	@Override
+	@Transactional(readOnly = false, isolation=Isolation.REPEATABLE_READ)	
 	public BonusPointsDTO deleteById(Long id) {
 		
 		Optional<BonusPoints> bonusPointsToDelete = bonusPointsRepository.findById(id);
@@ -123,6 +134,7 @@ public class BonusPointsServiceImpl implements IBonusPointsService {
 	}
 
 	@Override
+	@Transactional(readOnly = false, isolation=Isolation.REPEATABLE_READ)	
 	public BonusPointsDTO changeBonusPoints(Long id, BonusPointsDTO bonusPoints) {
 	
 		Optional<BonusPoints> bonusPointsToChange = bonusPointsRepository.findById(id);

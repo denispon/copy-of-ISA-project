@@ -7,6 +7,8 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.ftn.isa.projekat.purchases.purchasesApi.dto.HotelRatingDTO;
 import com.ftn.isa.projekat.purchases.purchasesApi.dto.HotelskaSobaRatingDTO;
@@ -24,6 +26,7 @@ public class HotelskaSobaRatingService implements IHotelskaSobaRatingService {
 	@Autowired
 	HotelskaSobaRatingRepository hotelskaSobaRatingRepository;
 	
+	@Transactional(readOnly = true, isolation=Isolation.READ_COMMITTED)
 	public HotelskaSobaRatingDTO findOneById(Long id) {
 		
 		Optional<HotelskaSobaRating> zaPronalazak=hotelskaSobaRatingRepository.findById(id);
@@ -34,7 +37,8 @@ public class HotelskaSobaRatingService implements IHotelskaSobaRatingService {
 			return new HotelskaSobaRatingDTO();
 		}		
 	}
-	
+
+	@Transactional(readOnly= true, isolation=Isolation.READ_COMMITTED)
 	public List<HotelskaSobaRatingDTO> findAll(){
 		Optional<List<HotelskaSobaRating>> list = Optional.of(hotelskaSobaRatingRepository.findAll());
 		ArrayList<HotelskaSobaRatingDTO> arrayDTO = new ArrayList<HotelskaSobaRatingDTO>();
@@ -47,13 +51,15 @@ public class HotelskaSobaRatingService implements IHotelskaSobaRatingService {
 		return Collections.emptyList();
 	}
 	
+	@Transactional(readOnly = false, isolation=Isolation.READ_COMMITTED)
 	public HotelskaSobaRatingDTO save(HotelskaSobaRatingDTO dto) {
 		hotelskaSobaRatingRepository.save(hotelskaSobaRatingConverter.convertFromDTO(dto));
 		//Optional<Hotel> hotel = hotelRepository.findById(dto.getHotel_cenovnikUsluga().getId());//pronadji hotel ciji je cenovnik
 		//hotel.get().getCenovnikUsluga().add(cenovnikConverter.convertFromDTO(dto));//dodaj cenovnik u listu cenovnika hotela kome pripada
 		return dto;
 	}
-	
+
+	@Transactional(readOnly = false, isolation=Isolation.REPEATABLE_READ)	
 	public HotelskaSobaRatingDTO deleteById(Long id) {
 		
 		Optional<HotelskaSobaRating> zaBrisanje = hotelskaSobaRatingRepository.findById(id);
@@ -67,6 +73,7 @@ public class HotelskaSobaRatingService implements IHotelskaSobaRatingService {
 		
 	}
 	
+	@Transactional(readOnly = false, isolation=Isolation.REPEATABLE_READ)	
 	public HotelskaSobaRatingDTO change(Long id, HotelskaSobaRatingDTO dto) {
 		
 		Optional<HotelskaSobaRating> zaIzmenu = hotelskaSobaRatingRepository.findById(id);
@@ -88,6 +95,7 @@ public class HotelskaSobaRatingService implements IHotelskaSobaRatingService {
 		
 	}
 	
+	@Transactional(readOnly= true, isolation=Isolation.READ_COMMITTED)
 	public Double getRoomAverageRating(Long id) {
 		
 		List<HotelskaSobaRating> lista = hotelskaSobaRatingRepository.findAll();

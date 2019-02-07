@@ -8,6 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Version;
 
 import com.ftn.isa.projekat.purchases.purchasesCore.reservation.model.Reservation;
 
@@ -39,6 +40,9 @@ public class InvitationCard {
 	@OneToOne()
 	@JoinColumn(name="reservation_id" , nullable = true)
     private Reservation reservation;
+	
+	@Version
+	private Long version;
 	
 	
 }

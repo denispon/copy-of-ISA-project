@@ -9,6 +9,8 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.ftn.isa.projekat.purchases.purchasesApi.dto.AvioCompanyRatingDTO;
 import com.ftn.isa.projekat.purchases.purchasesCore.avioCompanyRating.model.AvioCompanyRating;
@@ -31,6 +33,7 @@ public class AvioCompanyRatingServiceImpl implements IAvioCompanyRatingService
 	DatasFromOtherMicroservices servicesProxy;
 
 	@Override
+	@Transactional(readOnly = true, isolation=Isolation.READ_COMMITTED)
 	public AvioCompanyRatingDTO findOneById(Long id) 
 	{
 		Optional <AvioCompanyRating> avioRating = avioRepo.findById(id);
@@ -49,6 +52,7 @@ public class AvioCompanyRatingServiceImpl implements IAvioCompanyRatingService
 	}
 
 	@Override
+	@Transactional(readOnly= true, isolation=Isolation.READ_COMMITTED)
 	public List<AvioCompanyRatingDTO> findAll()
 	{
 		Optional<List<AvioCompanyRating>> list = Optional.of(avioRepo.findAll());
@@ -70,6 +74,7 @@ public class AvioCompanyRatingServiceImpl implements IAvioCompanyRatingService
 	}
 
 	@Override
+	@Transactional(readOnly = false, isolation=Isolation.READ_COMMITTED)
 	public AvioCompanyRatingDTO save(AvioCompanyRatingDTO dto)
 	{
 		UserDTO user = servicesProxy.getUserById(dto.getUserId());
@@ -91,6 +96,7 @@ public class AvioCompanyRatingServiceImpl implements IAvioCompanyRatingService
 	}
 
 	@Override
+	@Transactional(readOnly = false, isolation=Isolation.REPEATABLE_READ)	
 	public AvioCompanyRatingDTO deleteById(Long id)
 	{
 		Optional<AvioCompanyRating> avioToDel = avioRepo.findById(id);
@@ -106,6 +112,7 @@ public class AvioCompanyRatingServiceImpl implements IAvioCompanyRatingService
 	}
 
 	@Override
+	@Transactional(readOnly = false, isolation=Isolation.REPEATABLE_READ)	
 	public AvioCompanyRatingDTO changeAvioCompanyRating(Long id, AvioCompanyRatingDTO ratingDto)
 	{
 		Optional<AvioCompanyRating> avioToChange = avioRepo.findById(id);
@@ -137,6 +144,7 @@ public class AvioCompanyRatingServiceImpl implements IAvioCompanyRatingService
 	}
 
 	@Override
+	@Transactional(readOnly= true, isolation=Isolation.READ_COMMITTED)
 	public Double getAverageRating(Long avioService, LocalDate parse, LocalDate parse2) 
 	{
 		Optional<Double> averageRating = avioRepo.getAverageRating(avioService,parse,parse2);

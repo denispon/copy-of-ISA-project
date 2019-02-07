@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Version;
 
 import com.ftn.isa.projekat.purchases.purchasesCore.hotelRating.model.HotelRating;
 
@@ -36,5 +37,8 @@ public class HotelskaSobaRating {
 	
 	@Column (name = "hotel_room_rating", nullable = false)
 	private int rating;
+	
+	@Version
+	private Long version;
 	
 }

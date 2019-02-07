@@ -9,6 +9,8 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.ftn.isa.projekat.purchases.purchasesApi.dto.RentACarRatingDTO;
 import com.ftn.isa.projekat.purchases.purchasesCore.converter.DTORentACarRatingConverter;
@@ -31,6 +33,7 @@ public class RentACarRatingServiceImpl implements IRentACarRatingService {
 	DatasFromOtherMicroservices servicesProxy;
 	
 	@Override
+	@Transactional(readOnly = true, isolation=Isolation.READ_COMMITTED)
 	public RentACarRatingDTO findOneById(Long id) {
 		Optional <RentACarRating> rentAcarRating = rentAcarRatingRepository.findById(id);
 		
@@ -48,6 +51,7 @@ public class RentACarRatingServiceImpl implements IRentACarRatingService {
 	}
 	
 	@Override
+	@Transactional(readOnly= true, isolation=Isolation.READ_COMMITTED)
 	public List<RentACarRatingDTO> findAll() {
 		Optional< List<RentACarRating> > list = Optional.of(rentAcarRatingRepository.findAll());
 		ArrayList< RentACarRatingDTO > rentAcarRatingsDTO = new ArrayList< RentACarRatingDTO >();
@@ -68,6 +72,7 @@ public class RentACarRatingServiceImpl implements IRentACarRatingService {
 	}
 
 	@Override
+	@Transactional(readOnly = false, isolation=Isolation.READ_COMMITTED)
 	public RentACarRatingDTO save(RentACarRatingDTO rentAcarRatingToSave, LocalDateTime date) {
 		
 		
@@ -115,6 +120,7 @@ public class RentACarRatingServiceImpl implements IRentACarRatingService {
 	}
 
 	@Override
+	@Transactional(readOnly = false, isolation=Isolation.REPEATABLE_READ)	
 	public RentACarRatingDTO deleteById(Long id) {
 		
 		Optional<RentACarRating> rentAcarRatingToDelete = rentAcarRatingRepository.findById(id);
@@ -131,6 +137,7 @@ public class RentACarRatingServiceImpl implements IRentACarRatingService {
 	}
 
 	@Override
+	@Transactional(readOnly = false, isolation=Isolation.REPEATABLE_READ)	
 	public RentACarRatingDTO changeRentACarRating(Long id, RentACarRatingDTO carRating) {
 		
 		Optional<RentACarRating> rentAcarRatingForChange = rentAcarRatingRepository.findById(id);
@@ -170,6 +177,7 @@ public class RentACarRatingServiceImpl implements IRentACarRatingService {
 	
 
 	@Override
+	@Transactional(readOnly= true, isolation=Isolation.READ_COMMITTED)
 	public Double getAverageRating(Long rentServiceId) {
 		
 		Optional<Double> averageRating = rentAcarRatingRepository.getAverageRating(rentServiceId);

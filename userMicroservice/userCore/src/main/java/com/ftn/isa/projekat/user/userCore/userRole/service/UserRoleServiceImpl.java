@@ -7,6 +7,8 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.ftn.isa.projekat.user.userApi.dto.UserDTO;
 import com.ftn.isa.projekat.user.userApi.dto.UserRoleDTO;
@@ -31,6 +33,7 @@ public class UserRoleServiceImpl implements IUserRoleService{
 	DTOUserConverter userConverter;
 
 	@Override
+	@Transactional(readOnly = true, isolation=Isolation.READ_COMMITTED)
 	public UserRoleDTO findOneById(Long id) {
 		
 		Optional <UserRole> userRole = roleRepository.findById(id);
@@ -50,6 +53,7 @@ public class UserRoleServiceImpl implements IUserRoleService{
 	}
 
 	@Override
+	@Transactional(readOnly= true, isolation=Isolation.READ_COMMITTED)
 	public List<UserRoleDTO> findAll() {
 
 		Optional< List<UserRole> > list = Optional.of(roleRepository.findAll());
@@ -72,14 +76,20 @@ public class UserRoleServiceImpl implements IUserRoleService{
 	}
 
 	@Override
+	@Transactional(readOnly = false, isolation=Isolation.READ_COMMITTED)
 	public UserRoleDTO save(UserRoleDTO userRoleToSave) {
 		
-		roleRepository.save(roleConverter.convertFromDTO(userRoleToSave));
+		userRoleToSave.setId(-1l);
+		
+		UserRole userRole = roleRepository.save(roleConverter.convertFromDTO(userRoleToSave));
+		
+		userRoleToSave.setId(userRole.getId());
 		
 		return userRoleToSave;
 	}
 
 	@Override
+	@Transactional(readOnly = false, isolation=Isolation.REPEATABLE_READ)	
 	public UserRoleDTO deleteById(Long id) {
 		
 		Optional<UserRole> userRoleToDelete = roleRepository.findById(id);
@@ -98,6 +108,7 @@ public class UserRoleServiceImpl implements IUserRoleService{
 	}
 
 	@Override
+	@Transactional(readOnly = false, isolation=Isolation.REPEATABLE_READ)	
 	public UserRoleDTO changeUserRole(Long id, UserRoleDTO userRole) {
 		
 		Optional<UserRole> roleForChange= roleRepository.findById(id);

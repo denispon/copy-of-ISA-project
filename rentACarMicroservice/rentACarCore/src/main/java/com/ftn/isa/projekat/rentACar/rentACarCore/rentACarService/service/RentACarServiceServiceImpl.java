@@ -8,6 +8,8 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.ftn.isa.projekat.rentACar.rentACarApi.dto.RentACarServiceDTO;
 import com.ftn.isa.projekat.rentACar.rentACarCore.branchOffice.model.BranchOffice;
@@ -25,6 +27,7 @@ public class RentACarServiceServiceImpl implements IRentACarServiceService {
 	DTORentACarServiceConverter rentACarServiceConverter;
 
 	@Override
+	@Transactional(readOnly = true, isolation=Isolation.READ_COMMITTED)
 	public RentACarServiceDTO findOneById(Long id) {
 
 		Optional <RentACarService> rentACarService = rentACarServiceRepository.findById(id);
@@ -44,6 +47,7 @@ public class RentACarServiceServiceImpl implements IRentACarServiceService {
 		
 	}
 
+	@Transactional(readOnly= true, isolation=Isolation.READ_COMMITTED)
 	@Override
 	public List<RentACarServiceDTO> findAll() {
 
@@ -67,15 +71,21 @@ public class RentACarServiceServiceImpl implements IRentACarServiceService {
 		
 	}
 
+	@Transactional(readOnly = false, isolation=Isolation.READ_COMMITTED)
 	@Override
 	public RentACarServiceDTO save(RentACarServiceDTO rentACarServiceToSave) {
 		
-		rentACarServiceRepository.save(rentACarServiceConverter.convertFromDTO(rentACarServiceToSave));
+		rentACarServiceToSave.setId(-1l);
+		
+		RentACarService rent = rentACarServiceRepository.save(rentACarServiceConverter.convertFromDTO(rentACarServiceToSave));
+		
+		rentACarServiceToSave.setId(rent.getId());
 		
 		return rentACarServiceToSave;
 
 	}
 
+	@Transactional(readOnly = false, isolation=Isolation.REPEATABLE_READ)	
 	@Override
 	public RentACarServiceDTO deleteById(Long id) {
 
@@ -94,6 +104,7 @@ public class RentACarServiceServiceImpl implements IRentACarServiceService {
 		
 	}
 
+	@Transactional(readOnly = false, isolation=Isolation.REPEATABLE_READ)	
 	@Override
 	public RentACarServiceDTO changeRentACarService(Long id, RentACarServiceDTO rentACarService) {
 		
@@ -116,6 +127,7 @@ public class RentACarServiceServiceImpl implements IRentACarServiceService {
 	}
 	
 	@Override
+	@Transactional(readOnly = true, isolation=Isolation.READ_COMMITTED)
 	public Integer getSumOfIncomes(Long rentService, LocalDateTime dateFrom, LocalDateTime dateTo) {
 		
 		Optional<Integer> sumOfIncomes = rentACarServiceRepository.findSumOfIncomes(rentService,dateFrom,dateTo);
@@ -131,6 +143,7 @@ public class RentACarServiceServiceImpl implements IRentACarServiceService {
 	}
 
 	@Override
+	@Transactional(readOnly = true, isolation=Isolation.READ_COMMITTED)
 	public List<RentACarServiceDTO> findAllFilter(String name, String city1, String city2) {
 
 		Optional< List<RentACarService> > list;

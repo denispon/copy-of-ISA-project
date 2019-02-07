@@ -7,6 +7,8 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.ftn.isa.projekat.rentACar.rentACarApi.dto.IncomeDTO;
 import com.ftn.isa.projekat.rentACar.rentACarCore.dtoConverter.DTOIncomeConverter;
@@ -29,6 +31,7 @@ public class IncomeServiceImpl implements IIncomeService {
 	@Autowired
 	DTORentACarServiceConverter rentACarServiceConverter;
 	
+	@Transactional(readOnly = true, isolation=Isolation.READ_COMMITTED)
 	@Override
 	public IncomeDTO findOneById(Long id) {
 		Optional <Income> income = incomeRepository.findById(id);
@@ -46,6 +49,7 @@ public class IncomeServiceImpl implements IIncomeService {
 		}
 	}
 
+	@Transactional(readOnly= true, isolation=Isolation.READ_COMMITTED)
 	@Override
 	public List<IncomeDTO> findAll() {
 		Optional< List<Income> > list = Optional.of(incomeRepository.findAll());
@@ -66,6 +70,7 @@ public class IncomeServiceImpl implements IIncomeService {
 		return Collections.emptyList();
 	}
 
+	@Transactional(readOnly = false, isolation=Isolation.READ_COMMITTED)
 	@Override
 	public IncomeDTO save(IncomeDTO incomeToSave) {
 		
@@ -75,7 +80,11 @@ public class IncomeServiceImpl implements IIncomeService {
 		
 		if(rentService.isPresent()) {
 			
-			incomeRepository.save(incomeConverter.convertFromDTO(incomeToSave));
+			incomeToSave.setId(-1l);
+			
+			Income income =incomeRepository.save(incomeConverter.convertFromDTO(incomeToSave));
+			
+			incomeToSave.setId(income.getId());
 			
 			return incomeToSave;
 		
@@ -84,6 +93,7 @@ public class IncomeServiceImpl implements IIncomeService {
 		return new IncomeDTO();
 	}
 
+	@Transactional(readOnly = false, isolation=Isolation.REPEATABLE_READ)
 	@Override
 	public IncomeDTO deleteById(Long id) {
 		
@@ -100,6 +110,7 @@ public class IncomeServiceImpl implements IIncomeService {
 		
 	}
 
+	@Transactional(readOnly = false, isolation=Isolation.REPEATABLE_READ)	
 	@Override
 	public IncomeDTO changeIncome(Long id, IncomeDTO income) {
 		

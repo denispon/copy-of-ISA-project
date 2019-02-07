@@ -8,6 +8,8 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.ftn.isa.projekat.rentACar.rentACarApi.dto.CarReservationDTO;
 import com.ftn.isa.projekat.rentACar.rentACarCore.branchOffice.model.BranchOffice;
@@ -46,6 +48,7 @@ public class CarReservationServiceImpl implements ICarReservationService {
 	
 
 	@Override
+	@Transactional(readOnly = true, isolation=Isolation.READ_COMMITTED)
 	public CarReservationDTO findOneById(Long id) {
 		
 		Optional <CarReservation> reservation = reservationRepository.findById(id);
@@ -64,6 +67,7 @@ public class CarReservationServiceImpl implements ICarReservationService {
 	}
 
 	@Override
+	@Transactional(readOnly= true, isolation=Isolation.READ_COMMITTED)
 	public List<CarReservationDTO> findAll() {
 		
 		Optional< List<CarReservation> > list = Optional.of(reservationRepository.findAll());
@@ -86,6 +90,7 @@ public class CarReservationServiceImpl implements ICarReservationService {
 	}
 
 	@Override
+	@Transactional(readOnly = false, isolation=Isolation.READ_COMMITTED)
 	public CarReservationDTO save(CarReservationDTO reservationToSave) {
 		
 		//At First we need to check if dateFrom is before dateTo
@@ -117,6 +122,8 @@ public class CarReservationServiceImpl implements ICarReservationService {
 			// now we need to see if they are from same rent a car service. If not , we are returning empty object.
 			if(branchFromRentId == rentId && branchToRentId==rentId && carRentId==rentId) {
 				
+				reservationToSave.setId(-1l);
+				
 				CarReservation reservation =reservationRepository.save(reservationConverter.convertFromDTO(reservationToSave));
 				
 				//setting id
@@ -135,6 +142,7 @@ public class CarReservationServiceImpl implements ICarReservationService {
 	}
 
 	@Override
+	@Transactional(readOnly = false, isolation=Isolation.REPEATABLE_READ)	
 	public CarReservationDTO deleteById(Long id) {
 		
 		Optional<CarReservation> reservationToDelete = reservationRepository.findById(id);
@@ -152,6 +160,7 @@ public class CarReservationServiceImpl implements ICarReservationService {
 	}
 	
 	@Override
+	@Transactional(readOnly = false, isolation=Isolation.REPEATABLE_READ)	
 	public CarReservationDTO deleteByIdNoConditions(Long id) {
 		
 		Optional<CarReservation> reservationToDelete = reservationRepository.findById(id);	
@@ -166,6 +175,7 @@ public class CarReservationServiceImpl implements ICarReservationService {
 	}
 
 	@Override
+	@Transactional(readOnly = false, isolation=Isolation.REPEATABLE_READ)	
 	public CarReservationDTO changeReservation(Long id, CarReservationDTO reservation) {
 		
 		//At First we need to check if dateFrom is before dateTo

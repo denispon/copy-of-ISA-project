@@ -10,6 +10,8 @@ import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.ftn.isa.projekat.hotel.hotelApi.dto.CenovnikUslugaDTO;
 import com.ftn.isa.projekat.hotel.hotelApi.dto.DodatneUslugeDTO;
@@ -57,6 +59,7 @@ public class ShoppingCartServiceImpl implements IShoppingCartService{
 	
 	
 	@Override
+	@Transactional(readOnly = true, isolation=Isolation.READ_COMMITTED)
 	public ShoppingCartDTO findOneById(Long id) {
 		
 		Optional <ShoppingCart> reservation = cartRepository.findById(id);
@@ -75,6 +78,7 @@ public class ShoppingCartServiceImpl implements IShoppingCartService{
 	}
 
 	@Override
+	@Transactional(readOnly = true, isolation=Isolation.READ_COMMITTED)
 	public List<ShoppingCartDTO> findAll() {
 		
 		Optional< List<ShoppingCart> > list = Optional.of(cartRepository.findAll());
@@ -97,6 +101,7 @@ public class ShoppingCartServiceImpl implements IShoppingCartService{
 	}
 
 	@Override
+	@Transactional(readOnly = false, isolation=Isolation.READ_COMMITTED)
 	public ShoppingCartDTO save(ShoppingCartDTO reservationToSave) {
 		
 		/*
@@ -171,6 +176,7 @@ public class ShoppingCartServiceImpl implements IShoppingCartService{
 	}
 
 	@Override
+	@Transactional(readOnly = false, isolation=Isolation.REPEATABLE_READ)	
 	public ShoppingCartDTO deleteById(Long id) {
 		
 		Optional<ShoppingCart> reservationToDelete = cartRepository.findById(id);
@@ -203,6 +209,7 @@ public class ShoppingCartServiceImpl implements IShoppingCartService{
 	}
 
 	@Override
+	@Transactional(readOnly = false, isolation=Isolation.REPEATABLE_READ)	
 	public ShoppingCartDTO changeReservation(Long id, ShoppingCartDTO reservation) {
 		
 		Optional<ShoppingCart> reservationForChange = cartRepository.findById(id);
@@ -280,6 +287,7 @@ public class ShoppingCartServiceImpl implements IShoppingCartService{
 	}
 
 	@Override
+	@Transactional(readOnly = false, isolation=Isolation.REPEATABLE_READ)	
 	public ShoppingCartDTO addCarReservation(Long id, CarReservationDTO carReservation) {
 
 		Optional<ShoppingCart> reservation = cartRepository.findByUserId(id);
@@ -321,6 +329,7 @@ public class ShoppingCartServiceImpl implements IShoppingCartService{
 	}
 	
 	@Override
+	@Transactional(readOnly = false, isolation=Isolation.REPEATABLE_READ)	
 	public ShoppingCartDTO addRoomReservation(Long id, RezervacijeSobeDTO roomReservation) {
 
 		Optional<ShoppingCart> reservation = cartRepository.findById(id);
@@ -355,6 +364,7 @@ public class ShoppingCartServiceImpl implements IShoppingCartService{
 	}
 	
 	@Override
+	@Transactional(readOnly = false, isolation=Isolation.REPEATABLE_READ)	
 	public ShoppingCartDTO addUslugaReservation(Long id, DodatneUslugeDTO uslugaReservation) {
 
 		Optional<ShoppingCart> reservation = cartRepository.findById(id);
@@ -384,6 +394,7 @@ public class ShoppingCartServiceImpl implements IShoppingCartService{
 	}
 	
 	@Override
+	@Transactional(readOnly = false, isolation=Isolation.REPEATABLE_READ)	
 	public ShoppingCartDTO addCenovnikReservation(Long id, CenovnikUslugaDTO uslugaReservation) {
 
 		Optional<ShoppingCart> reservation = cartRepository.findById(id);
@@ -413,6 +424,7 @@ public class ShoppingCartServiceImpl implements IShoppingCartService{
 	}
 
 	@Override
+	@Transactional(readOnly = false, isolation=Isolation.REPEATABLE_READ)	
 	public ShoppingCartDTO deleteCarReservation(Long id) {
 
 		Optional<ShoppingCart> reservation = cartRepository.findById(id);
@@ -458,6 +470,7 @@ public class ShoppingCartServiceImpl implements IShoppingCartService{
 	}
 	
 	@Override
+	@Transactional(readOnly = false, isolation=Isolation.REPEATABLE_READ)	
 	public ShoppingCartDTO deleteRoomReservation(Long id) {
 
 		Optional<ShoppingCart> reservation = cartRepository.findById(id);
@@ -497,6 +510,7 @@ public class ShoppingCartServiceImpl implements IShoppingCartService{
 	}
 	
 	@Override
+	@Transactional(readOnly = false, isolation=Isolation.REPEATABLE_READ)	
 	public ShoppingCartDTO deleteUslugaReservation(Long id) {
 
 		Optional<ShoppingCart> reservation = cartRepository.findById(id);
@@ -531,6 +545,7 @@ public class ShoppingCartServiceImpl implements IShoppingCartService{
 	}
 	
 	@Override
+	@Transactional(readOnly = false, isolation=Isolation.REPEATABLE_READ)	
 	public ShoppingCartDTO deleteCenovnikReservation(Long id) {
 
 		Optional<ShoppingCart> reservation = cartRepository.findById(id);
@@ -565,6 +580,7 @@ public class ShoppingCartServiceImpl implements IShoppingCartService{
 	}
 
 	@Override
+	@Transactional(readOnly = false, isolation=Isolation.REPEATABLE_READ)	
 	public ShoppingCartDTO confirmReservation(Long id) {
 
 		/*
@@ -650,6 +666,7 @@ public class ShoppingCartServiceImpl implements IShoppingCartService{
 	}
 
 	@Override
+	@Transactional(readOnly = false, isolation=Isolation.REPEATABLE_READ)	
 	public ShoppingCartDTO addBonusPointsToReservation(Long id, int bonusPoints) {
 		
 		/*
@@ -691,6 +708,7 @@ public class ShoppingCartServiceImpl implements IShoppingCartService{
 	}
 
 	@Override
+	@Transactional(readOnly = true, isolation=Isolation.READ_COMMITTED)
 	public ShoppingCartDTO findOneByUserId(Long id) {
 		
 		Optional <ShoppingCart> reservation = cartRepository.findByUserId(id);

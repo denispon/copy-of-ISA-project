@@ -8,6 +8,8 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.ftn.isa.projekat.purchases.purchasesApi.dto.CarRatingDTO;
 import com.ftn.isa.projekat.purchases.purchasesCore.carRating.model.CarRating;
@@ -32,6 +34,7 @@ public class CarRatingServiceImpl implements ICarRatingService {
 	DatasFromOtherMicroservices servicesProxy;
 	
 	@Override
+	@Transactional(readOnly = true, isolation=Isolation.READ_COMMITTED)
 	public CarRatingDTO findOneById(Long id) {
 		Optional <CarRating> carRating = carRatingRepository.findById(id);
 		
@@ -49,6 +52,7 @@ public class CarRatingServiceImpl implements ICarRatingService {
 	}
 	
 	@Override
+	@Transactional(readOnly= true, isolation=Isolation.READ_COMMITTED)
 	public List<CarRatingDTO> findAll() {
 		Optional< List<CarRating> > list = Optional.of(carRatingRepository.findAll());
 		ArrayList< CarRatingDTO > carRatingsDTO = new ArrayList< CarRatingDTO >();
@@ -69,6 +73,7 @@ public class CarRatingServiceImpl implements ICarRatingService {
 	}
 
 	@Override
+	@Transactional(readOnly = false, isolation=Isolation.READ_COMMITTED)
 	public CarRatingDTO save(CarRatingDTO carRatingToSave, LocalDateTime date) {
 		
 		//User can rate only at the end of reservation!!
@@ -113,6 +118,7 @@ public class CarRatingServiceImpl implements ICarRatingService {
 	}
 
 	@Override
+	@Transactional(readOnly = false, isolation=Isolation.REPEATABLE_READ)	
 	public CarRatingDTO deleteById(Long id) {
 		
 		Optional<CarRating> carRatingToDelete = carRatingRepository.findById(id);
@@ -129,6 +135,7 @@ public class CarRatingServiceImpl implements ICarRatingService {
 	}
 
 	@Override
+	@Transactional(readOnly = false, isolation=Isolation.REPEATABLE_READ)	
 	public CarRatingDTO changeCarRating(Long id, CarRatingDTO carRating) {
 		
 		Optional<CarRating> carRatingForChange = carRatingRepository.findById(id);
@@ -162,6 +169,7 @@ public class CarRatingServiceImpl implements ICarRatingService {
 	}
 
 	@Override
+	@Transactional(readOnly= true, isolation=Isolation.READ_COMMITTED)
 	public Float findAverageRatingByCar(Long id) {
 		
 		Optional<Float> averageRating = carRatingRepository.findAverageRatingById(id);
