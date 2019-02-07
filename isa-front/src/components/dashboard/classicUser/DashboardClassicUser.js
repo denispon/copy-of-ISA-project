@@ -44,7 +44,7 @@ class DashboardClassicUser extends Component {
 
 
 
-
+                           
                             <Route path="/listaHotela/:imeAdresa/:datumOd/:datumDo/:brojSoba/:brojGostiju" component={HotelIzlistavanje}></Route>
                             <Route path="/listaLetova" component={LetoviIzlistavanje}></Route>
                         </div>

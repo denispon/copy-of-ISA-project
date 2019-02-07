@@ -48,3 +48,16 @@ export const filterHotel = (filter) =>{
         window.location = '/listaHotela/'+ imeAdresa +'/'+ datumOd +'/'+ datumDo +'/'+ brojSoba +'/'+ brojGostiju
     }
 }
+
+export const createRezervacija = (rezervacija) =>{
+    return (dispatch, getState) =>{
+        axios.put("http://localhost:8095/api/purchases/shoppingCart/addRoomReservation/1", { id: null, totalPrice: 100, dateFrom: rezervacija.rezervisi_od, dateUntil: rezervacija.rezervisi_do, sobaId: rezervacija.soba, hotel_rezervacijeSobe: rezervacija.hotel })
+            .then(
+                res => {
+                    console.log(res);
+                    console.log(res.data);
+                    window.location = '/cenovniciLogged/'+ rezervacija.hotel_id
+                }  
+            )
+    }
+}

@@ -71,12 +71,11 @@ public class RezervacijeSobeService implements IRezervacijeSobeService{
 	}
 	
 	public RezervacijeSobeDTO save(RezervacijeSobeDTO dto) {
-		if(dto.getSobaId().getReserved()==false) {
-			dto.getSobaId().setReserved(true);
-			rezervacijeSobeRepository.save(rezervacijeSobeConverter.convertFromDTO(dto));
-		}else {
-			rezervacijeSobeRepository.save(rezervacijeSobeConverter.convertFromDTO(dto));
+
+		if(dto.getId() == null) {
+			dto.setId((long) -1);
 		}
+		rezervacijeSobeRepository.save(rezervacijeSobeConverter.convertFromDTO(dto));
 		return dto;
 	}
 	

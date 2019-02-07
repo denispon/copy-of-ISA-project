@@ -1,5 +1,6 @@
 package com.ftn.isa.projekat.hotel.hotelCore.PrihodiHotela.service;
 
+import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 
@@ -16,5 +17,8 @@ public interface IPrihodiHotelaService {
 	public PrihodiHotelaDTO deleteById(Long id);
 	public PrihodiHotelaDTO change(Long id, PrihodiHotelaDTO prihodiHotelaDTO);
 	public int getPrihodiHotela(Long id, Date datumOd, Date datumDo);
+	public Double getNedeljniPrihod(Long id, String datumOd) throws ParseException; 
+	public Double getMesecniPrihod(Long id, String datumOd) throws ParseException; 
+	public Double getGodisnjiPrihod(Long id, String datumOd) throws ParseException;
 	
 }

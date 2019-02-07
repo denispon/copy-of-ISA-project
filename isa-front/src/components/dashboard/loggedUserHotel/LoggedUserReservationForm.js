@@ -1,11 +1,40 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { createRezervacija } from '../../../store/actions/HotelActions'
+import axios from 'axios';
 
 class LoggedUserReservationForm extends Component{
 
     state ={
         rezervisi_od:"",
-        rezervisi_do:""
+        rezervisi_do:"",
+        hotel_id:"",
+        hotel:"",
+        soba:"",
+        soba_id:""
+    }
+
+    componentDidMount () {
+        this.setState({
+            hotel_id: this.props.match.params.hotelId,
+            soba_id: this.props.match.params.sobeId
+        })
+        axios.get('http://localhost:8092/api/hotel/hotel/' + this.props.match.params.hotelId)
+            .then(res => {
+                console.log(res);
+                this.setState({
+                    hotel: res.data
+                })
+            })
+
+            axios.get('http://localhost:8092/api/hotel/hotelskaSoba/' + this.props.match.params.sobaId)
+            .then(res => {
+                console.log(res);
+                this.setState({
+                    soba: res.data
+                })
+            })
+
     }
 
     handleChange = (e) => {
@@ -15,7 +44,9 @@ class LoggedUserReservationForm extends Component{
     }
 
     handleSubmit = (e) => {
-        this.props.history.push('/cenovniciLogged/'+this.props.match.params.hotelId)
+        e.preventDefault();
+        this.props.createRezervacija(this.state);
+        //this.props.history.push('/cenovniciLogged/'+this.props.match.params.hotelId)
     }
 
     render() {
@@ -45,4 +76,11 @@ class LoggedUserReservationForm extends Component{
 
 };
 
-export default LoggedUserReservationForm
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        createRezervacija: (rezervacija) => dispatch(createRezervacija(rezervacija)),
+    }
+}
+
+export default connect(null, mapDispatchToProps)(LoggedUserReservationForm)

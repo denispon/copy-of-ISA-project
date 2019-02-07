@@ -1,6 +1,9 @@
 package com.ftn.isa.projekat.hotel.hotelCore.PrihodiHotela.service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -114,4 +117,97 @@ public class PrihodiHotelaService implements IPrihodiHotelaService{
 		}
 		return suma;	
 	}
+	
+
+	public Double getNedeljniPrihod(Long id, String datumOd) throws ParseException{
+		
+		String dt = datumOd;
+		String dd = "";
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		Date dateOd = sdf.parse(dt);
+		Calendar c = Calendar.getInstance();
+		c.setTime(dateOd);
+		c.add(Calendar.DATE, 7);
+		dd = sdf.format(c.getTime());
+		Date dateDo = sdf.parse(dd);
+		
+		Double prihodi = 0.0;
+		
+		Optional<List<RezervacijeSobe>> rezervacijeList = Optional.of(rezervacijeRepository.findAll());
+		
+		for(RezervacijeSobe rs : rezervacijeList.get()) {
+			if(rs.getHotel_rezervacijeSobe().getId() == id) {
+				if((rs.getDateFrom().before(dateOd) && rs.getDateUntil().after(dateOd)) || (rs.getDateUntil().after(dateDo) && rs.getDateFrom().before(dateDo))
+						|| (rs.getDateFrom().after(dateOd) && rs.getDateUntil().before(dateDo)) || (rs.getDateFrom().equals(dateOd) && rs.getDateUntil().equals(dateDo))) {
+					Double prihod = (double) rs.getTotalPrice();
+					prihodi += prihod;
+				}	
+			}
+		}
+		
+		return prihodi;
+		
+	}
+	
+	public Double getMesecniPrihod(Long id, String datumOd) throws ParseException{
+		
+		String dt = datumOd;
+		String dd = "";
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		Date dateOd = sdf.parse(dt);
+		Calendar c = Calendar.getInstance();
+		c.setTime(dateOd);
+		c.add(Calendar.MONTH, 1);
+		dd = sdf.format(c.getTime());
+		Date dateDo = sdf.parse(dd);
+		
+		Double prihodi = 0.0;
+		
+		Optional<List<RezervacijeSobe>> rezervacijeList = Optional.of(rezervacijeRepository.findAll());
+		
+		for(RezervacijeSobe rs : rezervacijeList.get()) {
+			if(rs.getHotel_rezervacijeSobe().getId() == id) {
+				if((rs.getDateFrom().before(dateOd) && rs.getDateUntil().after(dateOd)) || (rs.getDateUntil().after(dateDo) && rs.getDateFrom().before(dateDo))
+						|| (rs.getDateFrom().after(dateOd) && rs.getDateUntil().before(dateDo)) || (rs.getDateFrom().equals(dateOd) && rs.getDateUntil().equals(dateDo))) {
+					Double prihod = (double) rs.getTotalPrice();
+					prihodi += prihod;
+				}	
+			}
+		}
+		
+		return prihodi;
+		
+	}
+	
+	public Double getGodisnjiPrihod(Long id, String datumOd) throws ParseException{
+		
+		String dt = datumOd;
+		String dd = "";
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		Date dateOd = sdf.parse(dt);
+		Calendar c = Calendar.getInstance();
+		c.setTime(dateOd);
+		c.add(Calendar.YEAR, 1);
+		dd = sdf.format(c.getTime());
+		Date dateDo = sdf.parse(dd);
+		
+		Double prihodi = 0.0;
+		
+		Optional<List<RezervacijeSobe>> rezervacijeList = Optional.of(rezervacijeRepository.findAll());
+		
+		for(RezervacijeSobe rs : rezervacijeList.get()) {
+			if(rs.getHotel_rezervacijeSobe().getId() == id) {
+				if((rs.getDateFrom().before(dateOd) && rs.getDateUntil().after(dateOd)) || (rs.getDateUntil().after(dateDo) && rs.getDateFrom().before(dateDo))
+						|| (rs.getDateFrom().after(dateOd) && rs.getDateUntil().before(dateDo)) || (rs.getDateFrom().equals(dateOd) && rs.getDateUntil().equals(dateDo))) {
+					Double prihod = (double) rs.getTotalPrice();
+					prihodi += prihod;
+				}	
+			}
+		}
+		
+		return prihodi;
+		
+	}
+	
+	
 }

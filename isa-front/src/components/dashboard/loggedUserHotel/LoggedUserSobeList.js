@@ -83,8 +83,8 @@ class LoggedUserSobeList extends Component {
                     </form>
     }*/
 
-    handleClick = (e) => {
-        this.props.history.push('/rezervacijaLogged/'+this.props.match.params.hotelId)
+    handleClick = (sobaId) => (e) => {
+        this.props.history.push('/rezervacijaLogged/'+this.props.match.params.hotelId + '/' + sobaId)
     }
 
     render() {
@@ -115,7 +115,7 @@ class LoggedUserSobeList extends Component {
                             <p>Cena: {soba.originalnaCena}</p>
                             <p>Tip sobe: {soba.tipSobe_hotelskeSobe.roomType}</p>
                             <p>Procecna ocena: {prosecnaOcena}/5</p>
-                            <button className = "right" onClick = {this.handleClick}>Rezervisi</button>
+                            <button className = "right" onClick = {this.handleClick(soba.id)}>Rezervisi</button>
                         </div>
                     </div>
                 </div>

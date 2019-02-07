@@ -97,10 +97,43 @@ public class PrihodiHotelaController {
 							 @ApiResponse( code = 404, message = "Not Found")})
 	public ResponseEntity<Integer> getPrihodiHotela(@PathVariable("id") Long id, @PathVariable("datumOd") String datumOd, @PathVariable("datumDo") String datumDo) throws ParseException{
 		
-		Date dateOd = new SimpleDateFormat("dd.MM.yyyy").parse(datumOd);
-		Date dateDo = new SimpleDateFormat("dd.MM.yyyy").parse(datumDo);
+		Date dateOd = new SimpleDateFormat("yyyy-MM-dd").parse(datumOd);
+		Date dateDo = new SimpleDateFormat("yyyy-MM-dd").parse(datumDo);
 		int suma = prihodiHotelaService.getPrihodiHotela(id, dateOd, dateDo);
 		return new ResponseEntity<Integer>(suma, HttpStatus.OK);
+		
+	}
+	
+	@GetMapping("/{id}/{datumOd}/nedelja")
+	@ApiOperation( value = "", notes = "", httpMethod="GET")
+	@ApiResponses( value = { @ApiResponse( code = 200, message = "OK"),
+							 @ApiResponse( code = 404, message = "Not Found")})
+	public ResponseEntity<Double> getNedeljniPrihod(@PathVariable("id") Long id, @PathVariable("datumOd") String datumOd) throws ParseException{
+		
+		Double prihod = prihodiHotelaService.getNedeljniPrihod(id, datumOd);
+		return (prihod!=-1) ? new ResponseEntity<Double>(prihod, HttpStatus.OK): new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		
+	}
+	
+	@GetMapping("/{id}/{datumOd}/mesec")
+	@ApiOperation( value = "", notes = "", httpMethod="GET")
+	@ApiResponses( value = { @ApiResponse( code = 200, message = "OK"),
+							 @ApiResponse( code = 404, message = "Not Found")})
+	public ResponseEntity<Double> getMesecniPrihod(@PathVariable("id") Long id, @PathVariable("datumOd") String datumOd) throws ParseException{
+		
+		Double prihod = prihodiHotelaService.getMesecniPrihod(id, datumOd);
+		return (prihod!=-1) ? new ResponseEntity<Double>(prihod, HttpStatus.OK): new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		
+	}
+	
+	@GetMapping("/{id}/{datumOd}/godina")
+	@ApiOperation( value = "", notes = "", httpMethod="GET")
+	@ApiResponses( value = { @ApiResponse( code = 200, message = "OK"),
+							 @ApiResponse( code = 404, message = "Not Found")})
+	public ResponseEntity<Double> getGodisnjiPrihod(@PathVariable("id") Long id, @PathVariable("datumOd") String datumOd) throws ParseException{
+		
+		Double prihod = prihodiHotelaService.getGodisnjiPrihod(id, datumOd);
+		return (prihod!=-1) ? new ResponseEntity<Double>(prihod, HttpStatus.OK): new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		
 	}
 
