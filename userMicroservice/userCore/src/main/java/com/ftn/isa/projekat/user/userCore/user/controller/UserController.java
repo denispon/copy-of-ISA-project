@@ -106,7 +106,7 @@ public class UserController {
 			 @ApiResponse( code = 200, message ="OK"),
 			 @ApiResponse( code = 400, message ="Bad Request")})
 	public ResponseEntity<UserDTO> changeUser (@RequestHeader("Role") String role, @PathVariable("id") Long id, @RequestBody UserDTO userDto ){
-		if(role.equals("ADMIN") || role.equals("USER")) {
+		if(role.equals("ADMIN") || role.equals("USER") || role.equals("CARADMIN") || role.equals("HOTELADMIN") || role.equals("AVIOADMIN")) {
 			UserDTO userToEdit = userService.changeUser(id, userDto);
 			
 		    return ( userToEdit.getId() != null )? new ResponseEntity<UserDTO>(userToEdit,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);

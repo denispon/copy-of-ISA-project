@@ -39,7 +39,7 @@ public class RentACarServiceController {
 	@ApiOperation( value = "Finds one rent a car service.", notes = "Returns found rent a car service.", httpMethod="GET")
 	@ApiResponses( value = { @ApiResponse( code = 200, message = "OK"),
 							 @ApiResponse( code = 404, message = "Not Found")})
-	public ResponseEntity<RentACarServiceDTO> getOneRentACarServiceById (@RequestHeader("Role") String role,@PathVariable("id") Long id){
+	public ResponseEntity<RentACarServiceDTO> getOneRentACarServiceById (@PathVariable("id") Long id){
 		
 		
 		RentACarServiceDTO rentACarDto = rentACarService.findOneById(id);

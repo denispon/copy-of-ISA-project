@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Version;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ftn.isa.projekat.rentACar.rentACarCore.car.model.Car;
@@ -44,4 +45,7 @@ public class CarType {
 	@JsonIgnore
 	@OneToMany(mappedBy="carType", cascade=CascadeType.ALL )
 	private List<Car> cars;
+	
+	@Version
+	private Long version;
 }

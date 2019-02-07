@@ -60,11 +60,12 @@ export const getUserFriends = (id) => {
 export const updateUser = (id, user) => {
 
     return (dispatch, getState) => {
-        var user = JSON.parse(localStorage.getItem('user'))
-        if (user) {
+        console.log(user);
+        var userFromSession = JSON.parse(localStorage.getItem('user'))
+        if (userFromSession) {
             axios.put('http://localhost:8096/api/user/user/' + id, { id: user.id, name: user.name, surname: user.surname, city: user.city, email: user.email, telephoneNumber: user.telephoneNumber, passport: user.passport }, {
                 headers: {
-                    Role: user.role.role
+                    Role: userFromSession.role.role
                 }
             })
                 .then(res => {
@@ -112,6 +113,26 @@ export const logOutUser = () => {
         window.location = '/'
         dispatch({ type: 'LOG_OUT_USER', user: undefined });
 
+
+    }
+
+}
+
+export const getUserBonusPoints = (userId) => {
+
+    return (dispatch, getState) => {
+        var userFromSession = JSON.parse(localStorage.getItem('user'))
+        if (userFromSession) {
+            axios.get('http://localhost:8095/api/purchases/bonusPoints/' + userId, {
+                headers: {
+                    Role: userFromSession.role.role
+                }
+            })
+                .then(res => {
+                    console.log(res);
+                    dispatch({ type: 'GET_USER_BONUS_POINTS', userBonusPoints: res.data });
+                })
+        }
 
     }
 

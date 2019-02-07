@@ -7,6 +7,8 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.ftn.isa.projekat.rentACar.rentACarApi.dto.BranchOfficeDTO;
 import com.ftn.isa.projekat.rentACar.rentACarCore.branchOffice.model.BranchOffice;
@@ -38,7 +40,7 @@ public class BranchOfficeServiceImpl implements IBranchOfficeService {
 	@Autowired
 	DTORentACarServiceConverter rentServiceConverter;
 	
-	
+	@Transactional(readOnly = true, isolation=Isolation.READ_COMMITTED)
 	public BranchOfficeDTO findOneById(Long id) {
 		
 		Optional <BranchOffice> branchOffice = branchOfficeRepository.findById(id);
@@ -79,7 +81,7 @@ public class BranchOfficeServiceImpl implements IBranchOfficeService {
 		
 	}
 
-	
+	@Transactional(readOnly = false, isolation=Isolation.READ_COMMITTED)
 	public BranchOfficeDTO save(BranchOfficeDTO branchOfficeToSave) {
 		
 		/*
@@ -99,7 +101,7 @@ public class BranchOfficeServiceImpl implements IBranchOfficeService {
 		return new BranchOfficeDTO();
 	}
 
-	
+	@Transactional(readOnly = false, isolation=Isolation.REPEATABLE_READ)	
 	public BranchOfficeDTO deleteById(Long id) {
 		
 		Optional<BranchOffice> branchOfficeToDelete = branchOfficeRepository.findById(id);
@@ -151,7 +153,7 @@ public class BranchOfficeServiceImpl implements IBranchOfficeService {
 		
 	}
 
-	
+	@Transactional(readOnly = false, isolation=Isolation.REPEATABLE_READ)	
 	public BranchOfficeDTO changeBranchOffice(Long id, BranchOfficeDTO branchOffice) {
 		
 		Optional<BranchOffice> branchForChange = branchOfficeRepository.findById(id);
@@ -183,7 +185,7 @@ public class BranchOfficeServiceImpl implements IBranchOfficeService {
 		return new BranchOfficeDTO();
 	}
 
-
+	@Transactional(readOnly = true, isolation=Isolation.READ_COMMITTED)
 	@Override
 	public List<BranchOfficeDTO> findAllByRentServiceId(Long rentId) {
 

@@ -216,9 +216,10 @@ class ChangeCarDiscount extends Component {
         e.preventDefault();
         if (this.props.izmena) {
 
-            this.props.editCarDiscount(this.props.car.id, this.state);
+            this.props.editCarDiscount(this.props.carDiscount.id, this.state);
         }
         else {
+            console.log(this.state)
             this.props.createCarDiscount(this.state);
             this.setState({
                 id: -1,

@@ -116,7 +116,7 @@ export const makeReservation = (id) => {
     return (dispatch, getState) => {
         var user = JSON.parse(localStorage.getItem('user'))
         if (user) {
-            axios.post('http://localhost:8095/api/purchases/shoppingCart/' + id, {
+            axios.post('http://localhost:8095/api/purchases/shoppingCart/' + id, {}, {
                 headers: {
                     Role: user.role.role
                 }
@@ -304,7 +304,11 @@ export const cancelCarReservation = (reservationId) => {
     return (dispatch, getState) => {
         var user = JSON.parse(localStorage.getItem('user'))
         if (user) {
-            axios.post('http://localhost:8095/api/purchases/deleteCarReservation/' + reservationId)
+            axios.delete('http://localhost:8095/api/purchases/reservation/deleteCarReservation/' + reservationId, {
+                headers: {
+                    Role: user.role.role
+                }
+            })
                 .then(res => {
                     console.log(res);
                 })

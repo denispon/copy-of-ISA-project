@@ -3,7 +3,8 @@ const initState = {
     user: undefined,
     useri: [],
     friends: [],
-    friendRequests: []
+    friendRequests: [],
+    userBonusPoints: undefined
 }
 
 const userReducer = (state = initState, action) => {
@@ -55,6 +56,12 @@ const userReducer = (state = initState, action) => {
             return {
                 ...state,
                 user: undefined
+            }
+
+        case 'GET_USER_BONUS_POINTS':
+            return {
+                ...state,
+                userBonusPoints: action.userBonusPoints
             }
 
         default:

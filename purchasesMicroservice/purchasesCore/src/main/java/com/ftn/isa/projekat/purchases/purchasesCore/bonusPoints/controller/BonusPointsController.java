@@ -34,7 +34,7 @@ public class BonusPointsController {
 	IBonusPointsService bonusPointsService;
 	
 	@GetMapping("/{id}")
-	@ApiOperation( value = "Finds one link user-bonus points.", notes = "Returns found link between user id and bonus points.", httpMethod="GET")
+	@ApiOperation( value = "Finds one link user-bonus points by user id.", notes = "Returns found link between user id and bonus points.", httpMethod="GET")
 	@ApiResponses( value = { @ApiResponse( code = 200, message = "OK"),
 							 @ApiResponse( code = 404, message = "Not Found")})
 	public ResponseEntity<BonusPointsDTO> getBonusPointById (@PathVariable("id") Long id){

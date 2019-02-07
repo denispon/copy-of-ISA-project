@@ -32,7 +32,7 @@ public class BonusPointsServiceImpl implements IBonusPointsService {
 	@Override
 	public BonusPointsDTO findOneById(Long id) {
 		
-		Optional <BonusPoints> bonusPoint = bonusPointsRepository.findById(id);
+		Optional <BonusPoints> bonusPoint = bonusPointsRepository.findByUserId(id);
 		
 		
 		if (bonusPoint.isPresent()) {

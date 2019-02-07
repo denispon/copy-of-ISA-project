@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Version;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ftn.isa.projekat.rentACar.rentACarCore.branchOffice.model.BranchOffice;
@@ -55,5 +56,6 @@ public class RentACarService {
 	private List<BranchOffice> branchOffices;
 	
 	
-	
+	@Version
+	private Long version;
 }

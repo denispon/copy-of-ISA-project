@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Version;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ftn.isa.projekat.rentACar.rentACarCore.rentACarService.model.RentACarService;
@@ -39,4 +40,7 @@ public class Income {
     @ManyToOne ()
     @JoinColumn (name = "rent_a_car_service_id",nullable = false)
 	private RentACarService incomeRentACarservice;
+	
+	@Version
+	private Long version;
 }

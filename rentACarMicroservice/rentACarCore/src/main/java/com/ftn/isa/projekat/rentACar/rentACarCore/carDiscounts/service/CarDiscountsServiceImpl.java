@@ -78,7 +78,7 @@ public class CarDiscountsServiceImpl  implements ICarDiscountsService{
 		
 		//At First we need to check if dateFrom is before dateTo
 		//If it is after dateTo, then we will return an empty object
-		if(discountToSave.getDateFrom().isAfter(discountToSave.getDateTo())) {
+		if(discountToSave.getDateFrom().isAfter(discountToSave.getDateTo()) && discountToSave.getCarDiscountPrecentage()>0 && discountToSave.getCarDiscountPrecentage()<100) {
 			
 			return new CarDiscountsDTO();
 			
@@ -132,7 +132,7 @@ public class CarDiscountsServiceImpl  implements ICarDiscountsService{
 		
 		//At First we need to check if dateFrom is before dateTo
 		//If it is after dateTo, then we will return an empty object
-		if(discount.getDateFrom().isAfter(discount.getDateTo())) {
+		if(discount.getDateFrom().isAfter(discount.getDateTo())  && discount.getCarDiscountPrecentage()>0 && discount.getCarDiscountPrecentage()<100) {
 			
 			return new CarDiscountsDTO();
 			

@@ -1,5 +1,6 @@
 package com.ftn.isa.projekat.purchases.purchasesCore.reservation.service;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -271,9 +272,24 @@ public class ReservationServiceImpl implements IReservationService {
 				
 			}
 			
+			long numberOfDaysOfReservation = Duration.between(carReservation.getDateFrom(), carReservation.getDateTo()).toDays();
+			
+			Double price = (double) (numberOfDaysOfReservation * carReservation.getReservedCar().getRentPrice());
+			
+			reservation.get().setPrice(reservation.get().getPrice()-price);
+			
+			
 			reservation.get().setCarReservationId(null);
 			
-			reservationRepository.save(reservation.get());
+			//checking if car reservation is only reservation here..
+			if(reservation.get().getRoomReservationId()==null) {
+				reservationRepository.delete(reservation.get());
+			}
+			else {
+				reservationRepository.save(reservation.get());	
+			}
+			
+			
 			
 			return reservationConverter.convertToDTO(reservation.get());
 		

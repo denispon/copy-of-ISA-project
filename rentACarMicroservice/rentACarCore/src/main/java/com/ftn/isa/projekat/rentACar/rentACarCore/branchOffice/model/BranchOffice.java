@@ -11,6 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Version;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ftn.isa.projekat.rentACar.rentACarCore.car.model.Car;
@@ -62,4 +63,7 @@ public class BranchOffice {
 	@JsonIgnore
 	@OneToMany (mappedBy="branchOfficeTo")
 	private List<CarReservation> reservationToBranchOffice;
+	
+	@Version
+	private Long version;
 }

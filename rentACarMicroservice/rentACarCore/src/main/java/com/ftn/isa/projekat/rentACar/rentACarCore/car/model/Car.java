@@ -12,6 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Version;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ftn.isa.projekat.rentACar.rentACarCore.branchOffice.model.BranchOffice;
@@ -59,6 +60,7 @@ public class Car {
 	@OneToMany (mappedBy="carOnDiscount", cascade = CascadeType.ALL)
 	private List<CarDiscounts> carDiscounts;
 	
-	
+	@Version
+	private Long version;
 	
 }

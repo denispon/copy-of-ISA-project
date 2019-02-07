@@ -9,5 +9,7 @@ import com.ftn.isa.projekat.purchases.purchasesCore.bonusPoints.model.BonusPoint
 public interface BonusPointsRepository extends JpaRepository<BonusPoints, Long> {
 
 	Optional<BonusPoints> findOneByUserId(Long userId);
+
+	Optional<BonusPoints> findByUserId(Long id);
 	
 }
