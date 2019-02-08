@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -73,9 +74,14 @@ public class IncomeController {
 	})
 	public ResponseEntity<IncomeDTO> addIncome(@RequestHeader("Role") String role,@RequestBody IncomeDTO dto){
 		if(role.equals("CARADMIN")) {
-			IncomeDTO savedIncome = incomeService.save(dto);
-			
-			return ( savedIncome!=null )? new ResponseEntity<IncomeDTO>(savedIncome,HttpStatus.CREATED): new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			try {
+				IncomeDTO savedIncome = incomeService.save(dto);
+				
+				return ( savedIncome!=null )? new ResponseEntity<IncomeDTO>(savedIncome,HttpStatus.CREATED): new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+		    } catch (ObjectOptimisticLockingFailureException e) {
+		        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		    }
 			
 		}
 		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
@@ -88,9 +94,14 @@ public class IncomeController {
 			 @ApiResponse( code = 404, message ="Not Found")})	
 	public ResponseEntity<IncomeDTO> deleteIncome(@RequestHeader("Role") String role,@PathVariable("id") Long id){
 		if(role.equals("CARADMIN")) {
-			IncomeDTO deletedIncomeDTO = incomeService.deleteById(id);
-			
-			return (deletedIncomeDTO.getId() != null ) ? new ResponseEntity<IncomeDTO>(deletedIncomeDTO,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			try {
+				IncomeDTO deletedIncomeDTO = incomeService.deleteById(id);
+				
+				return (deletedIncomeDTO.getId() != null ) ? new ResponseEntity<IncomeDTO>(deletedIncomeDTO,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+		    } catch (ObjectOptimisticLockingFailureException e) {
+		        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		    }
 			
 		}
 		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
@@ -103,9 +114,14 @@ public class IncomeController {
 			 @ApiResponse( code = 400, message ="Bad Request")})
 	public ResponseEntity<IncomeDTO> changeBranch (@RequestHeader("Role") String role,@PathVariable("id") Long id, @RequestBody IncomeDTO incomeDto ){
 		if(role.equals("CARADMIN")) {
-			IncomeDTO incomeToEdit = incomeService.changeIncome(id, incomeDto);
-			
-		    return ( incomeToEdit.getId() != null )? new ResponseEntity<IncomeDTO>(incomeToEdit,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			try {
+				IncomeDTO incomeToEdit = incomeService.changeIncome(id, incomeDto);
+				
+			    return ( incomeToEdit.getId() != null )? new ResponseEntity<IncomeDTO>(incomeToEdit,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+		    } catch (ObjectOptimisticLockingFailureException e) {
+		        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		    }
 			
 		}
 		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);		

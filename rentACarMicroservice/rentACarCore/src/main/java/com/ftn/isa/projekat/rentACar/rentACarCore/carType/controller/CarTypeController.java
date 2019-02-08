@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -68,10 +69,15 @@ public class CarTypeController {
 		
 
 		if(role.equals("ADMIN")) {
-			CarTypeDTO savedCarType = carTypeService.save(dto);
-			
-			return ( savedCarType!=null )? new ResponseEntity<CarTypeDTO>(savedCarType,HttpStatus.CREATED): new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			try {
+				CarTypeDTO savedCarType = carTypeService.save(dto);
 				
+				return ( savedCarType!=null )? new ResponseEntity<CarTypeDTO>(savedCarType,HttpStatus.CREATED): new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		
+		    } catch (ObjectOptimisticLockingFailureException e) {
+		        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		    }
+			
 		}
 		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 	}
@@ -83,9 +89,14 @@ public class CarTypeController {
 			 @ApiResponse( code = 404, message ="Not Found")})	
 	public ResponseEntity<CarTypeDTO> deleteCarType(@RequestHeader("Role") String role, @PathVariable("id") Long id){
 		if(role.equals("ADMIN")) {
-			CarTypeDTO deletedcarTypeDTO = carTypeService.deleteById(id);
-			
-			return (deletedcarTypeDTO.getId() != null ) ? new ResponseEntity<CarTypeDTO>(deletedcarTypeDTO,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			try {
+				CarTypeDTO deletedcarTypeDTO = carTypeService.deleteById(id);
+				
+				return (deletedcarTypeDTO.getId() != null ) ? new ResponseEntity<CarTypeDTO>(deletedcarTypeDTO,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+		    } catch (ObjectOptimisticLockingFailureException e) {
+		        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		    }
 
 		}
 		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
@@ -99,9 +110,14 @@ public class CarTypeController {
 	public ResponseEntity<CarTypeDTO> changeCarType (@RequestHeader("Role") String role, @PathVariable("id") Long id, @RequestBody CarTypeDTO carTypeDto ){
 		
 		if(role.equals("CARADMIN")) {
-			CarTypeDTO carTypeToEdit = carTypeService.changeCarType(id, carTypeDto);
-			
-		    return ( carTypeToEdit.getId() != null )? new ResponseEntity<CarTypeDTO>(carTypeToEdit,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			try {
+				CarTypeDTO carTypeToEdit = carTypeService.changeCarType(id, carTypeDto);
+				
+			    return ( carTypeToEdit.getId() != null )? new ResponseEntity<CarTypeDTO>(carTypeToEdit,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+		    } catch (ObjectOptimisticLockingFailureException e) {
+		        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		    }
 	
 		}
 		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);

@@ -96,6 +96,27 @@ public class ReservationServiceImpl implements IReservationService {
 		
 				CarReservationDTO carReservation = servicesProxy.getCarReservationById(reservationToSave.getCarReservationId());
 				
+				//need to check if someone reserved same car in period in shopping cart
+				List<Reservation> reservations = reservationRepository.findAll();
+				
+				//ukoliko nas je neko pretekao u rezervaciji, to ovde gledamo.. ukoliko jeste onda mu ne damo da rezervise isto vozilo za isti perod vremena.
+				if(reservations != null) {
+					for(Reservation reservation : reservations) {
+						
+						CarReservationDTO reservationTestCar = servicesProxy.getCarReservationById(reservation.getCarReservationId());
+						
+						if(carReservation.getReservedCar().getId() == reservationTestCar.getReservedCar().getId()) {
+							
+							if((carReservation.getDateFrom().isAfter(reservationTestCar.getDateFrom()) && carReservation.getDateFrom().isBefore(reservationTestCar.getDateTo()))  || (carReservation.getDateTo().isAfter(reservationTestCar.getDateFrom()) && carReservation.getDateTo().isBefore(reservationTestCar.getDateTo())) ){
+								
+									return new ReservationDTO();
+							
+							}
+						}
+					}
+				}
+				
+				
 				if(carReservation.getId()==null) {
 					return new ReservationDTO();
 				}

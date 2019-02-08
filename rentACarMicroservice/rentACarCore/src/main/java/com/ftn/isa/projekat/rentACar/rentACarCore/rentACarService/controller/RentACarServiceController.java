@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -68,9 +69,14 @@ public class RentACarServiceController {
 	})
 	public ResponseEntity<RentACarServiceDTO> addBranchOffice(@RequestHeader("Role") String role,@RequestBody RentACarServiceDTO dto){
 		if(role.equals("ADMIN")) {
-			RentACarServiceDTO savedRentACarService = rentACarService.save(dto);
-			
-			return ( savedRentACarService!=null )? new ResponseEntity<RentACarServiceDTO>(savedRentACarService,HttpStatus.CREATED): new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			try {
+				RentACarServiceDTO savedRentACarService = rentACarService.save(dto);
+				
+				return ( savedRentACarService!=null )? new ResponseEntity<RentACarServiceDTO>(savedRentACarService,HttpStatus.CREATED): new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+		    } catch (ObjectOptimisticLockingFailureException e) {
+		        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		    }
 			
 		}
 		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
@@ -83,9 +89,14 @@ public class RentACarServiceController {
 			 @ApiResponse( code = 404, message ="Not Found")})	
 	public ResponseEntity<RentACarServiceDTO> deleteRentACarService(@RequestHeader("Role") String role,@PathVariable("id") Long id){
 		if(role.equals("ADMIN")) {
-			RentACarServiceDTO deletedRentACarDTO = rentACarService.deleteById(id);
-			
-			return (deletedRentACarDTO.getId() != null ) ? new ResponseEntity<RentACarServiceDTO>(deletedRentACarDTO,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			try {
+				RentACarServiceDTO deletedRentACarDTO = rentACarService.deleteById(id);
+				
+				return (deletedRentACarDTO.getId() != null ) ? new ResponseEntity<RentACarServiceDTO>(deletedRentACarDTO,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+		    } catch (ObjectOptimisticLockingFailureException e) {
+		        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		    }
 			
 		}
 		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
@@ -98,9 +109,14 @@ public class RentACarServiceController {
 			 @ApiResponse( code = 400, message ="Bad Request")})
 	public ResponseEntity<RentACarServiceDTO> changeRentACarService (@RequestHeader("Role") String role,@PathVariable("id") Long id, @RequestBody RentACarServiceDTO rentACarDto ){
 		if(role.equals("ADMIN") || role.equals("CARADMIN")) {
-			RentACarServiceDTO rentACarToEdit = rentACarService.changeRentACarService(id, rentACarDto);
-			
-		    return ( rentACarToEdit.getId() != null )? new ResponseEntity<RentACarServiceDTO>(rentACarToEdit,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			try {
+				RentACarServiceDTO rentACarToEdit = rentACarService.changeRentACarService(id, rentACarDto);
+				
+			    return ( rentACarToEdit.getId() != null )? new ResponseEntity<RentACarServiceDTO>(rentACarToEdit,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+		    } catch (ObjectOptimisticLockingFailureException e) {
+		        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		    }
 			
 		}
 		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);

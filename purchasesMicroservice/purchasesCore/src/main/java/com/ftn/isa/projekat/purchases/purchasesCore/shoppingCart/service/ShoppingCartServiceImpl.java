@@ -25,6 +25,7 @@ import com.ftn.isa.projekat.purchases.purchasesCore.bonusPointsDiscounts.reposit
 import com.ftn.isa.projekat.purchases.purchasesCore.converter.DTOReservationConverter;
 import com.ftn.isa.projekat.purchases.purchasesCore.converter.DTOShoppingCartConverter;
 import com.ftn.isa.projekat.purchases.purchasesCore.reservation.model.Reservation;
+import com.ftn.isa.projekat.purchases.purchasesCore.reservation.repository.ReservationRepository;
 import com.ftn.isa.projekat.purchases.purchasesCore.reservation.service.IReservationService;
 import com.ftn.isa.projekat.purchases.purchasesCore.shoppingCart.model.ShoppingCart;
 import com.ftn.isa.projekat.purchases.purchasesCore.shoppingCart.repository.ShoppingCartRepository;
@@ -592,6 +593,8 @@ public class ShoppingCartServiceImpl implements IShoppingCartService{
 		Optional<ShoppingCart> tempReservation = cartRepository.findById(id);
 		
 		if(tempReservation.isPresent()) {
+			
+			
 			
 			//now we need to decrease price
 			Optional<BonusPointsDiscounts> discount =  discountRepository.findOneByPoints(tempReservation.get().getBonusPoints());

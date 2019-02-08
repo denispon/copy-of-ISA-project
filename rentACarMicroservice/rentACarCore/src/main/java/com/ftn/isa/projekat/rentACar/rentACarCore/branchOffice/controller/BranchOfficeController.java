@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -66,9 +67,15 @@ public class BranchOfficeController {
 	})
 	public ResponseEntity<BranchOfficeDTO> addBranchOffice(@RequestHeader("Role") String role,@RequestBody BranchOfficeDTO dto){
 		if(role.equals("CARADMIN")) {
-		BranchOfficeDTO savedBranch = branchOfficeService.save(dto);
-		
-		return ( savedBranch!=null )? new ResponseEntity<BranchOfficeDTO>(savedBranch,HttpStatus.CREATED): new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			
+			try {
+				BranchOfficeDTO savedBranch = branchOfficeService.save(dto);
+				
+				return ( savedBranch!=null )? new ResponseEntity<BranchOfficeDTO>(savedBranch,HttpStatus.CREATED): new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+		    } catch (ObjectOptimisticLockingFailureException e) {
+		        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		    }
 		}
 		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 	}
@@ -80,9 +87,15 @@ public class BranchOfficeController {
 			 @ApiResponse( code = 404, message ="Not Found")})	
 	public ResponseEntity<BranchOfficeDTO> deleteBranchOffice(@RequestHeader("Role") String role,@PathVariable("id") Long id){
 		if(role.equals("CARADMIN")) {
-			BranchOfficeDTO deletedBranchDTO = branchOfficeService.deleteById(id);
 			
-			return (deletedBranchDTO.getId() != null ) ? new ResponseEntity<BranchOfficeDTO>(deletedBranchDTO,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			try {
+				BranchOfficeDTO deletedBranchDTO = branchOfficeService.deleteById(id);
+				
+				return (deletedBranchDTO.getId() != null ) ? new ResponseEntity<BranchOfficeDTO>(deletedBranchDTO,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+		    } catch (ObjectOptimisticLockingFailureException e) {
+		        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		    }
 	
 		}
 		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
@@ -95,9 +108,15 @@ public class BranchOfficeController {
 			 @ApiResponse( code = 400, message ="Bad Request")})
 	public ResponseEntity<BranchOfficeDTO> changeBranch (@RequestHeader("Role") String role, @PathVariable("id") Long id, @RequestBody BranchOfficeDTO branchDto ){
 		if(role.equals("CARADMIN")) {
-			BranchOfficeDTO branchToEdit = branchOfficeService.changeBranchOffice(id, branchDto);
 			
-		    return ( branchToEdit.getId() != null )? new ResponseEntity<BranchOfficeDTO>(branchToEdit,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			try {
+				BranchOfficeDTO branchToEdit = branchOfficeService.changeBranchOffice(id, branchDto);
+				
+			    return ( branchToEdit.getId() != null )? new ResponseEntity<BranchOfficeDTO>(branchToEdit,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+		    } catch (ObjectOptimisticLockingFailureException e) {
+		        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		    }
 
 		}
 		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);

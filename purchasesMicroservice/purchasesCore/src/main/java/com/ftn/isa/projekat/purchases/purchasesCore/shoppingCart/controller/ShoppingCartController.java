@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -91,9 +92,14 @@ public class ShoppingCartController {
 	})
 	public ResponseEntity<ShoppingCartDTO> addReservation(@RequestHeader("Role") String role, @RequestBody ShoppingCartDTO dto){
 		if(role.equals("USER")) {
-			ShoppingCartDTO savedReservation = cartService.save(dto);
-			
-			return ( savedReservation!=null )? new ResponseEntity<ShoppingCartDTO>(savedReservation,HttpStatus.CREATED): new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			try {
+				ShoppingCartDTO savedReservation = cartService.save(dto);
+				
+				return ( savedReservation!=null )? new ResponseEntity<ShoppingCartDTO>(savedReservation,HttpStatus.CREATED): new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+		    } catch (ObjectOptimisticLockingFailureException e) {
+		        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		    }
 			
 		}
 		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
@@ -106,9 +112,14 @@ public class ShoppingCartController {
 			 @ApiResponse( code = 404, message ="Not Found")})	
 	public ResponseEntity<ShoppingCartDTO> deleteReservation(@RequestHeader("Role") String role, @PathVariable("id") Long id){
 		if(role.equals("USER")) {
-			ShoppingCartDTO deletedShoppingCartDTO = cartService.deleteById(id);
-			
-			return (deletedShoppingCartDTO.getId() != null ) ? new ResponseEntity<ShoppingCartDTO>(deletedShoppingCartDTO,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			try {
+				ShoppingCartDTO deletedShoppingCartDTO = cartService.deleteById(id);
+				
+				return (deletedShoppingCartDTO.getId() != null ) ? new ResponseEntity<ShoppingCartDTO>(deletedShoppingCartDTO,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+		    } catch (ObjectOptimisticLockingFailureException e) {
+		        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		    }
 			
 		}
 		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
@@ -121,9 +132,14 @@ public class ShoppingCartController {
 			 @ApiResponse( code = 400, message ="Bad Request")})
 	public ResponseEntity<ShoppingCartDTO> changeReservation (@RequestHeader("Role") String role, @PathVariable("id") Long id, @RequestBody ShoppingCartDTO ShoppingCartDTO ){
 		if(role.equals("USER")) {
-			ShoppingCartDTO reservationToEdit = cartService.changeReservation(id, ShoppingCartDTO);
-			
-		    return ( reservationToEdit.getId() != null )? new ResponseEntity<ShoppingCartDTO>(reservationToEdit,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			try {
+				ShoppingCartDTO reservationToEdit = cartService.changeReservation(id, ShoppingCartDTO);
+				
+			    return ( reservationToEdit.getId() != null )? new ResponseEntity<ShoppingCartDTO>(reservationToEdit,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+		    } catch (ObjectOptimisticLockingFailureException e) {
+		        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		    }
 		
 		}
 		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);

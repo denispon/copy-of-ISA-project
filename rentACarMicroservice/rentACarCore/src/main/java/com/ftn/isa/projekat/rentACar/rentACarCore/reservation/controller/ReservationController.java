@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -72,9 +73,14 @@ public class ReservationController {
 	})
 	public ResponseEntity<CarReservationDTO> addReservation(@RequestHeader("Role") String role,@RequestBody CarReservationDTO dto){
 		if(role.equals("USER")) {
-			CarReservationDTO savedReservation = reservationService.save(dto);
-			
-			return ( savedReservation!=null )? new ResponseEntity<CarReservationDTO>(savedReservation,HttpStatus.CREATED): new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			try {
+				CarReservationDTO savedReservation = reservationService.save(dto);
+				
+				return ( savedReservation!=null )? new ResponseEntity<CarReservationDTO>(savedReservation,HttpStatus.CREATED): new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+		    } catch (ObjectOptimisticLockingFailureException e) {
+		        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		    }
 			
 		}
 		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
@@ -87,9 +93,14 @@ public class ReservationController {
 			 @ApiResponse( code = 404, message ="Not Found")})	
 	public ResponseEntity<CarReservationDTO> deleteReservation(@RequestHeader("Role") String role, @PathVariable("id") Long id){
 		if(role.equals("USER")) {
-			CarReservationDTO deletedReservationDTO = reservationService.deleteById(id);
-			
-			return (deletedReservationDTO.getId() != null ) ? new ResponseEntity<CarReservationDTO>(deletedReservationDTO,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			try {
+				CarReservationDTO deletedReservationDTO = reservationService.deleteById(id);
+				
+				return (deletedReservationDTO.getId() != null ) ? new ResponseEntity<CarReservationDTO>(deletedReservationDTO,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+		    } catch (ObjectOptimisticLockingFailureException e) {
+		        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		    }
 			
 		}
 		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
@@ -102,9 +113,14 @@ public class ReservationController {
 			 @ApiResponse( code = 404, message ="Not Found")})
 	public ResponseEntity<CarReservationDTO> deleteReservationNoConditions(@RequestHeader("Role") String role, @PathVariable("id") Long id){
 		if(role.equals("USER")) {
-			CarReservationDTO deletedReservationDTO = reservationService.deleteByIdNoConditions(id);
-			
-			return (deletedReservationDTO.getId() != null ) ? new ResponseEntity<CarReservationDTO>(deletedReservationDTO,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			try {
+				CarReservationDTO deletedReservationDTO = reservationService.deleteByIdNoConditions(id);
+				
+				return (deletedReservationDTO.getId() != null ) ? new ResponseEntity<CarReservationDTO>(deletedReservationDTO,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+		    } catch (ObjectOptimisticLockingFailureException e) {
+		        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		    }
 			
 		}
 		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
@@ -118,9 +134,14 @@ public class ReservationController {
 			 @ApiResponse( code = 400, message ="Bad Request")})
 	public ResponseEntity<CarReservationDTO> changeReservation (@RequestHeader("Role") String role,@PathVariable("id") Long id, @RequestBody CarReservationDTO reservationDTO ){
 		if(role.equals("USER")) {
-			CarReservationDTO reservationToEdit = reservationService.changeReservation(id, reservationDTO);
-			
-		    return ( reservationToEdit.getId() != null )? new ResponseEntity<CarReservationDTO>(reservationToEdit,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			try {
+				CarReservationDTO reservationToEdit = reservationService.changeReservation(id, reservationDTO);
+				
+			    return ( reservationToEdit.getId() != null )? new ResponseEntity<CarReservationDTO>(reservationToEdit,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+		    } catch (ObjectOptimisticLockingFailureException e) {
+		        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		    }
 			
 		}
 		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);

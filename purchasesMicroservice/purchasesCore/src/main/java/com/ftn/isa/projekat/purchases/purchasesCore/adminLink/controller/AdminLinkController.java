@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -66,9 +67,14 @@ public class AdminLinkController {
 	})
 	public ResponseEntity<AdminLinkDTO> addAdminLinks(@RequestHeader("Role") String role, @RequestBody AdminLinkDTO dto){
 		if(role.equals("ADMIN")) {
-			AdminLinkDTO savedAdminLink = adminLinkService.save(dto);
-			
-			return ( savedAdminLink!=null )? new ResponseEntity<AdminLinkDTO>(savedAdminLink,HttpStatus.CREATED): new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			try {
+				AdminLinkDTO savedAdminLink = adminLinkService.save(dto);
+				
+				return ( savedAdminLink!=null )? new ResponseEntity<AdminLinkDTO>(savedAdminLink,HttpStatus.CREATED): new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+		    } catch (ObjectOptimisticLockingFailureException e) {
+		        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		    }
 			
 		}
 		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
@@ -81,9 +87,14 @@ public class AdminLinkController {
 			 @ApiResponse( code = 404, message ="Not Found")})	
 	public ResponseEntity<AdminLinkDTO> deleteAdminLink(@RequestHeader("Role") String role, @PathVariable("id") Long id){
 		if(role.equals("ADMIN")) {
-			AdminLinkDTO deletedAdminLinkDTO = adminLinkService.deleteById(id);
-			
-			return (deletedAdminLinkDTO.getId() != null ) ? new ResponseEntity<AdminLinkDTO>(deletedAdminLinkDTO,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			try {
+				AdminLinkDTO deletedAdminLinkDTO = adminLinkService.deleteById(id);
+				
+				return (deletedAdminLinkDTO.getId() != null ) ? new ResponseEntity<AdminLinkDTO>(deletedAdminLinkDTO,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+		    } catch (ObjectOptimisticLockingFailureException e) {
+		        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		    }
 			
 		}
 		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);

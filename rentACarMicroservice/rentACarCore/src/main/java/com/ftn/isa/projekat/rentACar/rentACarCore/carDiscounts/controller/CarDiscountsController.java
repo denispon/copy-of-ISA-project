@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -69,9 +70,14 @@ public class CarDiscountsController {
 	public ResponseEntity<CarDiscountsDTO> addDiscount(@RequestHeader("Role") String role, @RequestBody CarDiscountsDTO dto){
 		
 		if(role.equals("CARADMIN")) {
-			CarDiscountsDTO savedDiscount = discountService.save(dto);
-			
-			return ( savedDiscount.getId() != null )? new ResponseEntity<CarDiscountsDTO>(savedDiscount,HttpStatus.CREATED): new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			try {
+				CarDiscountsDTO savedDiscount = discountService.save(dto);
+				
+				return ( savedDiscount.getId() != null )? new ResponseEntity<CarDiscountsDTO>(savedDiscount,HttpStatus.CREATED): new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+		    } catch (ObjectOptimisticLockingFailureException e) {
+		        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		    }
 
 		}
 		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
@@ -87,10 +93,15 @@ public class CarDiscountsController {
 			@RequestHeader("Role") String role, @PathVariable("id") Long id){
 
 			if(role.equals("CARADMIN")) {
-				CarDiscountsDTO deletedDiscountDTO = discountService.deleteById(id);
-				
-				return (deletedDiscountDTO.getId() != null ) ? new ResponseEntity<CarDiscountsDTO>(deletedDiscountDTO,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
-	
+				try {
+					CarDiscountsDTO deletedDiscountDTO = discountService.deleteById(id);
+					
+					return (deletedDiscountDTO.getId() != null ) ? new ResponseEntity<CarDiscountsDTO>(deletedDiscountDTO,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		
+			    } catch (ObjectOptimisticLockingFailureException e) {
+			        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			    }
+
 			}
 			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 	}
@@ -106,9 +117,14 @@ public class CarDiscountsController {
 	
 
 		if(role.equals("CARADMIN")) {
-			CarDiscountsDTO discountToEdit = discountService.changeDiscount(id, discountDTO);
-			
-		    return ( discountToEdit.getId() != null )? new ResponseEntity<CarDiscountsDTO>(discountToEdit,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			try {
+				CarDiscountsDTO discountToEdit = discountService.changeDiscount(id, discountDTO);
+				
+			    return ( discountToEdit.getId() != null )? new ResponseEntity<CarDiscountsDTO>(discountToEdit,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+		    } catch (ObjectOptimisticLockingFailureException e) {
+		        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		    }
 
 		}
 		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);

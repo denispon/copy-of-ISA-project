@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -65,9 +66,14 @@ public class BonusPointsDiscountsController {
 	})
 	public ResponseEntity<BonusPointsDiscountsDTO> addDiscount(@RequestHeader("Role") String role,@RequestBody BonusPointsDiscountsDTO dto){
 		if(role.equals("ADMIN")) {
-			BonusPointsDiscountsDTO savedDiscount = discountService.save(dto);
-			
-			return ( savedDiscount!=null )? new ResponseEntity<BonusPointsDiscountsDTO>(savedDiscount,HttpStatus.CREATED): new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			try {
+				BonusPointsDiscountsDTO savedDiscount = discountService.save(dto);
+				
+				return ( savedDiscount!=null )? new ResponseEntity<BonusPointsDiscountsDTO>(savedDiscount,HttpStatus.CREATED): new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+		    } catch (ObjectOptimisticLockingFailureException e) {
+		        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		    }
 			
 		}
 		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
@@ -80,9 +86,14 @@ public class BonusPointsDiscountsController {
 			 @ApiResponse( code = 404, message ="Not Found")})	
 	public ResponseEntity<BonusPointsDiscountsDTO> deleteDiscount(@RequestHeader("Role") String role,@PathVariable("id") Long id){
 		if(role.equals("ADMIN")) {
-			BonusPointsDiscountsDTO deletedDiscountsDTO = discountService.deleteById(id);
-			
-			return (deletedDiscountsDTO.getId() != null ) ? new ResponseEntity<BonusPointsDiscountsDTO>(deletedDiscountsDTO,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			try {
+				BonusPointsDiscountsDTO deletedDiscountsDTO = discountService.deleteById(id);
+				
+				return (deletedDiscountsDTO.getId() != null ) ? new ResponseEntity<BonusPointsDiscountsDTO>(deletedDiscountsDTO,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+		    } catch (ObjectOptimisticLockingFailureException e) {
+		        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		    }
 			
 		}
 		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
@@ -95,9 +106,14 @@ public class BonusPointsDiscountsController {
 			 @ApiResponse( code = 400, message ="Bad Request")})
 	public ResponseEntity<BonusPointsDiscountsDTO> changeDiscount (@RequestHeader("Role") String role,@PathVariable("id") Long id, @RequestBody BonusPointsDiscountsDTO BonusPointsDiscountsDTO ){
 		if(role.equals("ADMIN")) {
-			BonusPointsDiscountsDTO discountToEdit = discountService.changeBonusPoints(id, BonusPointsDiscountsDTO);
-			
-		    return ( discountToEdit.getId() != null )? new ResponseEntity<BonusPointsDiscountsDTO>(discountToEdit,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			try {
+				BonusPointsDiscountsDTO discountToEdit = discountService.changeBonusPoints(id, BonusPointsDiscountsDTO);
+				
+			    return ( discountToEdit.getId() != null )? new ResponseEntity<BonusPointsDiscountsDTO>(discountToEdit,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+		    } catch (ObjectOptimisticLockingFailureException e) {
+		        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		    }
 			
 		}
 		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);

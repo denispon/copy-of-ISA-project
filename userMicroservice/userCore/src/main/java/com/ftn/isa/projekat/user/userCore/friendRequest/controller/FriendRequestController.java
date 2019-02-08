@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -72,9 +73,14 @@ public class FriendRequestController {
 	})
 	public ResponseEntity<FriendRequestDTO> addFriendRequest(@RequestHeader("Role") String role,@RequestBody FriendRequestDTO dto){
 		if(role.equals("USER")) {
-			FriendRequestDTO savedRequest = requestService.save(dto);
-			
-			return ( savedRequest.getId()!=null )? new ResponseEntity<FriendRequestDTO>(savedRequest,HttpStatus.CREATED): new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		    try {
+		    	FriendRequestDTO savedRequest = requestService.save(dto);
+				
+				return ( savedRequest.getId()!=null )? new ResponseEntity<FriendRequestDTO>(savedRequest,HttpStatus.CREATED): new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+				
+		    } catch (ObjectOptimisticLockingFailureException e) {
+		    	return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		    }
 			
 		}
 		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
@@ -87,9 +93,15 @@ public class FriendRequestController {
 			 @ApiResponse( code = 404, message ="Not Found")})	
 	public ResponseEntity<FriendRequestDTO> deleteFriendRequest(@RequestHeader("Role") String role,@PathVariable("id") Long id){
 		if(role.equals("USER")) {
-			FriendRequestDTO deletedRequestDTO = requestService.deleteById(id);
+			try {
+				FriendRequestDTO deletedRequestDTO = requestService.deleteById(id);
+				
+				return (deletedRequestDTO.getId() != null ) ? new ResponseEntity<FriendRequestDTO>(deletedRequestDTO,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+				
+		    } catch (ObjectOptimisticLockingFailureException e) {
+		        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		    }
 			
-			return (deletedRequestDTO.getId() != null ) ? new ResponseEntity<FriendRequestDTO>(deletedRequestDTO,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
 			
 		}
 		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
@@ -102,9 +114,14 @@ public class FriendRequestController {
 			 @ApiResponse( code = 400, message ="Bad Request")})
 	public ResponseEntity<FriendRequestDTO> changeRequest (@RequestHeader("Role") String role,@PathVariable("id") Long id, @RequestBody FriendRequestDTO requestDto ){
 		if(role.equals("USER")) {
-			FriendRequestDTO requestToEdit = requestService.changeFriendRequest(id, requestDto);
-			
-		    return ( requestToEdit.getId() != null )? new ResponseEntity<FriendRequestDTO>(requestToEdit,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			try {
+				FriendRequestDTO requestToEdit = requestService.changeFriendRequest(id, requestDto);
+				
+			    return ( requestToEdit.getId() != null )? new ResponseEntity<FriendRequestDTO>(requestToEdit,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+				
+		    } catch (ObjectOptimisticLockingFailureException e) {
+		        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		    }
 			
 		}
 		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);

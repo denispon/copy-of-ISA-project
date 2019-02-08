@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -67,9 +68,14 @@ public class BonusPointsController {
 			@RequestHeader("Role") String role, @RequestBody BonusPointsDTO dto){
 
 		if(role.equals("ADMIN")) {
-			BonusPointsDTO savedBonusPoints = bonusPointsService.save(dto);
-			
-			return ( savedBonusPoints!=null )? new ResponseEntity<BonusPointsDTO>(savedBonusPoints,HttpStatus.CREATED): new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			try {
+				BonusPointsDTO savedBonusPoints = bonusPointsService.save(dto);
+				
+				return ( savedBonusPoints!=null )? new ResponseEntity<BonusPointsDTO>(savedBonusPoints,HttpStatus.CREATED): new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+		    } catch (ObjectOptimisticLockingFailureException e) {
+		        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		    }
 				
 		}
 		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
@@ -84,9 +90,14 @@ public class BonusPointsController {
 			@RequestHeader("Role") String role, @PathVariable("id") Long id){
 		
 		if(role.equals("ADMIN")) {
-			BonusPointsDTO deletedBonusPointsDTO = bonusPointsService.deleteById(id);
-			
-			return (deletedBonusPointsDTO.getId() != null ) ? new ResponseEntity<BonusPointsDTO>(deletedBonusPointsDTO,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			try {
+				BonusPointsDTO deletedBonusPointsDTO = bonusPointsService.deleteById(id);
+				
+				return (deletedBonusPointsDTO.getId() != null ) ? new ResponseEntity<BonusPointsDTO>(deletedBonusPointsDTO,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+		    } catch (ObjectOptimisticLockingFailureException e) {
+		        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		    }
 			
 		}
 		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
@@ -100,9 +111,14 @@ public class BonusPointsController {
 	public ResponseEntity<BonusPointsDTO> changeBonusPoints (
 			@RequestHeader("Role") String role, @PathVariable("id") Long id, @RequestBody BonusPointsDTO BonusPointsDto ){
 		if(role.equals("ADMIN")) {
-			BonusPointsDTO bonusPointsToEdit = bonusPointsService.changeBonusPoints(id, BonusPointsDto);
-			
-		    return ( bonusPointsToEdit.getId() != null )? new ResponseEntity<BonusPointsDTO>(bonusPointsToEdit,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			try {
+				BonusPointsDTO bonusPointsToEdit = bonusPointsService.changeBonusPoints(id, BonusPointsDto);
+				
+			    return ( bonusPointsToEdit.getId() != null )? new ResponseEntity<BonusPointsDTO>(bonusPointsToEdit,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+		    } catch (ObjectOptimisticLockingFailureException e) {
+		        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		    }
 			
 		}
 		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
