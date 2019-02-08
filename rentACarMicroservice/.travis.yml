@@ -2,6 +2,9 @@ language: java
 
 jdk:
   - oraclejdk8
+  
+ services:
+  -mysql
 
 addons:
  sonarcloud:
