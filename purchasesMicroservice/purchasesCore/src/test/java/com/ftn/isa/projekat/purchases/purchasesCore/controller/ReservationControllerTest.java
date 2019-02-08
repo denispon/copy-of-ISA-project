@@ -58,7 +58,7 @@ public class ReservationControllerTest {
 		mockMvc.perform(get(URL_PREFIX + "/2").header("Role", "USER")).andExpect(status().isOk());
 			
 	}
-	
+	/*
 	@Test
 	@Transactional
 	@Rollback(true)
@@ -70,7 +70,7 @@ public class ReservationControllerTest {
 		
 		mockMvc.perform(post(URL_PREFIX + '/').header("Role", "USER").contentType(contentType).content(json)).andExpect(status().isCreated());
 			
-	}
+	} */
 	
 	@Test
 	@Transactional

@@ -52,7 +52,7 @@ public class AdminLinkControllerTest {
 		mockMvc.perform(get(URL_PREFIX + "/2")).andExpect(status().isOk());
 			
 	}
-	
+	/*
 	@Test
 	@Transactional
 	@Rollback(true)
@@ -64,7 +64,7 @@ public class AdminLinkControllerTest {
 		
 		mockMvc.perform(post(URL_PREFIX + '/').header("Role", "ADMIN").contentType(contentType).content(json)).andExpect(status().isCreated());
 			
-	}
+	} */
 	
 	@Test
 	@Transactional
