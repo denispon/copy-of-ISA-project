@@ -58,19 +58,7 @@ public class CarDiscountsControllerTest {
 			
 	}
 	
-	@Test
-	@Transactional
-	@Rollback(true)
-	public void testSave() throws Exception{
-		
-		
-		
-		String json = "{ \"id\": -1, \"dateFrom\": \"2019-02-10T00:00:01\", \"dateTo\": \"2020-02-10T00:09:00\", \"carDiscountPrecentage\": 30, \"carId\": {\"id\": 2, \"rentPrice\": 23, \"carType\": { \"id\": 2, \"numberOfSeats\": \"\", \"modelYear\": \"\", \"model\": \"\", \"brand\": \"\", \"carType\": \"\" }, \"rentService\": { \"id\": 2, \"name\": \"\", \"adress\": \"\", \"description\": \"\" }, \"branchOffice\": { \"id\": 2, \"name\": \"\", \"adress\": \"\", \"city\": \"\", \"rentServiceDTO\": { \"id\": 2, \"adress\": \"\", \"name\": \"\", \"description\": \"\" } } } }";
-		
-		
-		mockMvc.perform(post(URL_PREFIX + '/').header("Role", "CARADMIN").contentType(contentType).content(json)).andExpect(status().isCreated());
-			
-	}
+
 	
 	
 	@Test
