@@ -1,4 +1,4 @@
-/*package com.ftn.isa.projekat.rentACar.rentACarCore;
+package com.ftn.isa.projekat.rentACar.rentACarCore;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,4 +12,4 @@ public class RentACarCoreTestApplication {
 	@Test
 	public void contextLoads() {
 	}
-}*/
+}
