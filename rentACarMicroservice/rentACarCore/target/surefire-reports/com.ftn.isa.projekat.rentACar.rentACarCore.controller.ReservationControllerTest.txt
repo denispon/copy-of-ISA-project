@@ -1,4 +1,16 @@
 -------------------------------------------------------------------------------
 Test set: com.ftn.isa.projekat.rentACar.rentACarCore.controller.ReservationControllerTest
 -------------------------------------------------------------------------------
-Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.3 s - in com.ftn.isa.projekat.rentACar.rentACarCore.controller.ReservationControllerTest
+Tests run: 4, Failures: 3, Errors: 0, Skipped: 0, Time elapsed: 0.239 sec <<< FAILURE! - in com.ftn.isa.projekat.rentACar.rentACarCore.controller.ReservationControllerTest
+testGetOneById(com.ftn.isa.projekat.rentACar.rentACarCore.controller.ReservationControllerTest)  Time elapsed: 0.052 sec  <<< FAILURE!
+java.lang.AssertionError: Status expected:<200> but was:<404>
+	at com.ftn.isa.projekat.rentACar.rentACarCore.controller.ReservationControllerTest.testGetOneById(ReservationControllerTest.java:52)
+
+testDeleteReservationNoConditions(com.ftn.isa.projekat.rentACar.rentACarCore.controller.ReservationControllerTest)  Time elapsed: 0.036 sec  <<< FAILURE!
+java.lang.AssertionError: Status expected:<200> but was:<404>
+	at com.ftn.isa.projekat.rentACar.rentACarCore.controller.ReservationControllerTest.testDeleteReservationNoConditions(ReservationControllerTest.java:69)
+
+testDeleteReservation(com.ftn.isa.projekat.rentACar.rentACarCore.controller.ReservationControllerTest)  Time elapsed: 0.017 sec  <<< FAILURE!
+java.lang.AssertionError: Status expected:<200> but was:<404>
+	at com.ftn.isa.projekat.rentACar.rentACarCore.controller.ReservationControllerTest.testDeleteReservation(ReservationControllerTest.java:61)
+
