@@ -4,7 +4,9 @@ const initState = {
     useri: [],
     friends: [],
     friendRequests: [],
-    userBonusPoints: undefined
+    userBonusPoints: undefined,
+    error: false,
+    success: false,
 }
 
 const userReducer = (state = initState, action) => {
@@ -63,6 +65,30 @@ const userReducer = (state = initState, action) => {
                 ...state,
                 userBonusPoints: action.userBonusPoints
             }
+
+        case 'SHOW_ERROR':
+            return {
+                ...state,
+                error: action.error
+            }
+
+        case 'HIDE_ERROR':
+            return {
+                ...state,
+                error: false
+            }
+        case 'SHOW_SUCCESS':
+            return {
+                ...state,
+                success: action.success
+            }
+
+        case 'HIDE_SUCCESS':
+            return {
+                ...state,
+                success: false
+            }
+
 
         default:
             break;

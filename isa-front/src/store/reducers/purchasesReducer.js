@@ -9,7 +9,11 @@ const initState = {
     userReservations: undefined,
     rentCarReservations: [],
     rentACarRatings: [],
-    carRatings: []
+    carRatings: [],
+    dodatoUKorpu: false,
+    kreiranaRezervacija: false,
+    otkazanaRezervacija: false,
+    neMozeOtkazatiRezervaciju: false,
 
 }
 
@@ -120,6 +124,55 @@ const purchasesReducer = (state = initState, action) => {
                 carRatings: action.userRatings
             }
 
+        case "SHOW_DODATO_U_KORPU":
+            return {
+                ...state,
+                dodatoUKorpu: true
+            }
+
+        case "HIDE_DODATO_U_KORPU":
+            return {
+                ...state,
+                dodatoUKorpu: false
+            }
+
+
+
+        case "SHOW_KREIRANA_REZERVACIJA":
+            return {
+                ...state,
+                kreiranaRezervacija: true
+            }
+
+        case "HIDE_KREIRANA_REZERVACIJA":
+            return {
+                ...state,
+                kreiranaRezervacija: false
+            }
+
+        case "SHOW_OTKAZANA_REZERVACIJA":
+            return {
+                ...state,
+                otkazanaRezervacija: true
+            }
+
+        case "HIDE_OTKAZANA_REZERVACIJA":
+            return {
+                ...state,
+                otkazanaRezervacija: false
+            }
+
+        case "SHOW_NE_MOZES_ODTKAZATI_REZERVACIJU":
+            return {
+                ...state,
+                neMozeOtkazatiRezervaciju: true
+            }
+
+        case "HIDE_NE_MOZES_ODTKAZATI_REZERVACIJU":
+            return {
+                ...state,
+                neMozeOtkazatiRezervaciju: false
+            }
     }
     return state
 }

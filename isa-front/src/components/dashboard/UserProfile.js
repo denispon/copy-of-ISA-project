@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from "react-redux"
-import { getUser, updateUser, getUserBonusPoints } from "../../store/actions/UserActions"
-
+import { getUser, updateUser, getUserBonusPoints, hideSucces } from "../../store/actions/UserActions"
+import ReactNotification from "react-notifications-component";
+import "react-notifications-component/dist/theme.css";
 
 class UserProfile extends Component {
 
@@ -13,6 +14,25 @@ class UserProfile extends Component {
         email: '',
         telephoneNumber: '',
         passport: ''
+    }
+
+    constructor(props) {
+        super(props);
+        this.notificationDOMRef = React.createRef();
+    }
+
+    addNotification = () => {
+        this.notificationDOMRef.current.addNotification({
+            title: "Korisnik informacije",
+            message: "Izmena uspesna!",
+            type: "success",
+            insert: "top",
+            container: "top-center",
+            animationIn: ["animated", "fadeIn"],
+            animationOut: ["animated", "fadeOut"],
+            dismiss: { duration: 2000 },
+            dismissable: { click: true }
+        });
     }
 
     componentDidMount() {
@@ -54,8 +74,14 @@ class UserProfile extends Component {
 
     render() {
 
+
+
         if (this.props.user) {
 
+            if (this.props.success) {
+                this.addNotification();
+                this.props.hideSucces();
+            }
 
             var { name, surname, email, city, telephoneNumber, passport } = this.props.user;
 
@@ -65,6 +91,10 @@ class UserProfile extends Component {
                         <div className="container">
                             <form className="white" onSubmit={this.handleSubmit} >
                                 <h2 className="red-text lighten-1">{name} {surname}</h2>
+
+                                <div className="container center">
+                                    <ReactNotification ref={this.notificationDOMRef} />
+                                </div>
                                 <h5 className="indigo-text lighten-1">Bonus poeni : {this.props.userBonusPoints ? this.props.userBonusPoints.points : '0'}</h5>
                                 <div className="input-field">
                                     <label htmlFor="name" className="active" >Ime</label>
@@ -109,7 +139,8 @@ class UserProfile extends Component {
 const mapStateToProps = (state) => {
     return {
         user: state.user.user,
-        userBonusPoints: state.user.userBonusPoints
+        userBonusPoints: state.user.userBonusPoints,
+        success: state.user.success
     }
 }
 
@@ -117,7 +148,8 @@ const mapDispatchToProps = (dispatch) => {
     return {
         getUserById: (id) => dispatch(getUser(id)),
         updateUser: (id, user) => dispatch(updateUser(id, user)),
-        getUserBonusPoints: (userId) => dispatch(getUserBonusPoints(userId))
+        getUserBonusPoints: (userId) => dispatch(getUserBonusPoints(userId)),
+        hideSucces: () => dispatch(hideSucces())
     }
 }
 

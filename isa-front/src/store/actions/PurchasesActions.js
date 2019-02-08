@@ -84,6 +84,8 @@ export const addRentACarReservationToShoppingCart = (idKorpe, dateFrom, dateTo, 
                 .then(res => {
                     console.log(res.data)
                     dispatch({ type: 'ADD_CAR_RESERVATION_TO_SHOPPING_CART', userShoppingCart: res.data })
+                    dispatch({ type: 'SHOW_DODATO_U_KORPU', success: true })
+
                 })
         }
     }
@@ -124,6 +126,7 @@ export const makeReservation = (id) => {
                 .then(res => {
                     console.log(res.data)
                     dispatch({ type: 'MAKE_RESERVATION', finalReservation: res.data })
+                    dispatch({ type: 'SHOW_KREIRANA_REZERVACIJA', success: true });
                 })
         }
 
@@ -311,10 +314,50 @@ export const cancelCarReservation = (reservationId) => {
             })
                 .then(res => {
                     console.log(res);
+                    dispatch({ type: 'SHOW_OTKAZANA_REZERVACIJA', success: true });
                 })
+                .catch(error => {
+
+                    dispatch({ type: 'SHOW_NE_MOZES_ODTKAZATI_REZERVACIJU', error: true });
+                });
         }
 
 
     }
 
 }
+
+export const hideDodatoUKorpu = () => {
+
+    return (dispatch, getState) => {
+        dispatch({ type: 'HIDE_DODATO_U_KORPU', success: false })
+    }
+
+}
+
+
+export const hideKreiranaRezervacija = () => {
+
+    return (dispatch, getState) => {
+        dispatch({ type: 'HIDE_KREIRANA_REZERVACIJA', success: false })
+    }
+
+}
+
+
+export const hideOtkazanaRezervacija = () => {
+
+    return (dispatch, getState) => {
+        dispatch({ type: 'HIDE_OTKAZANA_REZERVACIJA', success: false })
+    }
+
+}
+
+export const hideNeMozesOtkazatiRezervaciju = () => {
+
+    return (dispatch, getState) => {
+        dispatch({ type: 'HIDE_NE_MOZES_ODTKAZATI_REZERVACIJU', success: false })
+    }
+
+}
+

@@ -4,6 +4,8 @@ import ReactDOM from 'react-dom';
 import axios from 'axios';
 import { NavLink } from "react-router-dom";
 import "../layout/navbarLinks/navBarLinks.css";
+import ReactNotification from "react-notifications-component";
+import "react-notifications-component/dist/theme.css";
 
 class RegistracijaKorisnika extends Component {
 
@@ -17,6 +19,67 @@ class RegistracijaKorisnika extends Component {
       passport: '',
       pass: undefined,
       pass2: undefined
+   }
+
+   constructor(props) {
+      super(props);
+      this.notificationDOMRef = React.createRef();
+   }
+
+   uspesnaRezervacija = () => {
+      this.notificationDOMRef.current.addNotification({
+         title: "Registracija",
+         message: "Uspesno ste se registrovali! Proverite email da aktivirate nalog.",
+         type: "success",
+         insert: "top",
+         container: "top-center",
+         animationIn: ["animated", "fadeIn"],
+         animationOut: ["animated", "fadeOut"],
+         dismiss: { duration: 2000 },
+         dismissable: { click: true }
+      });
+   }
+
+   emailVecPostoji = () => {
+      this.notificationDOMRef.current.addNotification({
+         title: "Registracija",
+         message: "Email vec postoji. Probajte neki drugi.",
+         type: "danger",
+         insert: "top",
+         container: "top-center",
+         animationIn: ["animated", "fadeIn"],
+         animationOut: ["animated", "fadeOut"],
+         dismiss: { duration: 2000 },
+         dismissable: { click: true }
+      });
+   }
+
+   neispravanUnosEmaila = () => {
+      this.notificationDOMRef.current.addNotification({
+         title: "Registracija",
+         message: "Unos emaila je neispravan!",
+         type: "danger",
+         insert: "top",
+         container: "top-center",
+         animationIn: ["animated", "fadeIn"],
+         animationOut: ["animated", "fadeOut"],
+         dismiss: { duration: 2000 },
+         dismissable: { click: true }
+      });
+   }
+
+   neispravanUnosLozinke = () => {
+      this.notificationDOMRef.current.addNotification({
+         title: "Registracija",
+         message: "Lozinke se ne poklapaju!",
+         type: "danger",
+         insert: "top",
+         container: "top-center",
+         animationIn: ["animated", "fadeIn"],
+         animationOut: ["animated", "fadeOut"],
+         dismiss: { duration: 2000 },
+         dismissable: { click: true }
+      });
    }
 
    handleChange = (e) => {
@@ -43,17 +106,20 @@ class RegistracijaKorisnika extends Component {
             })
                .then(res => {
                   if (res.data.email === "Email exits") {
-                     console.log("Korisnik sa datim mejlom vec postoji!")
+                     this.emailVecPostoji();
                   }
                   else {
-                     console.log('Uspesno rezervisan!')
+                     this.uspesnaRezervacija();
                   }
 
                })
          }
+         else {
+            this.neispravanUnosLozinke();
+         }
       }
       else {
-         console.log("Email adresa ne valja !!")
+         this.neispravanUnosEmaila();
       }
 
 
@@ -64,6 +130,9 @@ class RegistracijaKorisnika extends Component {
       return (
          <div className="container">
             <h2 className="red-text lighten-1 center">Registrujte se</h2>
+            <div className="container center">
+               <ReactNotification ref={this.notificationDOMRef} />
+            </div>
             <div className="container center">
                <form className="white" onSubmit={this.handleSubmit}>
                   <div className="input-field">

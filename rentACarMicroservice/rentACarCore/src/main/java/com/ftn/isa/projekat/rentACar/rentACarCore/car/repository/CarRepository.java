@@ -27,7 +27,7 @@ public interface CarRepository extends JpaRepository < Car, Long > {
 
 	Optional< List<Car> > findAllByCarRentServiceId(Long rentId);
 
-	@Query(value="select car.id,rent_price,branch_office_id,rent_a_car_service_id,car_type_id"
+	@Query(value="select car.id,rent_price,branch_office_id,car.version,rent_a_car_service_id,car_type_id"
 			+ " from car inner join car_discounts on car.id=car_discounts.car_on_discount_id "
 			+ "where (date_from >= :dateFrom and date_from <= :dateTo) "
 			+ "or (date_to>=:dateFrom and date_to <= :dateTo);\r\n" + 

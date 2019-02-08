@@ -71,6 +71,7 @@ export const updateUser = (id, user) => {
                 .then(res => {
                     console.log(res);
                     dispatch({ type: 'USER_CHANGES_HIS_ATRIBUTES', user: res.data });
+                    dispatch({ type: "SHOW_SUCCESS", success: true });
                 })
         }
 
@@ -90,10 +91,32 @@ export const logInUser = (email, password) => {
                 window.location = '/'
                 dispatch({ type: 'LOG_IN_USER', user: res.data });
             })
+            .catch(error => {
+
+                dispatch({ type: 'SHOW_ERROR', error: true })
+            });
 
     }
 
 }
+
+export const hideError = () => {
+
+    return (dispatch, getState) => {
+        dispatch({ type: 'SHOW_ERROR', error: false })
+    }
+
+}
+
+export const hideSucces = () => {
+
+    return (dispatch, getState) => {
+        dispatch({ type: 'HIDE_SUCCESS', success: false })
+    }
+
+}
+
+
 
 export const loadUserAfterRefresh = (user) => {
 

@@ -11,14 +11,10 @@ import LetoviPretraga from "../LetoviPretraga";
 import HotelIzlistavanje from "../HoteliIzlistavanje";
 import LetoviIzlistavanje from "../LetoviIzlistavanje";
 import LoggedUserHotelList from "../loggedUserHotel/LoggedUserHotelList";
-import UserReservations from "../reservation/UserReservations";
-import InvitationPage from "../invitation/InvitationPage";
-import Friend from "../friends/Friend";
-import FriendsComponent from "../friends/FriendsComponent";
-import ShoppingCart from "../reservation/ShoppingCart";
-import UserProfile from "../UserProfile";
-import Navbar from "../../layout/Navbar";
-
+import { connect } from "react-redux"
+import { hideDodatoUKorpu } from "../../../store/actions/PurchasesActions";
+import ReactNotification from "react-notifications-component";
+import "react-notifications-component/dist/theme.css";
 
 class DashboardUserLogged extends Component {
 
@@ -26,12 +22,40 @@ class DashboardUserLogged extends Component {
 
     }
 
+    constructor(props) {
+        super(props);
+        this.dodatoUKopruNotifikacija = this.dodatoUKopruNotifikacija.bind(this);
+        this.notificationDOMRef = React.createRef();
+    }
+
+    dodatoUKopruNotifikacija() {
+        this.notificationDOMRef.current.addNotification({
+            title: "Rezervacija",
+            message: "Uspesno dodato u korpu!",
+            type: "success",
+            insert: "top",
+            container: "top-center",
+            animationIn: ["animated", "fadeIn"],
+            animationOut: ["animated", "fadeOut"],
+            dismiss: { duration: 2000 },
+            dismissable: { click: true }
+        });
+    }
+
     render() {
+
+        if (this.props.dodatoUKorpu) {
+            this.dodatoUKopruNotifikacija();
+            this.props.hideDodatoUKorpu();
+        }
 
         return (
             <div>
                 <BrowserRouter>
                     <div>
+                        <div className="container center">
+                            <ReactNotification ref={this.notificationDOMRef} />
+                        </div>
                         <NavLink to="/fastCarReservation"><p className="blue-text darken-3">Brza rezervacija vozila</p></NavLink>
 
                         <div>
@@ -61,4 +85,20 @@ class DashboardUserLogged extends Component {
 
 }
 
-export default DashboardUserLogged
+
+const mapStateToProps = (state) => {
+
+    return {
+        dodatoUKorpu: state.purchases.dodatoUKorpu
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        hideDodatoUKorpu: () => dispatch(hideDodatoUKorpu())
+    }
+}
+
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(DashboardUserLogged);

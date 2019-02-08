@@ -1,14 +1,36 @@
 import React, { Component } from "react"
 import ShoppingCartReservation from "./ShoppingCartReservation";
 import { connect } from "react-redux";
-import { getUserShoppingCart, makeReservation, removeRentACarReservationFromShoppingCart } from "../../../store/actions/PurchasesActions";
-
+import { getUserShoppingCart, makeReservation, removeRentACarReservationFromShoppingCart, hideKreiranaRezervacija } from "../../../store/actions/PurchasesActions";
+import ReactNotification from "react-notifications-component";
+import "react-notifications-component/dist/theme.css";
 
 class ShoppingCart extends Component {
 
 
     state = {
 
+    }
+
+
+    constructor(props) {
+        super(props);
+        this.kreiranaRezervacijaNotifikacija = this.kreiranaRezervacijaNotifikacija.bind(this);
+        this.notificationDOMRef = React.createRef();
+    }
+
+    kreiranaRezervacijaNotifikacija() {
+        this.notificationDOMRef.current.addNotification({
+            title: "Rezervacija",
+            message: "Uspesno kreirana rezervacija!",
+            type: "success",
+            insert: "top",
+            container: "top-center",
+            animationIn: ["animated", "fadeIn"],
+            animationOut: ["animated", "fadeOut"],
+            dismiss: { duration: 2000 },
+            dismissable: { click: true }
+        });
     }
 
     componentDidMount() {
@@ -30,10 +52,18 @@ class ShoppingCart extends Component {
 
 
     render() {
+
+        if (this.props.kreiranaRezervacija) {
+            this.kreiranaRezervacijaNotifikacija();
+            this.props.hideKreiranaRezervacija();
+        }
+
         return (
             <div>
                 <h2 className="center red-text lighten-1">Korpa</h2>
-
+                <div className="container center">
+                    <ReactNotification ref={this.notificationDOMRef} />
+                </div>
                 {this.props.userShoppingCart != undefined ?
                     <div className="container">
                         <ShoppingCartReservation removeRentACarReservationFromShoppingCart={this.props.removeRentACarReservationFromShoppingCart} userShoppingCart={this.props.userShoppingCart} carReservation={this.props.carReservation} avioCompanyReservation={this.props.avioCompanyReservation} hotelReservation={this.props.hotelReservation}></ShoppingCartReservation>
@@ -73,7 +103,8 @@ const mapStateToProps = (state) => {
         userShoppingCart: state.purchases.userShoppingCart,
         carReservation: state.purchases.carReservation,
         avioCompanyReservation: state.purchases.avioCompanyReservation,
-        hotelReservation: state.purchases.hotelReservation
+        hotelReservation: state.purchases.hotelReservation,
+        kreiranaRezervacija: state.purchases.kreiranaRezervacija
     }
 }
 
@@ -81,7 +112,9 @@ const mapDispatchToProps = (dispatch) => {
     return {
         getUserShoppingCart: (id) => dispatch(getUserShoppingCart(id)),
         makeReservation: (id) => dispatch(makeReservation(id)),
-        removeRentACarReservationFromShoppingCart: (id) => dispatch(removeRentACarReservationFromShoppingCart(id))
+        removeRentACarReservationFromShoppingCart: (id) => dispatch(removeRentACarReservationFromShoppingCart(id)),
+        hideKreiranaRezervacija: () => dispatch(hideKreiranaRezervacija())
+
     }
 }
 
