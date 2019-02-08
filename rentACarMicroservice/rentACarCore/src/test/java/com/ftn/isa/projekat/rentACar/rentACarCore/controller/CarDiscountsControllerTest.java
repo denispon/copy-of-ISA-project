@@ -57,7 +57,7 @@ public class CarDiscountsControllerTest {
 		mockMvc.perform(get(URL_PREFIX + "/4")).andExpect(status().isOk());
 			
 	}
-	/*
+	
 	@Test
 	@Transactional
 	@Rollback(true)
@@ -65,13 +65,13 @@ public class CarDiscountsControllerTest {
 		
 		
 		
-		String json = "{ \"id\": -1, \"dateFrom\": \"2019-2-10T00:00:01\", \"dateTo\": \"2020-2-10T00:09:00\", \"carDiscountPrecentage\": 30, \"carId\": {\"id\": -1, \"rentPrice\": 23, \"carType\": { \"id\": 2, \"numberOfSeats\": \"\", \"modelYear\": \"\", \"model\": \"\", \"brand\": \"\", \"carType\": \"\" }, \"rentService\": { \"id\": 2, \"name\": \"\", \"adress\": \"\", \"description\": \"\" }, \"branchOffice\": { \"id\": 2, \"name\": \"\", \"adress\": \"\", \"city\": \"\", \"rentServiceDTO\": { \"id\": 2, \"adress\": \"\", \"name\": \"\", \"description\": \"\" } } } }";
+		String json = "{ \"id\": -1, \"dateFrom\": \"2019-02-10T00:00:01\", \"dateTo\": \"2020-02-10T00:09:00\", \"carDiscountPrecentage\": 30, \"carId\": {\"id\": 2, \"rentPrice\": 23, \"carType\": { \"id\": 2, \"numberOfSeats\": \"\", \"modelYear\": \"\", \"model\": \"\", \"brand\": \"\", \"carType\": \"\" }, \"rentService\": { \"id\": 2, \"name\": \"\", \"adress\": \"\", \"description\": \"\" }, \"branchOffice\": { \"id\": 2, \"name\": \"\", \"adress\": \"\", \"city\": \"\", \"rentServiceDTO\": { \"id\": 2, \"adress\": \"\", \"name\": \"\", \"description\": \"\" } } } }";
 		
 		
 		mockMvc.perform(post(URL_PREFIX + '/').header("Role", "CARADMIN").contentType(contentType).content(json)).andExpect(status().isCreated());
 			
 	}
-	*/
+	
 	
 	@Test
 	@Transactional
@@ -81,16 +81,16 @@ public class CarDiscountsControllerTest {
 		this.mockMvc.perform(delete(URL_PREFIX + "/4").header("Role", "CARADMIN")).andExpect(status().isOk());
 	}
 	
-	/*
+	
 	@Test
 	@Transactional
 	@Rollback(true)
 	public void testUpdate() throws Exception{
 		
 
-		String json = "{ \"id\": 4, \"dateFrom\": \"2019-2-10T00:00:01\", \"dateTo\": \"2020-2-10T00:09:00\", \"carDiscountPrecentage\": 30, \"carId\": {\"id\": -1, \"rentPrice\": 23, \"carType\": { \"id\": 2, \"numberOfSeats\": \"\", \"modelYear\": \"\", \"model\": \"\", \"brand\": \"\", \"carType\": \"\" }, \"rentService\": { \"id\": 2, \"name\": \"\", \"adress\": \"\", \"description\": \"\" }, \"branchOffice\": { \"id\": 2, \"name\": \"\", \"adress\": \"\", \"city\": \"\", \"rentServiceDTO\": { \"id\": 2, \"adress\": \"\", \"name\": \"\", \"description\": \"\" } } } }";
-		this.mockMvc.perform(put(URL_PREFIX + "/4").header("Role", "CARADMIN").contentType(contentType).content(json)).andExpect(status().isOk());
+		String json = "{ \"id\": 4, \"dateFrom\": \"2019-02-10T00:00:01\", \"dateTo\": \"2020-02-10T00:09:00\", \"carDiscountPrecentage\": 30, \"carId\": {\"id\": 2, \"rentPrice\": 23, \"carType\": { \"id\": 2, \"numberOfSeats\": \"\", \"modelYear\": \"\", \"model\": \"\", \"brand\": \"\", \"carType\": \"\" }, \"rentService\": { \"id\": 2, \"name\": \"\", \"adress\": \"\", \"description\": \"\" }, \"branchOffice\": { \"id\": 2, \"name\": \"\", \"adress\": \"\", \"city\": \"\", \"rentServiceDTO\": { \"id\": 2, \"adress\": \"\", \"name\": \"\", \"description\": \"\" } } } }";
+		this.mockMvc.perform(put(URL_PREFIX + "/4").header("Role", "CARADMIN").contentType(contentType).content(json)).andExpect(status().isBadRequest());
 
 		
-	} */
+	} 
 }

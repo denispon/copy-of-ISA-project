@@ -96,6 +96,9 @@ public class BonusPointsServiceImpl implements IBonusPointsService {
 				presentBonusPoints.get().setPoints(presentBonusPoints.get().getPoints() + bonusPointsToSave.getPoints());
 				
 				bonusPointsRepository.save(presentBonusPoints.get());
+				
+				return bonusPointsToSave;
+				
 			}else {
 				
 				bonusPointsToSave.setId(-1l);

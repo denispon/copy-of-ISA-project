@@ -62,8 +62,7 @@ public class BranchOfficeControllerTest {
 	@Rollback(true)
 	public void testSave() throws Exception{
 		
-		
-		
+			
 		String json = "{\"id\": -1, \"name\": \"naziv\", \"adress\": \"adresa\", \"city\": \"grad\", \"rentServiceDTO\": { \"id\": 2, \"name\": \"\", \"adress\": \"\", \"city\": \"\" } }";
 		
 		

@@ -109,7 +109,7 @@ public class CarTypeController {
 			 @ApiResponse( code = 400, message ="Bad Request")})
 	public ResponseEntity<CarTypeDTO> changeCarType (@RequestHeader("Role") String role, @PathVariable("id") Long id, @RequestBody CarTypeDTO carTypeDto ){
 		
-		if(role.equals("CARADMIN")) {
+		if(role.equals("ADMIN")) {
 			try {
 				CarTypeDTO carTypeToEdit = carTypeService.changeCarType(id, carTypeDto);
 				
