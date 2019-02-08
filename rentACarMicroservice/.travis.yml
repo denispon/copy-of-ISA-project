@@ -1,4 +1,22 @@
 language: java
-jdk:
- - oraclejdk8
 
+jdk:
+  - oraclejdk8
+  
+ services:
+  -mysql
+
+addons:
+ sonarcloud:
+ organization: "sale1996-github"
+ token:  
+  secure: "ff4a24a87006fa38e6840bb7d182ef18ab52c2b9"
+
+script:
+ - cd isa mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar
+
+deploy:
+ provider: heroku
+ api_key:	
+  secure: "f8042927-2e99-45db-b55f-396b38ec258a"
+  app: travel-with-rsk
