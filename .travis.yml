@@ -1,4 +1,10 @@
 language: java
 jdk: oraclejdk8
 
-before_script: cd "userMicroservice"
+before_install:
+  - chmod +x mvnw
+
+before_script: cd "rentACarMicroservice"
+
+script:
+  - ./mvnw clean install -DskipTests=false -B
