@@ -20,7 +20,8 @@ class Cenovnici extends Component {
         vremeKraja: undefined,
         dateFrom: '',
         dateTo: '',
-        aktivirajDugmeRezervacije: false
+        aktivirajDugmeRezervacije: false,
+        averageCarRating: []
     }
 
     rezervisiVozilo = (e) => {
@@ -183,7 +184,23 @@ class Cenovnici extends Component {
 
     }
 
+    getAverageRatingCar = (id) => {
 
+        axios.get('http://localhost:8095/api/purchases/carRating/getAverageRating/' + id)
+            .then(res => {
+
+                this.setState({
+                    averageCarRating: this.state.averageCarRating.filter(item => item.carId != id).concat({ carId: id, rating: res.data })
+                })
+
+            })
+            .catch(error => {
+                this.setState({
+                    averageCarRating: this.state.averageCarRating.concat({ carId: id, rating: 'nema jos ratinga' })
+                })
+            })
+
+    }
 
 
     render() {
@@ -191,11 +208,22 @@ class Cenovnici extends Component {
         var imeServisa = "";
         const vozilaList = vozila.length ? (vozila.map(vozilo => {
             imeServisa = vozilo.rentService.name;
+            //postavljanje prosecnog ratinga
+            var rating = this.state.averageCarRating.find(item => { return item.carId == vozilo.id })
+
+            if (rating == undefined)
+                this.getAverageRatingCar(vozilo.id);
+            else {
+                rating = rating.rating;
+            }
             return (
                 <div className="post card grey lighten-2">
                     <div className="card-content container">
                         <span className="card-title center"><strong>{vozilo.carType.model} {vozilo.carType.brand}</strong></span>
                         <div className="left-align">
+                            <div>
+                                <p className="orange-text darken-3 center ">Prosecna ocena: <strong>{rating ? rating : ''}</strong> </p>
+                            </div>
                             <p>Cena: {vozilo.rentPrice}</p>
                             <p>Filijala: {vozilo.branchOffice.name} {vozilo.branchOffice.city} {vozilo.branchOffice.adress}</p>
                         </div>

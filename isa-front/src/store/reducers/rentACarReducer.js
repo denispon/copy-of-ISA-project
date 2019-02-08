@@ -160,6 +160,7 @@ const rentACarReducer = (state = initState, action) => {
                 ...state,
                 rentACarServiceId: action.rentACarServiceId
             }
+
     }
     return state
 }

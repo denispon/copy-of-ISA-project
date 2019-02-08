@@ -57,7 +57,7 @@ class CarReservation extends Component {
                             </div>
                             <BrowserRouter>
                                 <div className="col s4">
-                                    <Route path="/userReservations" render={(props) => <StarRating date={this.props.carReservation ? this.props.carReservation.dateTo : undefined} rating={this.state.rentACarRating} rentService={this.props.carReservation ? this.props.carReservation.service : undefined}></StarRating>}></Route>
+                                    <Route path="/userReservations" render={(props) => <StarRating reservationId={this.props.reservationId ? this.props.reservationId : ''} date={this.props.carReservation ? this.props.carReservation.dateTo : undefined} rating={this.state.rentACarRating} rentService={this.props.carReservation ? this.props.carReservation.service : undefined}></StarRating>}></Route>
                                 </div>
                             </BrowserRouter>
                             <BrowserRouter>
@@ -82,7 +82,7 @@ class CarReservation extends Component {
                             </div>
                             <BrowserRouter>
                                 <div className="col s4">
-                                    <Route path="/userReservations" render={(props) => <StarRating date={this.props.carReservation ? this.props.carReservation.dateTo : undefined} rating={this.state.carRating} reservedCar={this.props.carReservation ? this.props.carReservation.reservedCar : undefined}></StarRating>}></Route>
+                                    <Route path="/userReservations" render={(props) => <StarRating reservationId={this.props.reservationId ? this.props.reservationId : ''} date={this.props.carReservation ? this.props.carReservation.dateTo : undefined} rating={this.state.carRating} reservedCar={this.props.carReservation ? this.props.carReservation.reservedCar : undefined}></StarRating>}></Route>
                                 </div>
                             </BrowserRouter>
                         </div>

@@ -12,7 +12,8 @@ class RentACarIzlistavanje extends Component {
         ponistiPretragu: false,
         naziv: 'nema',
         gradOd: 'nema',
-        gradDo: 'nema'
+        gradDo: 'nema',
+        averageCarRating: []
     }
 
     componentDidMount() {
@@ -106,14 +107,45 @@ class RentACarIzlistavanje extends Component {
             })
     }
 
+    getAverageRatingCarService = (id) => {
+
+        axios.get('http://localhost:8095/api/purchases/rentACarRating/getAverageRating/' + id)
+            .then(res => {
+
+                this.setState({
+                    averageCarRating: this.state.averageCarRating.filter(item => item.carId != id).concat({ carId: id, rating: res.data })
+                })
+
+            })
+            .catch(error => {
+                this.setState({
+                    averageCarRating: this.state.averageCarRating.concat({ carId: id, rating: 'nema jos ratinga' })
+                })
+            })
+
+    }
+
     render() {
         const { servisi } = this.state;
         const servisiList = servisi.length ? (servisi.map(servis => {
+
+            var rating = this.state.averageCarRating.find(item => { return item.carId == servis.id })
+
+            if (rating == undefined)
+                this.getAverageRatingCarService(servis.id);
+            else {
+                rating = rating.rating;
+            }
+
+
             return (
                 <div className="post card grey lighten-2">
                     <div className="card-content container">
                         <span className="card-title center">{servis.name}</span>
                         <div className="left-align">
+                            <div>
+                                <p className="orange-text darken-3 center ">Prosecna ocena: <strong>{rating ? rating : ''}</strong> </p>
+                            </div>
                             <p>Adresa: {servis.adress}</p>
                             <p>Opis: {servis.description}</p>
                             <button className="buttons btn-small waves-effect waves-light indigo right" onClick={() => this.handleVozilaClick(servis.id)}>Vozila</button>

@@ -39,11 +39,11 @@ class StarRating extends Component {
 
         var idZvezdice = "";
 
-        if (this.props.rentService) {
-            idZvezdice = this.props.rentService.id + "servis";
+        if (this.props.rentService && this.props.reservationId) {
+            idZvezdice = this.props.reservationId + this.props.rentService.id + "servis";
         }
-        else if (this.props.reservedCar) {
-            idZvezdice = this.props.reservedCar.id + "reservedCar";
+        else if (this.props.reservedCar && this.props.reservationId) {
+            idZvezdice = this.props.reservationId + this.props.reservedCar.id + "reservedCar";
         }
 
 
