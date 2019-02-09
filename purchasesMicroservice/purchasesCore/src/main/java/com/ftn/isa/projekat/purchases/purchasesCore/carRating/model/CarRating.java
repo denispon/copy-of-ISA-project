@@ -37,6 +37,8 @@ public class CarRating {
 	@Column (name = "date",nullable = false)
 	private LocalDateTime ratingDate;
 	
+	private Date lastUpdatedDate;
+	
 	@Version
 	private Long version;
 
