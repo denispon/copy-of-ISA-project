@@ -39,6 +39,8 @@ public class CarRating {
 	
 	private Date lastUpdatedDate;
 	
+	private String lastUpdatedBy;
+	
 	@Version
 	private Long version;
 
